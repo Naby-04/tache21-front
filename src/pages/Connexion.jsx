@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Composants/Footer";
-import Header from "../Composants/Header";
 
 const Connexion = () => {
   const InputField = ({ type, name, placeholder,...rest }) => {
@@ -32,7 +30,6 @@ const Connexion = () => {
 
   return (
     <>
-    <Header/>
     <div className="min-h-screen flex items-center justify-center bg-[#a65f00] px-4">
       <div className="w-full max-w-md bg-[#FFF8E7] p-6 sm:p-8 rounded-2xl shadow-lg">
         {showReset ? (
@@ -118,7 +115,6 @@ const Connexion = () => {
         )}
       </div>
     </div>
-    <Footer/>
     </>
   );
 };

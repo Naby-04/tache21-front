@@ -3,13 +3,9 @@ import React from "react";
 import InputField from "./InputFiled";
 import "../index.css";
 import { Link } from "react-router-dom";
-import Header from "../Composants/Header";
-import Footer from "../Composants/Footer";
 
 const Inscription = () => {
   return (
-    <>
-    <Header/>
     <div className="min-h-screen flex items-center justify-center bg-[#a65f00] px-4">
       <div className="w-full max-w-md bg-[#fef3c6] p-6 sm:p-8 rounded-2xl shadow-lg">
         <h2 className="text-2xl md:text-3xl font-bold text-center font-[var( --font-title)] text-[#a65f00] mb-6">
@@ -55,8 +51,6 @@ const Inscription = () => {
         </div>
       </div>
     </div>
-    <Footer/>
-    </>
   );
 };
 
