@@ -1,17 +1,21 @@
-import { NavbarUser } from "./NavbarUser";
-import { SidebarUser } from "./SidebarUser";
-import "./Dashboard.css"
+import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
+import { SidebarUser } from "../../Composants/SidebarUser";
+import "./Dashboard.css";
 import { Outlet } from "react-router-dom";
-import { SidebarRight } from "./SidebarRight";
+import { SidebarRight } from "../../Composants/DashboardUsers/SidebarRight";
 
 export const DashboardUsers = () => {
-    return <div className="w-full  h-full
-     text-[var(--background-color)] font-[var()] dasboard">
-        <NavbarUser/>
-        <div className="flex w-full h-full gap-4 justify-between">
-        <SidebarUser/>
-         <Outlet/>
-        <SidebarRight/>
-        </div>
-    </div>;
-}
+	return (
+		<div
+			className="w-full  h-full
+     text-[var(--background-color)] font-[var()] dasboard"
+		>
+			<NavbarUser />
+			<div className="flex w-full h-full gap-4 justify-between">
+				<SidebarUser />
+				<Outlet />
+				<SidebarRight />
+			</div>
+		</div>
+	);
+};

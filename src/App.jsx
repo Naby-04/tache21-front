@@ -9,19 +9,19 @@ import Admin from "./pages/Admin";
 
 function App() {
   return (
-        // <Admin/>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/inscription" element={<Inscription />} />
-        <Route path="/connexion" element={< Connexion/>} />
+        <Admin/>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<HomePage />} />
+    //     <Route path="/inscription" element={<Inscription />} />
+    //     <Route path="/connexion" element={< Connexion/>} />
       
-        <Route path="/users" element={<DashboardUsers />}>
-          <Route index element={<Acceuil />} />
-        </Route>
+    //     <Route path="/users" element={<DashboardUsers />}>
+    //       <Route index element={<Acceuil />} />
+    //     </Route>
         
-      </Routes>
-    </BrowserRouter>
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 
