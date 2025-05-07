@@ -1,7 +1,10 @@
 import "./App.css";
+import Admin from "./pages/Admin";
 
 function App() {
-  return <></>;
+  return <>
+  <Admin />
+  </>;
 }
 
 export default App;
