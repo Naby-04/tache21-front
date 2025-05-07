@@ -19,7 +19,7 @@ const Inscription = () => {
           />
           <InputField
             type="text"
-            name="nom"
+            name="label"
             placeholder="Nom"
           />
           <InputField
