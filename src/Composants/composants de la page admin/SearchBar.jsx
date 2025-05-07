@@ -12,7 +12,7 @@ const SearchBar = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="flex items-center border rounded-md px-2 py-1 w-full max-w-md"
+        className="flex items-center border rounded-md px-2 py-1 w-full max-w-md mx-auto"
       >
         <input
           type="text"

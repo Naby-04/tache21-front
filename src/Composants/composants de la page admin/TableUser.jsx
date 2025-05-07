@@ -1,10 +1,11 @@
 import React from "react";
+import { MdMode } from "react-icons/md";
 
 const TableUser = ({tabUsers}) => {
   return <div className="overflow-x-auto">
     <table className="min-w-full rounded border-[var(--primary-color)] border-1 border-gray-400">
       <thead>
-        <tr className="text-left text-sm uppercase bg-gray-500 text-white shadow">
+        <tr className="text-left text-sm uppercase bg-[var(--primary-color)] text-white shadow">
           <th className="py-2 px-3 text-center text-sm font-bold">Prenom Nom</th>
           <th className="py-2 px-3 text-center text-sm font-bold">Email</th>
           <th className="py-2 px-3 text-center text-sm font-bold">Role</th>
@@ -26,7 +27,7 @@ const TableUser = ({tabUsers}) => {
             <td className="py-3 px-4 text-center text-sm">{element.role}</td>
             <td className="py-3 px-4 text-center text-sm">{element.jourInscripte}</td>
             <td className="py-3 px-4 text-center text-sm flex gap-4 justify-center">
-              <button className="text-sm px-2 py-1 shadow rounded bg-[var(--primary-color)] text-gray-200">M</button>
+              <button className="text-sm px-2 py-1 shadow rounded bg-[var(--primary-color)] text-gray-200"><MdMode /></button>
               <button className="text-sm text-white px-2 py-1 rounded shadow bg-red-600">X</button>
             </td>
           </tr>
