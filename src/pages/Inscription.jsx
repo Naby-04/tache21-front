@@ -2,6 +2,7 @@
 import React from "react";
 import InputField from "./InputFiled";
 import "../index.css";
+import { Link } from "react-router-dom";
 
 const Inscription = () => {
   return (
@@ -33,12 +34,13 @@ const Inscription = () => {
             placeholder="Mot de passe"
           />
 
-          <button
+         <Link to="/connexion"> <button
             type="submit"
             className="w-full bg-[#a65f00] text-white py-3 md:py-4 rounded-lg hover:bg-[#a65f00] transition font-"
           >
             S'inscrire
           </button>
+          </Link>
         </form>
 
         <div className="mt-6 text-center">

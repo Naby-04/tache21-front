@@ -3,6 +3,7 @@ import Header from '../Composants/Header'
 import SlideShow from '../Composants/SlideShow'
 import ProjectDescription from '../Composants/ProjectDescription'
 import TopReports from '../Composants/TopReports'
+import Footer from '../Composants/Footer'
 
 function HomePage() {
   return (
@@ -11,6 +12,7 @@ function HomePage() {
     <SlideShow/>
     <ProjectDescription/>
     <TopReports/>
+    <Footer/>
  </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,9 +21,9 @@ function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <a href="#" className="text-white hover:text-gray-200">Accueil</a>
           <a href="#" className="text-white hover:text-gray-200">Rapports</a>
-          <button className="bg-amber-100 text-black px-6 py-2 rounded hover:bg-amber-200 transition">
+          <Link to="/inscription">  <button className="bg-amber-100 text-black px-6 py-2 rounded hover:bg-amber-200 transition">
             Connexion
-          </button>
+          </button></Link>
         </nav>
       </div>
 
@@ -31,9 +32,10 @@ function Header() {
         <nav className="md:hidden flex flex-col items-start gap-4 px-6 pb-4 bg-[var(--primary-color)]">
           <a href="#" className="text-white hover:text-gray-200">Accueil</a>
           <a href="#" className="text-white hover:text-gray-200">Rapports</a>
-          <button className="bg-amber-100 text-black px-6 py-2 rounded hover:bg-amber-200 transition">
+         <Link to="/inscription"> <button className="bg-amber-100 text-black px-6 py-2 rounded hover:bg-amber-200 transition">
             Connexion
           </button>
+          </Link>
         </nav>
       )}
     </header>
