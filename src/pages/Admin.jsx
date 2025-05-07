@@ -1,5 +1,13 @@
 import React from "react";
+// import Dashboard from "./Dashbord";
+import Users from "./Users";
+// import StatsBox from "../Composants/composants de la page admin/StatsBox";
 import "../index.css";
+import { LuUsers } from "react-icons/lu";
+import { BsFillFileTextFill } from "react-icons/bs";
+import { FaFileDownload } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa6";
+import StatsBox from "../Composants/composants de la page admin/StatsBox";
 import SearchBar from "../Composants/composants de la page admin/SearchBar";
 
 const Admin = () => {
