@@ -2,14 +2,14 @@ import React from "react";
 
 const TableUser = ({tabUsers}) => {
   return <div className="overflow-x-auto">
-    <table className="min-w-full rounded border-[var(--primary-color)]">
+    <table className="min-w-full rounded border-[var(--primary-color)] border-1 border-gray-400">
       <thead>
-        <tr className="text-left text-sm uppercase bg-[var(--secondary-color)] text-[var(--primary-color)] border-t-1 border-b-1 shadow border-[var(--primary-color)]">
-          <th className="py-3 px-4 text-center">Prenom Nom</th>
-          <th className="py-3 px-4 text-center">Email</th>
-          <th className="py-3 px-4 text-center">Role</th>
-          <th className="py-3 px-4 text-center">Date d'inscription</th>
-          <th className="py-3 px-4 text-center">Action</th>
+        <tr className="text-left text-sm uppercase bg-gray-500 text-white shadow">
+          <th className="py-2 px-3 text-center text-sm font-bold">Prenom Nom</th>
+          <th className="py-2 px-3 text-center text-sm font-bold">Email</th>
+          <th className="py-2 px-3 text-center text-sm font-bold">Role</th>
+          <th className="py-2 px-3 text-center text-sm font-bold">Date d'inscription</th>
+          <th className="py-2 px-3 text-center text-sm font-bold">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -26,8 +26,8 @@ const TableUser = ({tabUsers}) => {
             <td className="py-3 px-4 text-center text-sm">{element.role}</td>
             <td className="py-3 px-4 text-center text-sm">{element.jourInscripte}</td>
             <td className="py-3 px-4 text-center text-sm flex gap-4 justify-center">
-              <button className="text-sm px-2 py-1 shadow rounded bg-[var(--primary-color)] text-gray-200">Modifier</button>
-              <button className="text-sm text-white px-2 py-1 rounded shadow bg-red-600">Supprimer</button>
+              <button className="text-sm px-2 py-1 shadow rounded bg-[var(--primary-color)] text-gray-200">M</button>
+              <button className="text-sm text-white px-2 py-1 rounded shadow bg-red-600">X</button>
             </td>
           </tr>
           ))

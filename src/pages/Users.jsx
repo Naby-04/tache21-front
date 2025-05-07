@@ -54,8 +54,8 @@ const lesUtilisateurs = [
 
 const Users = () => {
     return ( 
-        <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-start">Liste des Utilisateur</h2>
+        <div className="p-1">
+            <h6 className="text-2xl font-semibold mb-4 text-start">Liste des Utilisateur</h6>
             <TableUser tabUsers={lesUtilisateurs} />
         </div>
      );

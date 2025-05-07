@@ -2,7 +2,7 @@ import React from "react";
 import '../../index.css'
 
 const StatsBox = ({titre, valeur, icone}) => {
-  return <div className="flex p-4 bg-white rounded-lg border border-gray-300 flex-col items-center w-full min-w-56">
+  return <div className="flex p-4 bg-white rounded-lg border border-gray-300 flex-col items-center w-full">
     <div className="h-25 w-25 rounded-full p-4 border border-[var(--primary-color)] mb-4 flex items-center justify-center text-4xl text-[var(--background-color)] bg-[var(--primary-color)]">
       {icone}
     </div>
