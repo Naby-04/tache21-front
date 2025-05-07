@@ -5,10 +5,10 @@ import { BsFillFileTextFill } from "react-icons/bs";
 import { FaFileDownload } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa6";
 
-import Image from "../assets/back1.jpg";
-import Image2 from "../assets/back2.jpg";
-import Image3 from "../assets/back3.jpg";
-import Image4 from "../assets/back4.jpg";
+// import Image from "../assets/back1.jpg";
+// import Image2 from "../assets/back2.jpg";
+// import Image3 from "../assets/back3.jpg";
+// import Image4 from "../assets/back4.jpg";
 
 import StatsBox from "../Composants/composants de la page admin/StatsBox";
 import Image from '../assets/back1.jpg'
@@ -19,7 +19,7 @@ import Image4 from '../assets/back4.jpg'
 import './StylePerdo.css'
 
 import SearchBar from "../Composants/composants de la page admin/SearchBar";
-import Users from "./Users";
+// import Users from "./Users";
 import TopRapports from "../Composants/composants de la page admin/TopRapports";
 
 const Admin = () => {
@@ -164,6 +164,7 @@ const Admin = () => {
       </div>
       </div>
       <div className="p-3 w-full border">
+        <TopRapports rapports={rapports} />
       </div>
           
         </main>
