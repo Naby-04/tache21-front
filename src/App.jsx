@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <AdminDashboard />
-      <Modal />
+      {/* <Modal /> */}
     </>
   );
 }
