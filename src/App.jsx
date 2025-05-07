@@ -4,8 +4,9 @@ import HomePage from "./pages/HomePage";
 import Inscription from "./pages/Inscription";
 import Connexion from "./pages/Connexion";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-import { Acceuil } from "./pages/DashboardUsers/Acceuil";
+
 import Admin from "./pages/Admin";
+import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="/connexion" element={< Connexion/>} />
       
         <Route path="/users" element={<DashboardUsers />}>
-          <Route index element={<Acceuil />} />
+          <Route index element={< Acceuil/>} />
         </Route>
         
       </Routes>
