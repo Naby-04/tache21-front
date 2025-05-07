@@ -6,7 +6,7 @@ export const Acceuil = () => {
             
         <h1 className="text-2xl font-bold">Titre du Documents</h1>
         <div className="pdf p-2 lg:p-10 bg-white" >
-            <img src="../../../public/images/dev.jpg" alt=""className="max-h-[300px] w-full object-fit: cover" />
+            <img src="/imge/back.jpeg" alt=""className="max-h-[300px] w-full object-fit: cover" />
         </div>
         <div className="description">
             <p>cette photo reflete une histoire d'un famille senegalaise</p>
@@ -21,7 +21,7 @@ export const Acceuil = () => {
         <div className="document w-full shadow-2xl p-5 lg:p-20 bg-white">
         <h1 className="text-2xl font-bold">Titre du Documents</h1>
         <div className="pdf p-2 lg:p-10" >
-            <img src="../../../public/images/dev.jpg" alt=""className="h-[300px] w-full object-fit: cover" />
+            <img src="/imge/back.jpeg" alt=""className="h-[300px] w-full object-fit: cover" />
         </div>
         <div className="description">
             <p>cette photo reflete une histoire d'un famille senegalaise</p>
@@ -35,7 +35,7 @@ export const Acceuil = () => {
         <div className="document  w-full shadow-2xl p-5 lg:p-20 bg-white">
         <h1 className="text-2xl font-bold">Titre du Documents</h1>
         <div className="pdf p-2 lg:p-10" >
-            <img src="../../../public/images/dev.jpg" alt=""className="h-[300px] w-full object-fit: cover" />
+            <img src="/imge/back.jpeg" alt=""className="h-[300px] w-full object-fit: cover" />
         </div>
         <div className="description">
             <p>cette photo reflete une histoire d'un famille senegalaise</p>
