@@ -3,7 +3,7 @@ import { FaEye, FaTrash } from "react-icons/fa";
 
 const TopRapports = ({ rapports }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white rounded-lg shadow-md px-4">
       <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
       <table className="w-full text-left">
         <thead>
