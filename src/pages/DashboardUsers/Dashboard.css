@@ -1,0 +1,17 @@
+*{
+    outline: none;
+}
+
+.dasboard{
+    font-family: var(--font-subtitle);
+}
+
+h1{
+    font-family: var(--font-title);
+    font-weight: bold;
+    
+}
+
+@media screen and (max-width: 768px) {
+ 
+}
