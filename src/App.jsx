@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+import React from "react";
 import HomePage from "./pages/HomePage";
 import Inscription from "./pages/Inscription";
-import Connexion from "./pages/Connexion";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-
+import MotDePassOblie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
+import Connexion from "./pages/Connexion";
 
 {
   /* Import des pages d'erreur */
