@@ -103,18 +103,18 @@ const Admin = () => {
             <h5 className="text-amber-100">Dashbord</h5>
             <ul className="space-y-2">
               <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Dashboard</a></li>
-              <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Utilisaateurs</a></li>
+              <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Utilisateurs</a></li>
               <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Rapports</a></li>
             </ul>
           </div>
-          <div className="mt-10">
+          {/* <div className="mt-10">
             <h5 className="text-amber-100">Dashbord</h5>
             <ul className="space-y-2">
               <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Dashboard</a></li>
               <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Utilisaateurs</a></li>
               <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2"><i className="p-1 bg-amber-200"></i><a href="#" className="block hover:text-gray-300">Rapports</a></li>
             </ul>
-          </div>
+          </div> */}
   
           <div className="flex gap-2 items-center text-end mt-auto pt-6">
             <i className="p-2 bg-amber-50"></i>
@@ -131,7 +131,7 @@ const Admin = () => {
               </div>
   
               {/* Profil */}
-              <div className="flex items-center gap-3 ml-4 flex-col-reverse">
+              <div className="flex items-center gap-1 ml-4 flex-col-reverse">
                 <span className="text-gray-700 font-medium hidden sm:inline">Nom</span>
                 <div className="w-10 h-10 rounded-full bg-amber-300 overflow-hidden">
                   <img
