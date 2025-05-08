@@ -1,6 +1,6 @@
-import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
+// import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
 import "./Dashboard.css";
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 // import { SidebarRight } from "./SidebarRight";
 import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
 import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";

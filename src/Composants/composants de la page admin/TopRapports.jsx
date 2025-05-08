@@ -7,7 +7,7 @@ const TopRapports = ({ rapports }) => {
       <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
       <table className="w-full text-left">
         <thead>
-          <tr className="bg-[var(--primary-color)] text-gray-700">
+          <tr className="bg-gray-800 text-gray-50 rounded">
             <th className="py-2 px-3">#</th>
             <th className="py-2 px-3">Rapport</th>
             <th className="py-2 px-3">Posté par</th>
@@ -18,7 +18,7 @@ const TopRapports = ({ rapports }) => {
           {rapports.map((rapport, index) => (
             <tr key={index} className="border-t">
               <td className="py-2 px-3 font-bold text-gray-600">
-                #{rapport.rank}
+                {rapport.rank}
               </td>
               <td className="py-2 px-3 flex items-center gap-3">
                 <img
