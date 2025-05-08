@@ -1,0 +1,14 @@
+/* fichier : styles.css ou dans tailwind.css */
+::-webkit-scrollbar {
+    width: 6px; /* largeur */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* fond transparent */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 193, 7, 0.5); /* jaune amber transparent */
+    border-radius: 10px;
+  }
+  
