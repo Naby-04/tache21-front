@@ -9,7 +9,9 @@ import Admin from "./pages/Admin";
 
 function App() {
   return (
+    <BrowserRouter>
         <Admin/>
+    </BrowserRouter>
     // <BrowserRouter>
     //   <Routes>
     //     <Route path="/" element={<HomePage />} />
