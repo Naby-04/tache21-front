@@ -1,17 +1,36 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NotFound from './pages/Erreur/NotFound';
-import Unauthorized from './pages/Erreur/Unauthorized';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import Inscription from "./pages/Inscription";
+import Connexion from "./pages/Connexion";
+import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 
+import Admin from "./pages/Admin";
+import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
+
+{/* Import des pages d'erreur */}
+import NotFound from "./pages/Erreur/NotFound";
+import Unauthorized from "./pages/Erreur/Unauthorized";
 
 function App() {
   return (
-    <Router>
+        // <Admin/>
+    <BrowserRouter>
       <Routes>
-        <Route path="" element={<NotFound />} />
-      </Routes>
-    </Router>
-  );
+        <Route path="/" element={<HomePage />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/connexion" element={< Connexion/>} />
+      
+        <Route path="/users" element={<DashboardUsers />}>
+          <Route index element={< Acceuil/>} />
+        </Route>
+        
 
+        <Route path="*" element={<NotFound/>} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+      </Routes>
+    </BrowserRouter>
+  );
 
 }
 
