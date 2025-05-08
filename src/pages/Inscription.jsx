@@ -87,7 +87,7 @@ const Inscription = () => {
 
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-yellow-600 hover:bg-amber-100 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               S'inscrire
@@ -106,7 +106,7 @@ const Inscription = () => {
           </div>
 
           <div className="text-center mt-3">
-            Vous avez déjà un compte ? <Link to="/connexion" className="font-bold text-sm text-blue-500 hover:text-blue-800" >Se Connecter</Link>
+            Vous avez déjà un compte ? <Link to="/connexion" className="font-bold text-sm text-yellow-500 hover:text-amber-800" >Se Connecter</Link>
           </div>
         </div>
       </div>
