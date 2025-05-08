@@ -11,12 +11,12 @@ export const NavbarUser = () => {
          p-5 w-full sticky top-0 z-10"
 			id="navbar"
 		>
-			<h1 className="text-[var(--secondary-color)] text-4xl font-[--font-title;--weight-bold] cursor-pointer">
+			<h1 className="text-[var(--couleur-Logo)] text-4xl font-[--font-title;--weight-bold] cursor-pointer" id="logo">
 				AcadDocs
 			</h1>
 			<div className="addDocs">
 				<button
-					className="p-2 bg-[var(--secondary-color)] text-[var(--primary-color)] 
+					className="p-2 bg-[var(--couleur-Logo)] text-[var(--text-couleur)] 
               font-[var(--font-button)] text-[12px] rounded-xl cursor-pointer hidden lg:block"
 				>
 					Ajouter un rapport
@@ -24,7 +24,7 @@ export const NavbarUser = () => {
 			</div>
 			<div className="flex items-center gap-5">
 				<div
-					className="hover:text-[var(--background-color)] cursor-pointer text-[20px] text-[var(--secondary-color)]
+					className="hover:text-[var(--couleur-Logo)] cursor-pointer text-[20px] text-[var(--couleur-Logo)]
                   hidden lg:block"
 				>
 					<Deconnexion button={"Deconnexion"} />
