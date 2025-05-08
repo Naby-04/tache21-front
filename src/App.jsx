@@ -1,31 +1,26 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import HomePage from "./pages/HomePage";
-import Inscription from "./pages/Inscription";
-import Connexion from "./pages/Connexion";
-import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-
-import Admin from "./pages/Admin";
+import React from "react";
 import PublicationForm from "./Composants/PublicationForm";
-import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
+import CommentSection from "./Composants/CommentSection";
+import { Toaster } from "react-hot-toast";
 
-function App() {
+const App = () => {
   return (
-    // <Admin/>
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<HomePage />} />
-    //     <Route path="/inscription" element={<Inscription />} />
-    //     <Route path="/connexion" element={<Connexion />} />
+    <>
+      <CommentSection />
+      <Toaster position="top-center" />
 
-    //     <Route path="/users" element={<DashboardUsers />}>
-    //       <Route index element={<Acceuil />} />
-    //     </Route>
-    //   </Routes>
-    // </BrowserRouter>
-    // <Admin/>
-    <PublicationForm />
+      {/* <BrowserRouter>
+       <Routes>
+         <Route path="/" element={<HomePage />} />
+         <Route path="/inscription" element={<Inscription />} />
+         <Route path="/connexion" element={<Connexion />} /
+         <Route path="/users" element={<DashboardUsers />}>
+           <Route index element={<Acceuil />} />
+         </Route>
+       </Routes>
+    </BrowserRouter> */}
+    </>
   );
-}
+};
 
 export default App;
