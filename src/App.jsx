@@ -6,7 +6,6 @@ import Connexion from "./pages/Connexion";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 
 import Admin from "./pages/Admin";
-import PublicationForm from "./Composants/PublicationForm";
 import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 
 {/* Import des pages d'erreur */}
