@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <>
 
-<footer className="bg-with py-10">
+<footer className="bg-blue-50 py-10 h-67">
     <div className='flex  flex-col md:flex-row justify-between max-w-7xl mx-auto'>
         {/* premier div */}
      <div className='flex flex-col gap-6'>
@@ -34,7 +34,7 @@ const Footer = () => {
       <input type="email" name="newsletter" id="newsletter" className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" placeholder="you@example.com"/>
     </div>
      <div className='mt-2'>
-     <button className="bg-yellow-600 text-amber-100 rounded-lg px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
+     <button className="bg-blue-950 text-blue-200 rounded-lg px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
       Subscribe
      </button>
      </div>
@@ -43,15 +43,15 @@ const Footer = () => {
       <div className='flex flex-col gap-6 '>
         <h2 className='text-xs'>SOCIAL:</h2>
          <div className="flex gap-2 flex-wrap text-2xl">
-         <div className='text-amber-700'><FaFacebook /></div>
-         <div className='text-amber-700'><FaLinkedin /></div>
-         <div className='text-amber-700'><FaXTwitter /></div>
+         <div className='text-blue-950'><FaFacebook /></div>
+         <div className='text-blue-950'><FaLinkedin /></div>
+         <div className='text-blue-950'><FaXTwitter /></div>
          </div>
       </div>
       </div>
 
     </div>
-    <div className='bg-yellow-700 py-4 max-w-full'>
+    <div className='bg-blue-950 py-4 max-w-full mt-8'>
     <p className="text-xs text-amber-100 px-29 ">Compagny © 2025. All Rights Reserved.</p>
     </div>
 </footer>
