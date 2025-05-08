@@ -12,18 +12,17 @@ import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 function App() {
   return (
     // <Admin/>
-    <PublicationForm />
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<HomePage />} />
-    //     <Route path="/inscription" element={<Inscription />} />
-    //     <Route path="/connexion" element={<Connexion />} />
-
-    //     <Route path="/users" element={<DashboardUsers />}>
-    //       <Route index element={<Acceuil />} />
-    //     </Route>
-    //   </Routes>
-    // </BrowserRouter>
+    // <PublicationForm />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/inscription" element={<Inscription />} />
+        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/users" element={<DashboardUsers />}>
+          <Route index element={<Acceuil />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

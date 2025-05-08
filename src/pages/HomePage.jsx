@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../Composants/Header";
-import Carousel from "../Composants/Carousel";
 
 import SlideShow from "../Composants/SlideShow";
 import ProjectDescription from "../Composants/ProjectDescription";
@@ -9,9 +8,8 @@ import Footer from "../Composants/Footer";
 
 function HomePage() {
   return (
-    <div className="bg-gray-50 pt-10">
+    <div className="bg-gray-50">
       <Header />
-      <Carousel />
       <SlideShow />
       <ProjectDescription />
       <TopReports />
