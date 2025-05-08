@@ -224,7 +224,7 @@ const Admin = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white p-5 flex flex-col static overflow-y-auto">
 
-        <div className="flex p-2 rounded gap-1 items-center bg-amber-900">
+        <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
           <div className="w-8 h-8 relative rounded-full bg-amber-300">
             <img
               src=""
