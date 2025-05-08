@@ -5,7 +5,7 @@ import { BsFillFileTextFill } from "react-icons/bs";
 import { FaFileDownload } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa6";
 
-import { Link, Route, Routes } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import word from "../assets/word.jpg";
 import pdf from "../assets/pdf.jpeg";
@@ -116,20 +116,20 @@ const rapports = [
 ];
 
 
-const LesLiens = [
-  {
-    lien: "Dashboards",
-    chemin: "/DashBordContent",
-  },
-  {
-    lien: "Utilisateurs",
-    chemin: "/Users",
-  },
-  {
-    lien: "Rapports",
-    chemin: "/AllRapports",
-  }
-]
+// const LesLiens = [
+//   {
+//     lien: "Dashboards",
+//     chemin: "/DashBordContent",
+//   },
+//   {
+//     lien: "Utilisateurs",
+//     chemin: "/Users",
+//   },
+//   {
+//     lien: "Rapports",
+//     chemin: "/AllRapports",
+//   }
+// ]
 
 const lesUtilisateurs = [
   {
@@ -219,6 +219,9 @@ const Admin = () => {
         }
     }
 
+    const [vueActive, setVueActive] = useState("dashboard");
+
+
   return (
     <div className="h-screen flex">
       {/* Sidebar */}
@@ -237,18 +240,34 @@ const Admin = () => {
 
         <div className="mt-10">
           <h5 className="text-amber-100">Dashbord</h5>
-          <ul className="space-y-2">
+          {/* <ul className="space-y-2"> */}
 
-            {LesLiens.map((lien, index) => (
+          <ul className="space-y-2">
+            <li onClick={() => setVueActive("dashboard")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+              <span className="p-1 bg-amber-200"></span>
+              Dashboards
+            </li>
+            <li onClick={() => setVueActive("users")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+              <span className="p-1 bg-amber-200"></span>
+              Utilisateurs
+            </li>
+            <li onClick={() => setVueActive("rapports")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+              <span className="p-1 bg-amber-200"></span>
+              Rapports
+            </li>
+          </ul>
+
+
+            {/* {LesLiens.map((lien, index) => (
               <Link to={lien.chemin}>
                 <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2" key={index}>
                   <span className="p-1 bg-amber-200"></span>
                   {lien.lien}
                 </li>
               </Link>
-            ))}
+            ))} */}
 
-          </ul>
+          {/* </ul> */}
         </div>
 
         <div className="flex gap-2 items-center text-end mt-auto pt-6">
@@ -263,7 +282,9 @@ const Admin = () => {
           <div className="flex items-center justify-evenly bg-white p-2 px-3 rounded shadow mb-6 sticky top-0 z-50">
             {/* Barre de recherche */}
             <div className="flex-1 mx-auto">
-              <SearchBar onSearch={changement} />
+              {vueActive === "users" && (
+                <SearchBar onSearch={changement} />
+              )}
             </div>
 
             {/* Profil */}
@@ -277,78 +298,44 @@ const Admin = () => {
             </div>
           </div>
           
-          <Routes>
-            <Route path="/DashBordContent" element={
+          
+          {vueActive === "dashboard" && (
               <div>
-              <div className="flex flex-col lg:flex-row gap-4 p-3">
-              {/* ✅ Section 1 : 4 Cartes (grille dans une div) */}
-              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <StatsBox
-                  titre="Utilisateurs"
-                  image={Image}
-                  pourcent="30"
-                  icone={<LuUsers />}
-                  valeur="200"
-                />
-                <StatsBox
-                  titre="Rapports"
-                  image={Image2}
-                  pourcent="30"
-                  icone={<BsFillFileTextFill />}
-                  valeur="500"
-                />
-                <StatsBox
-                  titre="Telechargement"
-                  image={Image3}
-                  pourcent="30"
-                  icone={<FaFileDownload />}
-                  valeur="67"
-                />
-                <StatsBox
-                  titre="Top Rapports"
-                  image={Image4}
-                  pourcent="30"
-                  icone={<FaDownload />}
-                  valeur="700"
-                />
-              </div>
-
-              {/* ✅ Section 2 : 1 Carte unique à côté */}
-              <div className="w-full lg:w-1/3 flex-shrink-0">
-                <div className="bg-white p-6 rounded shadow h-full">
-                  <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
-                  <h3 className="text-lg font-semibold mb-4">Les Statistiques</h3>
-                  <BasicPie />
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-3 w-full border-t"> 
-              <TopRapports rapports={rapports} />
-            </div>
-            </div>
-            } 
-            />
-            
-
-            <Route path="/Users" element={
-              <div>
-                <div className="p-3 w-full border-t"> 
-                  <Users lesUtilisateurs={filtreUser} />
-                </div>
-              </div>
-            } />
-
-            <Route path="/AllRapports" element={
-              <div>
-                <div className="p-3 w-full border-t">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 :lg-grid-cols-3 gap-3">
-                    {rapports.map((ele) => (<RapportCard rapport={ele} key={ele.id}  />))}
+                <div className="flex flex-col lg:flex-row gap-4 p-3">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <StatsBox titre="Utilisateurs" image={Image} pourcent="30" icone={<LuUsers />} valeur="200" />
+                    <StatsBox titre="Rapports" image={Image2} pourcent="30" icone={<BsFillFileTextFill />} valeur="500" />
+                    <StatsBox titre="Telechargement" image={Image3} pourcent="30" icone={<FaFileDownload />} valeur="67" />
+                    <StatsBox titre="Top Rapports" image={Image4} pourcent="30" icone={<FaDownload />} valeur="700" />
+                  </div>
+                  <div className="w-full lg:w-1/3 flex-shrink-0">
+                    <div className="bg-white p-6 rounded shadow h-full">
+                      <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
+                      <h3 className="text-lg font-semibold mb-4">Les Statistiques</h3>
+                      <BasicPie />
+                    </div>
                   </div>
                 </div>
+                <div className="p-3 w-full border-t">
+                  <TopRapports rapports={rapports} />
+                </div>
               </div>
-            } />
-          </Routes>
+            )}
+            {vueActive === "users" && (
+                <div className="p-3 w-full border-t">
+                  <Users lesUtilisateurs={filtreUser} />
+                </div>
+              )}
+
+              {vueActive === "rapports" && (
+                  <div className="p-3 w-full border-t">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                      {rapports.map((ele, index) => (
+                        <RapportCard rapport={ele} key={index} />
+                      ))}
+                    </div>
+                  </div>
+                )}
         </main>
     </div>
   );
