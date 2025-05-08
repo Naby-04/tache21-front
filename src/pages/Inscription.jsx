@@ -1,21 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaGoogle, FaUser } from "react-icons/fa";
-import InputField from "./InputFiled";
+
 import "../index.css";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const Inscription = () => {
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl flex">
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white rounded-lg shadow-xl w-full flex h-screen">
         <div style={{
         backgroundImage: `url("https://mironcoder-hotash.netlify.app/images/pattern.webp")`,
         backgroundSize: 'cover',
         backgroundRepeat: 'repeat',
-        opacity: 0.6,
-        mixBlendMode: 'lighten'
-      }} className="w-1/2 p-10">
+        // opacity: 0.6,
+        // mixBlendMode: 'lighten'
+      }} className="w-2/3 flex justify-center flex-col  p-10">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             MEILLEUR TABLEAU DE BORD ET PANNEAU D'ADMINISTRATION UX/UI POUR LE COMMERCE ÉLECTRONIQUE DE MODE
           </h1>
@@ -25,14 +25,13 @@ const Inscription = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-1/2 bg-gray-50 p-10">
-          <div className="flex items-center justify-center mb-6">
+        <div className="w-1/3 text-xs  bg-gray-50 p-8">
+          <div className="flex items-center justify-center mb-4 ">
             <h2 className="text-2xl font-bold text-gray-800">Enregistrer un nouveau compte</h2>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-              <FaUser className="inline mr-2" />
+          <div className="mb-3">
+            <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="name">
               Entrez votre nom
             </label>
             <input
@@ -43,9 +42,8 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              <FaEnvelope className="inline mr-2" />
               Entrez votre email
             </label>
             <input
@@ -56,7 +54,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-3 ">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
               Mot de passe
             </label>
@@ -68,7 +66,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-3">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
               Confirmer le mot de passe
             </label>
@@ -80,7 +78,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <label className="inline-flex items-center">
               <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-600" />
               <span className="ml-2 text-gray-700 text-sm">J'accepte toutes les conditions générales</span>
@@ -89,7 +87,7 @@ const Inscription = () => {
 
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               S'inscrire
@@ -97,7 +95,7 @@ const Inscription = () => {
           </div>
 
           <div className="my-4 border-b-2">
-            <div className="text-center">OU</div>
+            <div className=" relative top-3 bg-white size-fit mx-auto px-3">OU</div>
           </div>
 
           <div>
@@ -107,8 +105,8 @@ const Inscription = () => {
             </button>
           </div>
 
-          <div className="text-center mt-6">
-            Vous avez déjà un compte ? <a className="font-bold text-sm text-blue-500 hover:text-blue-800" href="/connexion">Se Connecter</a>
+          <div className="text-center mt-3">
+            Vous avez déjà un compte ? <Link to="/connexion" className="font-bold text-sm text-blue-500 hover:text-blue-800" >Se Connecter</Link>
           </div>
         </div>
       </div>

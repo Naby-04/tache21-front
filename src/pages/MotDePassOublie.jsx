@@ -16,7 +16,6 @@ function MotDePassOblie() {
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-            <FaEnvelope className="inline mr-2" />
             Entrez votre email
           </label>
           <input
@@ -47,6 +46,9 @@ function MotDePassOblie() {
       </div>
     </div>
   );
+
+
+
 }
 
 export default MotDePassOblie;
