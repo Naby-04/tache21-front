@@ -18,3 +18,13 @@
   --font-button: "Inter", sans-serif;
   --font-comment: "Inter", sans-serif;
 }
+
+
+.slideshow-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #a65f00; 
+  opacity: 0.4;
+  z-index: 1;
+}

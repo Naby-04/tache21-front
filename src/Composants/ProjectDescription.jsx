@@ -2,7 +2,7 @@ import React from 'react';
 
 function ProjectDescription() {
   return (
-    <section className="py-16 px-6 bg-gradient-to-br from-white to-yellow-50">
+    <section className="py-16 px-6 bg-gradient-to-br from-white to-yellow-50 mt-15">
         <h2 className="text-3xl font-bold text-yellow-800 mb-6 text-center font-[Merriweather]">
           À propos du projet
         </h2>

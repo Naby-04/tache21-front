@@ -6,7 +6,7 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-[var(--primary-color)] fixed top-0 left-0 w-full z-50 shadow">
+    <header className="bg-yellow-600 fixed top-0 left-0 w-full z-50 shadow">
       <div className="flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-4">
           <img src="/logo.png" alt="Logo" className="h-10" />
@@ -19,8 +19,8 @@ function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-white hover:text-gray-200">Accueil</a>
-          <a href="#" className="text-white hover:text-gray-200">Rapports</a>
+          <a href="#" className="text-white pb-0 border-b-2 border-transparent border-white transition duration-300">Accueil</a>
+          <a href="#" className="text-white pb-0 border-b-2 border-transparent hover:border-white transition duration-300">Rapports</a>
           <Link to="/inscription">  <button className="bg-amber-100 text-black px-6 py-2 rounded hover:bg-amber-200 transition">
             Connexion
           </button></Link>
