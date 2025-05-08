@@ -1,5 +1,5 @@
 import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
-import { SidebarUser } from "../../Composants/SidebarUser";
+import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
 import "./Dashboard.css";
 import { Outlet } from "react-router-dom";
 import { SidebarRight } from "../../Composants/DashboardUsers/SidebarRight";
