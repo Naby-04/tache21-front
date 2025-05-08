@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaEnvelope, FaGoogle, FaUser } from 'react-icons/fa';
-import InputField  from "./InputFiled";
+import { FaEnvelope, FaGoogle, FaUser } from "react-icons/fa";
+import InputField from "./InputFiled";
 import "../index.css";
 import { Link } from "react-router-dom";
 
