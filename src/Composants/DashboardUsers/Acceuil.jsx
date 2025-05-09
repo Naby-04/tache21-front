@@ -4,6 +4,7 @@ import { useState } from "react";
 import CommentModal from "./Commentaire/CommentModal";
 import { Buttons } from "./Buttons";
 
+import { RapportCard } from "./Rapport/RapportCards";
 // Test
 const fakeDocuments = [
   {
