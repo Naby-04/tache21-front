@@ -7,11 +7,11 @@ import "./Dashboard.css";
 export const DashboardUsers = () => {
 	return (
 		<div className="w-full h-screen overflow-hidden bg-gray-100 text-gray-900">
-			<div className="fixed top-0 left-0 right-0 z-50 bg-gray-800">
+			<div className="fixed top-0 left-0 right-0 z-50 bg-gray-800 p-2">
 				<NavbarUser />
 			</div>
 
-			<div className="flex pt-[60px] h-full"> 
+			<div className="flex pt-[70px] h-full"> 
 				
 				<aside className="hidden md:block w-[250px] h-full fixed top-[70px] left-0 overflow-y-auto bg-white shadow-lg z-40">
 					<SidebarUser />
