@@ -15,7 +15,7 @@ const Footer = () => {
             <div>
               <img src="" alt="logo (2).png" />
             </div>
-            <div className="">
+            <div>
               <p>
                 Une plateforme collaborative pour publier, <br />
                 consulter et valoriser les rapports qui comptent. <br />
