@@ -2,12 +2,18 @@ import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import React from "react";
+import { FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
+import { FaLongArrowAltUp } from "react-icons/fa";
+import { BsFillSendFill } from "react-icons/bs";
 
 const Footer = () => {
   return (
     <>
       <footer className="bg-blue-50 py-10">
-        <div className="flex  flex-col md:flex-row justify-around max-w-7xl mx-auto px-4">
+        <div className="flex  flex-col md:flex-row justify-between max-w-7xl mx-auto px-4">
           {/* premier div */}
           <div className="flex flex-col gap-6">
             <div>
@@ -75,7 +81,7 @@ const Footer = () => {
       </footer>
       <div className="bg-blue-950 py-4  w-full sm:w-auto">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="text-xs text-amber-100 m-auto text-center">
+          <p className="text-xs text-amber-100">
             Company © 2025. All Rights Reserved.
           </p>
         </div>
