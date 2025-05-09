@@ -197,7 +197,7 @@ const Admin = () => {
       {/* Sidebar */}
       <SidebarAdmin setVueActive={setVueActive} />
 
-      {/* Main dashboard content */}
+      {/* Main */}
         <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
 
           <HeaderAdmin vueActive={vueActive} onSearch={changement} />
