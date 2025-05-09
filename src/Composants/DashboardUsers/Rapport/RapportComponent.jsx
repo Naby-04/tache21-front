@@ -30,6 +30,7 @@ export const ComponentRapport = ({img,tite,children,view,supp,modif,iconbtn3,use
 
             </div>
         </div>
-       
-    </div>;
+      </div>
+   
 }
+

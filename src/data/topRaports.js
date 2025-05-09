@@ -5,7 +5,7 @@ export const topReports = [
       description: 'Étude sur l’impact de l’intelligence artificielle dans le secteur éducatif.',
       fileUrl: '/files/ia-education.pdf',
       fileType: 'PDF',
-      image: "/imge/sou.png"
+      image: "/imge/word.jpeg"
     },
     {
       id: '2',
@@ -13,7 +13,7 @@ export const topReports = [
       description: 'Expérience dans une agence de communication digitale.',
       fileUrl: '/files/stage-marketing.docx',
       fileType: 'Word',
-      image: "/imge/sou.png"
+      image: "/imge/pdf.jpeg"
     },
     {
         id: '3',
@@ -21,32 +21,7 @@ export const topReports = [
         description: 'Étude sur l’impact de l’intelligence artificielle dans le secteur éducatif.',
         fileUrl: '/files/ia-education.pdf',
         fileType: 'PDF',
-        image: "/imge/sou.png"
+        image: "/imge/word.jpeg"
       },
-      {
-        id: '4',
-        title: 'Rapport de stage - Marketing digital',
-        description: 'Expérience dans une agence de communication digitale.',
-        fileUrl: '/files/stage-marketing.docx',
-        fileType: 'Word',
-        image: "/imge/sou.png"
-      },
-      {
-        id: '5',
-        title: 'Mémoire sur l’IA et l’éducation',
-        description: 'Étude sur l’impact de l’intelligence artificielle dans le secteur éducatif.',
-        fileUrl: '/files/ia-education.pdf',
-        fileType: 'PDF',
-        image: "/imge/sou.png"
-      },
-      {
-        id: '6',
-        title: 'Rapport de stage - Marketing digital',
-        description: 'Expérience dans une agence de communication digitale.',
-        fileUrl: '/files/stage-marketing.docx',
-        fileType: 'Word',
-        image: "/imge/sou.png"
-      },
-      
   ];
   

@@ -1,65 +1,228 @@
-import React from "react";
+import React, { useState } from "react";
 import "../index.css";
-import { LuUsers } from "react-icons/lu";
-import { BsFillFileTextFill } from "react-icons/bs";
-import { FaFileDownload } from "react-icons/fa";
-import { FaDownload } from "react-icons/fa6";
-import StatsBox from "../Composants/composants de la page admin/StatsBox";
-import Image from '../assets/back1.jpg'
-import Image2 from '../assets/back2.jpg'
-import Image3 from '../assets/back3.jpg'
-import Image4 from '../assets/back4.jpg'
 
-import SearchBar from "../Composants/composants de la page admin/SearchBar";
+import word from "../assets/word.jpg"; 
+import pdf from "../assets/pdf.jpeg";
+import avatar from "../assets/avatar.jpg"
+
+import "./StylePerdo.css";
+
+import Users from "./Users";
+import RapportCard from "../Composants/composants de la page admin/RapportCard";
+import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
+import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
+import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
+
+
+const rapports = [
+  {
+    rank: 1,
+    imageRapport: word,
+    titre: "Rapport de Memoire",
+    description: "Analyse des impacts climatiques...",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Informatique",
+    nomUsers: "Ndeye Amie",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 2,
+    imageRapport: pdf,
+    titre: "Rapport de stage",
+    description: "Stages passer à Volkeno....",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Economie",
+    nomUsers: "Snkr",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 3,
+    imageRapport: word,
+    titre: "Rapport de Memoire",
+    description: "Analyse des impacts climatiques...",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Pshycologie",
+    nomUsers: "Binta Dia",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 4,
+    imageRapport: pdf,
+    titre: "Rapport de stage",
+    description: "Stages passer à Volkeno....",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Informatique",
+    nomUsers: "Nafina",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 5,
+    imageRapport: word,
+    titre: "Rapport de Memoire",
+    description: "Analyse des impacts climatiques...",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Informatique",
+    nomUsers: "Baba Faye",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 6,
+    imageRapport: pdf,
+    titre: "Rapport de stage",
+    description: "Stages passer à Volkeno....",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Agriculture",
+    nomUsers: "Nabi dev",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    rank: 7,
+    imageRapport: word,
+    titre: "Rapport de Memoire",
+    description: "Analyse des impacts climatiques...",
+    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    userPhoto: avatar,
+    categories: "Medecine",
+    nomUsers: "Hamidou Ly",
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  
+];
+
+const lesUtilisateurs = [
+  {
+      id: 1,
+      name: 'Abdoul Wakhab',
+      email: 'planimportant@gmail.com',
+      role: 'admin',
+      jourInscripte: '2024-12-01',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 2,
+      name: 'Ndeye Amy Thiam',
+      email: 'thiam@gmail.com',
+      role: 'utilisateur',
+      jourInscripte: '2024-13-21',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 3,
+      name: 'Naby Dev',
+      email: 'devTre@gmail.com',
+      role: 'admin',
+      jourInscripte: '2025-02-05',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 4,
+      name: 'Nafissatou',
+      email: 'badji@gmail.com',
+      role: 'utilisateur',
+      jourInscripte: '2022-02-11',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 5,
+      name: 'Baba',
+      email: 'faye@gmail.com',
+      role: 'admin',
+      jourInscripte: '2021-10-11',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 6,
+      name: 'Binta Dia',
+      email: 'binta@gmail.com',
+      role: 'admin',
+      jourInscripte: '2021-02-13',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+      id: 7,
+      name: 'Hamidou',
+      email: 'lyham@gmail.com',
+      role: 'utilisateur',
+      jourInscripte: '2025-01-16',
+      image: avatar,
+      onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+]
 
 const Admin = () => {
+  const [recherche, setRecherche] = useState("")
+    const [filtreUser, setFiltreUser] = useState(lesUtilisateurs)
+
+    const changement = (utile) => {
+        setRecherche(utile)
+        if(utile === "") {
+            setFiltreUser(lesUtilisateurs)
+        } else {
+            const filtre = lesUtilisateurs.filter(lefiltre => lefiltre.name.toLowerCase().includes(utile.toLowerCase()))
+            setFiltreUser(filtre)
+        }
+    }
+
+    const [vueActive, setVueActive] = useState("dashboard");
+
+
   return (
-    <div className="p-2 h-screen grid grid-cols-12 grid-rows-12 gap-1">
+    <div className="h-screen flex">
       {/* Sidebar */}
-      <div className="p-2 col-span-3 row-span-12 row-start-1 border">
-        <div
-          style={{ backgroundColor: "var(--primary-color)" }}
-          className="p-3"
-        >
-          sidebar
-        </div>
-      </div>
+      <SidebarAdmin setVueActive={setVueActive} />
 
-      {/* Navbar */}
-      <div className="col-span-9 col-start-4 row-span-1 border flex items-center justify-center">
-        <SearchBar />
-      </div>
+      {/* Main dashboard content */}
+        <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
 
-      {/* Scrollable wrapper pour stats, table, diagramme */}
-      <div className="col-span-9 col-start-4 row-span-11 row-start-2 overflow-y-auto grid grid-cols-12 grid-rows-12 gap-1">
-        {/* Stats */}
-        <div className="p-2 col-span-9 row-span-8 grid grid-cols-2 gap-2">
-            <StatsBox titre="Utilisateurs" image={Image} pourcent="30" icone={<LuUsers />} valeur="200" />
-            <StatsBox titre="Rapports" image={Image2} pourcent="30" icone={<LuUsers />} valeur="500" />
-            <StatsBox titre="Telechargement" image={Image3} pourcent="30" icone={<LuUsers />} valeur="67" />
-            <StatsBox titre="Top Rapports" image={Image4} pourcent="30" icone={<LuUsers />} valeur="700" />
-        </div>
+          <HeaderAdmin vueActive={vueActive} onSearch={changement} />
+          
+          
+          {vueActive === "dashboard" && 
+              <DashboardContenu rapports={rapports} />
+            }
 
-        {/* Table top rapports */}
-        <div className="p-2 row-span-5 col-span-12 border">
-          <div
-            style={{ backgroundColor: "var(--primary-color)" }}
-            className="p-3"
-          >
-            table top rapports
-          </div>
-        </div>
+          {vueActive === "users" && (
+              <div className="p-3 w-full">
+                <Users lesUtilisateurs={filtreUser} />
+              </div>
+           )}
 
-        {/* Diagramme */}
-        <div className="p-2 col-span-3 row-span-8 col-start-10 row-start-1 border">
-          <div
-            style={{ backgroundColor: "var(--primary-color)" }}
-            className="p-3"
-          >
-            Diagramme
-          </div>
-        </div>
-      </div>
+          {vueActive === "rapports" && (
+            <div className="p-3 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                 {rapports.map((ele, index) => (
+                  <RapportCard rapport={ele} key={index} />
+                 ))}
+              </div>
+            </div>
+           )}
+        </main>
     </div>
   );
 };
