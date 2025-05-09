@@ -7,10 +7,9 @@ import { FaDownload } from "react-icons/fa6";
 
 // import { Link } from "react-router-dom";
 
-import word from "../assets/word.jpg"; 
+import word from "../assets/word.jpg";
 import pdf from "../assets/pdf.jpeg";
-import avatar from "../assets/avatar.jpg"
-
+import avatar from "../assets/avatar.jpg";
 
 import StatsBox from "../Composants/composants de la page admin/StatsBox";
 import Image from "../assets/back1.jpg";
@@ -25,7 +24,7 @@ import TopRapports from "../Composants/composants de la page admin/TopRapports";
 import BasicPie from "../Composants/composants de la page admin/Diagramme";
 import Users from "./Users";
 import RapportCard from "../Composants/composants de la page admin/RapportCard";
-
+import DetailUtilisateur from "../Composants/composants de la page admin/DetailUtilisateur";
 
 const rapports = [
   {
@@ -33,7 +32,8 @@ const rapports = [
     imageRapport: word,
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Informatique",
     nomUsers: "Ndeye Amie",
@@ -45,7 +45,8 @@ const rapports = [
     imageRapport: pdf,
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Economie",
     nomUsers: "Snkr",
@@ -57,7 +58,8 @@ const rapports = [
     imageRapport: word,
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Pshycologie",
     nomUsers: "Binta Dia",
@@ -69,7 +71,8 @@ const rapports = [
     imageRapport: pdf,
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Informatique",
     nomUsers: "Nafina",
@@ -81,7 +84,8 @@ const rapports = [
     imageRapport: word,
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Informatique",
     nomUsers: "Baba Faye",
@@ -93,7 +97,8 @@ const rapports = [
     imageRapport: pdf,
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Agriculture",
     nomUsers: "Nabi dev",
@@ -105,16 +110,15 @@ const rapports = [
     imageRapport: word,
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
-    descriptionLong: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
+    descriptionLong:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nesciunt cumque quod non sint! Ut veniam repellendus delectus recusandae quam .......",
     userPhoto: avatar,
     categories: "Medecine",
     nomUsers: "Hamidou Ly",
     onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
-  
 ];
-
 
 // const LesLiens = [
 //   {
@@ -133,100 +137,99 @@ const rapports = [
 
 const lesUtilisateurs = [
   {
-      id: 1,
-      name: 'Abdoul Wakhab',
-      email: 'planimportant@gmail.com',
-      role: 'admin',
-      jourInscripte: '2024-12-01',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 1,
+    name: "Abdoul Wakhab",
+    email: "planimportant@gmail.com",
+    role: "admin",
+    jourInscripte: "2024-12-01",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 2,
-      name: 'Ndeye Amy Thiam',
-      email: 'thiam@gmail.com',
-      role: 'utilisateur',
-      jourInscripte: '2024-13-21',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 2,
+    name: "Ndeye Amy Thiam",
+    email: "thiam@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2024-13-21",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 3,
-      name: 'Naby Dev',
-      email: 'devTre@gmail.com',
-      role: 'admin',
-      jourInscripte: '2025-02-05',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 3,
+    name: "Naby Dev",
+    email: "devTre@gmail.com",
+    role: "admin",
+    jourInscripte: "2025-02-05",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 4,
-      name: 'Nafissatou',
-      email: 'badji@gmail.com',
-      role: 'utilisateur',
-      jourInscripte: '2022-02-11',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 4,
+    name: "Nafissatou",
+    email: "badji@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2022-02-11",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 5,
-      name: 'Baba',
-      email: 'faye@gmail.com',
-      role: 'admin',
-      jourInscripte: '2021-10-11',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 5,
+    name: "Baba",
+    email: "faye@gmail.com",
+    role: "admin",
+    jourInscripte: "2021-10-11",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 6,
-      name: 'Binta Dia',
-      email: 'binta@gmail.com',
-      role: 'admin',
-      jourInscripte: '2021-02-13',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 6,
+    name: "Binta Dia",
+    email: "binta@gmail.com",
+    role: "admin",
+    jourInscripte: "2021-02-13",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
   {
-      id: 7,
-      name: 'Hamidou',
-      email: 'lyham@gmail.com',
-      role: 'utilisateur',
-      jourInscripte: '2025-01-16',
-      image: avatar,
-      onDetailClick: () => console.log("Voir détail rapport 1"),
+    id: 7,
+    name: "Hamidou",
+    email: "lyham@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2025-01-16",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
-]
-
+];
 
 const Admin = () => {
-  const [recherche, setRecherche] = useState("")
-    const [filtreUser, setFiltreUser] = useState(lesUtilisateurs)
+  const [recherche, setRecherche] = useState("");
+  const [filtreUser, setFiltreUser] = useState(lesUtilisateurs);
 
-    const changement = (utile) => {
-        setRecherche(utile)
-        if(utile === "") {
-            setFiltreUser(lesUtilisateurs)
-        } else {
-            const filtre = lesUtilisateurs.filter(lefiltre => lefiltre.name.toLowerCase().includes(utile.toLowerCase()))
-            setFiltreUser(filtre)
-        }
+  const changement = (utile) => {
+    setRecherche(utile);
+    if (utile === "") {
+      setFiltreUser(lesUtilisateurs);
+    } else {
+      const filtre = lesUtilisateurs.filter((lefiltre) =>
+        lefiltre.name.toLowerCase().includes(utile.toLowerCase())
+      );
+      setFiltreUser(filtre);
     }
+  };
 
-    const [vueActive, setVueActive] = useState("dashboard");
-
+  const [vueActive, setVueActive] = useState("dashboard");
 
   return (
     <div className="h-screen flex">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white p-5 flex flex-col static overflow-y-auto">
-
         <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
           <div className="w-8 h-8 relative rounded-full bg-amber-300">
             <img
@@ -243,22 +246,30 @@ const Admin = () => {
           {/* <ul className="space-y-2"> */}
 
           <ul className="space-y-2">
-            <li onClick={() => setVueActive("dashboard")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+            <li
+              onClick={() => setVueActive("dashboard")}
+              className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2"
+            >
               <span className="p-1 bg-amber-200"></span>
               Dashboards
             </li>
-            <li onClick={() => setVueActive("users")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+            <li
+              onClick={() => setVueActive("users")}
+              className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2"
+            >
               <span className="p-1 bg-amber-200"></span>
               Utilisateurs
             </li>
-            <li onClick={() => setVueActive("rapports")} className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2">
+            <li
+              onClick={() => setVueActive("rapports")}
+              className="cursor-pointer flex py-3 mt-2 border-b-1 border-amber-200 gap-2"
+            >
               <span className="p-1 bg-amber-200"></span>
               Rapports
             </li>
           </ul>
 
-
-            {/* {LesLiens.map((lien, index) => (
+          {/* {LesLiens.map((lien, index) => (
               <Link to={lien.chemin}>
                 <li className="flex py-3 mt-2 border-b-1 border-amber-200 gap-2" key={index}>
                   <span className="p-1 bg-amber-200"></span>
@@ -277,66 +288,89 @@ const Admin = () => {
       </aside>
 
       {/* Main dashboard content */}
-        <main className="flex-1 bg-gray-100 overflow-y-auto">
+      <main className="flex-1 bg-gray-100 overflow-y-auto">
+        <div className="flex items-center justify-evenly bg-white p-2 px-3 rounded shadow mb-6 sticky top-0 z-50">
+          {/* Barre de recherche */}
+          <div className="flex-1 mx-auto">
+            {vueActive === "users" && <SearchBar onSearch={changement} />}
+          </div>
 
-          <div className="flex items-center justify-evenly bg-white p-2 px-3 rounded shadow mb-6 sticky top-0 z-50">
-            {/* Barre de recherche */}
-            <div className="flex-1 mx-auto">
-              {vueActive === "users" && (
-                <SearchBar onSearch={changement} />
-              )}
-            </div>
-
-            {/* Profil */}
-            <div className="flex items-center gap-1 flex-col-reverse">
-              {/* <span className="text-gray-700 text-sm font-medium hidden sm:inline">
+          {/* Profil */}
+          <div className="flex items-center gap-1 flex-col-reverse">
+            {/* <span className="text-gray-700 text-sm font-medium hidden sm:inline">
                 Nom
               </span> */}
-              <div className="w-10 h-10 rounded-full bg-amber-300 overflow-hidden border border-amber-600">
-                <img src="" alt="Profil" className="w-full h-full object-cover" />
-              </div>
+            <div className="w-10 h-10 rounded-full bg-amber-300 overflow-hidden border border-amber-600">
+              <img src="" alt="Profil" className="w-full h-full object-cover" />
             </div>
           </div>
-          
-          
-          {vueActive === "dashboard" && (
-              <div>
-                <div className="flex flex-col lg:flex-row gap-4 p-3">
-                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <StatsBox titre="Utilisateurs" image={Image} pourcent="30" icone={<LuUsers />} valeur="200" />
-                    <StatsBox titre="Rapports" image={Image2} pourcent="30" icone={<BsFillFileTextFill />} valeur="500" />
-                    <StatsBox titre="Telechargement" image={Image3} pourcent="30" icone={<FaFileDownload />} valeur="67" />
-                    <StatsBox titre="Top Rapports" image={Image4} pourcent="30" icone={<FaDownload />} valeur="700" />
-                  </div>
-                  <div className="w-full lg:w-1/3 flex-shrink-0">
-                    <div className="bg-white p-6 rounded shadow h-full">
-                      <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
-                      <h3 className="text-lg font-semibold mb-4">Les Statistiques</h3>
-                      <BasicPie />
-                    </div>
-                  </div>
-                </div>
-                <div className="p-3 w-full border-t">
-                  <TopRapports rapports={rapports} />
+        </div>
+
+        {vueActive === "dashboard" && (
+          <div>
+            <div className="flex flex-col lg:flex-row gap-4 p-3">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <StatsBox
+                  titre="Utilisateurs"
+                  image={Image}
+                  pourcent="30"
+                  icone={<LuUsers />}
+                  valeur="200"
+                />
+                <StatsBox
+                  titre="Rapports"
+                  image={Image2}
+                  pourcent="30"
+                  icone={<BsFillFileTextFill />}
+                  valeur="500"
+                />
+                <StatsBox
+                  titre="Telechargement"
+                  image={Image3}
+                  pourcent="30"
+                  icone={<FaFileDownload />}
+                  valeur="67"
+                />
+                <StatsBox
+                  titre="Top Rapports"
+                  image={Image4}
+                  pourcent="30"
+                  icone={<FaDownload />}
+                  valeur="700"
+                />
+              </div>
+              <div className="w-full lg:w-1/3 flex-shrink-0">
+                <div className="bg-white p-6 rounded shadow h-full">
+                  <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
+                  <h3 className="text-lg font-semibold mb-4">
+                    Les Statistiques
+                  </h3>
+                  <BasicPie />
                 </div>
               </div>
-            )}
-            {vueActive === "users" && (
-                <div className="p-3 w-full border-t">
-                  <Users lesUtilisateurs={filtreUser} />
-                </div>
-              )}
+            </div>
+            <div className="p-3 w-full border-t">
+              <TopRapports rapports={rapports} />
+            </div>
+          </div>
+        )}
+        {vueActive === "users" && (
+          <div className="p-3 w-full border-t">
+            <Users lesUtilisateurs={filtreUser} />
+          </div>
+        )}
 
-              {vueActive === "rapports" && (
-                  <div className="p-3 w-full border-t">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-                      {rapports.map((ele, index) => (
-                        <RapportCard rapport={ele} key={index} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-        </main>
+        {vueActive === "rapports" && (
+          <div className="p-3 w-full border-t">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+              {rapports.map((ele, index) => (
+                <RapportCard rapport={ele} key={index} />
+              ))}
+            </div>
+          </div>
+        )}
+        <DetailUtilisateur />
+      </main>
     </div>
   );
 };

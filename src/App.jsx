@@ -16,20 +16,19 @@ import Unauthorized from "./pages/Erreur/Unauthorized";
 
 function App() {
   return (
-    // <Admin />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/inscription" element={<Inscription />} />
-        <Route path="/connexion" element={<Connexion />} />
-        <Route path="/users" element={<DashboardUsers />}>
-          <Route index element={<Acceuil />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-      </Routes>
-    </BrowserRouter>
-    
+    <Admin />
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<HomePage />} />
+    //     <Route path="/inscription" element={<Inscription />} />
+    //     <Route path="/connexion" element={<Connexion />} />
+    //     <Route path="/users" element={<DashboardUsers />}>
+    //       <Route index element={<Acceuil />} />
+    //     </Route>
+    //     <Route path="*" element={<NotFound />} />
+    //     <Route path="/unauthorized" element={<Unauthorized />} />
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 
