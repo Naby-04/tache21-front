@@ -27,17 +27,17 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-medium">Rapports</h1>
             <div className="flex flex-col gap-4">
-              <div>
-                <p>Médecine et Santé</p>
+              <div className="hover:text-amber-700">
+                <a href="#">Médecine et Santé</a>
               </div>
-              <div>
-                <p>Droit Privé</p>
+              <div className="hover:text-amber-700">
+                <a href="#">Droit Privé</a>
               </div>
-              <div>
-                <p>Sociologie</p>
+              <div className="hover:text-amber-700">
+                <a href="#">Sociologie</a>
               </div>
-              <div>
-                <p>Sciences</p>
+              <div className="hover:text-amber-700">
+                <a href="#">Sciences</a>
               </div>
             </div>
           </div>
@@ -45,18 +45,18 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-medium">Contact</h1>
             <div>
-              <div>
-                <p>Dakar, Sénégal</p>
+              <div className="hover:text-amber-700">
+                <a href="#">Dakar, Sénégal</a>
               </div>
             </div>
             <div>
-              <div>
-                <p>76 592 61 27</p>
+              <div className="hover:text-amber-700">
+                <a href="#">76 592 61 27</a>
               </div>
             </div>
             <div>
-              <div>
-                <p>hello@Company.com</p>
+              <div className="hover:text-amber-700">
+                <a href="#">hello@Company.com</a>
               </div>
             </div>
           </div>
