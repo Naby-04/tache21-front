@@ -3,10 +3,7 @@ import React from "react";
 import HomePage from "./pages/HomePage";
 import Inscription from "./pages/Inscription";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-import MotDePassOblie from "./pages/MotDePassOublie";
-import Admin from "./pages/Admin";
 import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
-import Connexion from "./pages/connexion";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
@@ -18,6 +15,7 @@ import NotFound from "./pages/Erreur/NotFound";
 import Unauthorized from "./pages/Erreur/Unauthorized";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
+import Connexion from "./pages/Connexion";
 
 const App = () => {
   return (
@@ -34,10 +32,7 @@ const App = () => {
           <Route path="rapport" element={<Rapport />} />
           <Route path="rapportTelecharger" element={<RapportTelecharger />} />
         </Route>
-
         <Route path="/pageParametre" element={<PageParametresCompte />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </BrowserRouter>
   );
