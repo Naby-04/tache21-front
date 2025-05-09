@@ -6,13 +6,14 @@ import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 import MotDePassOblie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
-import Connexion from "./pages/Connexion";
+import Connexion from "./pages/connexion";
 
 {
   /* Import des pages d'erreur */
 }
 import NotFound from "./pages/Erreur/NotFound";
 import Unauthorized from "./pages/Erreur/Unauthorized";
+import MotDePassOublie from "./pages/MotDePassOublie";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
+        <Route path="/MotDePassOublie" element={<MotDePassOublie/>} />
         <Route path="/users" element={<DashboardUsers />}>
           <Route index element={<Acceuil />} />
         </Route>

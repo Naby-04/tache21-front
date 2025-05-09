@@ -50,14 +50,14 @@ const Connexion = () => {
 
         {/* <div className="flex items-center justify-between"> */}
         <a
-          className="inline-block text-end  font-bold text-sm text-blue-500 hover:text-blue-800 mb-6"
-          href="/mot-de-passe-oublie"
+          className="inline-block text-end  font-bold text-sm text-gray-700 hover:text-blue-800 mb-6"
+          href="/MotDePassOublie"
         >
           Mot de passe oublié ?
         </a>
         <Link to="/users">
           <button
-            className="bg-yellow-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gray-700 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >
             Se connecter
@@ -72,7 +72,7 @@ const Connexion = () => {
         </div>
 
         <div>
-          <button className="mt-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+          <button className="mt-5 bg-gray-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
             <FaGoogle className="inline mr-2" />
             Continuer avec Google
           </button>
@@ -82,7 +82,7 @@ const Connexion = () => {
           Vous n'avez pas de compte ?{" "}
           <Link
             to="/inscription"
-            className="font-bold text-sm text-blue-500 hover:text-blue-800"
+            className="font-bold text-sm text-gray-700 hover:text-blue-800"
           >
             S'inscrire
           </Link>
