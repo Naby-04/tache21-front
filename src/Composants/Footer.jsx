@@ -13,7 +13,7 @@ const Footer = () => {
           {/* ==============partie logo============== */}
           <div className="flex flex-col gap-8">
             <div>
-              <img src="" alt="logo (2).png" />
+              <img src="#" alt="logo (2).png" />
             </div>
             <div>
               <p>
