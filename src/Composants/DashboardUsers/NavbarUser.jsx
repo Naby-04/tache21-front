@@ -1,41 +1,58 @@
+import { useState } from "react";
 import { Deconnexion } from "./Decconexion";
 import { RiMenuFill } from "react-icons/ri";
+import { Profile } from "./Profile";
+import { MobileSidebar } from "./MobileAffichage";
+// import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
 export const NavbarUser = () => {
-	const handleToggle = () => {
-		document.getElementById("sidebar").classList.toggle("hidden");
-	};
+	const [openMobileMenu, setOpenMobileMenu] = useState(false);
+
 	return (
-		<div
-			className="flex justify-between items-center bg-[var(--primary-color)]
-         p-5 w-full sticky top-0 z-10"
-			id="navbar"
-		>
-			<h1 className="text-[var(--secondary-color)] text-4xl font-[--font-title;--weight-bold] cursor-pointer">
-				AcadDocs
-			</h1>
-			<div className="addDocs">
-				<button
-					className="p-2 bg-[var(--secondary-color)] text-[var(--primary-color)] 
-              font-[var(--font-button)] text-[12px] rounded-xl cursor-pointer hidden lg:block"
-				>
-					Ajouter un rapport
-				</button>
-			</div>
-			<div className="flex items-center gap-5">
-				<div
-					className="hover:text-[var(--background-color)] cursor-pointer text-[20px] text-[var(--secondary-color)]
-                  hidden lg:block"
-				>
-					<Deconnexion button={"Deconnexion"} />
+		<div className="relative">
+			{/* Navbar principale */}
+			<div
+				className="flex justify-between items-center  p-2 w-full z-10"
+			>
+				{/* Logo et profil (mobile) */}
+				<div>
+					<h1
+						className="text-[var(--couleur-Logo)] text-3xl font-bold hidden md:block cursor-pointer"
+						id="logo"
+					>
+						AcadDocs
+					</h1>
+					<div className="block md:hidden">
+						<Profile />
+					</div>
+				</div>
+
+				{/* Bouton ajout rapport */}
+				<div className="addDocs">
+					<button
+						className="p-2 bg-[var(--couleur-Logo)] text-[var(--text-couleur)] text-xs rounded-3xl hover:opacity-80"
+					>
+						Ajouter un rapport
+					</button>
+				</div>
+
+				{/* Déconnexion desktop */}
+				<div className="flex items-center gap-5">
+					<div className="hidden lg:block text-[#fff]">
+						<Deconnexion button={"Déconnexion"} />
+					</div>
+				</div>
+
+				{/* Toggle menu mobile */}
+				<div className="block md:hidden">
+					<RiMenuFill
+						className="text-white text-2xl"
+						onClick={() => setOpenMobileMenu(!openMobileMenu)}
+					/>
 				</div>
 			</div>
-			<div className="menu_mobil block lg:hidden cursor-pointer">
-				<RiMenuFill
-					className="text-[var(--secondary-color)] text-4xl cursor-pointer"
-					onClick={handleToggle}
-				/>
-			</div>
+
+			<MobileSidebar isOpen={openMobileMenu} onClose={() => setOpenMobileMenu(false)} />
 		</div>
 	);
 };

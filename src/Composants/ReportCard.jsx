@@ -2,7 +2,7 @@ import React from 'react';
 
 function ReportCard({ report }) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition duration-300">
+    <div className="bg-white p-4 mx-auto bg-white rounded-2xl shadow-2xl  border border-yellow-100">
       {report.image && (
         <img
           src={report.image}
@@ -18,7 +18,7 @@ function ReportCard({ report }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Télécharger {report.fileType}
+        Voire le {report.fileType}
       </a>
     </div>
   );
