@@ -22,18 +22,42 @@ const Footer = () => {
                 Villa n°241.
               </p>
             </div>
+          </div>
+          {/* ==============partie rapports============== */}
+          <div className="flex flex-col gap-4">
+            <h1 className="text-xl font-medium">Rapports</h1>
+            <div className="flex flex-col gap-4">
+              <div className="hover:text-amber-700">
+                <a href="#">Médecine et Santé</a>
+              </div>
+              <div className="hover:text-amber-700">
+                <a href="#">Droit Privé</a>
+              </div>
+              <div className="hover:text-amber-700">
+                <a href="#">Sociologie</a>
+              </div>
+              <div className="hover:text-amber-700">
+                <a href="#">Sciences</a>
+              </div>
+            </div>
+          </div>
+          {/*================partie contact================ */}
+          <div className="flex flex-col gap-4">
+            <h1 className="text-xl font-medium">Contact</h1>
             <div>
-              <p>
-                <strong className="text-xs">PHONE:</strong> +84 1102 2705
-              </p>
+              <div className="hover:text-amber-700">
+                <a href="#">Dakar, Sénégal</a>
+              </div>
             </div>
             <div>
-              <p>
-                <strong className="text-xs">Email:</strong> hello@thebox.com
-              </p>
+              <div className="hover:text-amber-700">
+                <a href="#">76 592 61 27</a>
+              </div>
             </div>
-            <div className="w-10 mb-3">
-              <img src="logo (2).png" alt="" />
+            <div>
+              <div className="hover:text-amber-700">
+                <a href="#">hello@Company.com</a>
+              </div>
             </div>
           </div>
           {/* deuxieme div */}
