@@ -1,11 +1,8 @@
 import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
 import "./Dashboard.css"
 import { Outlet } from "react-router-dom";
-// import { SidebarRight } from "./SidebarRight";
 import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
-// import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
 import { SidebarRight } from "../../Composants/DashboardUsers/SidebarRight";
-// import { Outlet } from "react-router-dom";
 import "./Dashboard.css";
 
 export const DashboardUsers = () => {
@@ -17,15 +14,15 @@ export const DashboardUsers = () => {
 
 			<div className="flex pt-[70px] h-full"> 
 				
-				<aside className="hidden md:block w-[250px] h-full fixed top-[70px] left-0 overflow-y-auto bg-white shadow-lg z-40">
+				<aside className="hidden lg:block w-[250px] h-full fixed top-[70px] left-0 overflow-y-auto bg-white shadow-lg z-40">
 					<SidebarUser />
 				</aside>
 
-				<main className="flex-1 ml-0 md:ml-[250px] mr-0 md:mr-[250px] h-[calc(100vh-70px)] overflow-y-auto p-4">
+				<main className="flex-1 ml-0 lg:ml-[250px] mr-0 lg:mr-[250px] h-[calc(100vh-70px)] overflow-y-auto p-4">
 					<Outlet />
 				</main>
 
-				<aside className="hidden md:block w-[250px] h-full fixed top-[70px] right-0 overflow-y-auto bg-white shadow-lg z-40">
+				<aside className="hidden lg:block w-[250px] h-full fixed top-[70px] right-0 overflow-y-auto bg-white shadow-lg z-40">
 					<SidebarRight />
 				</aside>
 			</div>

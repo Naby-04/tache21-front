@@ -32,13 +32,13 @@ export default function CommentModal({ onClose, onSubmit, documentId }) {
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-500 hover:underline"
+            className="text-gray-800 hover:underline"
           >
             Annuler
           </button>
           <button
             type="submit"
-            className="px-4 py-1 bg-blue-600 text-white rounded hover:opacity-80"
+            className="px-4 py-1 bg-gray-800 text-white rounded hover:opacity-90"
           >
             Publier
           </button>
