@@ -111,7 +111,10 @@ const Footer = () => {
           <div className="px-4">
             <button
                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-             className="bg-blue-950  w-10 h-10 rounded-3xl mx-auto cursor-pointer ...">
+            //  className="bg-blue-950  w-10 h-10 rounded-3xl mx-auto cursor-pointer ..."
+              className="fixed bottom-5 right-5 bg-blue-950 text-white p-3 rounded-full shadow-lg  transition z-50"
+              title="Remonter"
+             >
               <span className="flex items-center justify-center mx-auto text-white">
                 <FaLongArrowAltUp />
               </span>
