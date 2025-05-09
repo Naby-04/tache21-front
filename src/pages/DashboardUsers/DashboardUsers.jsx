@@ -1,7 +1,11 @@
-import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
 import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
-import { SidebarRight } from "../../Composants/DashboardUsers/SidebarRight";
+import "./Dashboard.css"
 import { Outlet } from "react-router-dom";
+// import { SidebarRight } from "./SidebarRight";
+import { NavbarUser } from "../../Composants/DashboardUsers/NavbarUser";
+// import { SidebarUser } from "../../Composants/DashboardUsers/SidebarUser";
+import { SidebarRight } from "../../Composants/DashboardUsers/SidebarRight";
+// import { Outlet } from "react-router-dom";
 import "./Dashboard.css";
 
 export const DashboardUsers = () => {
