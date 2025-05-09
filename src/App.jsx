@@ -17,6 +17,7 @@ import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import NotFound from "./pages/Erreur/NotFound";
 import Unauthorized from "./pages/Erreur/Unauthorized";
 import MotDePassOublie from "./pages/MotDePassOublie";
+import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/MotDePassOublie" element={<MotDePassOublie />} />
+        <Route path="/ReinitialiserMdp" element={<ReinitialiserMdp />} />
         <Route path="/users" element={<DashboardUsers />}>
           <Route index element={<Acceuil />} />
           <Route path="rapport" element={<Rapport />} />

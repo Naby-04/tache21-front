@@ -54,14 +54,21 @@ const Connexion = () => {
             />
           </div>
 
-          <div className="flex w-full items-center justify-between">
+          <a
+            className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-full"
+            href="/MotDePassOublie"
+          >
+            Mot de passe oublié ?
+          </a>
+
+          <Link to="/users" className="w-full">
             <button
               className="bg-gray-700 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               Se connecter
             </button>
-          </div>
+          </Link>
 
           <div className="flex items-center justify-between mt-4 mb-4 w-[80%] ">
             <div className="border-t border-gray-500 flex-grow"></div>
@@ -80,7 +87,7 @@ const Connexion = () => {
                 <img
                   src="./public/logo-google.png" // Remplacez par le chemin de votre image
                   alt="Google"
-                  className="w-12 h-1 rounded-full size-fit"
+                  className="w-12 h-15 rounded-full size-fit"
                 />
               </div>
             </button>
