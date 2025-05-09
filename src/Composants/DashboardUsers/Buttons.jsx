@@ -1,3 +1,3 @@
 export const Buttons = ({text}) => {
-    return <button >{text}</button>;
+    return <button className="cursor-pointer">{text}</button>;
 }

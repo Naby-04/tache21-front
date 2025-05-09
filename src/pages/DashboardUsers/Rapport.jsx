@@ -1,118 +1,60 @@
-import { FaEye } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { ComponentRapport } from "../../Composants/DashboardUsers/Rapport/RapportComponent";
 import { FaCloudDownloadAlt } from 'react-icons/fa';
 import {FaArrowUpRightFromSquare} from 'react-icons/fa6'
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 export const Rapport = () => {
+   const rapports = [
+      {
+         id: "doc1",
+         title: "Mémoire sur le climat",
+         img: "../../../public/images/dev.jpg",
+         description:`Ce mémoire explore les effets du changement climatique sur les écosystèmes
+         africains, en mettant l'accent sur la déforestation au Sénégal, les cycles de sécheresse et 
+         les conséquences socio-économiques pour les communautés rurales. Il s'appuie sur des données
+          scientifiques et des témoignages de terrain pour proposer des stratégies d'adaptation locale`
+      },
+      {
+         id: "doc2",
+         title: "Analyse financière des PME",
+         img: "../../../public/images/dev.jpg",
+         description:`Ce mémoire explore les effets du changement climatique sur les écosystèmes
+         africains, en mettant l'accent sur la déforestation au Sénégal, les cycles de sécheresse et 
+         les conséquences socio-économiques pour les communautés rurales. Il s'appuie sur des données
+          scientifiques et des témoignages de terrain pour proposer des stratégies d'adaptation locale`
+      },
+      {
+         id: "doc3",
+         title: "Impact de la technologie sur l’education",
+         img: "../../../public/images/dev.jpg",
+         description:`Ce mémoire explore les effets du changement climatique sur les écosystèmes
+         africains, en mettant l'accent sur la déforestation au Sénégal, les cycles de sécheresse et 
+         les conséquences socio-économiques pour les communautés rurales. Il s'appuie sur des données
+          scientifiques et des témoignages de terrain pour proposer des stratégies d'adaptation locale`
+      },
+   ]
+
+ 
     return <div className="w-full h-full text-[var(--background-color)] mt-5 p-5 flex flex-col gap-4">
-
-        <div>
-           <ComponentRapport 
-          img={"https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}
-          tite={"Rapport 1"}
-          
-          view={"Voir"} 
-          iconbnt1={<FaCloudDownloadAlt />}
-          download={"Telecharger"}
-          iconbtn2={<FaArrowUpRightFromSquare/>}
-          date={"01/01/2023"}
-          user={"John Doe"}>
+      {rapports.map((rapport)=><div key={rapport.id}>
+         <ComponentRapport
+         img={rapport.img}
+         tite={rapport.title} 
+         supp={"Supprimer"}
+         view={"Voir"} 
+         iconbnt1={<FaEye />}
+         modif={"modifier"}
+         iconbtn3={<FaEdit />}
+         iconbtn2={<FaTrash />}
+         date={"01/01/2023"}
+         user={"John Doe"}
+         >
             <TextExpandable>
-               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores eius minus 
-               voluptatum, quidem non odio id earum laborum temporibus debitis necessitatibus,
-                nobis magni? Obcaecati enim minima fugiat labore aliquam debitis?
-               Eligendi debitis natus aspernatur adipisci dolor qui quaerat quisquam magnam,
-                provident nostrum doloribus tempore cumque labore itaque quasi cum quis ab aut 
-                facere, totam consectetur deleniti? Corrupti dolorem blanditiis corporis?
-
+               {rapport.description}
             </TextExpandable>
- 
-           </ComponentRapport>
-        </div>
-        <div>
-           <ComponentRapport 
-          img={"https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}
-          tite={"Rapport 1"}
-          
-          view={"Voir"} 
-          iconbnt1={<FaCloudDownloadAlt />}
-          download={"Telecharger"}
-          iconbtn2={<FaArrowUpRightFromSquare/>}
-          date={"01/01/2023"}
-          user={"John Doe"}>
-            <TextExpandable>
-               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores eius minus 
-               voluptatum, quidem non odio id earum laborum temporibus debitis necessitatibus,
-                nobis magni? Obcaecati enim minima fugiat labore aliquam debitis?
-               Eligendi debitis natus aspernatur adipisci dolor qui quaerat quisquam magnam,
-                provident nostrum doloribus tempore cumque labore itaque quasi cum quis ab aut 
-                facere, totam consectetur deleniti? Corrupti dolorem blanditiis corporis?
+         </ComponentRapport>
+      </div>)}
 
-            </TextExpandable>
- 
-           </ComponentRapport>
-        </div>
-        <div>
-           <ComponentRapport 
-          img={"https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}
-          tite={"Rapport 1"}
-          
-          view={"Voir"} 
-          iconbnt1={<FaCloudDownloadAlt />}
-          download={"Telecharger"}
-          iconbtn2={<FaArrowUpRightFromSquare/>}
-          date={"01/01/2023"}
-          user={"John Doe"}>
-            <TextExpandable>
-               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil distinctio nesciunt voluptatibus sapiente? Alias optio neque commodi fuga 
-               voluptatum, veritatis ipsa nulla blanditiis laborum vitae sed id quaerat harum nisi.
-
-            </TextExpandable>
- 
-           </ComponentRapport>
-        </div>
-
-        <div>
-           <ComponentRapport 
-          img={"https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}
-          tite={"Rapport 1"}
-          
-          view={"Voir"} 
-          iconbnt1={<FaCloudDownloadAlt />}
-          download={"Telecharger"}
-          iconbtn2={<FaArrowUpRightFromSquare/>}
-          date={"01/01/2023"}
-          user={"John Doe"}>
-            <TextExpandable>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil
-               illum maiores numquam voluptatum exercitationem inventore, eaque accusamus corporis modi vel.
-            </TextExpandable>
- 
-           </ComponentRapport>
-        </div>
-        <div>
-           <ComponentRapport 
-          img={"https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"}
-          tite={"Rapport 1"}
-          
-          view={"Voir"} 
-          iconbnt1={<FaCloudDownloadAlt />}
-          download={"Telecharger"}
-          iconbtn2={<FaArrowUpRightFromSquare/>}
-          date={"01/01/2023"}
-          user={"John Doe"}>
-            <TextExpandable>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita ipsa illum quasi aliquid nobis, accusamus facilis unde tenetur qui quo a exercitationem eos deleniti iste dicta explicabo nostrum esse! Incidunt.
-              Laudantium sit corporis, nemo voluptates maiores odio, assumenda tempora perspiciatis obcaecati illum quae sint molestiae sunt iste voluptatum? Neque placeat iste possimus! Sapiente consequatur explicabo fugit veniam laboriosam, commodi eaque?
-              Porro facere culpa cum nulla ea qui corporis, eos nesciunt? Magnam earum cumque quas, voluptatem ut sed sunt fuga totam odio veritatis, id commodi, illum dicta a vero minus fugit!99iiiiiiiiiiiiii9
-
-            </TextExpandable>
- 
-           </ComponentRapport>
-        </div>
-
-
-       
       
     </div>;
 }

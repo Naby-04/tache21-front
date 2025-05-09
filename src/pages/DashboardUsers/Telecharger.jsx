@@ -1,54 +1,69 @@
+import { FaDownload } from "react-icons/fa";
+import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+
 export const RapportTelecharger = () => {
+  const Telecharger = [
+    {
+      id: "doc1",
+      title: "Mémoire sur le climat",
+      img: "../../../public/images/dev.jpg",
+    },
+    {
+      id: "doc2",
+      title: "Analyse financière des PME",
+      img: "../../../public/images/dev.jpg",
+    },
+    {
+      id: "doc3",
+      title: "Impact de la technologie sur l’éducation",
+      img: "../../../public/images/dev.jpg",
+    },
+    {
+      id: "doc3",
+      title: "Impact de la technologie sur l’éducation",
+      img: "../../../public/images/dev.jpg",
+    },
+    {
+      id: "doc3",
+      title: "Impact de la technologie sur l’éducation",
+      img: "../../../public/images/dev.jpg",
+    },
+  ];
 
-    const Telecharger= [
-        {
-            id: "doc1",
-            title: "Mémoire sur le climat",
-              img: "../../../public/images/dev.jpg"
-        },
-        {
-            id: "doc1",
-            title: "Mémoire sur le climat",
-              img: "../../../public/images/dev.jpg"
-        },
-        {
-            id: "doc1",
-            title: "Mémoire sur le climat",
-              img: "../../../public/images/dev.jpg"
-        },
-    ]
-        
-       
-    return <div>
-        <h1>Mes Rapports Telecharges</h1>
+  return (
+    <div className="w-full min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-semibold text-center text-gray-800 mb-8">
+        Mes rapports téléchargés
+      </h1>
 
-      <div className="flex flex-col gap-5 p-3">
-        <div className="p-2">
-        {Telecharger.map((doc)=><div key={doc.id} className="document  w-full shadow-2xl p-5 lg:p-10 bg-white">
-            <div className="infos-owner">
-            <div className="profil-owner flex items-center gap-2">
-                    <img src={doc.img} alt="" className="w-[40px] h-[40px] rounded-full"/>
-                    <div className="flex flex-col ">
-                    <strong>John Doe</strong>
-                    <small>il y' a 2 minutes</small>
-
-                    </div>
-                </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 place-items-center">
+        {Telecharger.map((doc, i) => (
+          <div
+            key={i}
+            className="bg-white shadow-lg rounded-xl overflow-hidden w-[90%]  flex-auto transition-transform hover:scale-[1.02]"
+          >
+            <img
+              src={doc.img}
+              alt={doc.title}
+              className="h-[180px] w-full object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-lg font-bold text-gray-800">{doc.title}</h2>
+              <TextExpandable>
+                Ceci est un résumé de votre rapport téléchargé. Vous pouvez le relire à tout moment dans votre espace personnel.
+              </TextExpandable>
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-green-600 text-sm flex items-center gap-2">
+                  <FaDownload /> Téléchargé
+                </span>
+                <button className="text-blue-600 text-sm hover:underline">
+                  Voir le rapport
+                </button>
+              </div>
             </div>
-            <h1 className="text-xl font-bold ml-5 mt-3">{doc.title}</h1>
-            <div className="pdf p-2 lg:p-5 bg-white">
-                <img src={doc.img} alt=""className="max-h-[300px] w-full object-fit: cover" />
-            </div>
-            
-            <div className="description">
-                <TextExpandable >
-                  {doc.description}
-                </TextExpandable>
-            </div>
-        </div>)}
-        </div>
-
+          </div>
+        ))}
       </div>
-        
-    </div>;
-}
+    </div>
+  );
+};

@@ -55,10 +55,8 @@ h1{
     color: var(--text-couleur);
 }
 .action_button button:hover{
-    background-color: var(--primary-color);
-    color: #fff;
     cursor: pointer;
-    border: 1px solid #fff;
+    
 }
 
 .composantRapport{

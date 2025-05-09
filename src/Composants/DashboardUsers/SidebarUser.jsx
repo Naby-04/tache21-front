@@ -1,40 +1,43 @@
-import { Deconnexion } from "./Decconexion";
+import { Buttons } from "./Buttons";
 import { Profile } from "./Profile";
-import {
-	FaCloudUploadAlt,FaDochub,FaEdit,FaHome,FaTrash,FaUser} from "react-icons/fa";
-import { Link } from "react-router-dom";
+import {FaCloudUploadAlt,FaDochub,FaHome,FaUser,} from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+
 export const SidebarUser = () => {
 	return (
-		<div
-			className=" w-full lg:w-[400px] p-5 bg-[var(--background-color)] 
- /       text-[var(--text-couleur)] shadow-2xl h-screen
-          hidden lg:block sticky top-0 "
-			id="sidebar"
-		>
+		<div className="w-full p-5 bg-white text-gray-800 shadow-xl h-full hidden md:block">
 			<Profile />
-			<hr className="mt-5 h-[4px] w-full bg-[var(--primary-color)]" />
-			<ul className="list-unstyled flex flex-col mt-5 gap-3 cursor-pointer">
-				<Link to="/" className="text-[18px] font-[var(--weight-semi-bold)] flex gap-2 items-center">
-					<FaHome /> Acceuil
-				</Link>
-				<Link to="rapport" className="text-[18px] font-[var(--weight-semi-bold)] flex gap-2 items-center">
-					<FaDochub /> Mes Rapports
-				</Link>
-				<Link to="rapportTelecharger" className="text-[18px] font-[var(--weight-semi-bold)] flex gap-2 items-center">
-					<FaCloudUploadAlt /> Mes Telechargements
-				</Link>
-				<Link className="text-[18px] font-[var(--weight-semi-bold)] flex gap-2 items-center">
-					<FaTrash /> Supprimer Un rapport
-				</Link>
-				<Link className="text-[18px] font-[var(--weight-semi-bold)] flex gap-2 items-center">
-					<FaEdit /> Modifier un rapport
-				</Link>
+
+			<hr className="mt-5 h-[2px] bg-gray-200" />
+
+			<ul className="mt-6 flex flex-col gap-2">
+				{[
+					{ to: "/", icon: <FaHome />, label: "Accueil" },
+					{ to: "rapport", icon: <FaDochub />, label: "Rapports" },
+					{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
+				].map((link, i) => (
+					<NavLink
+						key={i}
+						to={link.to}
+						className={({ isActive }) =>
+							`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-all
+							${isActive ? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"}`
+						}
+					>
+						{link.icon}
+						<span>{link.label}</span>
+					</NavLink>
+				))}
 			</ul>
-			<hr className="mt-5 h-[4px] w-full bg-[var(--primary-color)]" />
-			<div className="mt-5 cursor-pointer text-xl flex flex-col gap-2 justify-start items-start">
-				<Deconnexion button={"Paramètres du Compte"} />
-				<Deconnexion button={"Aides"} />
-				<Deconnexion button={"A propos"} />
+
+			<hr className="mt-6 h-[2px] bg-gray-200" />
+
+			<div className="mt-2 flex flex-col justify-start items-start gap-2 text-sm text-gray-600">
+				<NavLink to={"/pageParametre"} className="cursor-pointer">
+				<Buttons text="Paramètres du compte" />
+				</NavLink>
+				<Buttons text="Deconnexion" />
+				<Buttons text="À propos" />
 			</div>
 		</div>
 	);
