@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaEnvelope } from 'react-icons/fa';
 
-function MotDePassOblie() {
+function MotDePassOublie() {
   return (
     <div style={{
         backgroundImage: `url("https://mironcoder-hotash.netlify.app/images/pattern.webp")`,
@@ -28,7 +28,7 @@ function MotDePassOblie() {
 
         <div className="flex items-center justify-between">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gray-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >
             Obtenir le lien
@@ -38,7 +38,7 @@ function MotDePassOblie() {
         <div className="mt-6 text-center">
           <p className="text-gray-700 text-sm">
             Tu te souviens du mot de passe ?
-            <a className="font-bold text-blue-500 hover:text-blue-800 ml-1" href="/connexion">
+            <a className="font-bold text-gray-700 hover:text-blue-800 ml-1" href="/connexion">
               Se Connecter
             </a>
           </p>
@@ -51,4 +51,4 @@ function MotDePassOblie() {
 
 }
 
-export default MotDePassOblie;
+export default MotDePassOublie;
