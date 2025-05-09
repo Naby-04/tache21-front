@@ -4,7 +4,7 @@ import '../../index.css'
 const StatsBox = ({image, titre, valeur, icone, pourcent}) => {
   console.log(icone)
   return (
-    <div className="flex bg-[var(--primary-color)] rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2">
+    <div className="flex bg-gray-800 rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2">
       <img src={image} alt="" className="absolute w-full h-full inset-0 z-0 opacity-10" />
       <div className="flex flex-col p-3 relative w-full">
         <div className="flex justify-between text-white">
