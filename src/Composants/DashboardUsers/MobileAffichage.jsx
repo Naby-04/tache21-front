@@ -26,6 +26,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 						<NavLink
 							key={i}
 							to={link.to}
+                            end="/users"
 							onClick={onClose}
 							className={({ isActive }) =>
 								`flex items-center gap-2 text-sm p-2 rounded-md ${

@@ -7,6 +7,7 @@ import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
+import  Connexion  from "./pages/Connexion";
 
 function App() {
   return (
