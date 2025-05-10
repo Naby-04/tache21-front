@@ -1,15 +1,14 @@
 import React from 'react'
-// import PublicationForm from './Components/PublicationForm'
 import { Toaster } from 'react-hot-toast'
-import CommentSection from './Components/CommentSection'
+import PublicationForm from './Composants/PublicationForm';
 
 const App = () => {
   return (
     <>
-        {/* <PublicationForm/> */}
+        <PublicationForm/>
         <Toaster position='top-center'/>    
     </>
   )
 }
 
-export default App
+export default App;
