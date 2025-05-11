@@ -1,22 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { toast } from 'react-hot-toast'
+import {usePublication } from '../Contexts/DashboardUser/UseContext'
 
 const PublicationForm = () => {
-    const [form, setForm] = useState({
-        title: "",
-        description:"",
-        tags: "",
-        categories: "",
-        file: null
-    })
-
-    const fileInput = useRef()
-
-    const handleChange = (e) => {
-        const {name , value, file } = e.target
-
-        setForm((prev => ({...prev, [name]: file ? file[0] : value})))
-    }
+   const {form, setForm, fileInput, handleChange} = usePublication()
 
     const handleSubmit = (e) => {
         e.preventDefault()

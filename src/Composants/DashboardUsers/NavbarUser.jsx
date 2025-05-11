@@ -3,6 +3,8 @@ import { Deconnexion } from "./Decconexion";
 import { RiMenuFill } from "react-icons/ri";
 import { Profile } from "./Profile";
 import { MobileSidebar } from "./MobileAffichage";
+import { Input } from "./Recherche/Input";
+import { AddRapport } from "./Rapport/AddRapport";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
 export const NavbarUser = () => {
@@ -20,28 +22,32 @@ export const NavbarUser = () => {
 						className="text-[var(--couleur-Logo)] text-3xl font-bold hidden md:block cursor-pointer"
 						id="logo"
 					>
-						AcadDocs
+						SenRapport
 					</h1>
 					<div className="block md:hidden">
 						<Profile />
 					</div>
 				</div>
 
-				{/* Bouton ajout rapport */}
-				<div className="addDocs">
-					<button
-						className="p-2 bg-[var(--couleur-Logo)] text-[var(--text-couleur)] text-xs rounded-3xl hover:opacity-80"
-					>
-						Ajouter un rapport
-					</button>
+				{/* filter recherche */}
+
+				<div className="flex items-center gap-3">
+					<Input/>
 				</div>
 
-				{/* Déconnexion desktop */}
+				{/* Bouton ajout rapport */}
+				<div className="addDocs hidden md:block">
+					<AddRapport
+					style={{background: 'var(--background-color)', color: 'var(--text-couleur)'}}
+					/>
+				</div>
+
+				{/* Déconnexion desktop
 				<div className="flex items-center gap-5">
 					<div className="hidden lg:block text-[#fff]">
 						<Deconnexion button={"Déconnexion"} />
 					</div>
-				</div>
+				</div> */}
 
 				{/* Toggle menu mobile */}
 				<div className="block md:hidden">

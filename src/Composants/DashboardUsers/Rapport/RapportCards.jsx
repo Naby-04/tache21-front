@@ -2,9 +2,11 @@ import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal  from "../Commentaire/CommentModal";
 import { useState } from "react";
 import TextExpandable from "../TextExpandable";
+import { CommentairesSection } from "../Commentaire/CommentaireSection";
 
 export const RapportCard = ({ doc }) => {
 	const [showCommentBox, setShowCommentBox] = useState(false);
+	const [showComments, setShowComments] = useState(false);
 
 	const handleCommentSubmit = (comment) => {
 		console.log("Commentaire:", comment, "pour:", doc.id);
@@ -53,9 +55,12 @@ export const RapportCard = ({ doc }) => {
 					<span className=" hidden md:block">Commenter</span>
 				</button>
 
-				<button className="flex items-center gap-2 hover:text-blue-600 transition">
+				<button className="flex items-center gap-2 hover:text-blue-600 transition" 
+				onClick={() => setShowComments(!showComments)}>
 					<FaEye />
-					<span className=" hidden md:block">Voir commentaires</span>
+					<span className=" hidden md:block">
+						{showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
+					</span>
 				</button>
 
 				<button className="flex items-center gap-2 hover:text-blue-600 transition">
@@ -63,6 +68,7 @@ export const RapportCard = ({ doc }) => {
 					<span className=" hidden md:block">Télécharger</span>
 				</button>
 			</div>
+
 
 			{showCommentBox && (
 				<div className="mt-4">
@@ -74,6 +80,12 @@ export const RapportCard = ({ doc }) => {
 					/>
 				</div>
 			)}
+
+			{/* Section Commentaires */}
+			{showComments && <div className="mt-4">
+				<CommentairesSection rapportId={doc.id} />
+				</div>
+				}
 		</div>
 	);
 };

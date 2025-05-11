@@ -8,10 +8,13 @@ import { Rapport } from "./pages/DashboardUsers/Rapport";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import  Connexion  from "./pages/Connexion";
+import { ContextProvider } from "./Contexts/DashboardUser/UseContext";
+import PublicationForm from "./Composants/PublicationForm";
 
 function App() {
   return (
     // <Admin />
+    <ContextProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -23,9 +26,10 @@ function App() {
           <Route path="rapportTelecharger" element={< RapportTelecharger/>} />
         </Route>
         <Route path="/pageParametre" element={<PageParametresCompte />} />
-        
+        <Route path="/publicationRapport" element={<PublicationForm />} />
       </Routes>
     </BrowserRouter>
+    </ContextProvider>
   );
 }
 
