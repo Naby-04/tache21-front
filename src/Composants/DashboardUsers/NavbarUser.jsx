@@ -8,7 +8,7 @@ import { AddRapport } from "./Rapport/AddRapport";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
 export const NavbarUser = () => {
-	const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
 	return (
 		<div className="relative">
@@ -49,16 +49,19 @@ export const NavbarUser = () => {
 					</div>
 				</div> */}
 
-				{/* Toggle menu mobile */}
-				<div className="block md:hidden">
-					<RiMenuFill
-						className="text-white text-2xl"
-						onClick={() => setOpenMobileMenu(!openMobileMenu)}
-					/>
-				</div>
-			</div>
+        {/* Toggle menu mobile */}
+        <div className="block md:hidden">
+          <RiMenuFill
+            className="text-white text-2xl"
+            onClick={() => setOpenMobileMenu(!openMobileMenu)}
+          />
+        </div>
+      </div>
 
-			<MobileSidebar isOpen={openMobileMenu} onClose={() => setOpenMobileMenu(false)} />
-		</div>
-	);
+      <MobileSidebar
+        isOpen={openMobileMenu}
+        onClose={() => setOpenMobileMenu(false)}
+      />
+    </div>
+  );
 };
