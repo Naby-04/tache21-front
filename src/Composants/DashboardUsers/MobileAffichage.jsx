@@ -4,7 +4,7 @@ import { Buttons } from "./Buttons";
 
 export const MobileSidebar = ({ isOpen, onClose }) => {
 	const links = [
-		{ to: "/", icon: <FaHome />, label: "Accueil" },
+		{ to: "/users", icon: <FaHome />, label: "Accueil" },
 		{ to: "rapport", icon: <FaDochub />, label: "Rapports" },
 		{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
 	];
@@ -26,6 +26,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 						<NavLink
 							key={i}
 							to={link.to}
+                            end="/users"
 							onClick={onClose}
 							className={({ isActive }) =>
 								`flex items-center gap-2 text-sm p-2 rounded-md ${
@@ -42,7 +43,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 
 				<hr className="my-4" />
 
-				<div className="flex flex-col gap-2 text-sm">
+				<div className="flex flex-col justify-start items-start gap-2 text-sm">
 					<NavLink to="/pageParametre" onClick={onClose}>
 						<Buttons text="Paramètres du compte" />
 					</NavLink>

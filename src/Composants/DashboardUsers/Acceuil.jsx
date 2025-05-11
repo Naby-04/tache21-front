@@ -1,9 +1,3 @@
-import { FaCloudUploadAlt, FaComment, FaEye } from "react-icons/fa";
-import TextExpandable from "./TextExpandable";
-import { useState } from "react";
-import CommentModal from "./Commentaire/CommentModal";
-import { Buttons } from "./Buttons";
-
 import { RapportCard } from "./Rapport/RapportCards";
 // Test
 const fakeDocuments = [
@@ -30,18 +24,11 @@ const fakeDocuments = [
   },
 ];
 export const Acceuil = () => {
-  const [selectedDocId, setSelectedDocId] = useState(null);
-
-  const handleCommentSubmit = (comment, docId) => {
-    console.log("Commentaire pour", docId, ":", comment);
-    // 🔥 ici tu peux appeler Firestore
-  };
-
-  return (
-    <div className="py-6 px-4 flex flex-col items-center">
-      {fakeDocuments.map((doc) => (
+    return <div className="py-6 px-4 flex flex-col items-center">
+    {fakeDocuments.map((doc) => (
         <RapportCard key={doc.id} doc={doc} />
-      ))}
-    </div>
-  );
-};
+    ))}
+</div>
+        
+        
+}
