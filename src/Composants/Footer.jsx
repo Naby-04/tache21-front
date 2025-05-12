@@ -4,15 +4,22 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { FaLongArrowAltUp } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
+import { IoLocation } from "react-icons/io5";
+import { FaPhoneAlt } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
 
 const Footer = () => {
 
    const[email, setEmail] = useState("")
    const[message ,setMessage] =useState("")
 
+   const handleScribte = () => {
+    
+   }
+
   return (
     <>
-      <footer className="bg-blue-50 py-5">
+      <footer className="bg-gray-800 py-5">
         <div className="flex  flex-col md:flex-row justify-between px-4">
           {/* ==============partie logo============== */}
           <div className="flex flex-col gap-8">
@@ -20,7 +27,7 @@ const Footer = () => {
               <img src="#" alt="logo (2).png" />
             </div>
             <div>
-              <p>
+              <p className=" text-white">
                 Une plateforme collaborative pour publier, <br />
                 consulter et valoriser les rapports qui comptent. <br />
                 Donnez vie à vos rapports, partagez-les avec le monde.
@@ -28,39 +35,54 @@ const Footer = () => {
             </div>
           </div>
           {/* ==============partie rapports============== */}
-          <div className="flex flex-col gap-4">
-            <h1 className="text-xl font-medium">Rapports</h1>
+          <div className="flex flex-col gap-4  text-white">
+            <p className="text-xl font-medium text-amber-300">Rapports</p>
             <div className="flex flex-col gap-4">
-              <div className="hover:text-amber-700">
+              <div className="hover:text-gray-300">
                 <a href="#">Médecine et Santé</a>
               </div>
-              <div className="hover:text-amber-700">
+              <div className="hover:text-gray-300">
                 <a href="#">Droit Privé</a>
               </div>
-              <div className="hover:text-amber-700">
+              <div className="hover:text-gray-300">
                 <a href="#">Sociologie</a>
               </div>
-              <div className="hover:text-amber-700">
+              <div className="hover:text-gray-300">
                 <a href="#">Sciences</a>
               </div>
             </div>
           </div>
           {/*================partie contact================ */}
-          <div className="flex flex-col gap-4">
-            <h1 className="text-xl font-medium">Contact</h1>
+          <div className="flex flex-col gap-4  text-white">
+          <p className="text-xl  font-medium text-amber-300">Contacts</p>
             <div>
-              <div className="hover:text-amber-700">
-                <a href="#">Dakar, Sénégal</a>
+              <div className="flex gap-1 hover:text-gray-300">
+                 <div className="text-xl text-amber-300">
+                 <IoLocation />
+                 </div>
+                 <div>
+                 <a href="#">Dakar, Sénégal</a>
+                 </div>
               </div>
             </div>
             <div>
-              <div className="hover:text-amber-700">
+              <div className="flex gap-2 hover:text-gray-300">
+                <div className="text-amber-300">
+                <FaPhoneAlt />
+                </div>
+                <div>
                 <a href="#">76 592 61 27</a>
+                </div>
               </div>
             </div>
             <div>
-              <div className="hover:text-amber-700">
-                <a href="#">hello@Company.com</a>
+              <div className="flex gap-1 hover:text-gray-300">
+                <div className="text-amber-300 text-xl">
+                <MdOutlineEmail />
+                </div>
+                <div>
+                <a href="#">hello@senrapports.com</a>
+                </div>
               </div>
             </div>
           </div>
@@ -69,7 +91,7 @@ const Footer = () => {
             <div>
               <label
                 htmlFor="newsletter"
-                className="block text-sm/6 font-medium text-gray-900"
+                className="block text-sm/6 font-medium text-amber-300"
               >
                 NEWSLETTER:
               </label>
@@ -80,11 +102,11 @@ const Footer = () => {
                     name="newsletter"
                     id="newsletter"
                     className="block w-fullmin-w-0 grow  py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
-                    placeholder="you@example.com"
+                    placeholder="Votre email"
                   />
                 </div>
                 <div className="">
-                  <button className="bg-blue-950 rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-white  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
+                  <button className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
                     <BsFillSendFill />
                   </button>
                 </div>
@@ -92,33 +114,33 @@ const Footer = () => {
             </div>
             <div className="flex flex-col gap-6 mt-8">
               <div className="flex gap-2 flex-wrap text-2xl">
-                <div className="text-blue-950">
+                <a href="#" className=" text-gray-300 hover:text-white">
                   <FaFacebook />
-                </div>
-                <div className="text-blue-950">
+                </a>
+                <a href="#" className=" text-gray-300 hover:text-white">
                   <FaLinkedin />
-                </div>
-                <div className="text-blue-950">
+                </a>
+                <a href="#" className=" text-gray-300 hover:text-white">
                   <FaXTwitter />
-                </div>
+                </a>
               </div>
             </div>
             {/* ==================Button================== */}
           </div>
         </div>
-        <div className="border-t py-4 mt-2  w-full sm:w-auto flex justify-between">
+        <div className="border-t border-white py-4 mt-2  w-full sm:w-auto flex justify-between">
           <div className="px-4">
-            <p className="text-sm text-blue-950 mt-2">
-              Company © 2025. Tous droits réservés.
+            <p className="text-sm  text-white mt-2">
+              SenRapports © 2025. Tous droits réservés.
             </p>
           </div>
           <div className="px-4">
             <button
-               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="fixed bottom-5 right-5 bg-blue-950 text-white p-3 rounded-full shadow-lg  transition z-50"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="fixed bottom-5 right-5 bg-amber-300 text-white p-3 rounded-full shadow-lg  transition z-50 btnAnime"
               title="Remonter"
-             >
-              <span className="flex items-center justify-center mx-auto text-white">
+            >
+              <span className="flex items-center justify-center mx-auto text-gray-800">
                 <FaLongArrowAltUp />
               </span>
             </button>

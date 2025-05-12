@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+@import "tailwindcss";
 :root {
   /* ===== font size / font weight */
   --weight-bold: 700;
@@ -9,7 +9,7 @@
   /* ===== colors===== */
 
   --background-color: #fff;
-  --primary-color: #a65f00;
+  --primary-color: #d08700;
   --secondary-color: #fef3c6;
 
   /* ===== font family =====*/
@@ -17,4 +17,34 @@
   --font-subtitle: "Inter", sans-serif;
   --font-button: "Inter", sans-serif;
   --font-comment: "Inter", sans-serif;
+}
+
+
+.slideshow-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #1e2939; 
+  opacity: 0.2;
+  z-index: 1;
+}
+/* ButtonAnimation */
+.btnAnime {
+  animation: popIn 2s ease-in-out infinite;
+  border: 1px solid #1e2939
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 }
