@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const images = [
   "https://images.pexels.com/photos/1157151/pexels-photo-1157151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -37,9 +38,9 @@ const SlideShow = () => {
           <p className="mt-4 text-white">
             Et faites partie d’une communauté de savoir en évolution.
           </p>
-          <button className="mt-6 bg-amber-300 text-white px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
+          <Link to="/rapports" className="mt-6 bg-amber-300  text-white px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
             Découvrir les meilleurs rapports
-          </button>
+          </Link>
         </div>
       </div>
 
