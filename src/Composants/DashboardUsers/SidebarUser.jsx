@@ -1,6 +1,6 @@
 import { Buttons } from "./Buttons";
 import { Profile } from "./Profile";
-import {FaCloudUploadAlt,FaDochub,FaHome,FaUser,} from "react-icons/fa";
+import {FaCloudUploadAlt,FaDochub,FaHome} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 export const SidebarUser = () => {
@@ -12,13 +12,14 @@ export const SidebarUser = () => {
 
 			<ul className="mt-6 flex flex-col gap-2">
 				{[
-					{ to: "/", icon: <FaHome />, label: "Accueil" },
+					{ to: "/users", icon: <FaHome />, label: "Accueil" },
 					{ to: "rapport", icon: <FaDochub />, label: "Rapports" },
 					{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
 				].map((link, i) => (
 					<NavLink
 						key={i}
 						to={link.to}
+						end={"/users"}
 						className={({ isActive }) =>
 							`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-all
 							${isActive ? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"}`
