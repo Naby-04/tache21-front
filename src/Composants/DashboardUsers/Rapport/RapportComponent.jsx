@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 export const ComponentRapport = ({img,tite,children,view,supp,modif,iconbtn3,user,iconbnt1,iconbtn2,date}) => {
     return <div className="p-4 text-[var(--text-couleur)] bg-[var(--background-color)] min-w-[300px] min-h-[200px]
@@ -19,7 +20,7 @@ export const ComponentRapport = ({img,tite,children,view,supp,modif,iconbtn3,use
                <div className="action_button">
                 <button className=" flex gap-2 items-center justify-center">
                    <span className="hidden md:block">{view}</span>  {iconbnt1} 
-                    </button> 
+                </button> 
                 <button className='flex gap-2 items-center justify-center'>
                    <span className="hidden md:block">{supp}</span>{iconbtn2}
                 </button>

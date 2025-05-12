@@ -17,6 +17,7 @@ import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 const App = () => {
   return (
     // <Admin />
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/rapports" element={<RapportsAccueil />} />
       </Routes>
     </BrowserRouter>
+   
   );
 };
 
