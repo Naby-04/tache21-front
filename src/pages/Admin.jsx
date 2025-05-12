@@ -13,6 +13,7 @@ import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
+import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
 
 const rapports = [
   {
@@ -575,6 +576,7 @@ const Admin = () => {
       );
       setFiltreUser(filtre);
     }
+  }
 
     const supprimerUtilisateur = (id) => {
       const nouveauTab = filtreUser.filter(sup => sup.id !== id)
@@ -600,9 +602,13 @@ const Admin = () => {
 
   const [selectedIndex, setSelectedIndex] = useState(1);
 
+  const [rapportSelect, setRapportSelect] = useState(null)
+
+  // console.log('hello');
   return (
     <div className="h-screen flex">
       {/* Sidebar */}
+      
       <SidebarAdmin setVueActive={setVueActive} />
 
       {/* Main */}
@@ -624,23 +630,35 @@ const Admin = () => {
 
         {vueActive === "rapports" && (
           <div className="p-3 w-full">
-            <div className="flex py-5 justify-center">
-              <CardScroll
-                services={services}
-                selectedIndex={selectedIndex}
-                setSelectedIndex={setSelectedIndex}
-              />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-              {rapports.map((ele, index) => (
-                <RapportCard rapport={ele} key={index} />
-              ))}
-            </div>
+            {rapportSelect ? (
+              <>
+                <DetailRapportAdmin onClick={() => setRapportSelect(null)} rapportChoisi={rapportSelect} />
+              </>
+              
+            ) : (
+              <>
+                <div className="flex py-5 justify-center">
+                  <CardScroll
+                    services={services}
+                    selectedIndex={selectedIndex}
+                    setSelectedIndex={setSelectedIndex}
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                  {rapportfiltre.map((ele, index) => (
+                    <RapportCard rapport={ele} key={index} onDelete={() => supprimerRapport(ele.rank)} onDetailCliquer={() => setRapportSelect(ele)} />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
+
+
       </main>
     </div>
   );
 };
+
 
 export default Admin;
