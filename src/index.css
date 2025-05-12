@@ -9,7 +9,7 @@
   /* ===== colors===== */
 
   --background-color: #fff;
-  --primary-color: #d08700;
+  --primary-color: #1e2939;
   --secondary-color: #fef3c6;
 
   /* ===== font family =====*/
@@ -27,4 +27,41 @@
   background-color: #1e2939; 
   opacity: 0.2;
   z-index: 1;
+}
+
+
+:root {
+  --accent: #facc15;
+}
+
+.ball {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.bounce-loop {
+  animation: popIn 1s ease-in-out infinite;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.bord{
+margin-top: 7px; 
+   border-bottom: 2px solid #1e2939;
+   width: 100%;
 }

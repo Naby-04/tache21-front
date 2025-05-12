@@ -6,9 +6,12 @@ import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
 import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-import HomePage from "./pages/HomePage";
-import Inscription from "./pages/Inscription";
-import Connexion from "./pages/Connexion";
+import HomePage from "./pages/Pages-Accueil/HomePage";
+import Connexion from "./pages/Pages-Accueil/Connexion";
+import Inscription from "./pages/Pages-Accueil/Inscription";
+import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
+
+
 // import Admin from "./pages/Admin";
 
 const App = () => {
@@ -25,6 +28,7 @@ const App = () => {
           <Route path="rapportTelecharger" element={<RapportTelecharger />} />
         </Route>
         <Route path="/pageParametre" element={<PageParametresCompte />} />
+        <Route path="/rapports" element={<RapportsAccueil />} />
       </Routes>
     </BrowserRouter>
   );

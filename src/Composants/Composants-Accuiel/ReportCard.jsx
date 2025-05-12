@@ -18,7 +18,7 @@ function ReportCard({ report }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Voire le {report.fileType}
+        Voir le {report.fileType}
       </a>
     </div>
   );

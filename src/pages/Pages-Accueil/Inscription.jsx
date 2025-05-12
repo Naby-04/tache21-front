@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaGoogle, FaUser } from "react-icons/fa";
 
-import "../index.css";
 //import { Link } from "react-router-dom";
 
 const Inscription = () => {
