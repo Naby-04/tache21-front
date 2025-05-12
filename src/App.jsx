@@ -1,4 +1,3 @@
-// App.jsx
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 
@@ -14,11 +13,12 @@ import Connexion from "./pages/Connexion";
 
 const App = () => {
   return (
+    // <Admin />
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/connexion" element={<Connexion />} />
-        <Route path="/MotDePassOublie" element={<MotDePassOublie />} />
         <Route path="/users" element={<DashboardUsers />}>
           <Route index element={<Acceuil />} />
           <Route path="rapport" element={<Rapport />} />

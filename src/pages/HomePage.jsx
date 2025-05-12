@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from '../Composants/Header';
-import VisitorPage from './Visiteur/ComponentRapportjsx';
 
 import SlideShow from '../Composants/SlideShow';
 import ProjectDescription from '../Composants/ProjectDescription';
