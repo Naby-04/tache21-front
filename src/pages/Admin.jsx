@@ -551,12 +551,13 @@ const lesUtilisateurs = [
 ];
 
 const services = [
-  { icon: "📝", label: "Rapport d'intervention" },
-  { icon: "🔍", label: "Rapport d'inspection" },
-  { icon: "⚠️", label: "Rapport d'incident" },
-  { icon: "📊", label: "Rapport d'activité" },
-  { icon: "🧾", label: "Rapport de maintenance" },
-  { icon: "📅", label: "Rapport de visite" },
+  { icon: "📚", label: "Toutes les catégories" },
+  { icon: "💻", label: "Informatique" },
+  { icon: "📈", label: "Economie" },
+  { icon: "🧠", label: "Psychologie" },
+  { icon: "🌾", label: "Agriculture" },
+  { icon: "🧬", label: "Médecine" },
+  { icon: "📝", label: "Littérature" },
 ];
 
 const Admin = () => {
@@ -577,7 +578,13 @@ const Admin = () => {
 
   const [vueActive, setVueActive] = useState("dashboard");
 
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const categorieActive = services[selectedIndex].label;
+  const rapportsFiltres =
+    categorieActive === "Toutes les catégories"
+      ? rapports
+      : rapports.filter((r) => r.categories === categorieActive);
 
   return (
     <div className="h-screen flex">
@@ -606,7 +613,7 @@ const Admin = () => {
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-              {rapports.map((ele, index) => (
+              {rapportsFiltres.map((ele, index) => (
                 <RapportCard rapport={ele} key={index} />
               ))}
             </div>
