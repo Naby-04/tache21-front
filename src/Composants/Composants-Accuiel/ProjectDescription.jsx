@@ -1,7 +1,10 @@
 import React from 'react';
+import Animation from './Animation';
 
 function ProjectDescription() {
   return (
+  <div className='relative flex justify-center'>
+    <Animation/>
     <section className="py-16 px-6 bg-gradient-to-br from-white to-yellow-50 mt-15">
         <h2 className="text-3xl font-bold text-yellow-800 mb-6 text-center font-[Merriweather]">
           À propos du projet
@@ -15,6 +18,7 @@ function ProjectDescription() {
         </p>
       </div>
     </section>
+      </div>
   );
 }
 
