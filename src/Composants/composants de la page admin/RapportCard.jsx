@@ -1,6 +1,7 @@
 import { FaTrash } from "react-icons/fa";
 
-const RapportCard = ({rapport}) => {
+const RapportCard = ({rapport, onDelete}) => {
+    // console.log(rapport)
     return ( 
             <div className="flex flex-col lg:flex-row  p-3 rounded shadow-xl gap-3 bg-white">
                 <div className="relative w-full lg:w-60 flex justify-center h-50 bg-gray-300 px-3 py-5">
@@ -30,7 +31,7 @@ const RapportCard = ({rapport}) => {
                     
                     <div className="flex w-full justify-between items-center pt-2">
                         <p className="text-sm text-blue-600 underline cursor-pointer">Voir détails</p>
-                        <button className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px]">
+                        <button className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px]" onClick={onDelete}>
                             <FaTrash />
                         </button>
                     </div>

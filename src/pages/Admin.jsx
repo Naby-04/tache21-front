@@ -201,6 +201,11 @@ const Admin = () => {
         }
     }
 
+    const supprimerRapport = (rank) => {
+      const nouveauTableau = rapportfiltre.filter(sup => sup.rank !== rank)
+      setRapportFiltre(nouveauTableau)
+    }
+
     const [vueActive, setVueActive] = useState("dashboard");
 
 
@@ -230,15 +235,11 @@ const Admin = () => {
             <div className="p-3 w-full">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-7">
                  {rapportfiltre.map((ele, index) => (
-                  <RapportCard rapport={ele} key={index} />
+                  <RapportCard rapport={ele} key={index} onDelete={() => supprimerRapport(ele.rank)} />
                  ))}
               </div>
             </div>
            )}
-
-           {/* <div className="flex flex-col gap-3 bg-amber-400">
-
-           </div> */}
         </main>
     </div>
   );
