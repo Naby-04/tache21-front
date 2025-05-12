@@ -179,6 +179,8 @@ const Admin = () => {
   const [recherche, setRecherche] = useState("")
     const [filtreUser, setFiltreUser] = useState(lesUtilisateurs)
 
+    const [rapportfiltre, setRapportFiltre] = useState(rapports)
+
     const changement = (utile) => {
         setRecherche(utile)
         if(utile === "") {
@@ -186,6 +188,16 @@ const Admin = () => {
         } else {
             const filtre = lesUtilisateurs.filter(lefiltre => lefiltre.name.toLowerCase().includes(utile.toLowerCase()))
             setFiltreUser(filtre)
+        }
+    }
+
+    const filtreRapport = (rapport) => {
+      // setRapportFiltre(rapport)
+        if(rapport === "") {
+            setRapportFiltre(rapports)
+        } else {
+            const filtreRap = rapports.filter(lefiltre => lefiltre.titre.toLowerCase().includes(rapport.toLowerCase()))
+            setRapportFiltre(filtreRap)
         }
     }
 
@@ -200,11 +212,12 @@ const Admin = () => {
       {/* Main */}
         <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
 
-          <HeaderAdmin vueActive={vueActive} onSearch={changement} />
+          {vueActive === "users" && <HeaderAdmin onSearch={changement} />}
+          {(vueActive === "dashboard" || vueActive === "rapports") && (<HeaderAdmin onSearch={filtreRapport} />)}
           
           
           {vueActive === "dashboard" && 
-              <DashboardContenu rapports={rapports} />
+              <DashboardContenu rapports={rapportfiltre} />
             }
 
           {vueActive === "users" && (
@@ -215,13 +228,17 @@ const Admin = () => {
 
           {vueActive === "rapports" && (
             <div className="p-3 w-full">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-                 {rapports.map((ele, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-7">
+                 {rapportfiltre.map((ele, index) => (
                   <RapportCard rapport={ele} key={index} />
                  ))}
               </div>
             </div>
            )}
+
+           {/* <div className="flex flex-col gap-3 bg-amber-400">
+
+           </div> */}
         </main>
     </div>
   );
