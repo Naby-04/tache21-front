@@ -28,21 +28,10 @@
   opacity: 0.2;
   z-index: 1;
 }
-
-
-:root {
-  --accent: #facc15;
-}
-
-.ball {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.bounce-loop {
-  animation: popIn 1s ease-in-out infinite;
+/* ButtonAnimation */
+.btnAnime {
+  animation: popIn 2s ease-in-out infinite;
+  border: 1px solid #1e2939
 }
 
 @keyframes popIn {
@@ -58,10 +47,4 @@
     opacity: 0;
     transform: scale(0.5);
   }
-}
-
-.bord{
-margin-top: 7px; 
-   border-bottom: 2px solid #1e2939;
-   width: 100%;
 }
