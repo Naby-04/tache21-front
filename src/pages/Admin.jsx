@@ -12,6 +12,8 @@ import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
+import CategorieCard from "../Composants/composants de la page admin/CategorieCard";
+import CardScroll from "../Composants/composants de la page admin/CardScroll";
 
 const rapports = [
   {
@@ -479,6 +481,15 @@ const lesUtilisateurs = [
   },
 ];
 
+const services = [
+  { icon: "📝", label: "Rapport d'intervention" },
+  { icon: "🔍", label: "Rapport d'inspection" },
+  { icon: "⚠️", label: "Rapport d'incident" },
+  { icon: "📊", label: "Rapport d'activité" },
+  { icon: "🧾", label: "Rapport de maintenance" },
+  { icon: "📅", label: "Rapport de visite" },
+];
+
 const Admin = () => {
   const [recherche, setRecherche] = useState("");
   const [filtreUser, setFiltreUser] = useState(lesUtilisateurs);
@@ -496,6 +507,8 @@ const Admin = () => {
   };
 
   const [vueActive, setVueActive] = useState("dashboard");
+
+  const [selectedIndex, setSelectedIndex] = useState(1);
 
   return (
     <div className="h-screen flex">
@@ -516,6 +529,13 @@ const Admin = () => {
 
         {vueActive === "rapports" && (
           <div className="p-3 w-full">
+            <div className="flex py-5 justify-center">
+              <CardScroll
+                services={services}
+                selectedIndex={selectedIndex}
+                setSelectedIndex={setSelectedIndex}
+              />
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
               {rapports.map((ele, index) => (
                 <RapportCard rapport={ele} key={index} />
