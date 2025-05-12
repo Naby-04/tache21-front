@@ -39,8 +39,8 @@ const SlideShow = () => {
             Et faites partie d’une communauté de savoir en évolution.
           </p>
           <Link to="/rapports" className="mt-6 bg-amber-300  text-white px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
-            Découvrir les meilleurs rapports
-          </Link>
+         Découvrir les meilleurs rapports  
+         </Link> 
         </div>
       </div>
 

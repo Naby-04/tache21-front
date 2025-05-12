@@ -1,4 +1,5 @@
 import { RapportCard } from "../DashboardUsers/Rapport/RapportCards";
+import { RapportCardAccueil } from "./RapportCardAccueil";
 
 // Test
 const fakeDocuments = [
@@ -48,7 +49,7 @@ const fakeDocuments = [
 export const RapportsPages = () => {
     return <div className=" grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
     {fakeDocuments.map((doc) => (
-        <RapportCard key={doc.id} doc={doc} />
+        <RapportCardAccueil key={doc.id} doc={doc} />
     ))}
 </div>
         
