@@ -105,7 +105,7 @@ const Inscription = () => {
             </button>
           </div>
 
-          <div className="flex items-center justify-between mt-4 mb-4 w-[80%] ">
+          <div className="flex items-center justify-between mt-4 mb-4 w-[70%] ">
             <div className="border-t border-gray-500 flex-grow"></div>
             <p className="mx-4 text-gray-700">OU</p>
             <div className="border-t border-gray-500 flex-grow "></div>

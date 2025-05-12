@@ -9,11 +9,11 @@ import { Link } from "react-router-dom";
 // }}
 const Connexion = () => {
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen md:h-screen flex bg-gray-100">
       <div className="rounded-lg w-full flex 1/3">
         <div className="sm:flex justify-center flex-col w-[50%] p-10 hidden ">
           <img
-            src="./public/Capture_d_écran_2025-05-09_153108-removebg-preview.png"
+            src="/imge/Sign up-cuate.png"
             alt="photo"
           />
         </div>
@@ -24,22 +24,22 @@ const Connexion = () => {
             <h2 className="text-2xl font-bold text-gray-800">Se connecter</h2>
           </div>
 
-          <div className="mb-2 w-full">
+          <div className="mb-2 w-[70%]">
             <label
-              className="block text-gray-700 text-sm font-bold mb-2"
+              className="block text-gray-700  text-sm font-bold mb-2"
               htmlFor="email"
             >
               Entrez votre email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full  py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="email"
               type="email"
               placeholder="Votre email"
             />
           </div>
 
-          <div className="mb-2 w-full">
+          <div className="mb-2 w-[70%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -47,7 +47,7 @@ const Connexion = () => {
               Mot de passe
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
               placeholder="Votre mot de passe"
@@ -55,39 +55,39 @@ const Connexion = () => {
           </div>
 
           <a
-            className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-full"
+            className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-[70%]"
             href="/MotDePassOublie"
           >
             Mot de passe oublié ?
           </a>
 
-          <Link to="/users" className="w-full">
+          <Link to="/users" className="w-[70%]">
             <button
-              className="bg-gray-700 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               Se connecter
             </button>
           </Link>
 
-          <div className="flex items-center justify-between mt-4 mb-4 w-[80%] ">
+          <div className="flex items-center justify-between mt-4 mb-4 w-[70%] ">
             <div className="border-t border-gray-500 flex-grow"></div>
             <p className="mx-4 text-gray-700">OU</p>
             <div className="border-t border-gray-500 flex-grow "></div>
           </div>
 
-          <div className="w-full">
+          <div className="w-[70%]">
             <button
               className="flex items-center justify-center 
-                 bg-gray-700 h-7 hover:bg-gray-400 text-white font-bold 
-                   rounded w-full"
+                 bg-gray-700 h-10 hover:bg-gray-600 text-white font-bold 
+                   rounded-2xl w-full"
             >
-              <div className="flex items-center justify-center px-4 rounded mt-4 gap3 mb-4">
+              <div className="flex items-center justify-center py-3 px-4 rounded mt-4 gap3 mb-4">
                 <p className="m-0">se connecter avec &nbsp;&nbsp;</p>
                 <img
                   src="./public/logo-google.png" // Remplacez par le chemin de votre image
                   alt="Google"
-                  className="w-12 h-15 rounded-full size-fit"
+                  className="w-12 h-12"
                 />
               </div>
             </button>
