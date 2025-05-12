@@ -5,12 +5,7 @@ import { Link } from "react-router-dom";
 function MotDePassOublie() {
   return (
     <div
-      style={{
-        backgroundImage: `url("https://mironcoder-hotash.netlify.app/images/pattern.webp")`,
-        backgroundSize: "cover",
-        backgroundRepeat: "repeat",
-        mixBlendMode: "lighten",
-      }}
+  
       className="flex items-center justify-center h-screen bg-gray-100"
     >
       <div className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-sm">

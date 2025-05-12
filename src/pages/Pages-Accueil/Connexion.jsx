@@ -1,12 +1,7 @@
 import React from "react";
-import { FaEnvelope, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-// style={{
-//   backgroundImage: `url("https://mironcoder-hotash.netlify.app/images/pattern.webp")`,
-//   backgroundSize: "cover",
-//   backgroundRepeat: "repeat",
-// }}
+
 const Connexion = () => {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
@@ -56,7 +51,7 @@ const Connexion = () => {
 
           <a
             className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-full"
-            href="/MotDePassOublie"
+            href="/motDePassOublie"
           >
             Mot de passe oublié ?
           </a>

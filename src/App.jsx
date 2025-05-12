@@ -10,6 +10,7 @@ import HomePage from "./pages/Pages-Accueil/HomePage";
 import Connexion from "./pages/Pages-Accueil/Connexion";
 import Inscription from "./pages/Pages-Accueil/Inscription";
 import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
+import MotDePassOublie from "./pages/MotDePassOublie";
 
 
 // import Admin from "./pages/Admin";
@@ -28,8 +29,11 @@ const App = () => {
           <Route path="rapport" element={<Rapport />} />
           <Route path="rapportTelecharger" element={<RapportTelecharger />} />
         </Route>
+
         <Route path="/pageParametre" element={<PageParametresCompte />} />
         <Route path="/rapports" element={<RapportsAccueil />} />
+        <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+
       </Routes>
     </BrowserRouter>
    

@@ -96,12 +96,12 @@ const Inscription = () => {
           </div>
 
           <div className="flex w-[70%] items-center justify-between">
-            <button
-              className="bg-gray-700 hover:bg-gray-600  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+            <Link to="/connexion"
+              className="bg-gray-700 hover:bg-gray-600 text-center  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               S'inscrire
-            </button>
+            </Link>
           </div>
 
           <div className="flex items-center justify-between mt-4 mb-4 w-[80%] ">
