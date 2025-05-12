@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { categories } from "../../data/categories";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
-import Footer from "../../Composants/Composants-Accuiel/Footer";
 
 function RapportsAccueil() {
   const [activeCategory, setActiveCategory] = useState(categories[0].value);
