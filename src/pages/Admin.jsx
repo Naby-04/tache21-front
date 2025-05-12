@@ -191,6 +191,11 @@ const Admin = () => {
         }
     }
 
+    const supprimerUtilisateur = (id) => {
+      const nouveauTab = filtreUser.filter(sup => sup.id !== id)
+      setFiltreUser(nouveauTab)
+    }
+
     const filtreRapport = (rapport) => {
       // setRapportFiltre(rapport)
         if(rapport === "") {
@@ -227,7 +232,7 @@ const Admin = () => {
 
           {vueActive === "users" && (
               <div className="p-3 w-full">
-                <Users lesUtilisateurs={filtreUser} />
+                <Users lesUtilisateurs={filtreUser} onDelete={supprimerUtilisateur} />
               </div>
            )}
 

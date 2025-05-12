@@ -3,7 +3,7 @@ import { MdMode } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
 
-const TableUser = ({tabUsers}) => {
+const TableUser = ({tabUsers, onDelete}) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
           <h2 className="text-xl font-semibold mb-4">Listes des Utilisateurs</h2>
@@ -40,7 +40,7 @@ const TableUser = ({tabUsers}) => {
                       <h4 className="font-semibold">{tab.jourInscripte}</h4>
                     </td>
                     <td className="px-3 py-2">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center gap-3">
                         {/* <button
                           onClick={() => tab.onDetailClick()}
                           className="p-2 rounded bg-amber-200 text-amber-800 hover:bg-amber-400"
@@ -48,7 +48,7 @@ const TableUser = ({tabUsers}) => {
                           <MdMode />
                         </button> */}
                         <button
-                          onClick={() => tab.onDeleteClick()}
+                          onClick={() => onDelete(tab.id)}
                           className="p-2 rounded bg-red-100 text-red-700 hover:bg-red-200"
                         >
                           <FaTrash />
