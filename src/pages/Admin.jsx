@@ -12,6 +12,8 @@ import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
+import CardScroll from "../Composants/composants de la page admin/CardScroll";
+import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
 
 const rapports = [
   {
@@ -477,11 +479,92 @@ const lesUtilisateurs = [
     onDetailClick: () => console.log("Voir détail rapport 1"),
     onDeleteClick: () => console.log("Supprimer rapport 1"),
   },
+  {
+    id: 8,
+    name: "Abdoul Wakhab",
+    email: "planimportant@gmail.com",
+    role: "admin",
+    jourInscripte: "2024-12-01",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 9,
+    name: "Ndeye Amy Thiam",
+    email: "thiam@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2024-13-21",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 10,
+    name: "Naby Dev",
+    email: "devTre@gmail.com",
+    role: "admin",
+    jourInscripte: "2025-02-05",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 11,
+    name: "Nafissatou",
+    email: "badji@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2022-02-11",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 12,
+    name: "Baba",
+    email: "faye@gmail.com",
+    role: "admin",
+    jourInscripte: "2021-10-11",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 13,
+    name: "Binta Dia",
+    email: "binta@gmail.com",
+    role: "admin",
+    jourInscripte: "2021-02-13",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+  {
+    id: 14,
+    name: "Hamidou",
+    email: "lyham@gmail.com",
+    role: "utilisateur",
+    jourInscripte: "2025-01-16",
+    image: avatar,
+    onDetailClick: () => console.log("Voir détail rapport 1"),
+    onDeleteClick: () => console.log("Supprimer rapport 1"),
+  },
+];
+
+const services = [
+  { icon: "📝", label: "Rapport d'intervention" },
+  { icon: "🔍", label: "Rapport d'inspection" },
+  { icon: "⚠️", label: "Rapport d'incident" },
+  { icon: "📊", label: "Rapport d'activité" },
+  { icon: "🧾", label: "Rapport de maintenance" },
+  { icon: "📅", label: "Rapport de visite" },
 ];
 
 const Admin = () => {
-  const [recherche, setRecherche] = useState("");
-  const [filtreUser, setFiltreUser] = useState(lesUtilisateurs);
+  const [recherche, setRecherche] = useState("")
+    const [filtreUser, setFiltreUser] = useState(lesUtilisateurs)
+
+    const [rapportfiltre, setRapportFiltre] = useState(rapports)
 
   const changement = (utile) => {
     setRecherche(utile);
@@ -493,39 +576,89 @@ const Admin = () => {
       );
       setFiltreUser(filtre);
     }
-  };
+  }
+
+    const supprimerUtilisateur = (id) => {
+      const nouveauTab = filtreUser.filter(sup => sup.id !== id)
+      setFiltreUser(nouveauTab)
+    }
+
+    const filtreRapport = (rapport) => {
+      // setRapportFiltre(rapport)
+        if(rapport === "") {
+            setRapportFiltre(rapports)
+        } else {
+            const filtreRap = rapports.filter(lefiltre => lefiltre.titre.toLowerCase().includes(rapport.toLowerCase()))
+            setRapportFiltre(filtreRap)
+        }
+    }
+
+    const supprimerRapport = (rank) => {
+      const nouveauTableau = rapportfiltre.filter(sup => sup.rank !== rank)
+      setRapportFiltre(nouveauTableau)
+    }
 
   const [vueActive, setVueActive] = useState("dashboard");
 
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const [rapportSelect, setRapportSelect] = useState(null)
+
+  // console.log('hello');
   return (
     <div className="h-screen flex">
       {/* Sidebar */}
+      
       <SidebarAdmin setVueActive={setVueActive} />
 
       {/* Main */}
-      <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
-        <HeaderAdmin vueActive={vueActive} onSearch={changement} />
+        <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
 
-        {vueActive === "dashboard" && <DashboardContenu rapports={rapports} />}
+          {vueActive === "users" && <HeaderAdmin onSearch={changement} />}
+          {(vueActive === "dashboard" || vueActive === "rapports") && (<HeaderAdmin onSearch={filtreRapport} />)}
+          
+          
+          {vueActive === "dashboard" && 
+              <DashboardContenu rapports={rapportfiltre} />
+            }
 
-        {vueActive === "users" && (
-          <div className="p-3 w-full">
-            <Users lesUtilisateurs={filtreUser} />
-          </div>
-        )}
+          {vueActive === "users" && (
+              <div className="p-3 w-full">
+                <Users lesUtilisateurs={filtreUser} onDelete={supprimerUtilisateur} />
+              </div>
+           )}
 
         {vueActive === "rapports" && (
           <div className="p-3 w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-              {rapports.map((ele, index) => (
-                <RapportCard rapport={ele} key={index} />
-              ))}
-            </div>
+            {rapportSelect ? (
+              <>
+                <DetailRapportAdmin onClick={() => setRapportSelect(null)} rapportChoisi={rapportSelect} />
+              </>
+              
+            ) : (
+              <>
+                <div className="flex py-5 justify-center">
+                  <CardScroll
+                    services={services}
+                    selectedIndex={selectedIndex}
+                    setSelectedIndex={setSelectedIndex}
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                  {rapportfiltre.map((ele, index) => (
+                    <RapportCard rapport={ele} key={index} onDelete={() => supprimerRapport(ele.rank)} onDetailCliquer={() => setRapportSelect(ele)} />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
+
+
       </main>
     </div>
   );
 };
+
 
 export default Admin;
