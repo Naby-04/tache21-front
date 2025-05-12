@@ -552,12 +552,13 @@ const lesUtilisateurs = [
 ];
 
 const services = [
-  { icon: "📝", label: "Rapport d'intervention" },
-  { icon: "🔍", label: "Rapport d'inspection" },
-  { icon: "⚠️", label: "Rapport d'incident" },
-  { icon: "📊", label: "Rapport d'activité" },
-  { icon: "🧾", label: "Rapport de maintenance" },
-  { icon: "📅", label: "Rapport de visite" },
+  { icon: "📚", label: "Toutes les catégories" },
+  { icon: "💻", label: "Informatique" },
+  { icon: "📈", label: "Economie" },
+  { icon: "🧠", label: "Psychologie" },
+  { icon: "🌾", label: "Agriculture" },
+  { icon: "🧬", label: "Médecine" },
+  { icon: "📝", label: "Littérature" },
 ];
 
 const Admin = () => {
