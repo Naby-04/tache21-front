@@ -12,7 +12,6 @@ import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
-import CategorieCard from "../Composants/composants de la page admin/CategorieCard";
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
 
 const rapports = [
