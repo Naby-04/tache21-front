@@ -29,20 +29,15 @@
   z-index: 1;
 }
 
-
-:root {
-  --accent: #facc15;
-}
-
 .ball {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #1e2939;
 }
 
 .bounce-loop {
-  animation: popIn 1s ease-in-out infinite;
+  animation: popIn 4s ease-in-out infinite;
 }
 
 @keyframes popIn {
