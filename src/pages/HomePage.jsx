@@ -1,10 +1,11 @@
-import React from "react";
-import Header from "../Composants/Header";
+import React from 'react';
+import Header from '../Composants/Header';
+import VisitorPage from './Visiteur/ComponentRapportjsx';
 
-import SlideShow from "../Composants/SlideShow";
-import ProjectDescription from "../Composants/ProjectDescription";
-import TopReports from "../Composants/TopReports";
-import Footer from "../Composants/Footer";
+import SlideShow from '../Composants/SlideShow';
+import ProjectDescription from '../Composants/ProjectDescription';
+import TopReports from '../Composants/TopReports';
+import Footer from '../Composants/Footer';
 
 function HomePage() {
   return (
@@ -14,6 +15,7 @@ function HomePage() {
       <ProjectDescription />
       <TopReports />
       <Footer />
+     
     </div>
   );
 }
