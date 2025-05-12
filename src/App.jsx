@@ -8,14 +8,10 @@ import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
 import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 import HomePage from "./pages/HomePage";
 import Inscription from "./pages/Inscription";
-import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
-import { Acceuil } from "./Composants/DashboardUsers/Acceuil";
-import { Rapport } from "./pages/DashboardUsers/Rapport";
-import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
-import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import  Connexion  from "./pages/Connexion";
 import { ContextProvider } from "./Contexts/DashboardUser/UseContext";
 import PublicationForm from "./Composants/PublicationForm";
+import { DetailsRapport } from "./pages/DashboardUsers/DetailsRapport";
 
 const App = () => {
   return (
@@ -33,6 +29,7 @@ const App = () => {
         </Route>
         <Route path="/pageParametre" element={<PageParametresCompte />} />
         <Route path="/publicationRapport" element={<PublicationForm />} />
+        <Route path="/detailsRapport" element={<DetailsRapport />} />
       </Routes>
     </BrowserRouter>
     </ContextProvider>
