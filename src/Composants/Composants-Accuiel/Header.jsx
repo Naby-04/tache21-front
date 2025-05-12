@@ -21,7 +21,7 @@ function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <a href="#" className="text-white pb-0 border-b-2 border-transparent border-white transition duration-300">Accueil</a>
           <Link to="/rapports" className="text-white pb-0 border-b-2 border-transparent hover:border-white transition duration-300">Rapports</Link>
-          <Link to="/inscription">  <button className="bg-white text-black px-6 py-2 rounded hover:bg-amber-200 transition">
+          <Link to="/connexion">  <button className="bg-white text-black px-6 py-2 rounded hover:bg-amber-200 transition">
             Connexion
           </button></Link>
         </nav>
