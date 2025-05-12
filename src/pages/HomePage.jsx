@@ -9,7 +9,7 @@ import Footer from '../Composants/Footer';
 
 function HomePage() {
   return (
-    <div className="bg-gray-50">
+    <div className="">
       <Header />
       <SlideShow />
       <ProjectDescription />

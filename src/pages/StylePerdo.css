@@ -1,6 +1,7 @@
 /* fichier : styles.css ou dans tailwind.css */
 ::-webkit-scrollbar {
-    width: 6px; /* largeur */
+    width: 6px;
+    height: 4px; /* largeur */
   }
   
   ::-webkit-scrollbar-track {

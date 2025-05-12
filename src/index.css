@@ -24,7 +24,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: #a65f00; 
-  opacity: 0.4;
+  background-color: #1e2939; 
+  opacity: 0.2;
   z-index: 1;
 }

@@ -25,20 +25,20 @@ export default function CommentModal({ onClose, onSubmit, documentId }) {
           rows="2"
           ref={textareaRef}
           placeholder="Écrivez un commentaire..."
-          className="w-full border p-2 rounded-md resize-none focus:outline-none focus:ring"
+          className="w-full border-[var(--text-couleur)] p-2 rounded-md resize-none focus:outline-none focus:ring"
           required
         />
         <div className="mt-2 flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-500 hover:underline"
+            className="text-gray-800 hover:underline"
           >
             Annuler
           </button>
           <button
             type="submit"
-            className="px-4 py-1 bg-[var(--primary-color)] text-white rounded hover:opacity-80"
+            className="px-4 py-1 bg-gray-800 text-white rounded hover:opacity-90"
           >
             Publier
           </button>
