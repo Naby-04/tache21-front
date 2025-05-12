@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -6,6 +6,10 @@ import { FaLongArrowAltUp } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 
 const Footer = () => {
+
+   const[email, setEmail] = useState("")
+   const[message ,setMessage] =useState("")
+
   return (
     <>
       <footer className="bg-blue-50 py-5">
@@ -111,7 +115,6 @@ const Footer = () => {
           <div className="px-4">
             <button
                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            //  className="bg-blue-950  w-10 h-10 rounded-3xl mx-auto cursor-pointer ..."
               className="fixed bottom-5 right-5 bg-blue-950 text-white p-3 rounded-full shadow-lg  transition z-50"
               title="Remonter"
              >
