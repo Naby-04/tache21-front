@@ -34,7 +34,7 @@ const App = () => {
          <Route path="/motDePassOublie" element={<MotDePassOublie />} />
        </Routes>
      </BrowserRouter>
-   
+     
   );
 };
 

@@ -11,6 +11,7 @@ import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
 import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 
+
 const Footer = () => {
 
    const[email, setEmail] = useState("")
