@@ -1,5 +1,5 @@
 import React from 'react'
-import { topReports } from '../data/topRaports'
+import { topReports } from '../../data/topRaports'
 import ReportCard from './ReportCard'
 
 function TopReports() {

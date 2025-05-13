@@ -77,7 +77,7 @@ const TopRapports = ({ rapports }) => {
         <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
-          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-800 rounded disabled:opacity-50 text-white"
         >
           Précédent
         </button>
@@ -87,7 +87,7 @@ const TopRapports = ({ rapports }) => {
         <button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}
-          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          className="px-3 py-1 bg-gray-800 rounded disabled:opacity-50 text-white"
         >
           Suivant
         </button>
