@@ -9,8 +9,8 @@ function ProjectDescription() {
         <h2 className="text-3xl font-bold text-yellow-800 mb-6 text-center font-[Merriweather]">
           À propos du projet
         </h2>
-      <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl p-20 border border-yellow-100">
-        <p className="text-gray-700 text-lg leading-relaxed font-[Inter] text-center">
+      <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl p-4 sm:p-10 md:p-16 lg:p-20 border border-yellow-100">
+        <p className="text-gray-700 text-base sm:text-lg leading-relaxed font-[Inter] text-justify">
           Notre plateforme est un espace collaboratif ouvert à tous permettant la <span className="font-semibold text-yellow-700">publication</span>, le
           <span className="font-semibold text-yellow-700"> commentaire</span> et le
           <span className="font-semibold text-yellow-700"> téléchargement</span> de rapports ou mémoires. Elle a pour vocation de promouvoir 
