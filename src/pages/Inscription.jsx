@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaEnvelope, FaGoogle, FaUser } from "react-icons/fa";
 
+import "../index.css";
 //import { Link } from "react-router-dom";
 
 const Inscription = () => {
@@ -89,18 +90,16 @@ const Inscription = () => {
                 type="checkbox"
                 className="form-checkbox h-5  text-blue-600"
               />
-              <span className="ml-2 text-gray-700 text-sm">
-              </span>
             </label>
           </div>
 
           <div className="flex w-[70%] items-center justify-between">
-            <Link to="/connexion"
-              className="bg-gray-700 hover:bg-gray-600 text-center  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+            <button
+              className="bg-gray-700 hover:bg-gray-600  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
               S'inscrire
-            </Link>
+            </button>
           </div>
 
           <div className="flex items-center justify-between mt-4 mb-4 w-[70%] ">

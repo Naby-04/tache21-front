@@ -7,15 +7,35 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
+import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+import { initializeApp } from "firebase/app";
+import { collection, addDoc } from "firebase/firestore";
 
 const Footer = () => {
 
    const[email, setEmail] = useState("")
-   const[message ,setMessage] =useState("")
+   const[message ,setMessage] = useState("")
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
+  }
 
-   const handleScribte = () => {
-    
-   }
+  const handleSend = async (e) => {
+    e.preventDefault();
+  
+    if (email) {
+      try {
+        await addDoc(collection(db, "emails"), {
+          email,
+          time: serverTimestamp(),
+        });
+        setMessage("Email envoyé :", email);
+        setEmail("");
+      } catch (err) {
+        console.error("Erreur lors de l'envoi :", err);
+      }
+    }
+  };
+
 
   return (
     <>
@@ -103,13 +123,20 @@ const Footer = () => {
                     id="newsletter"
                     className="block w-fullmin-w-0 grow  py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                     placeholder="Votre email"
+                    value={email}
+                    onChange={handleEmail}
                   />
                 </div>
                 <div className="">
-                  <button className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
+                  <button 
+                  onClick={handleSend}
+                  className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
                     <BsFillSendFill />
                   </button>
                 </div>
+                {message && (
+                <p className="text-sm mt-2 text-gray-600">{message}</p>
+                   )}
               </div>
             </div>
             <div className="flex flex-col gap-6 mt-8">

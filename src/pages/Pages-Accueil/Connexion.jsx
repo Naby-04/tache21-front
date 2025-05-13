@@ -50,13 +50,8 @@ const Connexion = () => {
           </div>
 
           <a
-<<<<<<< HEAD:src/pages/Connexion.jsx
             className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-[70%]"
-            href="/MotDePassOublie"
-=======
-            className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-full"
             href="/motDePassOublie"
->>>>>>> 7755935bb688ae6542a417248238ea9c43e63290:src/pages/Pages-Accueil/Connexion.jsx
           >
             Mot de passe oublié ?
           </a>
