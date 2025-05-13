@@ -14,8 +14,9 @@ export const ContextProvider = ({children}) => {
     setPublications((prev) => [...prev, newData]);
     };
 
-     const [form, setForm] = useState({title: "",description:"",tags: "", categories: "",file: null})
+    const [form, setForm] = useState({title: "",description:"",tags: "", categories: "",file: null})
 
+    // reference de l'input de fichier
          const fileInput = useRef()
          const handleChange = (e) => {
             const { name, value, files } = e.target;
@@ -26,7 +27,8 @@ export const ContextProvider = ({children}) => {
         }
     
         const values = {form,setForm,fileInput,handleChange,addPublication,publications
-            ,setPublications,selectedCategory,setSelectedCategory,filteredPublications
+            ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
+            
         }
     
     return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>

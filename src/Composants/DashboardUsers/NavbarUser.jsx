@@ -42,12 +42,7 @@ export const NavbarUser = () => {
 					/>
 				</div>
 
-				{/* Déconnexion desktop
-				<div className="flex items-center gap-5">
-					<div className="hidden lg:block text-[#fff]">
-						<Deconnexion button={"Déconnexion"} />
-					</div>
-				</div> */}
+			
 
         {/* Toggle menu mobile */}
         <div className="block md:hidden">
