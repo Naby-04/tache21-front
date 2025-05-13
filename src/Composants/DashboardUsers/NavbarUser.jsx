@@ -42,8 +42,6 @@ export const NavbarUser = () => {
 					/>
 				</div>
 
-			
-
         {/* Toggle menu mobile */}
         <div className="block md:hidden">
           <RiMenuFill

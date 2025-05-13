@@ -14,7 +14,9 @@ export const ContextProvider = ({children}) => {
     setPublications((prev) => [...prev, newData]);
     };
 
-    const [form, setForm] = useState({title: "",description:"",tags: "", categories: "",file: null})
+    // formulaire de publication rapport
+    const [form, setForm] = useState({title: "",description:"",
+        tags: "", categories: "",file: null})
 
     // reference de l'input de fichier
          const fileInput = useRef()

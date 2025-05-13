@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {RxDotsHorizontal} from "react-icons/rx"
 import ModalComponent from "../../modalComponent";
+import { BsTrash } from "react-icons/bs";
 
 export const CommentairesSection = ({ rapportId }) => {
 	const [commentaires, setCommentaires] = useState([]);
@@ -40,9 +41,9 @@ export const CommentairesSection = ({ rapportId }) => {
 							</div>
 							<div>
 							<span className="text-gray-500 cursor-pointer ">
-							        <RxDotsHorizontal className="text-xl rounded-full p-2 w-[40px] h-[40px]
+							        <BsTrash className="text-sm rounded-full p-2 w-[30px] h-[30px]
 									 hover:bg-gray-200 transition-all" 
-									title="Options " onClick={() => setSelectedComment(comment)}/>
+									title="supprimer " onClick={() => setSelectedComment(comment)}/>
 							 </span>
 
 							</div>
