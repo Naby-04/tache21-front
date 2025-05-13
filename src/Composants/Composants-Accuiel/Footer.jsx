@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -10,12 +10,12 @@ import { MdOutlineEmail } from "react-icons/md";
 
 const Footer = () => {
 
-   const[email, setEmail] = useState("")
-   const[message ,setMessage] =useState("")
+  //  const[email, setEmail] = useState("")
+  //  const[message ,setMessage] =useState("")
 
-   const handleScribte = () => {
+  //  const handleScribte = () => {
     
-   }
+  //  }
 
   return (
     <>
@@ -24,7 +24,9 @@ const Footer = () => {
           {/* ==============partie logo============== */}
           <div className="flex flex-col gap-8">
             <div>
-              <img src="#" alt="logo (2).png" />
+              {/* <img src="#" alt="logo (2).png" /> */}
+
+              <p className="text-3xl font-semibold underline text-white">SenRapports</p>
             </div>
             <div>
               <p className=" text-white">

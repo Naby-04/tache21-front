@@ -17,7 +17,7 @@ function Header() {
     <header className={`w-full z-50 transition duration-300 fixed top-0 ${sticky ? 'bg-gray-800' : 'bg-transparent'}`}>
       <div className="flex justify-between items-center px-6 py-4">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Logo" className="h-10" />
+           <p className='text-3xl font-bold text-white'>SenRapports</p>
         </div>
 
         {/* Burger icon */}
@@ -27,7 +27,7 @@ function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-white pb-0 border-b-2 border-transparent border-white transition-all duration-300">Accueil</a>
+          <a href="#" className="text-white pb-0 border-b-2 border-white transition-all duration-300">Accueil</a>
           <Link to="/rapports" className="text-white pb-0 border-b-2 border-transparent hover:border-white transition duration-300">Rapports</Link>
           <Link to="/connexion">  <button className="bg-white text-black px-6 py-2 rounded hover:bg-amber-200 transition">
             Connexion

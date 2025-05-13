@@ -14,7 +14,7 @@ const SlideShow = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 5000); // change toutes les 3 secondes
+    }, 4000); // change toutes les 3 secondes
 
     return () => clearInterval(interval);
   }, []);
@@ -46,7 +46,7 @@ const SlideShow = () => {
       </div>
 
       {/* Indicateurs */}
-      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      {/* <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {images.map((_, index) => (
           <div
             key={index}
@@ -55,7 +55,7 @@ const SlideShow = () => {
             }`}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
