@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdMode } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-const TableUser = ({ tabUsers }) => {
+const TableUser = ({ tabUsers, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
 
