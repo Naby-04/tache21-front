@@ -9,6 +9,7 @@ const images = [
 
 const SlideShow = () => {
   const [current, setCurrent] = useState(0);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,14 +20,14 @@ const SlideShow = () => {
   }, []);
 
   return (
-    <div className="relative h-[400px] slideshow-bg max-w-7xl mx-auto overflow-hidden rounded-lg shadow-lg my-7 mt-25 rounded-2xl">
+    <div className=" h-[100vh] slideshow-bg w-full mx-auto overflow-hidden shadow-lg">
       <img
         src={images[current]}
         alt={`carousel-${current}`}
         className="w-full h-full object-cover transition duration-500 ease-in-out"
       />
 
-      <div className="absolute inset-0 flex items-center px-10 md:px-20 z-20">
+      <div className="absolute inset-0 flex items-center justify-center text-center px-10 md:px-20 z-20">
         <div className="max-w-2xl text-white">
           <h1 className="text-3xl md:text-4xl font-bold leading-tight text-white">
             <span className="text-white"> Publiez </span>
@@ -35,7 +36,7 @@ const SlideShow = () => {
             <span className="text-white"> ceux des autres commentez,</span>{" "}
             <span className="text-amber-300">téléchargez visualisez</span>
           </h1>
-          <p className="mt-4 text-white">
+          <p className="mt-4 mb-6 text-white">
             Et faites partie d’une communauté de savoir en évolution.
           </p>
           <Link to="/rapports" className="mt-6 bg-amber-300  text-white px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
