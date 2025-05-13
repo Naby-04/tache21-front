@@ -21,7 +21,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-6 text-white text-sm font-medium">
           <a href="#" className="hover:text-amber-300 transition">Accueil</a>
           <a href="#" className="hover:text-amber-300 transition">Services</a>
-          <a href="#" className="hover:text-amber-300 transition">Rapports</a>
+          <Link to="/rapports"><a href="#" className="hover:text-amber-300 transition">Rapports</a></Link>
           <a href="#" className="hover:text-amber-300 transition">À propos</a>
           <Link to="/connexion">
             <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">

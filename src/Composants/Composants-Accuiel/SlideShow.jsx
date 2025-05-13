@@ -27,9 +27,11 @@ const SlideShow = () => {
     <p className="text-center md:text-start sm:text-lg md:text-xl max-w-xl text-gray-800 font-semibold mb-4">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta natus aut atque ut unde eveniet...
     </p>
-    <button className="mt-3 bg-amber-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
-      Découvrir les meilleurs rapports
-    </button>
+    <Link to="/rapports">
+      <button className="mt-3 bg-amber-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
+        Découvrir les meilleurs rapports
+      </button>
+    </Link>
   </div>
 
   {/* Dégradé */}
