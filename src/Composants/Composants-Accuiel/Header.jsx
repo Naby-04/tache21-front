@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,9 +23,11 @@ const Header = () => {
           <a href="#" className="hover:text-amber-300 transition">Services</a>
           <a href="#" className="hover:text-amber-300 transition">Rapports</a>
           <a href="#" className="hover:text-amber-300 transition">À propos</a>
-          <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
-            Connexion
-          </button>
+          <Link to="/connexion">
+            <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
+              Connexion
+            </button>
+          </Link>
         </nav>
       </div>
 
