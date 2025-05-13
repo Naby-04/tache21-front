@@ -5,12 +5,13 @@ const CardScroll = ({ services, selectedIndex, setSelectedIndex }) => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
+  const scrollContainer = scrollRef.current;
+  let intervalId;
 
-    const interval = setInterval(() => {
+  const startScrolling = () => {
+    intervalId = setInterval(() => {
       if (scrollContainer) {
-        scrollContainer.scrollLeft += 100; // scroll 100px à gauche
-        // Remet au début si on atteint la fin
+        scrollContainer.scrollLeft += 100;
         if (
           scrollContainer.scrollLeft + scrollContainer.clientWidth >=
           scrollContainer.scrollWidth
@@ -18,23 +19,48 @@ const CardScroll = ({ services, selectedIndex, setSelectedIndex }) => {
           scrollContainer.scrollLeft = 0;
         }
       }
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+    }, 1000);
+  };
+
+  const stopScrolling = () => {
+    clearInterval(intervalId);
+  };
+
+  if (scrollContainer) {
+    scrollContainer.addEventListener("mouseenter", stopScrolling);
+    scrollContainer.addEventListener("mouseleave", startScrolling);
+    startScrolling(); // Commence à faire défiler automatiquement
+  }
+
+  return () => {
+    clearInterval(intervalId);
+    if (scrollContainer) {
+      scrollContainer.removeEventListener("mouseenter", stopScrolling);
+      scrollContainer.removeEventListener("mouseleave", startScrolling);
+    }
+  };
+}, []);
+
   return (
-    <div
-      ref={scrollRef}
-      className="flex py-5 justify-start space-x-4 overflow-x-auto max-w-[500px] mx-auto"
-    >
-      {services.map((service, index) => (
-        <div key={index} onClick={() => setSelectedIndex(index)}>
-          <CategorieCard
-            icon={service.icon}
-            label={service.label}
-            selected={index === selectedIndex}
-          />
-        </div>
-      ))}
+    <div>
+      <p className="text-center text-gray-600 mb-4">
+  Filtrez les rapports par catégorie pour trouver rapidement ce que vous cherchez.
+</p>
+      <div
+        ref={scrollRef}
+        className="flex py-3 justify-start space-x-4 overflow-x-auto max-w-[700px] mx-auto"
+      >
+         
+        {services.map((service, index) => (
+          <div key={index} onClick={() => setSelectedIndex(index)}>
+            <CategorieCard
+              icon={service.icon}
+              label={service.label}
+              selected={index === selectedIndex}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
