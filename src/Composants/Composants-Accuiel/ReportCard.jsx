@@ -14,11 +14,11 @@ function ReportCard({ report }) {
       <p className="text-gray-600 mb-4">{report.description}</p>
       <a
         href={report.fileUrl}
-        className="text-yellow-700 font-medium underline"
+        className="text-amber-300 font-medium underline"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Voire le {report.fileType}
+        Voir le {report.fileType}
       </a>
     </div>
   );

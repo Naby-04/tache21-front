@@ -1,6 +1,7 @@
 import { FaCloudUploadAlt, FaDochub, FaHome, FaTimes } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { Buttons } from "./Buttons";
+import { AddRapport } from "./Rapport/AddRapport";
 
 export const MobileSidebar = ({ isOpen, onClose }) => {
 	const links = [
@@ -44,6 +45,10 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 				<hr className="my-4" />
 
 				<div className="flex flex-col justify-start items-start gap-2 text-sm">
+					<div className="addDocs">
+						<AddRapport
+						style={{backgroundColor: "#1E2939", color: "#fff"}}/>
+					</div>
 					<NavLink to="/pageParametre" onClick={onClose}>
 						<Buttons text="Paramètres du compte" />
 					</NavLink>
