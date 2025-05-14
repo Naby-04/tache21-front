@@ -1,5 +1,5 @@
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { categories } from "../Categorie"
+import { categories } from "../../data/Categorie";
 export const SidebarRight = () => {
   
   const {setSelectedCategory,selectedCategory} = usePublication()

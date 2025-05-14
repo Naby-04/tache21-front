@@ -14,7 +14,12 @@ export const CommentairesSection = ({ rapportId }) => {
 			{ id: 1, auteur: "Abdoul Wahab Diouf",
 				 contenu: "Très bon rapport, merci !" ,
 			},
-			{ id: 2, auteur: "Ndeye Amie Thiam", contenu: "Super intéressant, j’ai appris beaucoup." },
+			{ id: 2, auteur: "Ndeye Amie Thiam",
+			 contenu: "Super intéressant, j’ai appris beaucoup." 
+			},
+			{ id: 3, auteur: "Naffisatou Ndiaye",
+			 contenu: "Très bon rapport, merci !" 
+			},
 		];
 		setTimeout(() => {
 			setCommentaires(fakeComments);
