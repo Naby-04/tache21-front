@@ -11,6 +11,8 @@ import Connexion from "./pages/Pages-Accueil/Connexion";
 import Inscription from "./pages/Pages-Accueil/Inscription";
 import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 import MotDePassOublie from "./pages/MotDePassOublie";
+import PublicationForm from "./Composants/PublicationForm";
+import { Toaster } from "react-hot-toast";
 
 
 //  import Admin from "./pages/Admin";
@@ -32,7 +34,10 @@ const App = () => {
          <Route path="/pageParametre" element={<PageParametresCompte />} />
          <Route path="/rapports" element={<RapportsAccueil />} />
          <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+         <Route path="/publicationRapport" element={<PublicationForm />} />
+
        </Routes>
+       <Toaster position="top-center"/>
      </BrowserRouter>
      
   );
