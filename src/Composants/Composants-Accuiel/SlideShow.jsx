@@ -34,7 +34,7 @@ const SlideShow = () => {
             <span className="text-amber-300">vos rapports, explorez</span>
             <br />
             <span className="text-white"> ceux des autres commentez,</span>{" "}
-            <span className="text-amber-300">téléchargez visualisez</span>
+            <span className="text-amber-300">téléchargez,visualisez</span>
           </h1>
           <p className="mt-4 mb-6 text-white">
             Et faites partie d’une communauté de savoir en évolution.
