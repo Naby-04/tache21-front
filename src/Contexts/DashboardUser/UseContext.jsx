@@ -5,16 +5,22 @@ const ContextPublication = createContext()
 export const ContextProvider = ({children}) => {
     const [publications, setPublications] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const filteredPublications = selectedCategory
     ? publications.filter((doc) => doc.category === selectedCategory)
     : publications;
+
+    const filteredPublicationsBySearch = filteredPublications.filter((doc) => doc.title.toLowerCase().includes(searchTerm.toLowerCase()));
   
     const addPublication = (newData) => {
     setPublications((prev) => [...prev, newData]);
+    localStorage.setItem("publications", JSON.stringify([...publications, newData]));
     };
 
-    const [form, setForm] = useState({title: "",description:"",tags: "", categories: "",file: null})
+    // formulaire de publication rapport
+    const [form, setForm] = useState({title: "",description:"",
+        tags: "", categories: "",file: null})
 
     // reference de l'input de fichier
          const fileInput = useRef()
@@ -28,6 +34,7 @@ export const ContextProvider = ({children}) => {
     
         const values = {form,setForm,fileInput,handleChange,addPublication,publications
             ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
+            searchTerm,setSearchTerm,filteredPublicationsBySearch
             
         }
     
