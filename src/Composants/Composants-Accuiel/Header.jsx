@@ -24,13 +24,11 @@ const Header = () => {
           <ScrollLink  to="services"  smooth={true} duration={500} offset={-70} className=" active-link">Services</ScrollLink>
           <ScrollLink to="rapports" smooth={true} duration={500} offset={-70} className=" active-link">Rapports</ScrollLink>
           <ScrollLink to="a-propos"  smooth={true}  duration={500}  offset={-70} className=" active-link">À propos</ScrollLink>
-          <Link to="/connexion">
+          {/* <Link to="/connexion">
             <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
-          <a href="#" className="hover:text-amber-300 transition">Accueil</a>
-          <a href="#" className="hover:text-amber-300 transition">Services</a>
-          <Link to="/rapports"><a href="#" className="hover:text-amber-300 transition">Rapports</a></Link>
-          <a href="#" className="hover:text-amber-300 transition">À propos</a>
-          
+              Connexion
+            </button>
+          </Link> */}
         </nav>
 
         <Link to="/connexion">
@@ -43,9 +41,9 @@ const Header = () => {
       {isOpen && (
         <nav className="md:hidden flex flex-col items-start gap-4 px-6 pb-4 bg-gray-800 text-white font-medium">
           <Link to="/" className="hover:text-amber-300">Accueil</Link>
-          <Link to="services" className="hover:text-amber-300">Services</Link>
-          <Link to="rapports" className="hover:text-amber-300">Rapports</Link>
-          <Link to="a-propos" className="hover:text-amber-300">À propos</Link>
+          <ScrollLink to="services" className="hover:text-amber-300">Services</ScrollLink>
+          <ScrollLink to="rapports" className="hover:text-amber-300">Rapports</ScrollLink>
+          <ScrollLink to="a-propos" className="hover:text-amber-300">À propos</ScrollLink>
           <button className="mt-2 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
             Connexion
           </button>

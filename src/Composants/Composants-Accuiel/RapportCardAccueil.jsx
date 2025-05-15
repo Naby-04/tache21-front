@@ -2,7 +2,7 @@ import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal  from "../../Composants/DashboardUsers/Commentaire/CommentModal";
 import { useState } from "react";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
-import { categories } from "../Categorie"
+import { categories } from "../../data/Categorie"
 
 export const RapportCardAccueil = ({ doc }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 
 function ReportCard({ report }) {
   return (
-    <div className="p-4 mx-auto bg-white rounded-2xl shadow-2xl  border border-yellow-100">
+    <section id='rapports'>
+    <div className="bg-white p-4 mx-auto bg-white rounded-2xl shadow-2xl  border border-yellow-100">
+    {/* <div className="p-4 mx-auto bg-white rounded-2xl shadow-2xl  border border-yellow-100"> */}
       {report.image && (
         <img
           src={report.image}
