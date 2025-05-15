@@ -97,7 +97,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
                     // Pas besoin de rediriger, car le contenu est déjà chargé
                     console.log("Voir le fichier Word"); // Optionnel pour des logs
                 }}
-                className="text-md"
+                className="text-md cursor-pointer"
                 >
                 Voir Word
                 </button>
