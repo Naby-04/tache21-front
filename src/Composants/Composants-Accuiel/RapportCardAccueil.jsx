@@ -2,6 +2,7 @@ import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal  from "../../Composants/DashboardUsers/Commentaire/CommentModal";
 import { useState } from "react";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+import { categories } from "../Categorie"
 
 export const RapportCardAccueil = ({ doc }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
@@ -10,6 +11,9 @@ export const RapportCardAccueil = ({ doc }) => {
         console.log("Commentaire:", comment, "pour:", doc.id);
         setShowCommentBox(false);
     };
+
+    const currentCategory = categories.find((cat) => cat.value === doc.category);
+        const categoryClass = currentCategory?.color
 
     return (
         <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -28,6 +32,12 @@ export const RapportCardAccueil = ({ doc }) => {
 
             {/* Titre */}
             <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
+
+            <div className="mb-4">
+					<strong>Categories:</strong> <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-md mb-2 ${categoryClass}`}>
+						{doc.category}
+						</span>
+			</div>
 
             {/* Image */}
             <div className="rounded-md overflow-hidden mb-4">

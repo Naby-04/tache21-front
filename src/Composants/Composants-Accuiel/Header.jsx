@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {  Link as ScrollLink} from "react-scroll";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,10 +20,10 @@ const Header = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-6 text-white text-sm font-medium">
-          <a href="#" className="hover:text-amber-300 transition">Accueil</a>
-          <a href="#" className="hover:text-amber-300 transition">Services</a>
-          <Link to="/rapports"><a href="#" className="hover:text-amber-300 transition">Rapports</a></Link>
-          <a href="#" className="hover:text-amber-300 transition">À propos</a>
+          <Link to="/" className="hover:text-amber-300 transition active">Accueil</Link>
+          <ScrollLink  to="services"  smooth={true} duration={500} offset={-70} className=" active-link">Services</ScrollLink>
+          <ScrollLink to="rapports" smooth={true} duration={500} offset={-70} className=" active-link">Rapports</ScrollLink>
+          <ScrollLink to="a-propos"  smooth={true}  duration={500}  offset={-70} className=" active-link">À propos</ScrollLink>
           <Link to="/connexion">
             <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
               Connexion
@@ -33,10 +34,10 @@ const Header = () => {
 
       {isOpen && (
         <nav className="md:hidden flex flex-col items-start gap-4 px-6 pb-4 bg-gray-800 text-white font-medium">
-          <a href="#" className="hover:text-amber-300">Accueil</a>
-          <a href="#" className="hover:text-amber-300">Services</a>
-          <a href="#" className="hover:text-amber-300">Rapports</a>
-          <a href="#" className="hover:text-amber-300">À propos</a>
+          <Link to="/" className="hover:text-amber-300">Accueil</Link>
+          <Link to="services" className="hover:text-amber-300">Services</Link>
+          <Link to="rapports" className="hover:text-amber-300">Rapports</Link>
+          <Link to="a-propos" className="hover:text-amber-300">À propos</Link>
           <button className="mt-2 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
             Connexion
           </button>

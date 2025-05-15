@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { categories } from "../../data/categories";
+import { categories } from "../../Composants/Categorie";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
+import { Link } from "react-router-dom";
 
 function RapportsAccueil() {
   const [activeCategory, setActiveCategory] = useState(categories[0].value);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   return (
     <>
@@ -20,7 +23,7 @@ function RapportsAccueil() {
           >
             ☰
           </button>
-          <p className="text-2xl font-bold text-white">Logo</p>
+          <Link to="/" className="text-2xl font-bold text-white">Logo</Link>
         </div>
 
         {/* Search bar */}
@@ -28,6 +31,8 @@ function RapportsAccueil() {
           <input
             type="text"
             placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-8 pr-3 py-1.5 rounded border border-gray-300 focus:outline-none bg-white text-sm"
           />
           <FiSearch className="absolute left-2 top-2.5 text-gray-500" />
@@ -35,9 +40,9 @@ function RapportsAccueil() {
 
         {/* User section */}
         <div className="flex items-center space-x-3">
-          <button className="bg-white text-gray-800 px-4 py-1.5 rounded hover:bg-amber-200 transition text-sm">
+          <Link  to="/connexion" className="bg-white text-gray-800 px-4 py-1.5 rounded hover:bg-amber-200 transition text-sm">
             Connexion
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -60,8 +65,8 @@ function RapportsAccueil() {
             <ul className="space-y-1">
               {categories.map((cat) => (
                 <li key={cat.value}>
-                  <a
-                    href="#"
+                  <Link to="/"
+                    
                     onClick={() => {
                       setActiveCategory(cat.value);
                       setSidebarOpen(false);
@@ -73,7 +78,7 @@ function RapportsAccueil() {
                     }`}
                   >
                     {cat.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -89,8 +94,7 @@ function RapportsAccueil() {
           <ul className="space-y-1">
             {categories.map((cat) => (
               <li key={cat.value}>
-                <a
-                  href="#"
+                <Link to=""
                   onClick={() => setActiveCategory(cat.value)}
                   className={`block text-sm font-semibold px-4 py-2 rounded transition cursor-pointer ${
                     activeCategory === cat.value
@@ -99,7 +103,7 @@ function RapportsAccueil() {
                   }`}
                 >
                   {cat.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -107,7 +111,7 @@ function RapportsAccueil() {
 
         {/* Main content */}
         <main className="w-full lg:ml-[250px] px-4 py-6">
-          <RapportsPages />
+          <RapportsPages searchTerm={searchTerm} />
         </main>
       </div>
     </div>
