@@ -3,24 +3,49 @@ import { toast } from 'react-hot-toast'
 import {usePublication } from '../Contexts/DashboardUser/UseContext'
 import { categories } from '../data/Categorie'
 import { useNavigate } from 'react-router-dom'
+// import axios from 'axios'
 
 const PublicationForm = () => {
-    const { form, setForm, fileInput, handleChange, addPublication } = usePublication();
+    const { form, setForm, fileInput, handleChange, addPublication,url } = usePublication();
 
 const navigate = useNavigate()
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        const formData = new FormData();
+        formData.append("title", form.title);
+        formData.append("description", form.description);
+        formData.append("category", form.category);
+        formData.append("tags", form.tags);
+        formData.append("file", form.file);
       
         const dataToSave = {
-          id: Date.now(),
           title: form.title,
           description: form.description,
-          img: URL.createObjectURL(form.file),
-          type: form.file?.type || "",
-          category: form.categories,
-          tags: form.tags.split(",").map(t => t.trim()).filter(Boolean),
-          createdAt: new Date().toISOString(),
+          category: form.category,
+          tags: form.tags,
+          fileUrl: form.fileUrl,
+          type: "rapport",
         };
+        e.preventDefault();
+        try {
+          const response = await fetch(`${url}/rapport/create`, {
+            method: "POST",
+            body: formData,
+          });
+          const respo = await response.json(); 
+        
+          console.log("Réponse du serveur :", respo.data);
+        
+          toast.success("Publication ajoutée avec succès");
+          navigate("/users");
+        
+          setForm({ title: "", description: "", category: "", tags: "", fileUrl: null });
+          fileInput.current.value = "";
+        
+        } catch (error) {
+          console.error("Erreur lors de l'ajout de la publication:", error);
+          toast.error("Une erreur s'est produite lors de l'ajout.");
+        }
+      
       
         console.log("type de document:", dataToSave.type);
         

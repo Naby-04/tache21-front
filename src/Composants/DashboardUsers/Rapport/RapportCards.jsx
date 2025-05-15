@@ -6,6 +6,7 @@ import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
 
 export const RapportCard = ({ doc }) => {
+	
 
 	// pour voir le formulaire de commentaire
 	const [showCommentBox, setShowCommentBox] = useState(false);
@@ -23,8 +24,11 @@ export const RapportCard = ({ doc }) => {
     // console.log("Toutes les values possibles :", categories.map(c => c.value));
 
 	// conversion des tags en tableau
-	const TagsArray = Array.isArray(doc.tags) ? doc.tags : doc.tags.split(",");
-
+	const tagsArray = Array.isArray(doc.tags)
+  ? doc.tags
+  : typeof doc.tags === "string"
+    ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
+    : [];
 	
 	return (
 		<div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -70,7 +74,7 @@ export const RapportCard = ({ doc }) => {
                    />
                    ) : (
                    <img
-                     src={doc.img}
+                     src={doc.fileUrl}
                      alt={doc.title}
                      className="w-full max-h-[300px] object-cover"
                    />
@@ -86,9 +90,9 @@ export const RapportCard = ({ doc }) => {
 			{/* Tags */}
 			<div className="mb-4">
 				<strong>Tags:</strong>
-				{TagsArray.length > 0 ? (
+				{tagsArray.length > 0 ? (
               <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-4">
-                {TagsArray.map((tag, i) => (
+                {tagsArray.map((tag, i) => (
                   <span key={i} className="bg-gray-200 px-2 py-1 rounded-full">#{tag}</span>
                 ))}
               </div>
