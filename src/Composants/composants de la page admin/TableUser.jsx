@@ -1,100 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
+import { MdMode } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 
-const TableUser = ({tabUsers}) => {
-  return <div className="overflow-x-auto">
-    <table className="min-w-full rounded border-[var(--primary-color)] border-1 border-gray-400">
-      <thead>
-        <tr className="text-left text-sm uppercase bg-gray-500 text-white shadow">
-          <th className="py-2 px-3 text-center text-sm font-bold">Prenom Nom</th>
-          <th className="py-2 px-3 text-center text-sm font-bold">Email</th>
-          <th className="py-2 px-3 text-center text-sm font-bold">Role</th>
-          <th className="py-2 px-3 text-center text-sm font-bold">Date d'inscription</th>
-          <th className="py-2 px-3 text-center text-sm font-bold">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-      tabUsers.length === 0 ? 
-        <tr>
-          <td className="py-3 px-4 text-center">Pas d'utilisateur</td>
-        </tr> 
-        : 
-          tabUsers.map((element) => (
-            <tr className="border-b-1 cursor-pointer hover:bg-gray-100 mt-5 shadow hover:text-[var(--primary-color)]">
-            <td className="py-3 px-4 text-center text-sm">{element.name}</td>
-            <td className="py-3 px-4 text-center text-sm">{element.email}</td>
-            <td className="py-3 px-4 text-center text-sm">{element.role}</td>
-            <td className="py-3 px-4 text-center text-sm">{element.jourInscripte}</td>
-            <td className="py-3 px-4 text-center text-sm flex gap-4 justify-center">
-              <button className="text-sm px-2 py-1 shadow rounded bg-[var(--primary-color)] text-gray-200">M</button>
-              <button className="text-sm text-white px-2 py-1 rounded shadow bg-red-600">X</button>
-            </td>
-          </tr>
-          ))
-      }
-      </tbody>
-    </table>
-  </div>;
-};
+const TableUser = ({ tabUsers, onDelete }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
 
-export default TableUser;
+  // Calcule les indexs de début et de fin
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = tabUsers.slice(indexOfFirstUser, indexOfLastUser);
 
+  const totalPages = Math.ceil(tabUsers.length / usersPerPage);
 
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
-
-/*
-import React from 'react';
-
-const TableUser = ({ users, onView, onDelete }) => {
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white rounded shadow">
-        <thead>
-          <tr className="bg-gray-100 text-left text-sm uppercase text-gray-600">
-            <th className="py-3 px-4">Nom</th>
-            <th className="py-3 px-4">Email</th>
-            <th className="py-3 px-4">Rôle</th>
-            <th className="py-3 px-4">Date d'inscription</th>
-            <th className="py-3 px-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="5" className="text-center py-4 text-gray-500">
-                Aucun utilisateur trouvé.
-              </td>
+    <div className="bg-white rounded-lg shadow-md p-4">
+      <h2 className="text-xl font-semibold mb-4">Listes des Utilisateurs</h2>
+
+      <div className="overflow-x-auto w-full">
+        <table className="w-full text-left min-w-[600px]">
+          <thead>
+            <tr className="bg-gray-800 text-gray-50 rounded">
+              <th className="py-2 px-3">#</th>
+              <th className="py-2 px-3">Nom</th>
+              <th className="py-2 px-3">Role</th>
+              <th className="py-2 px-3">Date</th>
+              <th className="py-2 px-3">Actions</th>
             </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id} className="border-b hover:bg-gray-50">
-                <td className="py-3 px-4">{user.name}</td>
-                <td className="py-3 px-4">{user.email}</td>
-                <td className="py-3 px-4">{user.role}</td>
-                <td className="py-3 px-4">{user.registeredAt}</td>
-                <td className="py-3 px-4 flex gap-2">
-                  <button
-                    onClick={() => onView(user)}
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    Voir
-                  </button>
-                  <button
-                    onClick={() => onDelete(user)}
-                    className="text-red-600 hover:underline text-sm"
-                  >
-                    Supprimer
-                  </button>
+          </thead>
+          <tbody>
+            {currentUsers.map((tab, index) => (
+              <tr key={index} className="border-t">
+                <td className="py-2 px-3 font-bold text-gray-600">{tab.id}</td>
+                <td className="py-2 px-3 flex items-center gap-2">
+                  <img
+                    src={tab.image}
+                    alt="profil"
+                    className="w-12 h-12 object-cover rounded"
+                  />
+                  <h4 className="font-semibold">{tab.name}</h4>
+                </td>
+                <td className="py-2 px-3">
+                  <h4 className="font-semibold">{tab.role}</h4>
+                </td>
+                <td className="py-2 px-3">
+                  <h4 className="font-semibold">{tab.jourInscripte}</h4>
+                </td>
+                <td className="px-3 py-2">
+                  <div className="flex items-center gap-3">
+                    {/* <button
+                      onClick={() => tab.onDetailClick()}
+                      className="p-2 rounded bg-amber-200 text-amber-800 hover:bg-amber-400"
+                    >
+                      <MdMode />
+                    </button> */}
+                    <button
+                      onClick={() => onDelete(tab.id)}
+                      className="p-2 rounded bg-red-100 text-red-700 hover:bg-red-200"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+
+        {/* PAGINATION */}
+        <div className="flex justify-center gap-7 items-center mt-4">
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
+          >
+            Précédent
+          </button>
+          <span className="text-gray-600">
+            Page {currentPage} sur {totalPages}
+          </span>
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
+          >
+            Suivant
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default TableUser;
-*/

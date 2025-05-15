@@ -1,0 +1,21 @@
+export const categories = [
+    { value: "Informatique & Technologie", label: "Informatique & Technologie" },
+    { value: "Santé & Médecine", label: "Santé & Médecine" },
+    { value: "Sciences Économiques", label: "Sciences Économiques" },
+    { value: "Droit & Juridique", label: "Droit & Juridique" },
+    { value: "Sciences Sociales", label: "Sciences Sociales" },
+    { value: "Éducation & Pédagogie", label: "Éducation & Pédagogie" },
+    { value: "Géographie & Environnement", label: "Géographie & Environnement" },
+    { value: "Sciences Politiques", label: "Sciences Politiques" },
+    { value: "Littérature & Linguistique", label: "Littérature & Linguistique" },
+    { value: "Management & Marketing", label: "Management & Marketing" },
+    { value: "Agriculture & Agroalimentaire", label: "Agriculture & Agroalimentaire" },
+    { value: "Architecture & Urbanisme", label: "Architecture & Urbanisme" },
+    { value: "Sciences Pures", label: "Sciences Pures" },
+    { value: "Histoire & Patrimoine", label: "Histoire & Patrimoine" },
+    { value: "Art & Culture", label: "Art & Culture" },
+    { value: "Sport & Sciences du sport", label: "Sport & Sciences du sport" },
+    { value: "Transport & Logistique", label: "Transport & Logistique" },
+    { value: "Tourisme & Hôtellerie", label: "Tourisme & Hôtellerie" },
+    { value: "autre", label: "Autre (à préciser)" }
+  ];
