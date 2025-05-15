@@ -15,29 +15,29 @@ import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
 
-    import Admin from "./pages/Admin";
+    // import Admin from "./pages/Admin";
 
 const App = () => {
   return (
-       <Admin />
+      //  <Admin />
     
-      //  <BrowserRouter>
-      //    <Routes>
-      //      <Route path="/" element={<HomePage />} />
-      //      <Route path="/inscription" element={<Inscription />} />
-      //      <Route path="/connexion" element={<Connexion />} />
-      //      <Route path="/users" element={<DashboardUsers />}>
-      //        <Route index element={<Acceuil />} />
-      //        <Route path="rapport" element={<Rapport />} />
-      //        <Route path="rapportTelecharger" element={<RapportTelecharger />} />
-      //      </Route>
-      //      <Route path="/pageParametre" element={<PageParametresCompte />} />
-      //      <Route path="/rapports" element={<RapportsAccueil />} />
-      //      <Route path="/motDePassOublie" element={<MotDePassOublie />} />
-      //      <Route path="/publicationRapport" element={<PublicationForm />} />
-      //    </Routes>
-      //    <Toaster position="top-center"/>
-      //  </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/inscription" element={<Inscription />} />
+            <Route path="/connexion" element={<Connexion />} />
+            <Route path="/users" element={<DashboardUsers />}>
+              <Route index element={<Acceuil />} />
+              <Route path="rapport" element={<Rapport />} />
+              <Route path="rapportTelecharger" element={<RapportTelecharger />} />
+            </Route>
+            <Route path="/pageParametre" element={<PageParametresCompte />} />
+            <Route path="/rapports" element={<RapportsAccueil />} />
+            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+            <Route path="/publicationRapport" element={<PublicationForm />} />
+          </Routes>
+          <Toaster position="top-center"/>
+        </BrowserRouter>
    
   );
 };

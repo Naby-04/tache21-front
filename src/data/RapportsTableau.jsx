@@ -10,6 +10,7 @@ const RapportsTab = [
     rank: 1,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -24,6 +25,7 @@ const RapportsTab = [
     rank: 2,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -38,6 +40,7 @@ const RapportsTab = [
     rank: 3,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -52,6 +55,7 @@ const RapportsTab = [
     rank: 4,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -66,6 +70,7 @@ const RapportsTab = [
     rank: 5,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -80,6 +85,7 @@ const RapportsTab = [
     rank: 6,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -94,6 +100,7 @@ const RapportsTab = [
     rank: 7,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -108,6 +115,7 @@ const RapportsTab = [
     rank: 8,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -122,6 +130,7 @@ const RapportsTab = [
     rank: 9,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -136,6 +145,7 @@ const RapportsTab = [
     rank: 10,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -150,6 +160,7 @@ const RapportsTab = [
     rank: 11,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -164,6 +175,7 @@ const RapportsTab = [
     rank: 12,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -178,6 +190,7 @@ const RapportsTab = [
     rank: 13,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -192,6 +205,7 @@ const RapportsTab = [
     rank: 14,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -206,6 +220,7 @@ const RapportsTab = [
     rank: 15,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -220,6 +235,7 @@ const RapportsTab = [
     rank: 16,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -234,6 +250,7 @@ const RapportsTab = [
     rank: 17,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -248,6 +265,7 @@ const RapportsTab = [
     rank: 18,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -262,6 +280,7 @@ const RapportsTab = [
     rank: 19,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -276,6 +295,7 @@ const RapportsTab = [
     rank: 20,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -290,6 +310,7 @@ const RapportsTab = [
     rank: 21,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -304,6 +325,7 @@ const RapportsTab = [
     rank: 22,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -318,6 +340,7 @@ const RapportsTab = [
     rank: 23,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -332,6 +355,7 @@ const RapportsTab = [
     rank: 24,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -346,6 +370,7 @@ const RapportsTab = [
     rank: 25,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -360,6 +385,7 @@ const RapportsTab = [
     rank: 26,
     imageRapport: pdf,
     fichier: lepdf,
+    type : "pdf",
     titre: "Rapport de stage",
     description: "Stages passer à Volkeno....",
     descriptionLong:
@@ -374,6 +400,7 @@ const RapportsTab = [
     rank: 27,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -388,6 +415,7 @@ const RapportsTab = [
     rank: 28,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -402,6 +430,7 @@ const RapportsTab = [
     rank: 29,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
@@ -416,6 +445,7 @@ const RapportsTab = [
     rank: 30,
     imageRapport: word,
     fichier: leword,
+    type : "docx",
     titre: "Rapport de Memoire",
     description: "Analyse des impacts climatiques...",
     descriptionLong:
