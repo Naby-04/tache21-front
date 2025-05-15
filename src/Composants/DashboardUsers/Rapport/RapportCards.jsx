@@ -5,6 +5,7 @@ import {useState } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
+import ModalComponent from "../../modalComponent";
 
 export const RapportCard = ({ doc }) => {
 
@@ -38,17 +39,26 @@ export const RapportCard = ({ doc }) => {
 	// conversion des tags en tableau
 	const TagsArray = Array.isArray(doc.tags) ? doc.tags : doc.tags.split(",");
 
+
+	// gestion de la suppression 
+
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
+
+
 	const handleDeleteComment = (idCommentaire) => {
-  const confirmed = window.confirm("Voulez-vous vraiment supprimer ce commentaire ?");
-  if (!confirmed) return;
-
-  // Mise à jour de la liste locale
-  setCommentaires((prevCommentaires) =>
-    prevCommentaires.filter((c) => c.id !== idCommentaire)
-  );
-
-  //peux aussi ici appeler une API ou localStorage pour supprimer de la base si besoin
+  setCommentToDelete(idCommentaire);
+  setShowDeleteModal(true);
 };
+
+const confirmDeleteComment = () => {
+  setCommentaires((prevCommentaires) =>
+    prevCommentaires.filter((c) => c.id !== commentToDelete)
+  );
+  setShowDeleteModal(false);
+  setCommentToDelete(null);
+};
+
 
 
 	
@@ -185,7 +195,7 @@ export const RapportCard = ({ doc }) => {
               className="absolute top-2 right-2 text-red-500 text-xs hover:underline"
               onClick={() => handleDeleteComment(c.id)}
             >
-              <BsTrash />
+              <BsTrash className="mt-5 text-black hover:text-red-700" size="20px"/>
             </button>
           </div>
         ))
@@ -193,6 +203,19 @@ export const RapportCard = ({ doc }) => {
     </div>
   </div>
 )}
+
+{/* modal pour la confirmation de suppression */}
+
+<ModalComponent
+  isOpen={showDeleteModal}
+  onClose={() => setShowDeleteModal(false)}
+  title="Supprimer le commentaire ?"
+  message="Voulez-vous vraiment supprimer ce commentaire ? Cette action est irréversible."
+  confirmText="Supprimer"
+  cancelText="Annuler"
+  onConfirm={confirmDeleteComment}
+/>
+
 
 		</div>
 	);
