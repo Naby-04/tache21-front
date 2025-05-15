@@ -1,14 +1,39 @@
-import { FaTrash, FaDownload } from "react-icons/fa";
-import { Document, Page } from 'react-pdf';
+import React, { useState, useEffect } from 'react';
+import { FaFileAlt, FaDownload } from "react-icons/fa";
 import { BiArrowBack } from 'react-icons/bi';
-
-
+import { Document, Page } from 'react-pdf';
+import mammoth from 'mammoth'; // Import de la bibliothèque Mammoth.js
 
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
+  const [docHtml, setDocHtml] = useState('');
+
+  useEffect(() => {
+    if (rapportChoisi && rapportChoisi.type === 'docx') {
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        mammoth.convertToHtml({ arrayBuffer: event.target.result })
+          .then(function (result) {
+            setDocHtml(result.value); // Met à jour le HTML du document
+          })
+          .catch(function (err) {
+            console.log(err);
+          });
+      };
+
+      // Si le fichier est local, charge-le
+      if (rapportChoisi.fichier) {
+        fetch(rapportChoisi.fichier)
+          .then(response => response.blob())
+          .then(blob => reader.readAsArrayBuffer(blob));
+      }
+    }
+  }, [rapportChoisi]);
+
   if (!rapportChoisi) return null;
 
-  const isDocx = rapportChoisi.type === "docx";
   const isPdf = rapportChoisi.type === "pdf";
+  const isDocx = rapportChoisi.type === "docx";
 
   return (
     <div className="flex justify-between gap-2 shadow rounded bg-white p-3 pt-5 relative">
@@ -25,7 +50,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
           <div className="w-15 h-15 rounded-full relative bg-amber-200">
             <img
               src={rapportChoisi.userPhoto}
-              alt=""
+              alt="Photo de l'utilisateur"
               className="absolute w-full h-full object-cover rounded-full"
             />
           </div>
@@ -58,19 +83,25 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             {/* Afficher le lien pour voir ou télécharger le fichier */}
             {isPdf && (
               <div className="flex items-center justify-center gap-2 p-3 px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer">
-                <FaDownload />
+                <FaFileAlt />
                 <a href={rapportChoisi.fichier} target="_blank" rel="noopener noreferrer" className="text-md">
                   Voir PDF
                 </a>
               </div>
             )}
             {isDocx && (
-              <div className="flex items-center justify-center gap-2 p-3 px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer">
-                <FaDownload />
-                <a href={`https://docs.google.com/gview?url=${rapportChoisi.fichier}&embedded=true`} target="_blank" rel="noopener noreferrer" className="text-md">
-                  Voir Word
-                </a>
-              </div>
+            <div className="flex items-center justify-center gap-2 p-3 px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer">
+                <FaFileAlt />
+                <button
+                onClick={() => {
+                    // Pas besoin de rediriger, car le contenu est déjà chargé
+                    console.log("Voir le fichier Word"); // Optionnel pour des logs
+                }}
+                className="text-md"
+                >
+                Voir Word
+                </button>
+            </div>
             )}
             <div className="flex items-center justify-center gap-2 p-3 px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer">
               <FaDownload />
@@ -91,19 +122,15 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               <Page pageNumber={1} width={250} />
             </Document>
           ) : isDocx ? (
-            <iframe
-              src={`https://docs.google.com/gview?url=${rapportChoisi.fichier}&embedded=true`}
-              style={{ width: "100%", height: "100%" }}
-              frameBorder="0"
-              title="Word Viewer"
-            ></iframe>
+            // Affichage du contenu HTML du DOCX converti
+            <div className="doc-content" dangerouslySetInnerHTML={{ __html: docHtml }} />
           ) : (
             <p className="text-sm p-4 text-gray-500">Aucun fichier à afficher</p>
           )}
 
           <img
             src={rapportChoisi.imageRapport}
-            alt=""
+            alt="Image rapport"
             className="absolute z-2 w-10 h-10 rounded-3xl object-cover border bg-gray-800 bottom-2 right-2"
           />
         </div>
