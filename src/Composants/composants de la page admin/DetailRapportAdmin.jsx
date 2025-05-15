@@ -9,6 +9,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
   const [numPages, setNumPages] = useState(null);
   const [afficherWord, setAfficherWord] = useState(false);
   const [afficherPdf, setAfficherPdf] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleLoadSuccess = ({ numPages: loadedPages }) => {
   if (numPages !== loadedPages) {
@@ -60,7 +61,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
       )}
 
       {/* Affichage PDF */}
-      {afficherPdf && (
+      {/* {afficherPdf && (
         <div className="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center overflow-y-scroll p-6">
             <button
             onClick={() => setAfficherPdf(false)}
@@ -88,7 +89,56 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
 
             </Document>
         </div>
-        )}
+        )} */}
+    {afficherPdf && (
+  <div className="fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center overflow-y-scroll p-6">
+    <button
+      onClick={() => setAfficherPdf(false)}
+      className="absolute top-4 right-4 text-3xl text-gray-800"
+    >
+      <BiX />
+    </button>
+
+    <h2 className="text-xl font-bold mb-4 mt-6">Aperçu PDF</h2>
+
+    <Document
+      file={rapportChoisi.fichier}
+      onLoadSuccess={({ numPages }) => {
+        setNumPages(numPages);
+        setCurrentPage(1); // Réinitialiser à la première page
+      }}
+    >
+      <Page
+        pageNumber={currentPage}
+        width={800}
+        renderTextLayer={false}
+      />
+    </Document>
+
+    <div className="flex items-center justify-center mt-4 gap-4">
+      <button
+        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        disabled={currentPage <= 1}
+        className="px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50"
+      >
+        Précédente
+      </button>
+
+      <span className="text-md text-gray-600">
+        Page {currentPage} / {numPages}
+      </span>
+
+      <button
+        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, numPages))}
+        disabled={currentPage >= numPages}
+        className="px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50"
+      >
+        Suivante
+      </button>
+    </div>
+  </div>
+)}
+
 
 
       {/* Vue principale */}
