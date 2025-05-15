@@ -3,7 +3,8 @@
 import { FaFilePdf } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
 import { BiArrowBack } from "react-icons/bi";
-import imagePdf from "../../assets/imagePdf.png"
+import { Document, Page } from 'react-pdf';
+// import imagePdf from "../../assets/imagePdf.png"
 // import Pdf from "../../assets/pdf.jpeg"
 
 
@@ -60,11 +61,23 @@ const DetailRapportAdmin = ({rapportChoisi, onClick}) => {
              </div>
             </div>
             <div className="basis-1/3 w-full p-2 flex items-center justify-center">
-                <div className="relative rounded border border-gray-800 shadow-lg">
-                    <img src={imagePdf} alt="" className="border rounded" />
-                    <img src={rapportChoisi.imageRapport} alt="" className="absolute z-2 w-10 h-10 rounded-3xl object-cover border bg-gray-800 bottom-2 right-2" />
-                </div>
+            <div className="relative rounded border border-gray-800 shadow-lg overflow-hidden" style={{ width: '285px', height: '350px' }}>
+                {rapportChoisi.fichier ? (
+                <Document file={rapportChoisi.fichier}>
+                    <Page pageNumber={1} width={250} />
+                </Document>
+                ) : (
+                <p className="text-sm p-4 text-gray-500">Pas de fichier PDF</p>
+                )}
+
+                <img
+                src={rapportChoisi.imageRapport}
+                alt=""
+                className="absolute z-2 w-10 h-10 rounded-3xl object-cover border bg-gray-800 bottom-2 right-2"
+                />
             </div>
+            </div>
+
         </div>
      );
 }

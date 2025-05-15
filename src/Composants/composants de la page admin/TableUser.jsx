@@ -56,14 +56,14 @@ const TableUser = ({ tabUsers, onDelete }) => {
                 </td>
                 <td className="px-3 py-2">
                   <div className="flex items-center gap-3">
-                    <button
+                    {/* <button
                       onClick={() => tab.onDetailClick()}
                       className="p-2 rounded bg-amber-200 text-amber-800 hover:bg-amber-400"
                     >
                       <MdMode />
-                    </button>
+                    </button> */}
                     <button
-                      onClick={() => tab.onDeleteClick()}
+                      onClick={() => onDelete(tab.id)}
                       className="p-2 rounded bg-red-100 text-red-700 hover:bg-red-200"
                     >
                       <FaTrash />
