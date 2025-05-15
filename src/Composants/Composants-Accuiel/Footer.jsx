@@ -8,7 +8,7 @@ import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
