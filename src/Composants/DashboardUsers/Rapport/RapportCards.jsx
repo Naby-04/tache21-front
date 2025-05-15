@@ -3,10 +3,14 @@ import CommentModal  from "../Commentaire/CommentModal";
 import {useState } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
-import { categories } from "../../Categorie";
+import { categories } from "../../../data/Categorie";
 
 export const RapportCard = ({ doc }) => {
+
+	// pour voir le formulaire de commentaire
 	const [showCommentBox, setShowCommentBox] = useState(false);
+
+	// pour voir les commentaires 
 	const [showComments, setShowComments] = useState(false);
 
 	const handleCommentSubmit = (comment) => {
@@ -16,20 +20,12 @@ export const RapportCard = ({ doc }) => {
 
 	const currentCategory = categories.find((cat) => cat.value === doc.category);
 	const categoryClass = currentCategory?.color 
-
-
-	categories.forEach((c) => {
-		console.log(`Comparaison : "${doc.category}" === "${c.value}" →`, doc.category === c.value);
-	  });
-	// console.log("currentCategory:", currentCategory);
-	
-	// console.log("couleur de la catégorie:", categoryClass);
-
-	// console.log("doc.category =", doc.category);
-console.log("Toutes les values possibles :", categories.map(c => c.value));
+    // console.log("Toutes les values possibles :", categories.map(c => c.value));
 
 	// conversion des tags en tableau
 	const TagsArray = Array.isArray(doc.tags) ? doc.tags : doc.tags.split(",");
+
+	
 	return (
 		<div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
 			{/* Auteur */}

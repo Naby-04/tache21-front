@@ -5,10 +5,12 @@ import { Profile } from "./Profile";
 import { MobileSidebar } from "./MobileAffichage";
 import { Input } from "./Recherche/Input";
 import { AddRapport } from "./Rapport/AddRapport";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
 export const NavbarUser = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const {searchTerm, setSearchTerm}= usePublication()
 
 	return (
 		<div className="relative">
@@ -32,7 +34,10 @@ export const NavbarUser = () => {
 				{/* filter recherche */}
 
 				<div className="flex items-center gap-3">
-					<Input/>
+					<Input
+					value={searchTerm}
+					onSearch={setSearchTerm}
+					/>
 				</div>
 
 				{/* Bouton ajout rapport */}
@@ -41,13 +46,6 @@ export const NavbarUser = () => {
 					style={{background: 'var(--background-color)', color: 'var(--text-couleur)'}}
 					/>
 				</div>
-
-				{/* Déconnexion desktop
-				<div className="flex items-center gap-5">
-					<div className="hidden lg:block text-[#fff]">
-						<Deconnexion button={"Déconnexion"} />
-					</div>
-				</div> */}
 
         {/* Toggle menu mobile */}
         <div className="block md:hidden">

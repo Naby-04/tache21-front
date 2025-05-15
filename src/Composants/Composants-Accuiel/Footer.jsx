@@ -7,15 +7,38 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
+import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+import { initializeApp } from "firebase/app";
+import { collection, addDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
+
+
 
 const Footer = () => {
 
    const[email, setEmail] = useState("")
-   const[message ,setMessage] =useState("")
+   const[message ,setMessage] = useState("")
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
+  }
 
-   const handleScribte = () => {
-    
-   }
+  const handleSend = async (e) => {
+    e.preventDefault();
+  
+    if (email) {
+      try {
+        await addDoc(collection(db, "emails"), {
+          email,
+          time: serverTimestamp(),
+        });
+        setMessage("Email envoyé :", email);
+        setEmail("");
+      } catch (err) {
+        console.error("Erreur lors de l'envoi :", err);
+      }
+    }
+  };
+
 
   return (
     <>
@@ -36,32 +59,32 @@ const Footer = () => {
           </div>
           {/* ==============partie rapports============== */}
           <div className="flex flex-col gap-4  text-white">
-            <p className="text-xl font-medium text-amber-300">Rapports</p>
+            {/* <p className="text-xl font-medium text-amber-300">Rapports</p> */}
             <div className="flex flex-col gap-4">
-              <div className="hover:text-gray-300">
-                <a href="#">Médecine et Santé</a>
+              <div className="hover:text-gray-300 text-amber-300">
+                <Link to='/'>Accueil</Link>
               </div>
               <div className="hover:text-gray-300">
-                <a href="#">Droit Privé</a>
+                <Link to='/'>Service</Link>
               </div>
               <div className="hover:text-gray-300">
-                <a href="#">Sociologie</a>
+                <Link to='/'>Rapports</Link>
               </div>
               <div className="hover:text-gray-300">
-                <a href="#">Sciences</a>
+                <Link to='/'>À propos</Link>
               </div>
             </div>
           </div>
           {/*================partie contact================ */}
           <div className="flex flex-col gap-4  text-white">
-          <p className="text-xl  font-medium text-amber-300">Contacts</p>
+          <p className="text-sm  text-amber-300">Contacts</p>
             <div>
               <div className="flex gap-1 hover:text-gray-300">
                  <div className="text-xl text-amber-300">
                  <IoLocation />
                  </div>
                  <div>
-                 <a href="#">Dakar, Sénégal</a>
+                 <Link to='/'>Dakar, Sénégal</Link>
                  </div>
               </div>
             </div>
@@ -71,7 +94,7 @@ const Footer = () => {
                 <FaPhoneAlt />
                 </div>
                 <div>
-                <a href="#">76 592 61 27</a>
+                <Link to='/'>76 592 61 27</Link>
                 </div>
               </div>
             </div>
@@ -81,7 +104,7 @@ const Footer = () => {
                 <MdOutlineEmail />
                 </div>
                 <div>
-                <a href="#">hello@senrapports.com</a>
+                <Link to='/'>hello@senrapports.com</Link>
                 </div>
               </div>
             </div>
@@ -91,7 +114,7 @@ const Footer = () => {
             <div>
               <label
                 htmlFor="newsletter"
-                className="block text-sm/6 font-medium text-amber-300"
+                className="block text-sm text-amber-300"
               >
                 NEWSLETTER:
               </label>
@@ -103,26 +126,33 @@ const Footer = () => {
                     id="newsletter"
                     className="block w-fullmin-w-0 grow  py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                     placeholder="Votre email"
+                    value={email}
+                    onChange={handleEmail}
                   />
                 </div>
                 <div className="">
-                  <button className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
+                  <button 
+                  onClick={handleSend}
+                  className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
                     <BsFillSendFill />
                   </button>
                 </div>
+                {message && (
+                <p className="text-sm mt-2 text-gray-600">{message}</p>
+                   )}
               </div>
             </div>
             <div className="flex flex-col gap-6 mt-8">
               <div className="flex gap-2 flex-wrap text-2xl">
-                <a href="#" className=" text-gray-300 hover:text-white">
+                <Link  to='/' className=" text-gray-300 hover:text-white">
                   <FaFacebook />
-                </a>
-                <a href="#" className=" text-gray-300 hover:text-white">
+                </Link>
+                <Link to='/' className=" text-gray-300 hover:text-white">
                   <FaLinkedin />
-                </a>
-                <a href="#" className=" text-gray-300 hover:text-white">
+                </Link>
+                <Link to='/' className=" text-gray-300 hover:text-white">
                   <FaXTwitter />
-                </a>
+                </Link>
               </div>
             </div>
             {/* ==================Button================== */}
