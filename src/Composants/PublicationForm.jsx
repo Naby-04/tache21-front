@@ -1,7 +1,7 @@
 import React from 'react'
 import { toast } from 'react-hot-toast'
 import {usePublication } from '../Contexts/DashboardUser/UseContext'
-import { categories } from './Categorie'
+import { categories } from '../data/Categorie'
 import { useNavigate } from 'react-router-dom'
 
 const PublicationForm = () => {

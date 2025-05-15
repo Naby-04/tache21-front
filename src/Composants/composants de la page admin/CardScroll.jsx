@@ -1,8 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import CategorieCard from "./CategorieCard";
 
+
+
 const CardScroll = ({ services, selectedIndex, setSelectedIndex }) => {
   const scrollRef = useRef(null);
+
+  
 
   useEffect(() => {
   const scrollContainer = scrollRef.current;

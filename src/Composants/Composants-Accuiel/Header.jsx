@@ -7,10 +7,10 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-gray-800 w-full mx-auto rounded-4xl fixed top-0 left-0 shadow-md z-80">
-      <div className="w-full md:w-[95%] mx-auto flex items-center justify-between px-4 py-4">
+    <header className="w-full fixed top-0 pt-2 z-80 bg-white">
+      <div className="md:w-[95%] bg-gray-800 shadow-md rounded-full mx-auto flex items-center justify-between px-4 py-4">
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-2">
           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
           <span className="text-xl font-bold text-amber-300">SenRapport</span>
         </div>
@@ -26,10 +26,18 @@ const Header = () => {
           <ScrollLink to="a-propos"  smooth={true}  duration={500}  offset={-70} className=" active-link">À propos</ScrollLink>
           <Link to="/connexion">
             <button className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
-              Connexion
-            </button>
-          </Link>
+          <a href="#" className="hover:text-amber-300 transition">Accueil</a>
+          <a href="#" className="hover:text-amber-300 transition">Services</a>
+          <Link to="/rapports"><a href="#" className="hover:text-amber-300 transition">Rapports</a></Link>
+          <a href="#" className="hover:text-amber-300 transition">À propos</a>
+          
         </nav>
+
+        <Link to="/connexion">
+            <span className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
+              Connexion
+            </span>
+        </Link>
       </div>
 
       {isOpen && (
