@@ -5,6 +5,7 @@ import SlideShow from "../../Composants/Composants-Accuiel/SlideShow";
 import ProjectDescription from "../../Composants/Composants-Accuiel/ProjectDescription";
 import TopReports from "../../Composants/Composants-Accuiel/TopReports";
 import Footer from "../../Composants/Composants-Accuiel/Footer";
+import LesServices from "../../Composants/Composants-Accuiel/LesServices";
 
 
 function HomePage() {
@@ -12,8 +13,9 @@ function HomePage() {
     <div className="">
       <Header/>
       <SlideShow/>
-      <ProjectDescription />
+      <LesServices />
       <TopReports />
+      <ProjectDescription />
       <Footer />
     </div>
   );

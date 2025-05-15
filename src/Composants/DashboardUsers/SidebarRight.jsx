@@ -13,7 +13,7 @@ export const SidebarRight = () => {
         <li>
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`text-sm px-3 py-1 rounded-md font-medium w-full text-left cursor-pointer
+            className={`text-sm px-3 py-1 rounded-md font-medium  text-left cursor-pointer
               ${selectedCategory === null
                 ? "bg-gray-800 text-white"
                 : "bg-gray-200 hover:opacity-80 text-gray-700"}`}
@@ -27,7 +27,7 @@ export const SidebarRight = () => {
           <li key={i} className="cursor-pointer">
             <button
               onClick={() => setSelectedCategory(cat.value)}
-              className={`text-sm px-3 py-1 rounded-md font-medium w-full text-left transition  cursor-pointer
+              className={`text-sm px-3 py-1 rounded-md font-medium  text-left transition  cursor-pointer
                 ${selectedCategory === cat.value
                   ? `bg-gray-800 text-white`
                   : "bg-gray-200 hover:opacity-80 hover:scale-105 text-gray-700"}`}

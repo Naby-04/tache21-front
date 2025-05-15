@@ -1,7 +1,5 @@
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { ComponentRapport } from "../../Composants/DashboardUsers/Rapport/RapportComponent";
-import { FaCloudDownloadAlt } from 'react-icons/fa';
-import {FaArrowUpRightFromSquare} from 'react-icons/fa6'
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import fakeReports from "../../data/FakeReport";
 export const Rapport = () => {
