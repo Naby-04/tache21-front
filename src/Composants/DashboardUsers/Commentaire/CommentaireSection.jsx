@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {RxDotsHorizontal} from "react-icons/rx"
 import ModalComponent from "../../modalComponent";
+import { BsTrash } from "react-icons/bs";
 
 export const CommentairesSection = ({ rapportId }) => {
 	const [commentaires, setCommentaires] = useState([]);
@@ -13,7 +14,12 @@ export const CommentairesSection = ({ rapportId }) => {
 			{ id: 1, auteur: "Abdoul Wahab Diouf",
 				 contenu: "Très bon rapport, merci !" ,
 			},
-			{ id: 2, auteur: "Ndeye Amie Thiam", contenu: "Super intéressant, j’ai appris beaucoup." },
+			{ id: 2, auteur: "Ndeye Amie Thiam",
+			 contenu: "Super intéressant, j’ai appris beaucoup." 
+			},
+			{ id: 3, auteur: "Naffisatou Ndiaye",
+			 contenu: "Très bon rapport, merci !" 
+			},
 		];
 		setTimeout(() => {
 			setCommentaires(fakeComments);
@@ -40,9 +46,9 @@ export const CommentairesSection = ({ rapportId }) => {
 							</div>
 							<div>
 							<span className="text-gray-500 cursor-pointer ">
-							        <RxDotsHorizontal className="text-xl rounded-full p-2 w-[40px] h-[40px]
+							        <BsTrash className="text-sm rounded-full p-2 w-[30px] h-[30px]
 									 hover:bg-gray-200 transition-all" 
-									title="Options " onClick={() => setSelectedComment(comment)}/>
+									title="supprimer " onClick={() => setSelectedComment(comment)}/>
 							 </span>
 
 							</div>

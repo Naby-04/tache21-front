@@ -3,7 +3,7 @@ import CommentModal  from "../Commentaire/CommentModal";
 import {useState } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
-import { categories } from "../../Categorie";
+import { categories } from "../../../data/Categorie";
 
 export const RapportCard = ({ doc }) => {
 
