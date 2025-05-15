@@ -66,9 +66,9 @@ export const CommentairesSection = ({ rapportId }) => {
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 cursor-pointer">
+                <span className="text-gray-500 cursor-pointer border">
                   <BsTrash
-                    className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 transition-all"
+                    className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 transition-all border "
                     title="Supprimer"
                     onClick={() => askDeleteComment(comment.id)}
                   />
