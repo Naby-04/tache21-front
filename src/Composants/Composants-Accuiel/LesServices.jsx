@@ -21,6 +21,7 @@ const services = [
 
 const LesServices = () => {
   return (
+    <section id="services">
     <div className="w-full my-10 px-4">
       {/* <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Services</h2> */}
       <div className="flex justify-center mb-8">
@@ -32,6 +33,7 @@ const LesServices = () => {
         </div>
       </div>
     </div>
+    </section>
   );
 };
 

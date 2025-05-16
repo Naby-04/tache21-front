@@ -1,9 +1,11 @@
-import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
+import { FaCloudDownloadAlt, FaCommentAlt, FaEye  } from "react-icons/fa";
+import { BsTrash } from "react-icons/bs";
 import CommentModal  from "../Commentaire/CommentModal";
 import {useState } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
+import ModalComponent from "../../modalComponent";
 
 export const RapportCard = ({ doc }) => {
 
@@ -13,10 +15,22 @@ export const RapportCard = ({ doc }) => {
 	// pour voir les commentaires 
 	const [showComments, setShowComments] = useState(false);
 
+	// pour stocker lescommentaires locaux
+	const [commentaires, setCommentaires] = useState([]);
+
+
 	const handleCommentSubmit = (comment) => {
-		console.log("Commentaire:", comment, "pour:", doc.id);
-		setShowCommentBox(false);
-	};
+  const nouveauCommentaire = {
+    id: Date.now(), // ID unique temporaire
+    contenu: comment,
+    auteur: "Abdoul Wakhab Diouf", // tu peux changer selon ton système
+    date: new Date().toLocaleString(),
+  };
+
+  setCommentaires((prev) => [nouveauCommentaire, ...prev]); // on ajoute en haut
+  setShowCommentBox(false); // on ferme la boîte
+};
+
 
 	const currentCategory = categories.find((cat) => cat.value === doc.category);
 	const categoryClass = currentCategory?.color 
@@ -24,6 +38,28 @@ export const RapportCard = ({ doc }) => {
 
 	// conversion des tags en tableau
 	const TagsArray = Array.isArray(doc.tags) ? doc.tags : doc.tags.split(",");
+
+
+	// gestion de la suppression 
+
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
+
+
+	const handleDeleteComment = (idCommentaire) => {
+  setCommentToDelete(idCommentaire);
+  setShowDeleteModal(true);
+};
+
+const confirmDeleteComment = () => {
+  setCommentaires((prevCommentaires) =>
+    prevCommentaires.filter((c) => c.id !== commentToDelete)
+  );
+  setShowDeleteModal(false);
+  setCommentToDelete(null);
+};
+
+
 
 	
 	return (
@@ -136,10 +172,51 @@ export const RapportCard = ({ doc }) => {
 			)}
 
 			{/* Section Commentaires */}
-			{showComments && <div className="mt-4">
+			{/* j'ai commenter pour que apres l'on puisse aller chercher le commentaire au niveau de l'api pour celui qui vas s'en charger */}
+			{/* ======================================= */}
+			{/* {showComments && <div className="mt-4">
 				<CommentairesSection rapportId={doc.id} />
 				</div>
-				}
+				} */}
+				{/* ======================================= */}
+				{showComments && (
+  <div className="mt-4">
+    <div className="space-y-4">
+      {commentaires.length === 0 ? (
+        <p className="text-gray-500 text-sm">Aucun commentaire pour le moment.</p>
+      ) : (
+        commentaires.map((c) => (
+          <div key={c.id} className="bg-gray-100 p-3 rounded-md shadow-sm relative">
+            <p className="text-sm text-gray-800 font-semibold">{c.auteur}</p>
+            <p className="text-gray-700 text-sm">{c.contenu}</p>
+            <p className="text-gray-400 text-xs">{c.date}</p>
+						{/* BOUTON SUPPRIMER */}
+            <button
+              className="absolute top-2 right-2 text-red-500 text-xs hover:underline"
+              onClick={() => handleDeleteComment(c.id)}
+            >
+              <BsTrash className="mt-5 text-black hover:text-red-700" size="20px"/>
+            </button>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+)}
+
+{/* modal pour la confirmation de suppression */}
+
+<ModalComponent
+  isOpen={showDeleteModal}
+  onClose={() => setShowDeleteModal(false)}
+  title="Supprimer le commentaire ?"
+  message="Voulez-vous vraiment supprimer ce commentaire ? Cette action est irréversible."
+  confirmText="Supprimer"
+  cancelText="Annuler"
+  onConfirm={confirmDeleteComment}
+/>
+
+
 		</div>
 	);
 };

@@ -5,7 +5,7 @@ function ProjectDescription() {
   return (
   <div className='relative flex justify-center'>
     <Animation/>
-    <section className="px-6 to-yellow-50 mt-5 mb-30">
+    <section id="a-propos" className="px-6 to-yellow-50 mt-5 mb-30">
       <div className="flex justify-center mb-8">
         <h2 className="relative text-2xl font-bold text-gray-800 after:content-[''] after:block after:h-[3px] after:w-[50%] after:mx-auto after:bg-amber-300 after:mt-2">A propos de nous</h2>
       </div>
