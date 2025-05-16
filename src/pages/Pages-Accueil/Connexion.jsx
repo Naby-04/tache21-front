@@ -1,50 +1,90 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./firebase";
+// import { signInWithPopup } from "firebase/auth";
+import { toast } from "react-toastify";
+import FormContext from "../../Contexts/FormContext";
+import AuthContext from "../../Contexts/AuthContext";
+
 
 const Connexion = () => {
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const navigate = useNavigate();
+  // const [error, setError] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (err) {
-      console.error("Erreur Google:", err);
-      setError("Erreur lors de la connexion avec Google.");
-    }
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     await signInWithPopup(auth, provider);
+  //     navigate("/users");
+  //   } catch (err) {
+  //     console.error("Erreur Google:", err);
+  //     setError("Erreur lors de la connexion avec Google.");
+  //   }
+  // };
+
+  const { formData, updateFormData , resetFormData} = useContext(FormContext);
+  const { fetchProfil } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+
+     const {  email, password } = formData;
+    
+        // Validation des champs
+        if (!email || !password ) {
+          toast.error("Veuillez remplir tous les champs.");
+          return;
+        }
+
+         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+              toast.error("Adresse email invalide.");
+              return;
+            }
+        
+            if (password.length < 6) {
+              toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+              return;
+            }
+
     try {
-      const response = await fetch("/api/login", {
+      const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          email,
-          password,
+          email: formData.email,
+          password: formData.password,
         }),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || "Erreur lors de la connexion.");
-        return;
-      }
+      const data = await response.json();
 
-      navigate("/users");
-    } catch (err) {
-      setError("Erreur réseau ou serveur.");
+      if (!response.ok) throw new Error(data.message || "Erreur de connexion");
+
+      localStorage.setItem("token", data.token);
+      await fetchProfil();
+      toast.success(" Connexion réussie !");
+      resetFormData();
+      navigate("/users"); 
+    } catch (error) {
+     toast.error("erreur de connection" + error.message);
+      console.error("Erreur lors de la connexion :", error);
     }
   };
+  
+  
 
+  
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
       <div className="rounded-lg w-full flex 1/3">
@@ -66,10 +106,10 @@ const Connexion = () => {
                 id="email"
                 type="email"
                 placeholder="Votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                 name="email"
+                value={formData.email || ""}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                required
               />
             </div>
 
@@ -81,10 +121,10 @@ const Connexion = () => {
                 id="password"
                 type="password"
                 placeholder="Votre mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                 name="password"
+                value={formData.password || ""}
+              onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                required
               />
             </div>
 
@@ -112,7 +152,7 @@ const Connexion = () => {
           </div>
           <div className="w-[70%]">
             <button
-              onClick={handleGoogleSignIn}
+              // onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center bg-gray-200 border border-amber-300 hover:bg-amber-600 text-black font-bold py-2 px-4 rounded-2xl w-full"
             >
@@ -122,11 +162,11 @@ const Connexion = () => {
             </button>
           </div>
 
-          {error && (
+          {/* {error && ( */}
             <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
-              {error}
+              {/* {error} */}
             </div>
-          )}
+          {/* )} */}
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">

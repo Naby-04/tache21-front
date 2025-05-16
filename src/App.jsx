@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
@@ -19,8 +20,9 @@ import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
-      // <Admin />
-    
+    <>
+    <ToastContainer/>
+     {/* <Admin /> */}
        <BrowserRouter>
          <Routes>
            <Route path="/" element={<HomePage />} />
@@ -38,7 +40,7 @@ const App = () => {
          </Routes>
          <Toaster position="top-center"/>
        </BrowserRouter>
-   
+   </>
   );
 };
 

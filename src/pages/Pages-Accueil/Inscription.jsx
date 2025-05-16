@@ -1,64 +1,92 @@
-import React, { useState } from "react";
+import React, { useContext} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./firebase";
+// import { signInWithPopup } from "firebase/auth";
+import FormContext from "../../Contexts/FormContext";
+import { toast } from "react-toastify";
 
 const Inscription = () => {
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [acceptCGU, setAcceptCGU] = useState(false);
+  // const navigate = useNavigate();
+  // const [error, setError] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
+  // const [acceptCGU, setAcceptCGU] = useState(false);
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (error) {
-      setError("Erreur lors de l'inscription avec Google.");
-      console.error("Error signing in with Google:", error);
-    }
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     await signInWithPopup(auth, provider);
+  //     navigate("/users");
+  //   } catch (error) {
+  //     setError("Erreur lors de l'inscription avec Google.");
+  //     console.error("Error signing in with Google:", error);
+  //   }
+  // };
+
+   const { formData, updateFormData, resetFormData } = useContext(FormContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    if (!acceptCGU) {
-      setError("Vous devez accepter les conditions générales.");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
+
+    const { prenom, email, password, confirmPassword } = formData;
+
+    // Validation des champs
+    if (!prenom || !email || !password || !confirmPassword) {
+      toast.error("Veuillez remplir tous les champs.");
       return;
     }
 
-    // Envoi des données au backend
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Adresse email invalide.");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("http://localhost:8000/api/users/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          name,
+          prenom,
           email,
           password,
         }),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || "Erreur lors de l'inscription.");
-        return;
-      }
+      const data = await response.json();
 
-      // Redirection ou autre action après succès
-      navigate("/users");
-    } catch (err) {
-      setError("Erreur réseau ou serveur.");
+      if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
+
+      localStorage.setItem("token", data.token);
+      toast.success("Inscription réussie !");
+      resetFormData();
+      navigate("/connexion");
+    } catch (error) {
+      toast.error("Erreur : " + error.message);
+      console.error("Erreur lors de l'inscription :", error);
     }
   };
+  
 
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
@@ -83,9 +111,9 @@ const Inscription = () => {
                 id="name"
                 type="text"
                 placeholder="Votre nom"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
+                 name="prenom"
+                value={formData.prenom || ""}
+                onChange={handleChange}
               />
             </div>
 
@@ -97,9 +125,10 @@ const Inscription = () => {
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
+                name="email"
                 placeholder="Votre email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email || ""}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -113,9 +142,9 @@ const Inscription = () => {
                 id="password"
                 type="password"
                 placeholder="Votre mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                 name="password"
+                value={formData.password || ""}
+              onChange={handleChange}
               />
             </div>
 
@@ -128,9 +157,9 @@ const Inscription = () => {
                 id="confirm-password"
                 type="password"
                 placeholder="Confirmer votre mot de passe"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
+                 name="confirmPassword"
+               value={formData.confirmPassword || ""}
+             onChange={handleChange}
               />
             </div>
 
@@ -139,8 +168,8 @@ const Inscription = () => {
                 <input
                   type="checkbox"
                   className="form-checkbox h-5 text-blue-600"
-                  checked={acceptCGU}
-                  onChange={(e) => setAcceptCGU(e.target.checked)}
+                  // checked={acceptCGU}
+                  // onChange={(e) => setAcceptCGU(e.target.checked)}
                 />
                 <span className="ml-2 text-gray-700 text-sm">
                   J'accepte toutes les conditions générales
@@ -166,7 +195,7 @@ const Inscription = () => {
 
           <div className="flex w-[70%] items-center justify-center">
             <button
-              onClick={handleGoogleSignIn}
+              // onClick={handleGoogleSignIn}
               className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
@@ -183,7 +212,7 @@ const Inscription = () => {
             </Link>
           </div>
 
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
         </div>
       </div>
     </div>
