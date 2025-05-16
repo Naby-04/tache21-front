@@ -14,9 +14,13 @@ function TopReports() {
         <ReportCard key={report.id} report={report} />
       ))}
     </div>
+<<<<<<< Updated upstream
     <Link to="/rapports" className="px-5 py-3 bg-gray-800 text-white hover:bg-amber-300 hover:text-gray-800 transition duration-100 cursor-pointer text-md mt-8 relative top-8 rounded text-center">Decouvrir Plus</Link>
+=======
+    <Link to="/rapports" className="px-5 py-3 bg-gray-800 text-white hover:bg-amber-300 hover:text-gray-800 transition duration-100 cursor-pointer text-md mt-80 relative top-10 rounded text-center">Decouvrir Plus</Link>
+>>>>>>> Stashed changes
   </section>
   )
 }
 
-export default TopReports;
+export default TopReports;  
