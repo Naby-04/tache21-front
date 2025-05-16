@@ -7,7 +7,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-gray-800 w-full mx-auto rounded-4xl fixed top-0 left-0 shadow-md z-80">
+    <header className="bg-gray-800 w-full mx-auto rounded-4xl fixed top-3 left-0 shadow-md z-80">
       <div className="w-full md:w-[95%] mx-auto flex items-center justify-between px-4 py-4">
 
         <div className="flex items-center gap-2">
