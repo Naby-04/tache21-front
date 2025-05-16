@@ -7,9 +7,9 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
-import { initializeApp } from "firebase/app";
-import { collection, addDoc } from "firebase/firestore";
+// import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+// import { initializeApp } from "firebase/app";
+// import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
 import { toast, ToastContainer } from 'react-toastify'
@@ -22,14 +22,19 @@ import 'react-toastify/dist/ReactToastify.css';
 const Footer = () => {
 
    const[email, setEmail] = useState("")
+<<<<<<< HEAD
    const[message ,setMessage] = useState("")
    
+=======
+  //  const[message ,setMessage] = useState("")
+>>>>>>> 0d03c23d12def62260bb6a43231738c51ac6eab3
   const handleEmail = (e) => {
     setEmail(e.target.value)
   }
 
   const handleSend = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     
     if (email.trim() === "") {
       toast.warn("Veuillez entrer un email valide !");
@@ -59,6 +64,21 @@ const Footer = () => {
         toast.error("Erreur Firestore :", err);
         toast.error("Erreur lors de l'enregistrement. Veuillez réessayer.");
       }
+=======
+  
+    // if (email) {
+    //   try {
+    //     await addDoc(collection(db, "emails"), {
+    //       email,
+    //       time: serverTimestamp(),
+    //     });
+    //     setMessage("Email envoyé :", email);
+    //     setEmail("");
+    //   } catch (err) {
+    //     console.error("Erreur lors de l'envoi :", err);
+    //   }
+    // }
+>>>>>>> 0d03c23d12def62260bb6a43231738c51ac6eab3
   };
 
 
@@ -158,11 +178,17 @@ const Footer = () => {
                     <BsFillSendFill />
                   </button>
                 </div>
+<<<<<<< HEAD
                 {message && (
                 <p 
                 name="message"
                 className="text-sm mt-2 text-gray-600">{message}</p>
                    )}
+=======
+                {/* {message && (
+                <p className="text-sm mt-2 text-gray-600">{message}</p>
+                   )} */}
+>>>>>>> 0d03c23d12def62260bb6a43231738c51ac6eab3
               </div>
             </div>
             <div className="flex flex-col gap-6 mt-8">

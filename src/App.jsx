@@ -14,7 +14,7 @@ import Inscription from "./pages/Pages-Accueil/Inscription";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
-
+import { toast, ToastContainer } from 'react-toastify'
 
 
   
@@ -40,6 +40,7 @@ const App = () => {
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
          <Toaster position="top-center"/>
+
        </BrowserRouter>
    </>
   );
