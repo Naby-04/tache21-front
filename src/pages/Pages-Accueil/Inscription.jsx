@@ -1,36 +1,30 @@
-import React, { useContext} from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth, provider } from "./firebase";
-// import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "./firebase";
+import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 
 const Inscription = () => {
-  // const navigate = useNavigate();
-  // const [error, setError] = useState("");
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-  // const [acceptCGU, setAcceptCGU] = useState(false);
-
-  // const handleGoogleSignIn = async () => {
-  //   setError("");
-  //   try {
-  //     await signInWithPopup(auth, provider);
-  //     navigate("/users");
-  //   } catch (error) {
-  //     setError("Erreur lors de l'inscription avec Google.");
-  //     console.error("Error signing in with Google:", error);
-  //   }
-  // };
-
-   const { formData, updateFormData, resetFormData } = useContext(FormContext);
+  const [error, setError] = useState("");
+  const [acceptCGU, setAcceptCGU] = useState(false);
+  const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/users");
+    } catch (error) {
+      setError("Erreur lors de l'inscription avec Google.");
+      console.error("Error signing in with Google:", error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -41,6 +35,11 @@ const Inscription = () => {
     // Validation des champs
     if (!prenom || !email || !password || !confirmPassword) {
       toast.error("Veuillez remplir tous les champs.");
+      return;
+    }
+
+    if (!acceptCGU) {
+      toast.error("Vous devez accepter les conditions générales.");
       return;
     }
 
@@ -86,7 +85,6 @@ const Inscription = () => {
       console.error("Erreur lors de l'inscription :", error);
     }
   };
-  
 
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
@@ -111,7 +109,7 @@ const Inscription = () => {
                 id="name"
                 type="text"
                 placeholder="Votre nom"
-                 name="prenom"
+                name="prenom"
                 value={formData.prenom || ""}
                 onChange={handleChange}
               />
@@ -142,9 +140,9 @@ const Inscription = () => {
                 id="password"
                 type="password"
                 placeholder="Votre mot de passe"
-                 name="password"
+                name="password"
                 value={formData.password || ""}
-              onChange={handleChange}
+                onChange={handleChange}
               />
             </div>
 
@@ -157,9 +155,9 @@ const Inscription = () => {
                 id="confirm-password"
                 type="password"
                 placeholder="Confirmer votre mot de passe"
-                 name="confirmPassword"
-               value={formData.confirmPassword || ""}
-             onChange={handleChange}
+                name="confirmPassword"
+                value={formData.confirmPassword || ""}
+                onChange={handleChange}
               />
             </div>
 
@@ -168,8 +166,8 @@ const Inscription = () => {
                 <input
                   type="checkbox"
                   className="form-checkbox h-5 text-blue-600"
-                  // checked={acceptCGU}
-                  // onChange={(e) => setAcceptCGU(e.target.checked)}
+                  checked={acceptCGU}
+                  onChange={(e) => setAcceptCGU(e.target.checked)}
                 />
                 <span className="ml-2 text-gray-700 text-sm">
                   J'accepte toutes les conditions générales
@@ -195,13 +193,12 @@ const Inscription = () => {
 
           <div className="flex w-[70%] items-center justify-center">
             <button
-              // onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
-              
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
-              <span className="">Google</span> 
+              <span className="">Google</span>
             </button>
           </div>
 
@@ -212,7 +209,7 @@ const Inscription = () => {
             </Link>
           </div>
 
-          {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
+          {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
       </div>
     </div>

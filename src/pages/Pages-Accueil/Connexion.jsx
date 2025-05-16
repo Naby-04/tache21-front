@@ -1,30 +1,15 @@
-import React, { useContext } from "react";
+
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth, provider } from "./firebase";
-// import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "./firebase";
+import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 
-
 const Connexion = () => {
-  // const navigate = useNavigate();
-  // const [error, setError] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
-  // const handleGoogleSignIn = async () => {
-  //   setError("");
-  //   try {
-  //     await signInWithPopup(auth, provider);
-  //     navigate("/users");
-  //   } catch (err) {
-  //     console.error("Erreur Google:", err);
-  //     setError("Erreur lors de la connexion avec Google.");
-  //   }
-  // };
-
-  const { formData, updateFormData , resetFormData} = useContext(FormContext);
+  const [error, setError] = useState("");
+  const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -33,27 +18,38 @@ const Connexion = () => {
     updateFormData(name, value);
   };
 
+  const handleGoogleSignIn = async () => {
+    setError("");
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/users");
+    } catch (err) {
+      console.error("Erreur Google:", err);
+      setError("Erreur lors de la connexion avec Google.");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     const {  email, password } = formData;
-    
-        // Validation des champs
-        if (!email || !password ) {
-          toast.error("Veuillez remplir tous les champs.");
-          return;
-        }
+    const { email, password } = formData;
 
-         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-              toast.error("Adresse email invalide.");
-              return;
-            }
-        
-            if (password.length < 6) {
-              toast.error("Le mot de passe doit contenir au moins 6 caractères.");
-              return;
-            }
+    // Validation des champs
+    if (!email || !password) {
+      toast.error("Veuillez remplir tous les champs.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Adresse email invalide.");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:8000/api/users/login", {
@@ -73,18 +69,15 @@ const Connexion = () => {
 
       localStorage.setItem("token", data.token);
       await fetchProfil();
-      toast.success(" Connexion réussie !");
+      toast.success("Connexion réussie !");
       resetFormData();
-      navigate("/users"); 
+      navigate("/users");
     } catch (error) {
-     toast.error("erreur de connection" + error.message);
+      toast.error("Erreur de connexion : " + error.message);
       console.error("Erreur lors de la connexion :", error);
     }
   };
-  
-  
 
-  
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
       <div className="rounded-lg w-full flex 1/3">
@@ -106,7 +99,7 @@ const Connexion = () => {
                 id="email"
                 type="email"
                 placeholder="Votre email"
-                 name="email"
+                name="email"
                 value={formData.email || ""}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -121,9 +114,9 @@ const Connexion = () => {
                 id="password"
                 type="password"
                 placeholder="Votre mot de passe"
-                 name="password"
+                name="password"
                 value={formData.password || ""}
-              onChange={handleChange}
+                onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
@@ -152,21 +145,20 @@ const Connexion = () => {
           </div>
           <div className="w-[70%]">
             <button
-              // onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center bg-gray-200 border border-amber-300 hover:bg-amber-600 text-black font-bold py-2 px-4 rounded-2xl w-full"
             >
-              
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
               <span>Google</span>
             </button>
           </div>
 
-          {/* {error && ( */}
+          {error && (
             <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
-              {/* {error} */}
+              {error}
             </div>
-          {/* )} */}
+          )}
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
