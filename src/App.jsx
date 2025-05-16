@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
@@ -9,19 +10,20 @@ import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 import HomePage from "./pages/Pages-Accueil/HomePage";
 import Connexion from "./pages/Pages-Accueil/Connexion";
 import Inscription from "./pages/Pages-Accueil/Inscription";
-import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
+ import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 import { toast, ToastContainer } from 'react-toastify'
 
 
-  //  import Admin from "./pages/Admin";
+    // import Admin from "./pages/Admin";
 
 const App = () => {
   return (
-      // <Admin />
-    
+    <>
+    <ToastContainer/>
+     {/* <Admin /> */}
        <BrowserRouter>
          <Routes>
            <Route path="/" element={<HomePage />} />
@@ -40,7 +42,7 @@ const App = () => {
          <Toaster position="top-center"/>
          <ToastContainer />
        </BrowserRouter>
-   
+   </>
   );
 };
 

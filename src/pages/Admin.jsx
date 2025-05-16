@@ -27,6 +27,9 @@ const services = [
 
 const Admin = () => {
   const [recherche, setRecherche] = useState("");
+  const [rechercheDashboard, setRechercheDashboard] = useState("");
+const [rechercheRapports, setRechercheRapports] = useState("");
+
   const [filtreUser, setFiltreUser] = useState(LesUtilisateurs);
   const [rapportfiltre, setRapportFiltre] = useState(RapportsTab);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -50,33 +53,65 @@ const Admin = () => {
     setFiltreUser(nouveauTab);
   };
 
-  const filtreRapport = (texteRecherche) => {
-    setRecherche(texteRecherche);
+const filtrerRapportsParTexte = (texteRecherche) => {
+  setRechercheDashboard(texteRecherche);
+  // Ton filtre ici
+  let filtered = RapportsTab;
+  if (texteRecherche !== "") {
+    filtered = filtered.filter((r) =>
+      r.titre.toLowerCase().includes(texteRecherche.toLowerCase())
+    );
+  }
+  setRapportFiltre(filtered);
+};
 
-    let filtered = RapportsTab;
+const filtrerRapportsParTexteEtCategorie = (texteRecherche) => {
+  setRechercheRapports(texteRecherche);
+  // filtre combiné texte + catégorie
+  let filtered = RapportsTab;
 
-    if (selectedIndex !== 0) {
-      const selectedCategory = services[selectedIndex].label;
-      filtered = filtered.filter((r) => r.categories === selectedCategory);
-    }
+  if (selectedIndex !== 0) {
+    const selectedCategory = services[selectedIndex].label;
+    filtered = filtered.filter((r) => r.categories === selectedCategory);
+  }
 
-    if (texteRecherche !== "") {
-      filtered = filtered.filter((r) =>
-        r.titre.toLowerCase().includes(texteRecherche.toLowerCase())
-      );
-    }
+  if (texteRecherche !== "") {
+    filtered = filtered.filter((r) =>
+      r.titre.toLowerCase().includes(texteRecherche.toLowerCase())
+    );
+  }
+  setRapportFiltre(filtered);
+};
 
-    setRapportFiltre(filtered);
-  };
+
 
   const supprimerRapport = (rank) => {
     const nouveauTableau = rapportfiltre.filter((sup) => sup.rank !== rank);
     setRapportFiltre(nouveauTableau);
   };
 
-  useEffect(() => {
-    filtreRapport(recherche); // réapplique le filtre quand la catégorie change
-  }, [selectedIndex]); // ⚠️ bien dans le composant
+ useEffect(() => {
+  if (vueActive === "dashboard") {
+    filtrerRapportsParTexte(rechercheDashboard);
+  } else if (vueActive === "rapports") {
+    filtrerRapportsParTexteEtCategorie(rechercheRapports);
+  } else if (vueActive === "users") {
+    setRechercheDashboard("");
+    setRechercheRapports("");
+    setFiltreUser(LesUtilisateurs);
+    setRapportFiltre(RapportsTab);
+    setSelectedIndex(0);
+  }
+}, [vueActive]);
+
+
+useEffect(() => {
+  // Filtrage par catégorie quand selectedIndex change, mais seulement dans la vue "rapports"
+  if (vueActive === "rapports") {
+    filtrerRapportsParTexteEtCategorie(rechercheRapports);
+  }
+}, [selectedIndex, vueActive]);
+
 
   return (
     <div className="h-screen flex">
@@ -86,9 +121,9 @@ const Admin = () => {
       {/* Main */}
       <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
         {vueActive === "users" && <HeaderAdmin onSearch={changement} />}
-        {(vueActive === "dashboard" || vueActive === "rapports") && (
-          <HeaderAdmin onSearch={filtreRapport} />
-        )}
+{vueActive === "dashboard" && <HeaderAdmin onSearch={filtrerRapportsParTexte} />}
+{vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
+
 
         {vueActive === "dashboard" && (
           <DashboardContenu rapports={rapportfiltre} />
