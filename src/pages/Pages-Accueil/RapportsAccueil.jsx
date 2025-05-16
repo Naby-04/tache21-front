@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { categories} from "../../data/Categorie"
+import { categories } from "../../data/Categorie";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
 import { Link } from "react-router-dom";
 
