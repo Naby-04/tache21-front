@@ -93,85 +93,6 @@ const Inscription = () => {
           <img src="/imge/Sign up-cuate.png" alt="photo" />
         </div>
 
-<<<<<<< HEAD
-        {/* Right Side */}
-        <div className="md:w-[50%] text-xs px-8 flex flex-col items-center justify-center  ">
-          <div className=" mb-4 ">
-            <h2 className="text-2xl text-center font-bold text-gray-800">
-              Créer un compte
-            </h2>
-          </div>
-             <form className="w-full">
-          <div className="mb-2 w-[80%]">
-            <label
-              className="block text-gray-700 text-base font-bold mb-2"
-              htmlFor="name"
-            >
-              Entrez votre nom
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
-              placeholder="Votre nom"
-            />
-          </div>
-
-          <div className="mb-2 w-[80%]">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="email"
-            >
-              Entrez votre email
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full  py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Votre email"
-            />
-          </div>
-
-          <div className="mb-2 w-[80%]">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="password"
-            >
-              Mot de passe
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="Votre mot de passe"
-            />
-          </div>
-
-          <div className="mb-5 w-[80%]">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="confirm-password"
-            >
-              Confirmer le mot de passe
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="confirm-password"
-              type="password"
-              placeholder="Confirmer votre mot de passe"
-            />
-          </div>
-
-
-          <div className="flex w-[80%] items-center justify-between">
-            <Link to="/connexion"
-              className="bg-gray-700 hover:bg-gray-600 text-center  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
-              type="button"
-            >
-              S'inscrire
-            </Link>
-          </div>
-=======
         {/* Partie droite */}
         <div className="md:w-[50%] text-xs px-8 flex flex-col items-center justify-center">
           <div className="mb-4">
@@ -209,7 +130,6 @@ const Inscription = () => {
                 required
               />
             </div>
->>>>>>> 2c6687ff9e89dd19252110dde8223ef53eccb32f
 
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -288,12 +208,8 @@ const Inscription = () => {
               Se connecter
             </Link>
           </div>
-<<<<<<< HEAD
-          </form>
-=======
 
           {error && <p className="text-red-500 mt-2">{error}</p>}
->>>>>>> 2c6687ff9e89dd19252110dde8223ef53eccb32f
         </div>
       </div>
     </div>
