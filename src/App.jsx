@@ -9,7 +9,7 @@ import { DashboardUsers } from "./pages/DashboardUsers/DashboardUsers";
 import HomePage from "./pages/Pages-Accueil/HomePage";
 import Connexion from "./pages/Pages-Accueil/Connexion";
 import Inscription from "./pages/Pages-Accueil/Inscription";
-import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
+ import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
