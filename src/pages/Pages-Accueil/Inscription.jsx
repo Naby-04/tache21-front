@@ -127,7 +127,6 @@ const Inscription = () => {
                 placeholder="Votre email"
                 value={formData.email || ""}
                 onChange={handleChange}
-                required
               />
             </div>
 
@@ -150,7 +149,7 @@ const Inscription = () => {
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
-              <input
+              <input                                                                                                                                                     
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="confirm-password"
                 type="password"

@@ -7,9 +7,9 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
-import { initializeApp } from "firebase/app";
-import { collection, addDoc } from "firebase/firestore";
+// import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+// import { initializeApp } from "firebase/app";
+// import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
 
@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
 
    const[email, setEmail] = useState("")
-   const[message ,setMessage] = useState("")
+  //  const[message ,setMessage] = useState("")
   const handleEmail = (e) => {
     setEmail(e.target.value)
   }
@@ -25,18 +25,18 @@ const Footer = () => {
   const handleSend = async (e) => {
     e.preventDefault();
   
-    if (email) {
-      try {
-        await addDoc(collection(db, "emails"), {
-          email,
-          time: serverTimestamp(),
-        });
-        setMessage("Email envoyé :", email);
-        setEmail("");
-      } catch (err) {
-        console.error("Erreur lors de l'envoi :", err);
-      }
-    }
+    // if (email) {
+    //   try {
+    //     await addDoc(collection(db, "emails"), {
+    //       email,
+    //       time: serverTimestamp(),
+    //     });
+    //     setMessage("Email envoyé :", email);
+    //     setEmail("");
+    //   } catch (err) {
+    //     console.error("Erreur lors de l'envoi :", err);
+    //   }
+    // }
   };
 
 
@@ -137,9 +137,9 @@ const Footer = () => {
                     <BsFillSendFill />
                   </button>
                 </div>
-                {message && (
+                {/* {message && (
                 <p className="text-sm mt-2 text-gray-600">{message}</p>
-                   )}
+                   )} */}
               </div>
             </div>
             <div className="flex flex-col gap-6 mt-8">
