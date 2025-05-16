@@ -18,12 +18,12 @@ const Inscription = () => {
         {/* Right Side */}
         <div className="md:w-[50%] text-xs px-8 flex flex-col items-center justify-center  ">
           <div className=" mb-4 ">
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-2xl text-center font-bold text-gray-800">
               Créer un compte
             </h2>
           </div>
-
-          <div className="mb-2 w-[70%]">
+             <form className="w-full">
+          <div className="mb-2 w-[80%]">
             <label
               className="block text-gray-700 text-base font-bold mb-2"
               htmlFor="name"
@@ -38,7 +38,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-2 w-[70%]">
+          <div className="mb-2 w-[80%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="email"
@@ -53,7 +53,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-2 w-[70%]">
+          <div className="mb-2 w-[80%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
@@ -68,7 +68,7 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-2 w-[70%]">
+          <div className="mb-5 w-[80%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="confirm-password"
@@ -83,18 +83,8 @@ const Inscription = () => {
             />
           </div>
 
-          <div className="mb-2 w-[70%]">
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox h-5  text-blue-600"
-              />
-              <span className="ml-2 text-gray-700 text-sm">
-              </span>
-            </label>
-          </div>
 
-          <div className="flex w-[70%] items-center justify-between">
+          <div className="flex w-[80%] items-center justify-between">
             <Link to="/connexion"
               className="bg-gray-700 hover:bg-gray-600 text-center  text-white font-bold py-3  px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
@@ -109,7 +99,7 @@ const Inscription = () => {
             <div className="border-t border-gray-500 flex-grow "></div>
           </div>
 
-          <div className="flex w-[70%] items-center justify-center">
+          <div className="flex w-[80%] items-center justify-center">
             <button
               className="flex items-center justify-center gap-3 
              bg-gray-700 h-10 hover:bg-gray-600 text-white font-bold py-3
@@ -134,6 +124,7 @@ const Inscription = () => {
               Se Connecter
             </Link>
           </div>
+          </form>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from 'react-toastify'
 
 
   //  import Admin from "./pages/Admin";
@@ -37,6 +38,7 @@ const App = () => {
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
          <Toaster position="top-center"/>
+         <ToastContainer />
        </BrowserRouter>
    
   );
