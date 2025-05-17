@@ -7,36 +7,59 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-// import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
-// import { initializeApp } from "firebase/app";
-// import { collection, addDoc } from "firebase/firestore";
+import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+import { initializeApp } from "firebase/app";
+import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import emailjs from '@emailjs/browser';
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 
 const Footer = () => {
 
    const[email, setEmail] = useState("")
-  //  const[message ,setMessage] = useState("")
+   const[message ,setMessage] = useState("")
+   
   const handleEmail = (e) => {
     setEmail(e.target.value)
   }
 
   const handleSend = async (e) => {
     e.preventDefault();
-  
-    // if (email) {
-    //   try {
-    //     await addDoc(collection(db, "emails"), {
-    //       email,
-    //       time: serverTimestamp(),
-    //     });
-    //     setMessage("Email envoyé :", email);
-    //     setEmail("");
-    //   } catch (err) {
-    //     console.error("Erreur lors de l'envoi :", err);
-    //   }
-    // }
+    
+    if (email.trim() === "") {
+      toast.warn("Veuillez entrer un email valide !");
+      return
+      }
+      try {
+        await addDoc(collection(db, "emails"), {
+          email,
+          time: serverTimestamp(),
+        });
+
+        emailjs.send(
+          'service_wmra0c7',  
+          'template_0u9mmwe',      
+          { user_email: email },
+          '8uD6SuB_tZuWwNH9Y'         
+        )
+        .then(() =>{
+          toast.success("Merci ! Email enregistré et notification envoyée.");
+          // notifyUser();
+          setEmail("")
+        })
+        .catch((err) => {
+          console.error("Erreur EmailJS :", err);
+          toast.error("Erreur lors de l'envoi de l'email de notification.");
+        });
+      } catch (err) {
+        toast.error("Erreur Firestore :", err);
+        toast.error("Erreur lors de l'enregistrement. Veuillez réessayer.");
+      }
   };
 
 
@@ -59,7 +82,6 @@ const Footer = () => {
           </div>
           {/* ==============partie rapports============== */}
           <div className="flex flex-col gap-4  text-white">
-            {/* <p className="text-xl font-medium text-amber-300">Rapports</p> */}
             <div className="flex flex-col gap-4">
               <div className="hover:text-gray-300 text-amber-300">
                 <Link to='/'>Accueil</Link>
@@ -122,7 +144,7 @@ const Footer = () => {
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-yellow-700">
                   <input
                     type="email"
-                    name="newsletter"
+                    name="user_email"
                     id="newsletter"
                     className="block w-fullmin-w-0 grow  py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                     placeholder="Votre email"
@@ -137,9 +159,11 @@ const Footer = () => {
                     <BsFillSendFill />
                   </button>
                 </div>
-                {/* {message && (
-                <p className="text-sm mt-2 text-gray-600">{message}</p>
-                   )} */}
+                {message && (
+                <p 
+                name="message"
+                className="text-sm mt-2 text-gray-600">{message}</p>
+                   )}
               </div>
             </div>
             <div className="flex flex-col gap-6 mt-8">

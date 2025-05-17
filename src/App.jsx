@@ -16,16 +16,17 @@ import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
 
-    import Admin from "./pages/Admin";
+
+  
 
 const App = () => {
   return (
     <>
     <ToastContainer/>
+     {/* <Admin /> */}
        <BrowserRouter>
          <Routes>
            <Route path="/" element={<HomePage />} />
-     
            <Route path="/inscription" element={<Inscription />} />
            <Route path="/connexion" element={<Connexion />} />
            <Route path="/users" element={<DashboardUsers />}>
@@ -37,9 +38,9 @@ const App = () => {
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
-           <Route path="/admin" element={<Admin />} />
          </Routes>
          <Toaster position="top-center"/>
+
        </BrowserRouter>
    </>
   );
