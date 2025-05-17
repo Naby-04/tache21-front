@@ -1,8 +1,8 @@
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./firebase";
+// import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
