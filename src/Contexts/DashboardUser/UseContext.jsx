@@ -18,9 +18,11 @@ export const ContextProvider = ({children}) => {
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
     };
 
+    
+
     // formulaire de publication rapport
     const [form, setForm] = useState({title: "",description:"",
-        tags: "", categories: "",file: null})
+        tags: "", category: "",file: null})
 
     // reference de l'input de fichier
          const fileInput = useRef()
