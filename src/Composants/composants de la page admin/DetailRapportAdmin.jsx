@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 import { BiArrowBack } from 'react-icons/bi';
 import { Document, Page } from 'react-pdf';
-import mammoth from 'mammoth'; // Import de la bibliothèque Mammoth.js
+import mammoth from 'mammoth'; 
 
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
   const [docHtml, setDocHtml] = useState('');

@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
 import { RapportTelecharger } from "./pages/DashboardUsers/Telecharger";
 import { Rapport } from "./pages/DashboardUsers/Rapport";
@@ -15,30 +16,32 @@ import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
 
-    // import Admin from "./pages/Admin";
+    import Admin from "./pages/Admin";
 
 const App = () => {
   return (
-      //  <Admin />
-    
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/inscription" element={<Inscription />} />
-            <Route path="/connexion" element={<Connexion />} />
-            <Route path="/users" element={<DashboardUsers />}>
-              <Route index element={<Acceuil />} />
-              <Route path="rapport" element={<Rapport />} />
-              <Route path="rapportTelecharger" element={<RapportTelecharger />} />
-            </Route>
-            <Route path="/pageParametre" element={<PageParametresCompte />} />
-            <Route path="/rapports" element={<RapportsAccueil />} />
-            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
-            <Route path="/publicationRapport" element={<PublicationForm />} />
-          </Routes>
-          <Toaster position="top-center"/>
-        </BrowserRouter>
-   
+    <>
+    <ToastContainer/>
+       <BrowserRouter>
+         <Routes>
+           <Route path="/" element={<HomePage />} />
+     
+           <Route path="/inscription" element={<Inscription />} />
+           <Route path="/connexion" element={<Connexion />} />
+           <Route path="/users" element={<DashboardUsers />}>
+             <Route index element={<Acceuil />} />
+             <Route path="rapport" element={<Rapport />} />
+             <Route path="rapportTelecharger" element={<RapportTelecharger />} />
+           </Route>
+           <Route path="/pageParametre" element={<PageParametresCompte />} />
+           <Route path="/rapports" element={<RapportsAccueil />} />
+           <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+           <Route path="/publicationRapport" element={<PublicationForm />} />
+           <Route path="/admin" element={<Admin />} />
+         </Routes>
+         <Toaster position="top-center"/>
+       </BrowserRouter>
+   </>
   );
 };
 
