@@ -7,13 +7,12 @@ import { BsFillSendFill } from "react-icons/bs";
 import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
-import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
+// import { db, serverTimestamp } from "../Composants-Accuiel/firebase";
 import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser';
 import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
 
 
 
