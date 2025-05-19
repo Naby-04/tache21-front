@@ -45,7 +45,7 @@ export const Profile = () => {
         onClick={() => setOpenMenu(!openMenu)}
       >
         <img
-          src={users.photo || "https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?..."}
+          src={users.photo}
           alt="profil"
           className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full"
         />

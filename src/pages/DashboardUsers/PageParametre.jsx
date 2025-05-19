@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,  useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import AuthContext from "../../Contexts/AuthContext";
+
 
 export const PageParametresCompte = () => {
 	const navigate = useNavigate();
+
+	const { setUsers } = useContext(AuthContext);
+
 
 	// Lecture initiale depuis le localStorage
 	const getInitialUser = () => {
@@ -37,7 +43,9 @@ export const PageParametresCompte = () => {
 
 	const handleSave = () => {
   console.log("Infos enregistrées :", userInfo);
-  localStorage.setItem("user", JSON.stringify(userInfo)); // Sauvegarde dans le localStorage
+  localStorage.setItem("userInfo", JSON.stringify(userInfo));
+// Sauvegarde dans le localStorage
+setUsers(userInfo); // met à jour le contexte global
   alert("Modifications enregistrées !");
 };
 

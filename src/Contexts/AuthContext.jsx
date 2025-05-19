@@ -33,9 +33,15 @@ export const AuthProvider = ({ children }) => {
     setUsers(null);
   };
 
-  useEffect(() => {
-    fetchProfil();
-  }, []);
+ useEffect(() => {
+  const savedUser = localStorage.getItem("userInfo");
+  if (savedUser) {
+    setUsers(JSON.parse(savedUser));
+  } else {
+    fetchProfil(); // Va chercher depuis l'API
+  }
+}, []);
+
 
   return (
     <AuthContext.Provider value={{ users, setUsers, fetchProfil, logout }}>
