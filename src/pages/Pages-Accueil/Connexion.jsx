@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Connexion = () => {
   const [error, setError] = useState("");
@@ -13,21 +14,23 @@ const Connexion = () => {
   const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
 
+   const {url} = usePublication()
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (err) {
-      console.error("Erreur Google:", err);
-      setError("Erreur lors de la connexion avec Google.");
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     await signInWithPopup(auth, provider);
+  //     navigate("/users");
+  //   } catch (err) {
+  //     console.error("Erreur Google:", err);
+  //     setError("Erreur lors de la connexion avec Google.");
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,7 +55,7 @@ const Connexion = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/login", {
+      const response = await fetch(`${url}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -145,7 +148,7 @@ const Connexion = () => {
           </div>
           <div className="w-[70%]">
             <button
-              onClick={handleGoogleSignIn}
+              // onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center bg-gray-200 border border-amber-300 hover:bg-amber-600 text-black font-bold py-2 px-4 rounded-2xl w-full"
             >
