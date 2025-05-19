@@ -125,7 +125,7 @@ const Connexion = () => {
             </div>
 
             <a
-              href="/MotDePassOublie"
+              href="/motDePassOublie"
               className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-[70%]"
             >
               Mot de passe oublié ?

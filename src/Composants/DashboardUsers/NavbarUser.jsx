@@ -20,12 +20,10 @@ export const NavbarUser = () => {
 			>
 				{/* Logo et profil (mobile) */}
 				<div>
-					<h1
-						className="text-[var(--couleur-Logo)] text-3xl font-bold hidden md:block cursor-pointer"
-						id="logo"
-					>
-						SenRapport
-					</h1>
+					<div className="md:flex items-center gap-2 hidden">
+          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
+          <span className="text-xl font-bold text-amber-300">SenRapport</span>
+        </div>
 					<div className="block md:hidden">
 						<Profile />
 					</div>
@@ -41,10 +39,8 @@ export const NavbarUser = () => {
 				</div>
 
 				{/* Bouton ajout rapport */}
-				<div className="addDocs hidden md:block">
-					<AddRapport
-					style={{background: 'var(--background-color)', color: 'var(--text-couleur)'}}
-					/>
+				<div className="addDocs hidden  md:block">
+					<AddRapport/>
 				</div>
 
         {/* Toggle menu mobile */}
