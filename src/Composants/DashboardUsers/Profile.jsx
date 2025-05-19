@@ -45,10 +45,11 @@ export const Profile = () => {
         onClick={() => setOpenMenu(!openMenu)}
       >
         <img
-          src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80"
+          src={users.photo || "https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?..."}
           alt="profil"
           className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full"
         />
+
         <span className="absolute bottom-[-5px] right-0 bg-[var(--background-color)] rounded-full md:hidden cursor-pointer">
           <FaAngleDown />
         </span>
