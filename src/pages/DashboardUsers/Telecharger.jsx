@@ -6,7 +6,7 @@ export const RapportTelecharger = () => {
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-semibold text-center text-gray-800 mb-8">
+      <h1 className="mt-5 md:mt-0 text-2xl font-semibold text-center text-gray-800 mb-8">
         Mes rapports téléchargés
       </h1>
 

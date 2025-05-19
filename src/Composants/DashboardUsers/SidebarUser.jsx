@@ -43,7 +43,7 @@ export const SidebarUser = () => {
 						end={"/users"}
 						className={({ isActive }) =>
 							`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-all
-							${isActive ? "bg-gray-800 text-white font-semibold" : "hover:bg-gray-200 text-gray-700"}`
+							${isActive ? "bg-gray-800 text-amber-300 font-semibold" : "hover:bg-gray-200 text-gray-700"}`
 						}
 					>
 						{link.icon}
