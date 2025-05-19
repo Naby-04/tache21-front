@@ -1,9 +1,22 @@
+import { useContext } from "react";
+import AuthContext from "../../Contexts/AuthContext";
 import { Buttons } from "./Buttons";
 import { Profile } from "./Profile";
 import {FaCloudUploadAlt,FaDochub,FaHome} from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const SidebarUser = () => {
+ const { users, setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+	 const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUsers(null);
+    navigate("/connexion");
+  };
+
+  if (!users) return null;
+
 	return (
 		<div className="w-full p-5 bg-white text-gray-800 shadow-xl h-full hidden md:block">
 			<Profile />
@@ -37,7 +50,7 @@ export const SidebarUser = () => {
 				<NavLink to={"/pageParametre"} className="cursor-pointer">
 				<Buttons text="Paramètres du compte" />
 				</NavLink>
-				<Buttons text="Deconnexion" />
+				<Buttons text="Deconnexion" onClick={handleLogout}/>
 				<Buttons text="À propos" />
 			</div>
 		</div>

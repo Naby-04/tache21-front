@@ -16,7 +16,8 @@ import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
 
-    // import Admin from "./pages/Admin";
+
+  
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
          <Toaster position="top-center"/>
+
        </BrowserRouter>
    </>
   );
