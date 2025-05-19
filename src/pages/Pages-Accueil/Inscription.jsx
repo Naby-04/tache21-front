@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Inscription = () => {
   const [error, setError] = useState("");
@@ -16,17 +17,18 @@ const Inscription = () => {
     updateFormData(name, value);
   };
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (error) {
-      setError("Erreur lors de l'inscription avec Google.");
-      console.error("Error signing in with Google:", error);
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     await signInWithPopup(auth, provider);
+  //     navigate("/users");
+  //   } catch (error) {
+  //     setError("Erreur lors de l'inscription avec Google.");
+  //     console.error("Error signing in with Google:", error);
+  //   }
+  // };
 
+   const {url} = usePublication()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,8 +61,9 @@ const Inscription = () => {
       return;
     }
 
+   
     try {
-      const response = await fetch("http://localhost:8000/api/users/register", {
+      const response = await fetch(`${url}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -192,7 +195,7 @@ const Inscription = () => {
 
           <div className="flex w-[80%] items-center justify-center">
             <button
-              onClick={handleGoogleSignIn}
+              // onClick={handleGoogleSignIn}
               className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
               type="button"
             >
