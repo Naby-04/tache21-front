@@ -61,3 +61,33 @@
 
 }
 
+.blur-background::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.4); /* opacité blanche */
+  z-index: 40;
+  pointer-events: none;
+}
+/* .modal {
+  position: relative;
+  z-index: 50;
+  filter: none !important;
+  pointer-events: auto;
+} */
+
+@keyframes fadeZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content {
+  animation: fadeZoomIn 0.3s ease-out;
+}
