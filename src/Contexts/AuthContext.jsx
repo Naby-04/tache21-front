@@ -5,8 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
-
-  const {url} = usePublication()
+  const { url } = usePublication();
 
   const fetchProfil = async () => {
     const token = localStorage.getItem("token");
@@ -22,6 +21,13 @@ export const AuthProvider = ({ children }) => {
       if (!response.ok) throw new Error("Échec récupération profil");
 
       const data = await response.json();
+
+      // Vérifie s’il y a une image personnalisée dans le localStorage
+      const localUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (localUserInfo?.photo) {
+        data.photo = localUserInfo.photo;
+      }
+
       setUsers(data);
     } catch (error) {
       console.error("Erreur récupération profil :", error);
@@ -30,18 +36,19 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
     setUsers(null);
   };
 
- useEffect(() => {
-  const savedUser = localStorage.getItem("userInfo");
-  if (savedUser) {
-    setUsers(JSON.parse(savedUser));
-  } else {
-    fetchProfil(); // Va chercher depuis l'API
-  }
-}, []);
-
+  useEffect(() => {
+    const savedUser = localStorage.getItem("userInfo");
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      setUsers(parsedUser);
+    } else {
+      fetchProfil(); // si rien dans le localStorage, récupère depuis l’API
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ users, setUsers, fetchProfil, logout }}>

@@ -57,7 +57,7 @@ export const Profile = () => {
 
       <div className="infos-profil text-[var(--text-couleur)] mt-4">
         <p className="name text-sm text-[#fff] md:text-[#212121] md:text-lg font-regular">
-          Bonjour, {users.prenom}
+          {users.prenom}
         </p>
         <p className="description text-sm hidden md:block text-gray-500">
           {users.isAdmin ? "Administrateur" : "Utilisateur"}
