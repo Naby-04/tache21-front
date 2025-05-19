@@ -10,6 +10,7 @@ const ErreurPages = ({ code, title, message, buttonText, buttonLink }) => {
         href={buttonLink}
         className="px-6 py-3 bg-beige text-black rounded-lg hover:bg-amber-200 transition"
       >
+        
         {buttonText}
       </a>
     </div>

@@ -5,6 +5,8 @@ import fakeReports from "../../data/FakeReport";
 
 export const Acceuil = () => {
   const {publications,filteredPublications}= usePublication()
+  
+  const sortedPublications = publications.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return <div className="py-6 px-4 flex flex-col items-center">
       <div className="titles mb-10">
