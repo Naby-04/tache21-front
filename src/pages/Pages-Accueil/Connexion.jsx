@@ -1,20 +1,17 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { auth, provider } from "./firebase";
 // import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
-import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Connexion = () => {
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
-
-   const {url} = usePublication()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +52,7 @@ const Connexion = () => {
     }
 
     try {
-      const response = await fetch(`${url}/api/users/login`, {
+      const response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -157,11 +154,11 @@ const Connexion = () => {
             </button>
           </div>
 
-          {error && (
+          {/* {error && ( */}
             <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
-              {error}
+              {/* {error} */}
             </div>
-          )}
+          {/* )} */}
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
