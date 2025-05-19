@@ -5,11 +5,16 @@ import { useEffect } from "react";
 // Test
 
 export const Acceuil = () => {
+  const token = localStorage.getItem("token");
   const {setPublications,filteredPublicationsBySearch,url}= usePublication()
   useEffect(() => {
  const getPublications = async () => {
     try {
-      const response = await fetch(`${url}/rapport/getAll`);
+      const response = await fetch(`${url}/rapport/all`,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       console.log("Publications:", data);
       
