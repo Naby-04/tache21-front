@@ -11,9 +11,36 @@ export const ContextProvider = ({children}) => {
     ? publications.filter((doc) => doc.category === selectedCategory)
     : publications;
 
+<<<<<<< Updated upstream
     const filteredPublicationsBySearch = filteredPublications.filter((doc) => doc.title.toLowerCase().includes(searchTerm.toLowerCase()));
   
     const addPublication = (newData) => {
+=======
+  const fileInput = useRef();
+  const url = "https://tache21-back.onrender.com";
+   //const url = "http://localhost:8000";
+
+  // 🔁 Récupérer les publications au montage
+//   useEffect(() => {
+//     fetch(`${url}/rapport/getAll`)
+//       .then((res) => res.json())
+//       .then((data) => {
+//         if (Array.isArray(data)) {
+//           setPublications(data);
+//         } else {
+//           console.error("Données reçues invalides :", data);
+//           setPublications([]); // fallback sécurisé
+//         }
+//       })
+//       .catch((err) => {
+//         console.error("Erreur lors de la récupération des rapports :", err);
+//         setPublications([]);
+//       });
+//   }, []);
+
+  // 🧠 Ajout d'une publication
+  const addPublication = (newData) => {
+>>>>>>> Stashed changes
     setPublications((prev) => [...prev, newData]);
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
     };
