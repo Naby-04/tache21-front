@@ -71,6 +71,35 @@ h1{
     /* background-color: var(--secondary-color); */
 }
 
+/* Dans votre fichier CSS */
+.docx-preview {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.docx-preview p {
+  margin-bottom: 1em;
+}
+
+.docx-preview ul, .docx-preview ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.docx-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.docx-preview table, .docx-preview th, .docx-preview td {
+  border: 1px solid #ddd;
+}
+
+.docx-preview th, .docx-preview td {
+  padding: 8px;
+  text-align: left;
+}
 @keyframes slide-up {
     from {
       transform: translateY(100%);

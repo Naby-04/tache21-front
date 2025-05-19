@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./firebase";
+// import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 
@@ -190,7 +190,7 @@ const Inscription = () => {
             <div className="border-t border-gray-500 flex-grow"></div>
           </div>
 
-          <div className="flex w-[70%] items-center justify-center">
+          <div className="flex w-[80%] items-center justify-center">
             <button
               onClick={handleGoogleSignIn}
               className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"

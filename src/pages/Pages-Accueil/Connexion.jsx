@@ -1,8 +1,8 @@
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "./firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "./firebase";
+// import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
@@ -122,7 +122,7 @@ const Connexion = () => {
             </div>
 
             <a
-              href="/MotDePassOublie"
+              href="/motDePassOublie"
               className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-[70%]"
             >
               Mot de passe oublié ?
