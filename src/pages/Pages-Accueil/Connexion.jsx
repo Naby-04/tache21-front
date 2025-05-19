@@ -18,65 +18,67 @@ const Connexion = () => {
     updateFormData(name, value);
   };
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (err) {
-      console.error("Erreur Google:", err);
-      setError("Erreur lors de la connexion avec Google.");
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   setError("");
+  //   try {
+  //     await signInWithPopup(auth, provider);
+  //     navigate("/users");
+  //   } catch (err) {
+  //     console.error("Erreur Google:", err);
+  //     setError("Erreur lors de la connexion avec Google.");
+  //   }
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  //  HAMIDOU LY
+     
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const { email, password } = formData;
+  //   const { email, password } = formData;
 
-    // Validation des champs
-    if (!email || !password) {
-      toast.error("Veuillez remplir tous les champs.");
-      return;
-    }
+  //   // Validation des champs
+  //   if (!email || !password) {
+  //     toast.error("Veuillez remplir tous les champs.");
+  //     return;
+  //   }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Adresse email invalide.");
-      return;
-    }
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailRegex.test(email)) {
+  //     toast.error("Adresse email invalide.");
+  //     return;
+  //   }
 
-    if (password.length < 6) {
-      toast.error("Le mot de passe doit contenir au moins 6 caractères.");
-      return;
-    }
+  //   if (password.length < 6) {
+  //     toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+  //     return;
+  //   }
 
-    try {
-      const response = await fetch("http://localhost:8000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+  //   try {
+  //     const response = await fetch("http://localhost:8000/api/users/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: formData.email,
+  //         password: formData.password,
+  //       }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "Erreur de connexion");
+  //     if (!response.ok) throw new Error(data.message || "Erreur de connexion");
 
-      localStorage.setItem("token", data.token);
-      await fetchProfil();
-      toast.success("Connexion réussie !");
-      resetFormData();
-      navigate("/users");
-    } catch (error) {
-      toast.error("Erreur de connexion : " + error.message);
-      console.error("Erreur lors de la connexion :", error);
-    }
-  };
+  //     localStorage.setItem("token", data.token);
+  //     await fetchProfil();
+  //     toast.success("Connexion réussie !");
+  //     resetFormData();
+  //     navigate("/users");
+  //   } catch (error) {
+  //     toast.error("Erreur de connexion : " + error.message);
+  //     console.error("Erreur lors de la connexion :", error);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
