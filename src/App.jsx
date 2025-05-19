@@ -15,7 +15,7 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
-import Admin from "./pages/Admin";
+// import Admin from "./pages/Admin";
 
 
 
