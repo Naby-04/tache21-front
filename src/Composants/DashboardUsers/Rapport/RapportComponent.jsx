@@ -5,7 +5,7 @@ export const ComponentRapport = ({img,tite,children,view,supp,modif,iconbtn3,use
      flex-auto flex justify-center items-center composantRapport">
         <div className="flex gap-4 w-full bg-[#f2f2f2] p-2">
             <div className="image flex-auto ">
-                <img src={img} alt="pdf rapport" className="max-w-[50px] object-cover h-full md:w-[200px]"/>
+                <img src={img} alt="pdf rapport" className="w-[80px] md:w-[200px] h-full object-cover"/>
             </div>
 
             <div>
@@ -17,11 +17,11 @@ export const ComponentRapport = ({img,tite,children,view,supp,modif,iconbtn3,use
                 <div className="text-sm line-clamp-2">{children}</div>
                </div>
 
-               <div className="action_button">
-                <button className=" flex gap-2 items-center justify-center">
+               <div className="action_button mt-2 flex gap-4 flex-wrap text-[12px]">
+                <button className=" flex gap-2 items-center justify-center ">
                    <span className="hidden md:block">{view}</span>  {iconbnt1} 
                 </button> 
-                <button className='flex gap-2 items-center justify-center'>
+                <button className='flex gap-2 items-center justify-center '>
                    <span className="hidden md:block">{supp}</span>{iconbtn2}
                 </button>
                 <button className='flex gap-2 items-center justify-center'>

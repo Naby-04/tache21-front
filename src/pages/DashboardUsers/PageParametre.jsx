@@ -5,11 +5,24 @@ export const PageParametresCompte = () => {
 	const [userInfo, setUserInfo] = useState({
 		name: "John Doe",
 		email: "john@example.com",
-		photo: "../../../public/images/dev.jpg",
+		photo: "/images/dev.jpg",
 	});
+
+	// const [file, setFile] = useState(null);
 
 	const handleInputChange = (e) => {
 		setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+	};
+
+	const handlePhotoChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				setUserInfo({ ...userInfo, photo: reader.result });
+			};
+			reader.readAsDataURL(file);
+		}
 	};
 
 	const handleSave = () => {
@@ -19,22 +32,25 @@ export const PageParametresCompte = () => {
 	const navigate = useNavigate();
 	return (
 		<div className="p-6 max-w-3xl mx-auto bg-white rounded-xl shadow-md">
-			<button className="px-2 py-2 bg-gray-800 text-white rounded-lg cursor-pointer mb-6"
+			<button className="px-2 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg cursor-pointer mb-6"
 			 onClick={() => navigate("/users")}>Retour au dashboard</button>
 			<h1 className="text-2xl font-bold text-gray-800 mb-6">Paramètres du compte</h1>
 
-			<div className="mb-6 flex items-center gap-4">
+			<div className="mb-6 flex justify-between items-center gap-4">
 				<img
 					src={userInfo.photo}
 					alt="profil"
 					className="w-20 h-20 rounded-full object-cover border"
 				/>
 				<div>
-					<label className="text-sm font-medium">Changer la photo</label>
+					<label htmlFor="photo" className="text-sm  cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">modifier votre profil</label>
 					<input
 						type="file"
 						accept="image/*"
-						className="block mt-1 text-sm text-gray-600"
+						className=" mt-1 text-sm text-gray-600 hidden"
+						id="photo"
+						name="photo"
+						onChange={handlePhotoChange}
 					/>
 				</div>
 			</div>
@@ -77,7 +93,7 @@ export const PageParametresCompte = () => {
 			<div className="mt-6 flex justify-between items-center">
 				<button
 					onClick={handleSave}
-					className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+					className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
 				>
 					Enregistrer les modifications
 				</button>

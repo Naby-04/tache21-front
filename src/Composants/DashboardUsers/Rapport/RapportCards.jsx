@@ -1,222 +1,279 @@
-import { FaCloudDownloadAlt, FaCommentAlt, FaEye  } from "react-icons/fa";
-import { BsTrash } from "react-icons/bs";
-import CommentModal  from "../Commentaire/CommentModal";
-import {useState } from "react";
+import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
+import CommentModal from "../Commentaire/CommentModal";
+import { useEffect, useState, useMemo } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
-import ModalComponent from "../../modalComponent";
+import { Document, Page, pdfjs } from 'react-pdf';
+import mammoth from "mammoth";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export const RapportCard = ({ doc }) => {
+  const [docHtml, setDocHtml] = useState(null);
+  const [numPages, setNumPages] = useState(null);
+  const [pdfError, setPdfError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
-	// pour voir le formulaire de commentaire
-	const [showCommentBox, setShowCommentBox] = useState(false);
+  const ispdf = doc.type === "application/pdf";
+  const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-	// pour voir les commentaires 
-	const [showComments, setShowComments] = useState(false);
+  const memoizedFile = useMemo(() => ({ url: doc.fileUrl }), [doc.fileUrl]);
 
-	// pour stocker lescommentaires locaux
-	const [commentaires, setCommentaires] = useState([]);
+  // Conversion des DOCX en HTML améliorée
+  useEffect(() => {
+    if (!isdoc || !doc.fileUrl) return;
 
+    const convertDocxToHtml = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(doc.fileUrl);
+        const blob = await response.blob();
+        const arrayBuffer = await new Response(blob).arrayBuffer();
+        
+        const result = await mammoth.convertToHtml(
+          { arrayBuffer },
+          {
+            styleMap: [
+              "p[style-name='Heading 1'] => h1:fresh",
+              "p[style-name='Heading 2'] => h2:fresh",
+              "p[style-name='Heading 3'] => h3:fresh"
+            ],
+            includeEmbeddedStyleMap: true,
+            includeDefaultStyleMap: true
+          }
+        );
+        
+        setDocHtml(result.value || "<p>Aucun contenu à afficher</p>");
+      } catch (err) {
+        console.error("Erreur de conversion docx:", err);
+        setDocHtml(`
+          <div style="padding: 20px; text-align: center;">
+            <p style="color: #666;">Impossible d'afficher l'aperçu du document</p>
+          </div>
+        `);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-	const handleCommentSubmit = (comment) => {
-  const nouveauCommentaire = {
-    id: Date.now(), // ID unique temporaire
-    contenu: comment,
-    auteur: "Abdoul Wakhab Diouf", // tu peux changer selon ton système
-    date: new Date().toLocaleString(),
+    convertDocxToHtml();
+  }, [doc.fileUrl, isdoc]);
+
+  // Gestion des événements PDF
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+    setPdfError(null);
+    setIsLoading(false);
   };
 
-  setCommentaires((prev) => [nouveauCommentaire, ...prev]); // on ajoute en haut
-  setShowCommentBox(false); // on ferme la boîte
+  const onDocumentLoadError = (error) => {
+    console.error("PDF load error:", error);
+    setPdfError("Erreur de chargement du PDF");
+    setIsLoading(false);
+  };
+
+  // Gestion des commentaires
+  const handleCommentSubmit = (comment) => {
+    console.log("Commentaire:", comment, "pour:", doc.id);
+    setShowCommentBox(false);
+  };
+
+  // Gestion du clic sur le document
+const handleDocumentClick = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (e.target.closest('.download-button')) return;
+
+  if (isdoc) {
+    // Solution simple: toujours ouvrir dans le viewer Office Online
+    const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(doc.fileUrl)}`;
+    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+  } else {
+    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
+  }
 };
 
+  // Gestion du téléchargement
+  const handleDownload = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const link = document.createElement('a');
+    link.href = doc.fileUrl;
+    link.download = doc.title || 'document';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-	const currentCategory = categories.find((cat) => cat.value === doc.category);
-	const categoryClass = currentCategory?.color 
-    // console.log("Toutes les values possibles :", categories.map(c => c.value));
+  // Catégories et tags
+  const currentCategory = categories.find((cat) => cat.value === doc.category);
+  const categoryClass = currentCategory?.color;
 
-	// conversion des tags en tableau
-	const TagsArray = Array.isArray(doc.tags) ? doc.tags : doc.tags.split(",");
+  const tagsArray = Array.isArray(doc.tags)
+    ? doc.tags
+    : typeof doc.tags === "string"
+      ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
+      : [];
 
+  return (
+    <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
+      {/* En-tête avec auteur */}
+      <div className="flex items-center gap-3 mb-3">
+        <img
+          src="/images/dev.jpg"
+          alt="Auteur"
+          className="w-10 h-10 rounded-full object-cover"
+        />
+        <div>
+          <p className="font-semibold text-sm text-gray-800">John Doe</p>
+          <p>
+            <span>Publié le: </span>
+            <small className="text-gray-500">{doc.createdAt}</small>
+          </p>
+        </div>
+      </div>
 
-	// gestion de la suppression 
+      {/* Titre et catégorie */}
+      <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
+      <div className="mb-4">
+        <strong>Categories:</strong> <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-md mb-2 ${categoryClass}`}>
+          {doc.category}
+        </span>
+      </div>
 
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [commentToDelete, setCommentToDelete] = useState(null);
+      {/* Aperçu du document avec overlay */}
+      <div 
+        className="relative rounded-md overflow-hidden mb-4 cursor-pointer group"
+        onClick={handleDocumentClick}
+      >
+        {/* Overlay au survol - style conservé */}
+        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
+          <span className="bg-amber-500 text-white px-4 py-2 rounded-lg font-bold">
+            {ispdf ? 'Lire le PDF' : isdoc ? 'Ouvrir le document' : 'Voir le fichier'}
+          </span>
+        </div>
 
-
-	const handleDeleteComment = (idCommentaire) => {
-  setCommentToDelete(idCommentaire);
-  setShowDeleteModal(true);
-};
-
-const confirmDeleteComment = () => {
-  setCommentaires((prevCommentaires) =>
-    prevCommentaires.filter((c) => c.id !== commentToDelete)
-  );
-  setShowDeleteModal(false);
-  setCommentToDelete(null);
-};
-
-
-
-	
-	return (
-		<div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
-			{/* Auteur */}
-			<div className="flex items-center gap-3 mb-3">
-				<img
-					src="/images/dev.jpg"
-					alt="Auteur"
-					className="w-10 h-10 rounded-full object-cover"
-				/>
-				<div>
-					<p className="font-semibold text-sm text-gray-800">John Doe</p>
-					<p>
-						<span>Publié le: </span>
-					    <small className="text-gray-500">  {doc.createdAt}</small>
-
-					</p>
-				</div>
-			</div>
-
-			{/* Titre */}
-			<h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
-			{/* Categories	 */}
-			<div className="mb-4">
-					<strong>Categories:</strong> <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-md mb-2 ${categoryClass}`}>
-						{doc.category}
-						</span>
-			</div>
-
-			{/* Image */}
-			<div className="rounded-md overflow-hidden mb-4 opacity-80 cursor-pointer">
-			     {doc.type === "application/pdf" ? (
-                  <img
-                    src="/images/pdf.jpeg"
-                    alt="Aperçu PDF"
-                    className="w-full max-h-[200px] object-cover"
-                  />
-                   ) : doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? (
-                   <img
-                     src="/images/word.jpg"
-                     alt="Aperçu Word"
-                     className="w-full max-h-[300px] object-cover"
-                   />
-                   ) : (
-                   <img
-                     src={doc.img}
-                     alt={doc.title}
-                     className="w-full max-h-[300px] object-cover"
-                   />
-                 )}
-			 
-			</div>
-
-			{/* Description */}
-			<div className="text-sm text-gray-700 mb-4">
-				<TextExpandable>{doc.description}</TextExpandable>
-			</div>
-
-			{/* Tags */}
-			<div className="mb-4">
-				<strong>Tags:</strong>
-				{TagsArray.length > 0 ? (
-              <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-4">
-                {TagsArray.map((tag, i) => (
-                  <span key={i} className="bg-gray-200 px-2 py-1 rounded-full">#{tag}</span>
-                ))}
-              </div>
-            ) : (
-			  <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-4">
-				<span className="bg-gray-200 px-2 py-1 rounded-full">Aucun tag</span>
-				</div>)}
-			</div>
-            
-
-			{/* Barre d’actions */}
-			<div className="flex mt-3 justify-around  md:justify-between items-center border-t pt-3 text-sm text-gray-600">
-				<button
-					onClick={() => setShowCommentBox(!showCommentBox)}
-					className="flex items-center gap-2 hover:text-blue-600 transition"
-				>
-					<FaCommentAlt />
-					<span className=" hidden md:block">Commenter</span>
-				</button>
-
-				<button className="flex items-center gap-2 hover:text-blue-600 transition" 
-				onClick={() => setShowComments(!showComments)}>
-					<FaEye />
-					<span className=" hidden md:block">
-						{showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
-					</span>
-				</button>
-
-				<button className="flex items-center gap-2 hover:text-blue-600 transition">
-					<FaCloudDownloadAlt />
-					<span className=" hidden md:block">Télécharger</span>
-				</button>
-			</div>
-
-
-			{showCommentBox && (
-				<div className="mt-4">
-					<CommentModal
-						isOpen={true}
-						onClose={() => setShowCommentBox(false)}
-						onSubmit={(comment) => handleCommentSubmit(comment)}
-						documentId={doc.id}
-					/>
-				</div>
-			)}
-
-			{/* Section Commentaires */}
-			{/* j'ai commenter pour que apres l'on puisse aller chercher le commentaire au niveau de l'api pour celui qui vas s'en charger */}
-			{/* ======================================= */}
-			{/* {showComments && <div className="mt-4">
-				<CommentairesSection rapportId={doc.id} />
-				</div>
-				} */}
-				{/* ======================================= */}
-				{showComments && (
-  <div className="mt-4">
-    <div className="space-y-4">
-      {commentaires.length === 0 ? (
-        <p className="text-gray-500 text-sm">Aucun commentaire pour le moment.</p>
-      ) : (
-        commentaires.map((c) => (
-          <div key={c.id} className="bg-gray-100 p-3 rounded-md shadow-sm relative">
-            <p className="text-sm text-gray-800 font-semibold">{c.auteur}</p>
-            <p className="text-gray-700 text-sm">{c.contenu}</p>
-            <p className="text-gray-400 text-xs">{c.date}</p>
-						{/* BOUTON SUPPRIMER */}
-            <button
-              className="absolute top-2 right-2 text-red-500 text-xs hover:underline"
-              onClick={() => handleDeleteComment(c.id)}
+        {ispdf ? (
+          <div className="w-full max-h-[250px]">
+            {isLoading && <p>Chargement du PDF...</p>}
+            {pdfError && <p className="text-red-500">{pdfError}</p>}
+            <Document
+              file={memoizedFile}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={<p>Chargement...</p>}
+              error={<p className="text-red-500">Erreur de chargement</p>}
+              className="w-full"
+              crossOrigin="anonymous"
             >
-              <BsTrash className="mt-5 text-black hover:text-red-700" size="20px"/>
-            </button>
+              <Page 
+                pageNumber={1} 
+                width={null}
+                loading={<p>Chargement de la page...</p>}
+                error={<p className="text-red-500">Erreur d'affichage</p>}
+                className="w-full"
+              />
+            </Document>
           </div>
-        ))
+        ) : isdoc ? (
+          <div className="w-full min-h-[200px] bg-gray-100 p-4 overflow-y-auto">
+            {isLoading ? (
+              <p>Chargement du document...</p>
+            ) : docHtml ? (
+              <div 
+                className="docx-preview max-h-64"
+                dangerouslySetInnerHTML={{ __html: docHtml }} 
+              />
+            ) : (
+              <p>Document non disponible</p>
+            )}
+          </div>
+        ) : (
+          <div className="w-full">
+            <img
+              src="/images/word.jpg"
+              alt={doc.title}
+              className="w-full h-[200px] object-cover"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Description et tags */}
+      <div className="text-sm text-gray-700 mb-4">
+        <TextExpandable>{doc.description}</TextExpandable>
+      </div>
+      
+      <div className="mb-4">
+        <strong>Tags:</strong>
+        {tagsArray.length > 0 ? (
+          <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-4">
+            {tagsArray.map((tag, i) => (
+              <span key={i} className="bg-gray-200 px-2 py-1 rounded-full">#{tag}</span>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-4">
+            <span className="bg-gray-200 px-2 py-1 rounded-full">Aucun tag</span>
+          </div>
+        )}
+      </div>
+
+      {/* Barre d'actions */}
+      <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
+        <button
+          onClick={() => setShowCommentBox(!showCommentBox)}
+          className="flex items-center gap-2 hover:text-blue-600 transition"
+        >
+          <FaCommentAlt />
+          <span className="hidden md:block">Commenter</span>
+        </button>
+
+        <button 
+          className="flex items-center gap-2 hover:text-blue-600 transition"
+          onClick={() => setShowComments(!showComments)}
+        >
+          <FaEye />
+          <span className="hidden md:block">
+            {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
+          </span>
+        </button>
+
+        <button 
+          className="flex items-center gap-2 hover:text-blue-600 transition download-button"
+          onClick={handleDownload}
+        >
+          <FaCloudDownloadAlt />
+          <span className="hidden md:block">Télécharger</span>
+        </button>
+      </div>
+
+      {/* Modal commentaire */}
+      {showCommentBox && (
+        <div className="mt-4">
+          <CommentModal
+            isOpen={true}
+            onClose={() => setShowCommentBox(false)}
+            onSubmit={handleCommentSubmit}
+            documentId={doc.id}
+          />
+        </div>
+      )}
+
+      {/* Section Commentaires */}
+      {showComments && (
+        <div className="mt-4">
+          <CommentairesSection rapportId={doc.id} />
+        </div>
       )}
     </div>
-  </div>
-)}
-
-{/* modal pour la confirmation de suppression */}
-
-<ModalComponent
-  isOpen={showDeleteModal}
-  onClose={() => setShowDeleteModal(false)}
-  title="Supprimer le commentaire ?"
-  message="Voulez-vous vraiment supprimer ce commentaire ? Cette action est irréversible."
-  confirmText="Supprimer"
-  cancelText="Annuler"
-  onConfirm={confirmDeleteComment}
-/>
-
-
-		</div>
-	);
+  );
 };

@@ -40,6 +40,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
   }, [rapportChoisi]);
 
   if (!rapportChoisi) return null;
+  
 
   const isPdf = rapportChoisi.type === "pdf";
   const isDocx = rapportChoisi.type === "docx";

@@ -12,6 +12,7 @@ import Connexion from "./pages/Pages-Accueil/Connexion";
 import Inscription from "./pages/Pages-Accueil/Inscription";
  import RapportsAccueil from "./pages/Pages-Accueil/RapportsAccueil";
 import MotDePassOublie from "./pages/MotDePassOublie";
+import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 import Admin from "./pages/Admin";
@@ -24,10 +25,11 @@ const App = () => {
   return (
     <>
     <ToastContainer/>
-     {/* <Admin /> */}
+
        <BrowserRouter>
          <Routes>
            <Route path="/" element={<HomePage />} />
+           <Route path="/admin" element={<Admin/>} />
            <Route path="/inscription" element={<Inscription />} />
            <Route path="/connexion" element={<Connexion />} />
            <Route path="/users" element={<DashboardUsers />}>
