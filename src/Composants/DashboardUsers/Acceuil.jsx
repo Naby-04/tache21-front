@@ -5,12 +5,23 @@ import { useEffect } from "react";
 // Test
 
 export const Acceuil = () => {
-  const {setPublications,filteredPublicationsBySearch}= usePublication()
+  const {setPublications,filteredPublicationsBySearch,url}= usePublication()
   useEffect(() => {
-    const storedPublications = localStorage.getItem("publications");
-    if (storedPublications) {
-      setPublications(JSON.parse(storedPublications));
+ const getPublications = async () => {
+    try {
+      const response = await fetch(`${url}/rapport/getAll`);
+      const data = await response.json();
+      console.log("Publications:", data);
+      
+      setPublications(data);
+    } catch (error) {
+      console.error('Error fetching publications:', error);
     }
+  };
+
+  if (filteredPublicationsBySearch.length === 0) {
+    getPublications();
+ }
   }, []);
 
   
@@ -24,7 +35,7 @@ export const Acceuil = () => {
       {sortedPublications.length === 0 ? (
         <p className="text-sm text-gray-500">Aucun rapport publié pour cette categorie.</p>
       ) : (
-        sortedPublications.map((doc) => <RapportCard key={doc.id} doc={doc} />)
+        sortedPublications.map((doc,i)=>(<RapportCard key={i} doc={doc} />))
       )}
 </div>
         

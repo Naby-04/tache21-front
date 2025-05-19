@@ -18,9 +18,11 @@ export const ContextProvider = ({children}) => {
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
     };
 
+    
+
     // formulaire de publication rapport
     const [form, setForm] = useState({title: "",description:"",
-        tags: "", categories: "",file: null})
+        tags: "", category: "",file: null})
 
     // reference de l'input de fichier
          const fileInput = useRef()
@@ -32,9 +34,11 @@ export const ContextProvider = ({children}) => {
             }));
         }
     
+        const url = "http://localhost:8080";
+
         const values = {form,setForm,fileInput,handleChange,addPublication,publications
             ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
-            searchTerm,setSearchTerm,filteredPublicationsBySearch
+            searchTerm,setSearchTerm,filteredPublicationsBySearch,url
             
         }
     
