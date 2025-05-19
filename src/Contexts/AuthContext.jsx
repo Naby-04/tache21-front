@@ -1,16 +1,19 @@
 import React, { createContext, useState, useEffect } from "react";
+import { usePublication } from "./DashboardUser/UseContext";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
 
+  const {url} = usePublication()
+
   const fetchProfil = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/profile", {
+      const response = await fetch(`${url}/api/users/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

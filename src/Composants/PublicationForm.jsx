@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom'
 const PublicationForm = () => {
     const { form, setForm, fileInput, handleChange, addPublication,url } = usePublication();
 
+    const token = localStorage.getItem("token");
+    console.log("token", token);
+    
 const navigate = useNavigate()
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -17,12 +20,15 @@ const handleSubmit = async (e) => {
   formData.append("description", form.description);
   formData.append("category", form.category);
   formData.append("tags", form.tags);
-  formData.append("file", form.file); // ✅ bon nom (correspond à upload.single("file"))
+  formData.append("fileUrl", form.file); // ✅ bon nom (correspond à upload.single("file"))
 
   try {
     const response = await fetch(`${url}/rapport/create`, {
       method: "POST",
       body: formData, // ✅ on envoie le bon format
+       headers: {
+    Authorization: `Bearer ${token}`, // si tu l’as dans le localStorage par exemple
+  },
     });
 
     if (!response.ok) {
