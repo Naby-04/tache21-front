@@ -1,9 +1,22 @@
+import { useContext } from "react";
+import AuthContext from "../../Contexts/AuthContext";
 import { Buttons } from "./Buttons";
 import { Profile } from "./Profile";
 import {FaCloudUploadAlt,FaDochub,FaHome} from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const SidebarUser = () => {
+ const { users, setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+	 const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUsers(null);
+    navigate("/connexion");
+  };
+
+  if (!users) return null;
+
 	return (
 		<div className="w-full p-5 bg-white text-gray-800 shadow-xl h-full hidden md:block">
 			<Profile />
@@ -22,7 +35,7 @@ export const SidebarUser = () => {
 						end={"/users"}
 						className={({ isActive }) =>
 							`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-all
-							${isActive ? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"}`
+							${isActive ? "bg-gray-800 text-white font-semibold" : "hover:bg-gray-200 text-gray-700"}`
 						}
 					>
 						{link.icon}
@@ -37,7 +50,7 @@ export const SidebarUser = () => {
 				<NavLink to={"/pageParametre"} className="cursor-pointer">
 				<Buttons text="Paramètres du compte" />
 				</NavLink>
-				<Buttons text="Deconnexion" />
+				<Buttons text="Deconnexion" onClick={handleLogout}/>
 				<Buttons text="À propos" />
 			</div>
 		</div>
