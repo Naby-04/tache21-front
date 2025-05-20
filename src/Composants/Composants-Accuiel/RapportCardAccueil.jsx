@@ -30,6 +30,8 @@ export const RapportCardAccueil = ({ doc }) => {
                 </div>
             </div>
 
+
+
             {/* Titre */}
             <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
 

@@ -86,13 +86,3 @@ const filteredDocs = fakeDocuments.filter(doc =>
         
         
 }
-
-// filter for Category 
-
-export const categoryRapport = ({activeCategory}) =>{
-  const filterCategory = fakeDocuments.filter(cat =>
-    doc.category.toLowerCase().includes(activeCategory.toLowerCase())
-  )
-
-  return 
-}
