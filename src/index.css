@@ -9,7 +9,7 @@
   /* ===== colors===== */
 
   --background-color: #fff;
-  --primary-color: #d08700;
+  --primary-color: #1e2939;
   --secondary-color: #fef3c6;
 
   /* ===== font family =====*/
@@ -28,3 +28,36 @@
   opacity: 0.2;
   z-index: 1;
 }
+/* ButtonAnimation */
+.btnAnime {
+  animation: popIn 2s ease-in-out infinite;
+  border: 1px solid #1e2939
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+/* Nave */
+.active{
+  cursor: pointer;
+    border-bottom: 2px solid #fe9a00;
+  transition: all 5s;
+}
+.active-link:hover{
+    border-bottom: 2px solid #fe9a00;
+    cursor: pointer;
+
+}
+

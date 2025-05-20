@@ -1,3 +1,4 @@
-export const Buttons = ({text}) => {
-    return <button className="cursor-pointer">{text}</button>;
+export const Buttons = ({text , onClick }) => {
+    return <button className="cursor-pointer" 
+    onClick={onClick}>{text}</button>;
 }

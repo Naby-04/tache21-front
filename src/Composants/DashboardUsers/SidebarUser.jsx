@@ -1,9 +1,25 @@
+import { useContext } from "react";
+import AuthContext from "../../Contexts/AuthContext";
 import { Buttons } from "./Buttons";
 import { Profile } from "./Profile";
-import {FaCloudUploadAlt,FaDochub,FaHome} from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import {FaCloudUploadAlt,FaHome} from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
+import { NavLink, useNavigate } from "react-router-dom";
+import { CiLogout } from "react-icons/ci";
+import { HiDocument } from "react-icons/hi2";
 
 export const SidebarUser = () => {
+ const {users,setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+	  const handleLogout = () => {
+     localStorage.removeItem("token");
+     setUsers(null);
+     navigate("/");
+   };
+
+  if (!users) return ;
+
 	return (
 		<div className="w-full p-5 bg-white text-gray-800 shadow-xl h-full hidden md:block">
 			<Profile />
@@ -13,7 +29,7 @@ export const SidebarUser = () => {
 			<ul className="mt-6 flex flex-col gap-2">
 				{[
 					{ to: "/users", icon: <FaHome />, label: "Accueil" },
-					{ to: "rapport", icon: <FaDochub />, label: "Rapports" },
+					{ to: "rapport", icon: <HiDocument />, label: "Rapports" },
 					{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
 				].map((link, i) => (
 					<NavLink
@@ -22,7 +38,7 @@ export const SidebarUser = () => {
 						end={"/users"}
 						className={({ isActive }) =>
 							`flex items-center gap-3 px-4 py-2 rounded-md text-sm transition-all
-							${isActive ? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"}`
+							${isActive ? "bg-gray-800 text-amber-300 font-semibold" : "hover:bg-gray-200 text-gray-700"}`
 						}
 					>
 						{link.icon}
@@ -33,12 +49,19 @@ export const SidebarUser = () => {
 
 			<hr className="mt-6 h-[2px] bg-gray-200" />
 
-			<div className="mt-2 flex flex-col justify-start items-start gap-2 text-sm text-gray-600">
-				<NavLink to={"/pageParametre"} className="cursor-pointer">
+			<div className="mt-2 flex flex-col justify-start items-start gap-2 
+			text-sm text-gray-600 ">
+				<NavLink to={"/pageParametre"} className="cursor-pointer hover:bg-gray-200 
+				rounded-md transition p-2 w-full flex items-center gap-2">
+				<IoMdSettings />
 				<Buttons text="Paramètres du compte" />
 				</NavLink>
-				<Buttons text="Deconnexion" />
-				<Buttons text="À propos" />
+				<div className="flex items-center gap-2 cursor-pointer hover:bg-gray-200
+				 rounded-md transition p-2 w-full text-[#FF0000]" onClick={handleLogout}>
+				<CiLogout />
+				<Buttons text="Deconnexion" onClick={handleLogout}/>
+
+				</div>
 			</div>
 		</div>
 	);
