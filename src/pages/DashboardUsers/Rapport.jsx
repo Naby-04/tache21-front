@@ -2,6 +2,7 @@ import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { ComponentRapport } from "../../Composants/DashboardUsers/Rapport/RapportComponent";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import fakeReports from "../../data/FakeReport";
+
 export const Rapport = () => {
   
     return <div className="w-full h-full text-[var(--background-color)] mt-5 p-5 flex flex-col gap-4">

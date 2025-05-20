@@ -14,7 +14,7 @@ export const DashboardUsers = () => {
 
 			<div className="flex pt-[70px] h-full"> 
 				
-				<aside className="hidden lg:block w-[250px] h-full fixed top-[70px] left-0 overflow-y-auto bg-white shadow-lg z-40">
+				<aside className="hidden md:block w-[250px] h-full fixed top-[70px] left-0 overflow-y-auto bg-white shadow-lg z-40">
 					<SidebarUser />
 				</aside>
 

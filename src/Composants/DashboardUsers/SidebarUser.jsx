@@ -9,21 +9,16 @@ import { CiLogout } from "react-icons/ci";
 import { HiDocument } from "react-icons/hi2";
 
 export const SidebarUser = () => {
-
-	// const handleLogout = () => {
-	// 	localStorage.removeItem("token");
-	// 	window.location.href = "/";
-	// };
- const { users, setUsers } = useContext(AuthContext);
+ const {users,setUsers } = useContext(AuthContext);
   const navigate = useNavigate();
 
 	  const handleLogout = () => {
      localStorage.removeItem("token");
      setUsers(null);
-     navigate("/connexion");
+     navigate("/");
    };
 
-  if (!users) return null;
+  if (!users) return ;
 
 	return (
 		<div className="w-full p-5 bg-white text-gray-800 shadow-xl h-full hidden md:block">
@@ -67,7 +62,6 @@ export const SidebarUser = () => {
 				<Buttons text="Deconnexion" onClick={handleLogout}/>
 
 				</div>
-				{/* <Buttons text="À propos" /> */}
 			</div>
 		</div>
 	);
