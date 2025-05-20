@@ -4,6 +4,10 @@ import { BiArrowBack, BiX } from 'react-icons/bi';
 import { Document, Page } from 'react-pdf';
 import mammoth from 'mammoth';
 
+import { pdfjs } from 'react-pdf';
+// 📌 Pour charger le worker depuis le CDN (évite les erreurs de chemin/mime)
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
+
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
   const [docHtml, setDocHtml] = useState('');
   const [numPages, setNumPages] = useState(null);
