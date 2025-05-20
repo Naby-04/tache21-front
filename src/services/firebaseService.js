@@ -4,6 +4,7 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 
 
+
   const firebaseConfig = {
     apiKey: "AIzaSyAWwPglE0UYs_momw02XgsTS8VLzVDwaDg",
     authDomain: "newsletter-demo-9697f.firebaseapp.com",
@@ -17,7 +18,6 @@ import { GoogleAuthProvider, getAuth } from "firebase/auth";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 
 export const provider = new GoogleAuthProvider();
 export { auth, db, serverTimestamp  };
