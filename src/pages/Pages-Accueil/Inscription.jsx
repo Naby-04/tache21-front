@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Inscription = () => {
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
@@ -211,7 +211,7 @@ const Inscription = () => {
             </Link>
           </div>
 
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
         </div>
       </div>
     </div>
