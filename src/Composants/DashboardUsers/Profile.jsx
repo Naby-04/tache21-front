@@ -45,10 +45,11 @@ export const Profile = () => {
         onClick={() => setOpenMenu(!openMenu)}
       >
         <img
-          src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80"
+          src={users.photo}
           alt="profil"
           className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full"
         />
+
         <span className="absolute bottom-[-5px] right-0 bg-[var(--background-color)] rounded-full md:hidden cursor-pointer">
           <FaAngleDown />
         </span>
@@ -56,7 +57,7 @@ export const Profile = () => {
 
       <div className="infos-profil text-[var(--text-couleur)] mt-4">
         <p className="name text-sm text-[#fff] md:text-[#212121] md:text-lg font-regular">
-          Bonjour, {users.prenom}
+          {users.prenom}
         </p>
         <p className="description text-sm hidden md:block text-gray-500">
           {users.isAdmin ? "Administrateur" : "Utilisateur"}

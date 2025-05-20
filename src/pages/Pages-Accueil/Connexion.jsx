@@ -6,6 +6,7 @@ import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Connexion = () => {
   const [error, setError] = useState("");
@@ -13,19 +14,42 @@ const Connexion = () => {
   const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
 
+   const {url} = usePublication()
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
 
   const handleGoogleSignIn = async () => {
-    setError("");
+    setError && setError("");
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Appel à ton backend pour créer ou connecter l'utilisateur Google
+      const response = await fetch(`${url}/api/users/google-login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          prenom: user.displayName,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Erreur Google");
+
+      if (data.token) localStorage.setItem("token", data.token);
+
+      toast.success("Inscription réussie avec Google !");
+      resetFormData();
       navigate("/users");
-    } catch (err) {
-      console.error("Erreur Google:", err);
-      setError("Erreur lors de la connexion avec Google.");
+    } catch (error) {
+      setError && setError("Erreur lors de l'inscription avec Google.");
+      setError(error.message || "Erreur lors de l'inscription avec Google.");
+        console.error("Erreur détaillée :", error);
+
     }
   };
 
@@ -52,7 +76,7 @@ const Connexion = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/login", {
+      const response = await fetch(`${url}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +146,7 @@ const Connexion = () => {
             </div>
 
             <a
-              href="/MotDePassOublie"
+              href="/motDePassOublie"
               className="inline-block text-end font-bold text-sm text-gray-700 hover:text-blue-800 mb-6 w-[70%]"
             >
               Mot de passe oublié ?

@@ -1,12 +1,14 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, provider } from "../../services/firebaseService";
+import { auth, provider, db  } from "../../services/firebaseService";
+import { doc, setDoc , getDoc } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Inscription = () => {
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
@@ -16,48 +18,35 @@ const Inscription = () => {
     updateFormData(name, value);
   };
 
-  const handleGoogleSignIn = async () => {
-    setError("");
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+const handleGoogleLogin = async () => {
+  try {
+    // Connexion via Google
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      if (!user || !user.email || !user.displayName) {
-        throw new Error("Les informations de l'utilisateur Google sont incomplètes.");
-      }
+    // Référence du document utilisateur dans Firestore
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
 
-      const response = await fetch("http://localhost:8000/api/users/google-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: user.email,
-          prenom: user.displayName,
-        }),
+    // Si l'utilisateur n'existe pas déjà, on l'ajoute
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        prenom: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL || null,
+        createdAt: new Date().toISOString(),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Erreur lors de l'inscription Google");
-      }
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        toast.success("Inscription réussie avec Google !");
-        resetFormData();
-        navigate("/users");
-      } else {
-        throw new Error("Token non reçu du serveur.");
-      }
-    } catch (err) {
-      const message = err.message || "Une erreur est survenue.";
-      setError(message);
-      toast.error(message);
-      console.error("Erreur Google:", err);
     }
-  };
 
+    toast.success("Connexion réussie avec Google !");
+    navigate("/users");
+  } catch (error) {
+    console.error("Erreur Google Auth:", error);
+    toast.error("Erreur lors de la connexion avec Google.");
+  }
+};
 
+   const {url} = usePublication()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -90,8 +79,9 @@ const Inscription = () => {
       return;
     }
 
+   
     try {
-      const response = await fetch("http://localhost:8000/api/users/register", {
+      const response = await fetch(`${url}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -239,7 +229,7 @@ const Inscription = () => {
 
           <div className="flex w-[80%] items-center justify-center">
             <button
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleLogin}
               className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-blue-600 text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
@@ -255,7 +245,7 @@ const Inscription = () => {
             </Link>
           </div>
 
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
         </div>
       </div>
     </div>

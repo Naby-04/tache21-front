@@ -1,31 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function MotDePassOublie() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
     try {
-      const response = await fetch("/api/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || "Erreur lors de l'envoi de l'email.");
-        return;
-      }
-
-      setSuccess("Un email de réinitialisation a été envoyé.");
-    } catch (err) {
-      setError("Erreur réseau ou serveur.");
+      const res = await axios.post("http://localhost:8000/api/users/forgot-password", { email });
+      toast.success(res.data.message);
+    } catch (err) { 
+      toast.error(err.response?.data?.status || "Erreur lors de la demande");
     }
   };
 
@@ -52,9 +38,9 @@ function MotDePassOublie() {
               type="email"
               autoComplete="email"
               placeholder="Votre email"
+               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
           <button
@@ -63,14 +49,13 @@ function MotDePassOublie() {
           >
             Obtenir le lien
           </button>
-        </form>
-
+        </form> 
         {error && (
           <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
         )}
         {success && (
           <div className="text-green-600 mt-2 text-sm text-center">{success}</div>
-        )}
+        )} 
 
         <div className="mt-6 text-center">
           <p className="text-gray-700 text-sm">

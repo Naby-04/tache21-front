@@ -1,25 +1,22 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext,  useContext,  useRef,  useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
-const ContextPublication = createContext()
+const ContextPublication = createContext();
 
-export const ContextProvider = ({children}) => {
-    const [publications, setPublications] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const filteredPublications = selectedCategory
-    ? publications.filter((doc) => doc.category === selectedCategory)
-    : publications;
-
-    const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-        doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doc.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+export const ContextProvider = ({ children }) => {
+  const [publications, setPublications] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    tags: "",
+    category: "",
+    file: null,
+  });
 
   const fileInput = useRef();
-  const url = "https://tache21-back.onrender.com";
-   //const url = "http://localhost:8000";
+  const url = "http://localhost:8000";
 
 
 
@@ -27,13 +24,14 @@ export const ContextProvider = ({children}) => {
   const addPublication = (newData) => {
     setPublications((prev) => [...prev, newData]);
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
-    };
+  };
 
-    
+  // 🎯 Filtrage des publications
+  const validPublications = Array.isArray(publications) ? publications : [];
 
-    // formulaire de publication rapport
-    const [form, setForm] = useState({title: "",description:"",
-        tags: "", category: "",file: null})
+  const filteredPublications = selectedCategory
+    ? validPublications.filter((doc) => doc.category === selectedCategory)
+    : validPublications;
 
     // reference de l'input de fichier
          const handleChange = (e) => {
@@ -47,10 +45,9 @@ export const ContextProvider = ({children}) => {
 
         const values = {form,setForm,fileInput,handleChange,addPublication,publications
             ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
-            searchTerm,setSearchTerm,filteredPublicationsBySearch,url
-            
+            searchTerm,setSearchTerm
         }
-    
+
     return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>
   }
   export const usePublication = () => useContext(ContextPublication)
