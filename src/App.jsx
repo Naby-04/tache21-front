@@ -14,6 +14,7 @@ import Inscription from "./pages/Pages-Accueil/Inscription";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./Contexts/AuthContext";
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
+           <Route path="/Auth" element={<AuthProvider />} />
          </Routes>
          <Toaster position="top-center"/>
 

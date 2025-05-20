@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth, provider } from "./firebase";
-// import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../services/firebaseService";
+import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 
@@ -19,21 +19,52 @@ const Inscription = () => {
   const handleGoogleSignIn = async () => {
     setError("");
     try {
-      await signInWithPopup(auth, provider);
-      navigate("/users");
-    } catch (error) {
-      setError("Erreur lors de l'inscription avec Google.");
-      console.error("Error signing in with Google:", error);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      if (!user || !user.email || !user.displayName) {
+        throw new Error("Les informations de l'utilisateur Google sont incomplètes.");
+      }
+
+      const response = await fetch("http://localhost:8000/api/users/google-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          prenom: user.displayName,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Erreur lors de l'inscription Google");
+      }
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        toast.success("Inscription réussie avec Google !");
+        resetFormData();
+        navigate("/users");
+      } else {
+        throw new Error("Token non reçu du serveur.");
+      }
+    } catch (err) {
+      const message = err.message || "Une erreur est survenue.";
+      setError(message);
+      toast.error(message);
+      console.error("Erreur Google:", err);
     }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { prenom, email, password, confirmPassword } = formData;
+    const { prenom, nom, email, password, confirmPassword } = formData;
 
     // Validation des champs
-    if (!prenom || !email || !password || !confirmPassword) {
+    if (!prenom || !nom || !email || !password || !confirmPassword) {
       toast.error("Veuillez remplir tous les champs.");
       return;
     }
@@ -67,6 +98,7 @@ const Inscription = () => {
         },
         body: JSON.stringify({
           prenom,
+          nom,
           email,
           password,
         }),
@@ -78,7 +110,7 @@ const Inscription = () => {
 
       localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
-      resetFormData();
+      resetFormData(); // Réinitialise les champs
       navigate("/connexion");
     } catch (error) {
       toast.error("Erreur : " + error.message);
@@ -101,16 +133,30 @@ const Inscription = () => {
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="name">
+              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="prenom">
+                Entrez votre prénom
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="prenom"
+                type="text"
+                placeholder="Votre prénom"
+                name="prenom"
+                value={formData.prenom || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-2 w-[70%]">
+              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="nom">
                 Entrez votre nom
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="name"
+                id="nom"
                 type="text"
                 placeholder="Votre nom"
-                name="prenom"
-                value={formData.prenom || ""}
+                name="nom"
+                value={formData.nom || ""}
                 onChange={handleChange}
               />
             </div>
@@ -149,7 +195,7 @@ const Inscription = () => {
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
-              <input                                                                                                                                                     
+              <input
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="confirm-password"
                 type="password"
@@ -178,6 +224,7 @@ const Inscription = () => {
               <button
                 className="bg-gray-700 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
                 type="submit"
+                disabled={!acceptCGU}
               >
                 S'inscrire
               </button>
@@ -193,7 +240,7 @@ const Inscription = () => {
           <div className="flex w-[80%] items-center justify-center">
             <button
               onClick={handleGoogleSignIn}
-              className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-blue-600 text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />

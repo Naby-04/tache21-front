@@ -2,6 +2,7 @@
 import { createContext,  useContext,  useRef,  useState } from "react";
 
 const ContextPublication = createContext()
+
 export const ContextProvider = ({children}) => {
     const [publications, setPublications] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -11,36 +12,19 @@ export const ContextProvider = ({children}) => {
     ? publications.filter((doc) => doc.category === selectedCategory)
     : publications;
 
-<<<<<<< Updated upstream
-    const filteredPublicationsBySearch = filteredPublications.filter((doc) => doc.title.toLowerCase().includes(searchTerm.toLowerCase()));
-  
-    const addPublication = (newData) => {
-=======
+    const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
+        doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doc.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
   const fileInput = useRef();
   const url = "https://tache21-back.onrender.com";
    //const url = "http://localhost:8000";
 
-  // 🔁 Récupérer les publications au montage
-//   useEffect(() => {
-//     fetch(`${url}/rapport/getAll`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         if (Array.isArray(data)) {
-//           setPublications(data);
-//         } else {
-//           console.error("Données reçues invalides :", data);
-//           setPublications([]); // fallback sécurisé
-//         }
-//       })
-//       .catch((err) => {
-//         console.error("Erreur lors de la récupération des rapports :", err);
-//         setPublications([]);
-//       });
-//   }, []);
+
 
   // 🧠 Ajout d'une publication
   const addPublication = (newData) => {
->>>>>>> Stashed changes
     setPublications((prev) => [...prev, newData]);
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
     };
@@ -52,7 +36,6 @@ export const ContextProvider = ({children}) => {
         tags: "", category: "",file: null})
 
     // reference de l'input de fichier
-         const fileInput = useRef()
          const handleChange = (e) => {
             const { name, value, files } = e.target;
             setForm((prev) => ({
@@ -61,7 +44,6 @@ export const ContextProvider = ({children}) => {
             }));
         }
     
-        const url = "http://localhost:8080";
 
         const values = {form,setForm,fileInput,handleChange,addPublication,publications
             ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
@@ -70,6 +52,5 @@ export const ContextProvider = ({children}) => {
         }
     
     return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>
-}
-
-export const usePublication = () => useContext(ContextPublication)
+  }
+  export const usePublication = () => useContext(ContextPublication)

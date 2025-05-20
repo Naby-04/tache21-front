@@ -1,8 +1,8 @@
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth, provider } from "./firebase";
-// import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../services/firebaseService";
+import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
@@ -147,7 +147,7 @@ const Connexion = () => {
             <button
               onClick={handleGoogleSignIn}
               type="button"
-              className="flex items-center justify-center bg-gray-200 border border-amber-300 hover:bg-amber-600 text-black font-bold py-2 px-4 rounded-2xl w-full"
+              className="flex items-center justify-center bg-gray-200  hover:bg-blue-600 text-black rounded-2xl font-bold py-3 px-4 h-10  focus:outline-none focus:shadow-outline w-full"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
               <span>Google</span>

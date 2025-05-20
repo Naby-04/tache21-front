@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
+import { usePublication } from "./DashboardUser/UseContext";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { url } = usePublication(); // <-- Place ici !
   const [users, setUsers] = useState(null);
 
   const fetchProfil = async () => {
@@ -10,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/profile", {
+      const response = await fetch(`${url}/api/users/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,6 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     fetchProfil();
+    // eslint-disable-next-line
   }, []);
 
   return (
