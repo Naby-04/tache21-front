@@ -4,6 +4,7 @@ import { categories } from "../../data/Categorie";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
 import { Link } from "react-router-dom";
 
+
 function RapportsAccueil() {
   const [activeCategory, setActiveCategory] = useState(categories[0].value);
   const [sidebarOpen, setSidebarOpen] = useState(false);
