@@ -2,14 +2,38 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 export const Profile = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef();
   const navigate = useNavigate();
   const { users, setUsers } = useContext(AuthContext);
+  // console.log("username",users);
+  const {url} = usePublication()
 
   useEffect(() => {
+     const fetchProfil = async () => {
+    // e.preventDefault()
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch(`${url}/api/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Échec récupération profil");
+
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Erreur récupération profil :", error);
+    }
+  };
+  fetchProfil()
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpenMenu(false);
@@ -28,8 +52,10 @@ export const Profile = () => {
         navigate("/users");
       }
     }
-  }, [users, navigate]);
+  }, []);
 
+  // console.log("users", users);
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUsers(null);
@@ -38,6 +64,9 @@ export const Profile = () => {
 
   if (!users) return null;
 
+  console.log("users", users.prenom);
+  
+
   return (
     <div className="profile text-white flex items-center flex-col md:block">
       <div
@@ -45,10 +74,11 @@ export const Profile = () => {
         onClick={() => setOpenMenu(!openMenu)}
       >
         <img
-          src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&auto=format&fit=crop&w=687&q=80"
+          src={users.photo}
           alt="profil"
           className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full"
         />
+
         <span className="absolute bottom-[-5px] right-0 bg-[var(--background-color)] rounded-full md:hidden cursor-pointer">
           <FaAngleDown />
         </span>
@@ -56,7 +86,7 @@ export const Profile = () => {
 
       <div className="infos-profil text-[var(--text-couleur)] mt-4">
         <p className="name text-sm text-[#fff] md:text-[#212121] md:text-lg font-regular">
-          Bonjour, {users.prenom}
+          {users.prenom}
         </p>
         <p className="description text-sm hidden md:block text-gray-500">
           {users.isAdmin ? "Administrateur" : "Utilisateur"}
