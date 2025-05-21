@@ -21,6 +21,8 @@ export const RapportCard = ({ doc }) => {
   const [showComments, setShowComments] = useState(false);
   const {users} = useContext(AuthContext);
 
+  console.log("users", users);
+
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
