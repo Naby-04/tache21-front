@@ -1,6 +1,6 @@
 import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal from "../Commentaire/CommentModal";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
@@ -8,6 +8,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
+import AuthContext from "../../../Contexts/AuthContext";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -18,6 +19,7 @@ export const RapportCard = ({ doc }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const {users} = useContext(AuthContext);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -133,7 +135,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">John Doe</p>
+          <p className="font-semibold text-sm text-gray-800">{users.prenom}</p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>

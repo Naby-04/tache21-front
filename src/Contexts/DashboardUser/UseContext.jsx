@@ -16,25 +16,10 @@ export const ContextProvider = ({ children }) => {
   });
 
   const fileInput = useRef();
+
   const url = "https://tache21-back.onrender.com";
 
-  // 🔁 Récupérer les publications au montage
-//   useEffect(() => {
-//     fetch(`${url}/rapport/getAll`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         if (Array.isArray(data)) {
-//           setPublications(data);
-//         } else {
-//           console.error("Données reçues invalides :", data);
-//           setPublications([]); // fallback sécurisé
-//         }
-//       })
-//       .catch((err) => {
-//         console.error("Erreur lors de la récupération des rapports :", err);
-//         setPublications([]);
-//       });
-//   }, []);
+
 
   // 🧠 Ajout d'une publication
   const addPublication = (newData) => {
@@ -62,22 +47,8 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {
-    form,
-    setForm,
-    fileInput,
-    handleChange,
-    addPublication,
-    publications,
-    setPublications,
-    selectedCategory,
-    setSelectedCategory,
-    filteredPublications,
-    searchTerm,
-    setSearchTerm,
-    filteredPublicationsBySearch,
-    url,
-  };
+  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+};
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;
 };
