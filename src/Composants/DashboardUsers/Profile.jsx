@@ -47,7 +47,7 @@ export const Profile = () => {
         <img
           src={users.photo}
           alt="profil"
-          className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full"
+          className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full border-4 border-gray-800 object-cover"
         />
 
         <span className="absolute bottom-[-5px] right-0 bg-[var(--background-color)] rounded-full md:hidden cursor-pointer">
