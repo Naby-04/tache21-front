@@ -7,13 +7,6 @@ import { ContextProvider } from './Contexts/DashboardUser/UseContext.jsx'
 import { FormProvider } from './Contexts/FormContext.jsx'
 import { AuthProvider } from './Contexts/AuthContext.jsx'
 
-// import { pdfjs } from 'react-pdf';
-// import workerSrc from 'pdfjs-dist/build/pdf.worker.entry';
-
-// 📌 Pour charger le worker depuis le CDN (évite les erreurs de chemin/mime)
-// pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ContextProvider>
