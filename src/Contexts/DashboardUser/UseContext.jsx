@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const ContextPublication = createContext();
@@ -16,7 +15,8 @@ export const ContextProvider = ({ children }) => {
   });
 
   const fileInput = useRef();
-  const url = "http://localhost:8000";
+
+  const url = "https://tache21-back.onrender.com";
 
 
 
@@ -33,21 +33,23 @@ export const ContextProvider = ({ children }) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
-    // reference de l'input de fichier
-         const handleChange = (e) => {
-            const { name, value, files } = e.target;
-            setForm((prev) => ({
-              ...prev,
-              [name]: files && files.length > 0 ? files[0] : value,
-            }));
-        }
-    
+  const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
+    doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-        const values = {form,setForm,fileInput,handleChange,addPublication,publications
-            ,setPublications,selectedCategory,setSelectedCategory,filteredPublications,
-            searchTerm,setSearchTerm
-        }
+  // 📝 Gestion des champs du formulaire
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: files && files.length > 0 ? files[0] : value,
+    }));
+  };
 
-    return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>
-  }
-  export const usePublication = () => useContext(ContextPublication)
+  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+};
+
+  return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;
+};
+
+export const usePublication = () => useContext(ContextPublication);

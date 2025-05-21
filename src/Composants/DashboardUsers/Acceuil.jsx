@@ -15,6 +15,8 @@ export const Acceuil = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      
       const data = await response.json();
       console.log("Publications:", data);
       

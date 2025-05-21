@@ -17,7 +17,7 @@ function MotDePassOublie() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-xl w-[30%] h-[400px]">
+      <div className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-xl h-[400px]">
         <div className="text-center text-xl font-bold mb-6">
           Réinitialiser le mot de passe
         </div>
