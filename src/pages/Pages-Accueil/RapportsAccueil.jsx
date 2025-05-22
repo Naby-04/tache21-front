@@ -10,7 +10,7 @@ function RapportsAccueil() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   
-  
+   
 
   return (
     <>
