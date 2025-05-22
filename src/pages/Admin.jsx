@@ -10,7 +10,7 @@ import DashboardContenu from "../Composants/composants de la page admin/Dashbord
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
 
-import LesUtilisateurs from "../data/LesUtilisateurs";
+// import LesUtilisateurs from "../data/LesUtilisateurs";
 
 const services = [
   { icon: "📚", label: "Toutes les catégories" },
@@ -27,8 +27,9 @@ const Admin = () => {
   const [rechercheDashboard, setRechercheDashboard] = useState("");
   const [rechercheRapports, setRechercheRapports] = useState("");
 
-  const [filtreUser, setFiltreUser] = useState(LesUtilisateurs);
-  const [rapportsOriginaux, setRapportsOriginaux] = useState([]); // 🔥 données de l’API
+  const [allUsers, setAllUsers] = useState([])
+  const [filtreUser, setFiltreUser] = useState([]);
+  const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
   const [rapportfiltre, setRapportFiltre] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
@@ -50,18 +51,44 @@ const Admin = () => {
     fetchRapports();
   }, []);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem("token"); // récupère le token stocké
+
+        const response = await fetch("http://localhost:8000/api/users/allusers", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+          setAllUsers(data);
+          setFiltreUser(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des utilisateurs :", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   // 🔍 Recherche utilisateurs
   const changement = (utile) => {
     setRecherche(utile);
+
     if (utile === "") {
-      setFiltreUser(LesUtilisateurs);
+      setFiltreUser(allUsers);
     } else {
-      const filtre = LesUtilisateurs.filter((u) =>
-        u.name.toLowerCase().includes(utile.toLowerCase())
+      const filtre = allUsers.filter((u) =>
+        u.prenom.toLowerCase().includes(utile.toLowerCase()) ||
+        u.email.toLowerCase().includes(utile.toLowerCase())
       );
       setFiltreUser(filtre);
     }
-  };
+  }
+
 
   // 🔍 Recherche et filtre dans "dashboard"
   const filtrerRapportsParTexte = (texte) => {
@@ -119,22 +146,29 @@ const Admin = () => {
     }
   };
 
-  // const supprimerRapport = async (id) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/rapport/${id}`, {
-  //       method: "DELETE",
-  //     });
+  const supprimerUtilisateur = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
 
-  //     if (response.ok) {
-  //       const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
-  //       setRapportFiltre(nouveauTableau);
-  //     } else {
-  //       console.error("Erreur lors de la suppression");
-  //     }
-  //   } catch (error) {
-  //     console.error("Erreur serveur :", error);
-  //   }
-  // };
+    const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const miseAJour = filtreUser.filter((u) => u._id !== id);
+      setAllUsers(miseAJour);
+      setFiltreUser(miseAJour);
+    } else {
+      console.error("Erreur lors de la suppression de l'utilisateur");
+    }
+  } catch (error) {
+    console.error("Erreur serveur lors de la suppression :", error);
+  }
+};
 
 
   // Vue active
@@ -144,12 +178,12 @@ const Admin = () => {
     } else if (vueActive === "rapports") {
       filtrerRapportsParTexteEtCategorie(rechercheRapports);
     } else if (vueActive === "users") {
-      setRechercheDashboard("");
-      setRechercheRapports("");
-      setFiltreUser(LesUtilisateurs);
-      setRapportFiltre(rapportsOriginaux);
-      setSelectedIndex(0);
-    }
+        setRechercheDashboard("");
+        setRechercheRapports("");
+        setFiltreUser(allUsers);
+        setRapportFiltre(rapportsOriginaux);
+        setSelectedIndex(0);
+      }
   }, [vueActive]);
 
   useEffect(() => {
@@ -167,12 +201,12 @@ const Admin = () => {
         {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} />
         )}
 
         {vueActive === "users" && (
           <div className="p-3 w-full">
-            <Users lesUtilisateurs={filtreUser} onDelete={() => {}} />
+            <Users lesUtilisateurs={filtreUser} onDelete={supprimerUtilisateur} />
           </div>
         )}
 

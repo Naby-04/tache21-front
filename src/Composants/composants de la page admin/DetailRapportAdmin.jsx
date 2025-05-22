@@ -22,7 +22,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
 };
 
   useEffect(() => {
-    if (rapportChoisi && rapportChoisi.type === 'docx') {
+    if (rapportChoisi && rapportChoisi.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       const reader = new FileReader();
 
       reader.onload = function (event) {
@@ -45,10 +45,6 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
 
   if (!rapportChoisi) return null;
   
-
-  // const isPdf = rapportChoisi.type === "pdf";
-  // const isDocx = rapportChoisi.type === "docx";
-
   const isPdf = rapportChoisi.type === "application/pdf";
   const isDocx = rapportChoisi.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
@@ -63,8 +59,8 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
           >
             <BiX />
           </button>
-          <h2 className="text-xl font-bold mb-4">Contenu Word</h2>
-          <div dangerouslySetInnerHTML={{ __html: docHtml }} className="prose max-w-none" />
+          <h2 className="text-xl font-bold mb-4 text-center">Contenu Word</h2>
+          <div dangerouslySetInnerHTML={{ __html: docHtml }} className="prose max-w-md mx-auto" />
         </div>
       )}
 
@@ -139,7 +135,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               />
             </div>
             <div>
-              <p className="text-md font-medium">{rapportChoisi.nomUsers}</p>
+              <p className="text-md font-medium">{rapportChoisi.user.prenom}</p>
               <p className="text-sm text-gray-600">{rapportChoisi.category}</p>
             </div>
           </div>
