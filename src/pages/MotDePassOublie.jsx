@@ -33,7 +33,7 @@ function MotDePassOublie() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-xl w-[30%] h-[400px]">
+      <div className="bg-gray-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-full max-w-xl h-[400px]">
         <div className="text-center text-xl font-bold mb-6">
           Réinitialiser le mot de passe
         </div>
@@ -65,14 +65,13 @@ function MotDePassOublie() {
           >
             Obtenir le lien
           </button>
-        </form>
-{/* 
+        </form> 
         {error && (
           <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
         )}
         {success && (
           <div className="text-green-600 mt-2 text-sm text-center">{success}</div>
-        )} */}
+        )} 
 
         <div className="mt-6 text-center">
           <p className="text-gray-700 text-sm">

@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormContext from "../../Contexts/FormContext";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider, db  } from "../../services/firebaseService";
+import { doc, setDoc , getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
@@ -15,7 +18,36 @@ const Inscription = () => {
     updateFormData(name, value);
   };
 
-   const {url} = usePublication()
+  const handleGoogleLogin = async () => {
+    try {
+      // Connexion via Google
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Référence du document utilisateur dans Firestore
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
+
+      // Si l'utilisateur n'existe pas déjà, on l'ajoute
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          prenom: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL || null,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      toast.success("Connexion réussie avec Google !");
+      navigate("/users");
+    } catch (error) {
+      console.error("Erreur Google Auth:", error);
+      toast.error("Erreur lors de la connexion avec Google.");
+    }
+  };
+
+
+  const {url} = usePublication()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,11 +123,11 @@ const Inscription = () => {
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="name">
+              <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
                 Entrez votre nom
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
                 type="text"
                 placeholder="Votre nom"
@@ -110,7 +142,7 @@ const Inscription = () => {
                 Entrez votre email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
                 name="email"
@@ -121,7 +153,7 @@ const Inscription = () => {
             </div>
 
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="password">
                 Mot de passe
               </label>
               <input
@@ -136,11 +168,11 @@ const Inscription = () => {
             </div>
 
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
+              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
               <input                                                                                                                                                     
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="confirm-password"
                 type="password"
                 placeholder="Confirmer votre mot de passe"
@@ -166,7 +198,7 @@ const Inscription = () => {
 
             <div className="flex w-[70%] items-center justify-between">
               <button
-                className="bg-gray-700 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+                className="bg-gray-800 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
                 type="submit"
               >
                 S'inscrire
@@ -176,13 +208,14 @@ const Inscription = () => {
 
           <div className="flex items-center justify-between mt-4 mb-4 w-[70%]">
             <div className="border-t border-gray-500 flex-grow"></div>
-            <p className="mx-4 text-gray-700">OU</p>
+            <p className="mx-4 text-gray-800">OU</p>
             <div className="border-t border-gray-500 flex-grow"></div>
           </div>
 
           <div className="flex w-[80%] items-center justify-center">
             <button
-              className="flex items-center justify-center gap-3 border border-amber-300 bg-gray-200 h-10 hover:bg-amber-600 text-black font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+             onClick={handleGoogleLogin}
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-blue-600 text-gray-800 focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
@@ -192,7 +225,7 @@ const Inscription = () => {
 
           <div className="text-center mt-3">
             Vous avez déjà un compte ?{" "}
-            <Link to="/connexion" className="font-bold text-sm text-gray-700 hover:text-gray-400">
+            <Link to="/connexion" className="font-bold text-sm text-gray-800 hover:text-gray-400">
               Se connecter
             </Link>
           </div>
@@ -204,4 +237,4 @@ const Inscription = () => {
   );
 };
 
-export default Inscription;
+export default Inscription;

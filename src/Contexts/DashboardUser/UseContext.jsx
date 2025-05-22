@@ -18,7 +18,7 @@ export const ContextProvider = ({ children }) => {
   const fileInput = useRef();
 
   const url = "https://tache21-back.onrender.com";
-//   const url ="http://localhost:8080"
+  // const url ="http://localhost:8080"
 
 
 
@@ -48,7 +48,9 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+  const values = {form,setForm,fileInput,handleChange,
+     addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
+     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;

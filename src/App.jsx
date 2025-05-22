@@ -39,8 +39,8 @@ const App = () => {
 
            <Route path="/pageParametre" element={<PageParametresCompte />} />
            <Route path="/rapports" element={<RapportsAccueil />} />
-           <Route path="/motDePassOublie" element={<MotDePassOublie />} />
            <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
+           <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
          <Toaster position="top-center"/>
