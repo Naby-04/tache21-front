@@ -73,6 +73,7 @@ const fakeDocuments = [
           }),
       }
   ];
+ 
 export const RapportsPages = ({ searchTerm }) => {
 const filteredDocs = fakeDocuments.filter(doc =>
     doc.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,3 +87,4 @@ const filteredDocs = fakeDocuments.filter(doc =>
         
         
 }
+

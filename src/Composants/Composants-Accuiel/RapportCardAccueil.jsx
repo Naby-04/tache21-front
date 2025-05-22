@@ -12,7 +12,7 @@ export const RapportCardAccueil = ({ doc }) => {
         setShowCommentBox(false);
     };
 
-    const currentCategory = categories.find((cat) => cat.value === doc.category);
+    const currentCategory = categories.find((cat) => cat.value === doc.category); 
         const categoryClass = currentCategory?.color
 
     return (
@@ -30,7 +30,7 @@ export const RapportCardAccueil = ({ doc }) => {
                 </div>
             </div>
 
-
+           
 
             {/* Titre */}
             <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>

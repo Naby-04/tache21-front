@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { categories } from "../../data/Categorie";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
 import { Link } from "react-router-dom";
+import { checkActionCode } from "firebase/auth";
 
 function RapportsAccueil() {
-  const [activeCategory, setActiveCategory] = useState(categories[0].value);
+  const [activeCategory, setActiveCategory] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  
+  
 
   return (
     <>
@@ -70,14 +72,15 @@ function RapportsAccueil() {
               </button>
             </div>
             <ul className="space-y-1">
-              {categories.map((cat) => (
+               {categories.map((cat) => (
                 <li key={cat.value}>
                   <Link to="/"
-                    
-                    onClick={() => {
-                      setActiveCategory(cat.value);
-                      setSidebarOpen(false);
-                    }}
+                    onClick={() =>
+                         {
+                        filterResult(cat.value)
+                        setSidebarOpen(false);
+                      }
+                  }
                     className={`block text-sm font-semibold px-4 py-2 rounded transition cursor-pointer ${
                       activeCategory === cat.value
                         ? "bg-gray-100 text-gray-800"
@@ -118,7 +121,7 @@ function RapportsAccueil() {
 
         {/* Main content */}
         <main className="w-full lg:ml-[250px] px-4 py-6">
-          <RapportsPages searchTerm={searchTerm} />
+          <RapportsPages searchTerm={searchTerm} activeCategory={activeCategory}/>
         </main>
       </div>
     </div>
