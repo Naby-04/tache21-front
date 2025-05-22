@@ -5,6 +5,8 @@ import AuthContext from "../../Contexts/AuthContext";
 export const PageParametresCompte = () => {
   const navigate = useNavigate();
   const { setUsers } = useContext(AuthContext);
+  const [newPassword, setNewPassword] = useState("");
+
 
   // Lecture initiale depuis le localStorage
   const getInitialUser = () => {
@@ -42,12 +44,41 @@ export const PageParametresCompte = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSave = () => {
-    console.log("Infos enregistrées :", userInfo);
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    setUsers(userInfo);
+ const handleSave = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    // Fusionne les données
+    const dataToSend = {
+      ...userInfo,
+      ...(newPassword && { newPassword }), // ajoute seulement si rempli
+    };
+
+    const response = await fetch(`${url}/api/users/update`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(dataToSend),
+    });
+
+    const updatedUser = await response.json();
+
+    if (!response.ok) throw new Error(updatedUser.message || "Erreur de mise à jour");
+
+    // Mise à jour du localStorage et du contexte uniquement avec les infos utiles
+    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+    setUsers(updatedUser);
+
     alert("Modifications enregistrées !");
-  };
+  } catch (error) {
+    console.error("Erreur lors de l'enregistrement :", error);
+    alert("Erreur lors de la mise à jour du profil.");
+  }
+};
+
+
 
   return (
     <div className="p-6 max-w-3xl mx-auto bg-white rounded-xl shadow-md">
@@ -122,6 +153,8 @@ export const PageParametresCompte = () => {
           type="password"
           name="newPassword"
           placeholder="Nouveau mot de passe"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
           className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
         />
       </div>

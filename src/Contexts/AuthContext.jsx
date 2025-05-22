@@ -8,31 +8,35 @@ export const AuthProvider = ({ children }) => {
   const { url } = usePublication();
 
   const fetchProfil = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-    try {
-      const response = await fetch(`${url}/api/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  try {
+    const response = await fetch(`${url}/api/users/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (!response.ok) throw new Error("Échec récupération profil");
+    if (!response.ok) throw new Error("Échec récupération profil");
 
-      const data = await response.json();
+    const data = await response.json();
 
-      // Vérifie s’il y a une image personnalisée dans le localStorage
-      const localUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-      if (localUserInfo?.photo) {
-        data.photo = localUserInfo.photo;
-      }
-
-      setUsers(data);
-    } catch (error) {
-      console.error("Erreur récupération profil :", error);
+    // 🔥 On récupère la photo depuis le localStorage si elle existe
+    const localUserInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (localUserInfo?.photo) {
+      data.photo = localUserInfo.photo;
     }
-  };
+
+    setUsers(data);
+    localStorage.setItem("userInfo", JSON.stringify(data)); // 👈 AJOUT OBLIGATOIRE
+
+  } catch (error) {
+    console.error("Erreur récupération profil :", error);
+  }
+};
+
+
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -41,14 +45,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("userInfo");
-    if (savedUser) {
-      const parsedUser = JSON.parse(savedUser);
-      setUsers(parsedUser);
-    } else {
-      fetchProfil(); // si rien dans le localStorage, récupère depuis l’API
-    }
-  }, []);
+  const savedUser = localStorage.getItem("userInfo");
+  if (savedUser) {
+    const parsedUser = JSON.parse(savedUser);
+    setUsers(parsedUser);
+  } else {
+    fetchProfil(); // si rien dans le localStorage, va chercher depuis l’API
+  }
+}, []);
+
 
   return (
     <AuthContext.Provider value={{ users, setUsers, fetchProfil, logout }}>

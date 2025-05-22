@@ -29,6 +29,7 @@ export const Profile = () => {
       }
     }
   }, [users, navigate]);
+  console.log(users);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

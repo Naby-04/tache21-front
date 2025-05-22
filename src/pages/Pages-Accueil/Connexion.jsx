@@ -11,7 +11,7 @@ import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 const Connexion = () => {
   const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
-  const { fetchProfil } = useContext(AuthContext);
+  const { fetchProfil, setUsers   } = useContext(AuthContext);
   const navigate = useNavigate();
 
    const {url} = usePublication()
@@ -21,16 +21,6 @@ const Connexion = () => {
     updateFormData(name, value);
   };
 
-  // const handleGoogleSignIn = async () => {
-  //   setError("");
-  //   try {
-  //     await signInWithPopup(auth, provider);
-  //     navigate("/users");
-  //   } catch (err) {
-  //     console.error("Erreur Google:", err);
-  //     setError("Erreur lors de la connexion avec Google.");
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +59,9 @@ const Connexion = () => {
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.message || "Erreur de connexion");
+
+     setUsers(data);
+
 
       localStorage.setItem("token", data.token);
       await fetchProfil();
