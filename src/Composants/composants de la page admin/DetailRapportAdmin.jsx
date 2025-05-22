@@ -35,8 +35,8 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
           });
       };
 
-      if (rapportChoisi.fichier) {
-        fetch(rapportChoisi.fichier)
+      if (rapportChoisi.fileUrl) {
+        fetch(rapportChoisi.fileUrl)
           .then(response => response.blob())
           .then(blob => reader.readAsArrayBuffer(blob));
       }
@@ -46,8 +46,11 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
   if (!rapportChoisi) return null;
   
 
-  const isPdf = rapportChoisi.type === "pdf";
-  const isDocx = rapportChoisi.type === "docx";
+  // const isPdf = rapportChoisi.type === "pdf";
+  // const isDocx = rapportChoisi.type === "docx";
+
+  const isPdf = rapportChoisi.type === "application/pdf";
+  const isDocx = rapportChoisi.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
   return (
     <div className="relative">
@@ -78,7 +81,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             <h2 className="text-xl font-bold mb-4 mt-6">Aperçu PDF</h2>
 
             <Document
-            file={rapportChoisi.fichier}
+            file={rapportChoisi.fileUrl}
             onLoadSuccess={({ numPages }) => {
                 setNumPages(numPages);
                 setCurrentPage(1); // Réinitialiser à la première page
@@ -137,18 +140,18 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             </div>
             <div>
               <p className="text-md font-medium">{rapportChoisi.nomUsers}</p>
-              <p className="text-sm text-gray-600">{rapportChoisi.categories}</p>
+              <p className="text-sm text-gray-600">{rapportChoisi.category}</p>
             </div>
           </div>
 
           <div className="mt-1 py-2 px-2">
-            <p className="text-xl font-bold"> - {rapportChoisi.titre}</p>
-            <p className="text-md mt-3">{rapportChoisi.descriptionLong}</p>
+            <p className="text-xl font-bold"> - {rapportChoisi.title}</p>
+            <p className="text-md mt-3">{rapportChoisi.description}</p>
 
             <div className="py-2 mt-3 px-2">
               <div className="flex gap-2 mb-2">
                 <p className="text-md font-semibold underline">Catégories :</p>
-                <p className="text-md font-light">{rapportChoisi.categories}</p>
+                <p className="text-md font-light">{rapportChoisi.category}</p>
               </div>
               <div className="flex gap-2 mb-2">
                 <p className="text-md font-semibold underline">Tags :</p>
@@ -181,7 +184,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               )}
               <div className="flex items-center justify-center gap-2 p-3 px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer">
                 <FaDownload />
-                <a href={rapportChoisi.fichier} download className="text-md">Télécharger</a>
+                <a href={rapportChoisi.fileUrl} download className="text-md">Télécharger</a>
               </div>
             </div>
           </div>
@@ -193,7 +196,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             style={{ width: "285px", height: "350px" }}
           >
             {isPdf ? (
-              <Document file={rapportChoisi.fichier}>
+              <Document file={rapportChoisi.fileUrl}>
                 <Page pageNumber={1} width={250} />
               </Document>
             ) : isDocx ? (
