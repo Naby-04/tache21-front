@@ -13,7 +13,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
 import { toast} from 'react-toastify'
-import { useState } from "react";
+ import {  Link as ScrollLink} from "react-scroll";
 
 
 
@@ -85,14 +85,14 @@ const Footer = () => {
               <div className="hover:text-gray-300 text-amber-300">
                 <Link to='/'>Accueil</Link>
               </div>
-              <div className="hover:text-gray-300">
-                <Link to='/'>Service</Link>
+              <div className="hover:text-gray-300 text-white">
+                <ScrollLink to="services"  smooth={true} duration={500} offset={-70} >Services</ScrollLink>
               </div>
               <div className="hover:text-gray-300">
-                <Link to='/'>Rapports</Link>
+                <ScrollLink to="rapports"  smooth={true} duration={500} offset={-70}>Rapports</ScrollLink>
               </div>
               <div className="hover:text-gray-300">
-                <Link to='/'>À propos</Link>
+                <ScrollLink to="a-propos"  smooth={true} duration={500} offset={-70}>À propos</ScrollLink>
               </div>
             </div>
           </div>

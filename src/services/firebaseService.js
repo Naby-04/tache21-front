@@ -2,6 +2,9 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
+
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyAWwPglE0UYs_momw02XgsTS8VLzVDwaDg",
   authDomain: "newsletter-demo-9697f.firebaseapp.com",
