@@ -2,15 +2,26 @@ import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
 import CommentModal from "./CommentModal";
+import {jwtDecode} from "jwt-decode";
 
 export const CommentairesSection = ({ rapportId }) => {
   const [commentaires, setCommentaires] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Pour la suppression
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
-  console.log("rapportId :", rapportId);
+
+  // 🔐 Récupération de l'ID utilisateur connecté
+  const token = localStorage.getItem("token");
+  let userId = null;
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded.id || decoded._id; // selon ce que ton backend met dans le JWT
+    } catch (e) {
+      console.error("Erreur de décodage du token", e);
+    }
+  }
 
   const fetchCommentaires = async () => {
     setLoading(true);
@@ -20,14 +31,13 @@ export const CommentairesSection = ({ rapportId }) => {
       );
       const data = await response.json();
 
-      console.log("Données brutes reçues :", data);
       const commentairesFormates = data.map((comment) => ({
         id: comment._id,
         auteur: comment.user?.prenom || "Utilisateur inconnu",
         contenu: comment.comment,
+        userId: comment.user?._id || null,
       }));
 
-      console.log("Commentaires formatés :", commentairesFormates);
       setCommentaires(commentairesFormates);
     } catch (error) {
       console.error("Erreur lors du chargement des commentaires :", error.message);
@@ -35,9 +45,6 @@ export const CommentairesSection = ({ rapportId }) => {
       setLoading(false);
     }
   };
-
-  console.log("Commentaires à afficher :", commentaires);
-
 
   useEffect(() => {
     if (rapportId) {
@@ -49,7 +56,7 @@ export const CommentairesSection = ({ rapportId }) => {
     try {
       const token = localStorage.getItem("token");
 
-      await fetch(
+      const res = await fetch(
         `http://localhost:8000/api/comments/${idCommentToDelete}`,
         {
           method: "DELETE",
@@ -58,6 +65,12 @@ export const CommentairesSection = ({ rapportId }) => {
           },
         }
       );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(errorData.message || "Erreur lors de la suppression.");
+        return;
+      }
 
       setCommentaires((prev) =>
         prev.filter((c) => c.id !== idCommentToDelete)
@@ -75,47 +88,40 @@ export const CommentairesSection = ({ rapportId }) => {
     setShowDeleteModal(true);
   };
 
-const handleAddComment = async (value) => {
-  try {
-    const token = localStorage.getItem("token");
+  const handleAddComment = async (value) => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const res = await fetch(
-      `http://localhost:8000/api/comments/${rapportId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ comment: value }),
+      const res = await fetch(
+        `http://localhost:8000/api/comments/${rapportId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ comment: value }),
+        }
+      );
+
+      if (!res.ok) {
+        console.error("Erreur lors de l’ajout du commentaire");
+        return;
       }
-    );
 
-    if (!res.ok) {
-      console.error("Erreur lors de l’ajout du commentaire");
-      return;
+      await fetchCommentaires();
+    } catch (error) {
+      console.error("Erreur ajout commentaire :", error);
     }
-
-    await fetchCommentaires(); // Recharge les commentaires
-  } catch (error) {
-    console.error("Erreur ajout commentaire :", error);
-  }
-};
-
+  };
 
   if (loading) {
-    return (
-      <p className="text-sm text-gray-500 mt-2">
-        Chargement des commentaires...
-      </p>
-    );
+    return <p className="text-sm text-gray-500 mt-2">Chargement des commentaires...</p>;
   }
 
   return (
     <div className="mt-4 bg-gray-50 p-4 rounded-lg shadow-inner">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">
-        Commentaires :
-      </h3>
+      <h3 className="text-sm font-semibold text-gray-700 mb-3">Commentaires :</h3>
 
       <CommentModal
         onClose={() => {}}
@@ -124,9 +130,7 @@ const handleAddComment = async (value) => {
       />
 
       {commentaires.length === 0 ? (
-        <p className="text-sm text-gray-500">
-          Aucun commentaire pour l’instant.
-        </p>
+        <p className="text-sm text-gray-500">Aucun commentaire pour l’instant.</p>
       ) : (
         <ul className="space-y-3">
           {commentaires.map((comment) => (
@@ -137,15 +141,19 @@ const handleAddComment = async (value) => {
                   <small>{comment.contenu}</small>
                 </span>
               </div>
-              <div>
-                <span className="text-gray-500 cursor-pointer border">
-                  <BsTrash
-                    className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 transition-all border"
-                    title="Supprimer"
-                    onClick={() => askDeleteComment(comment.id)}
-                  />
-                </span>
-              </div>
+
+              {/* ✅ Affiche la poubelle uniquement si c'est son commentaire */}
+              {comment.userId === userId && (
+                <div>
+                  <span className="text-gray-500 cursor-pointer border">
+                    <BsTrash
+                      className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 transition-all border"
+                      title="Supprimer"
+                      onClick={() => askDeleteComment(comment.id)}
+                    />
+                  </span>
+                </div>
+              )}
             </li>
           ))}
         </ul>
