@@ -16,7 +16,7 @@ export const CommentairesSection = ({ rapportId }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://tache21-back.onrender.com/api/comments/${rapportId}`
+        `http://localhost:8000/api/comments/${rapportId}`
       );
       const data = await response.json();
 
@@ -30,7 +30,7 @@ export const CommentairesSection = ({ rapportId }) => {
       console.log("Commentaires formatés :", commentairesFormates);
       setCommentaires(commentairesFormates);
     } catch (error) {
-      console.error("Erreur lors du chargement des commentaires :", error);
+      console.error("Erreur lors du chargement des commentaires :", error.message);
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export const CommentairesSection = ({ rapportId }) => {
       const token = localStorage.getItem("token");
 
       await fetch(
-        `https://tache21-back.onrender.com/api/comments/${idCommentToDelete}`,
+        `http://localhost:8000/api/comments/${idCommentToDelete}`,
         {
           method: "DELETE",
           headers: {
@@ -80,7 +80,7 @@ const handleAddComment = async (value) => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `https://tache21-back.onrender.com/api/comments/${rapportId}`,
+      `http://localhost:8000/api/comments/${rapportId}`,
       {
         method: "POST",
         headers: {
