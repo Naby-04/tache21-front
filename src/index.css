@@ -48,3 +48,45 @@
     transform: scale(0.5);
   }
 }
+
+/* Nave */
+.active{
+  cursor: pointer;
+    border-bottom: 2px solid #fe9a00;
+  transition: all 5s;
+}
+.active-link:hover{
+    border-bottom: 2px solid #fe9a00;
+    cursor: pointer;
+
+}
+
+/*-------- Modal Voir pdf ------------*/
+/* Overlay floue */
+.bg-opacity-40 {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(6px);
+}
+
+/* Blur sur premier modal quand 2e modal ouvert */
+.filter.blur-sm {
+  filter: blur(4px);
+}
+
+/* Animation modal */
+@keyframes fadeZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.modal-content {
+  animation: fadeZoomIn 0.3s ease-out;
+}

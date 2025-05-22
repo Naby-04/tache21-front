@@ -5,10 +5,12 @@ import { Profile } from "./Profile";
 import { MobileSidebar } from "./MobileAffichage";
 import { Input } from "./Recherche/Input";
 import { AddRapport } from "./Rapport/AddRapport";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
 export const NavbarUser = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const {searchTerm, setSearchTerm}= usePublication()
 
 	return (
 		<div className="relative">
@@ -18,12 +20,10 @@ export const NavbarUser = () => {
 			>
 				{/* Logo et profil (mobile) */}
 				<div>
-					<h1
-						className="text-[var(--couleur-Logo)] text-3xl font-bold hidden md:block cursor-pointer"
-						id="logo"
-					>
-						SenRapport
-					</h1>
+					<div className="md:flex items-center gap-2 hidden">
+          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
+          <span className="text-xl font-bold text-amber-300">SenRapport</span>
+        </div>
 					<div className="block md:hidden">
 						<Profile />
 					</div>
@@ -32,17 +32,16 @@ export const NavbarUser = () => {
 				{/* filter recherche */}
 
 				<div className="flex items-center gap-3">
-					<Input/>
-				</div>
-
-				{/* Bouton ajout rapport */}
-				<div className="addDocs hidden md:block">
-					<AddRapport
-					style={{background: 'var(--background-color)', color: 'var(--text-couleur)'}}
+					<Input
+					value={searchTerm}
+					onSearch={setSearchTerm}
 					/>
 				</div>
 
-			
+				{/* Bouton ajout rapport */}
+				<div className="addDocs hidden  md:block">
+					<AddRapport/>
+				</div>
 
         {/* Toggle menu mobile */}
         <div className="block md:hidden">

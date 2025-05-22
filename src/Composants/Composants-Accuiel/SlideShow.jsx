@@ -6,7 +6,7 @@ import background from "../../assets/background.jpg"
 
 const SlideShow = () => {
   return (
-  <div className="relative h-[425px] slideshow-bg mx-auto overflow-hidden rounded-none md:rounded-2xl shadow-lg mt-20 mb-15 w-100% md:w-[95%] bg-amber-100">
+  <div className="relative h-[425px] slideshow-bg mx-auto overflow-hidden rounded-none md:rounded-2xl shadow-lg mt-28 mb-15 w-100% md:w-[95%] bg-amber-100">
   {/* Superposition */}
   <div className="relative h-full w-full">
     <div className="absolute top-0 left-0 w-[100%] md:w-[90%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-10"></div>
