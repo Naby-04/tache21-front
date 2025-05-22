@@ -1,11 +1,15 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import AuthContext from "../../Contexts/AuthContext";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 export const PageParametresCompte = () => {
   const navigate = useNavigate();
   const { setUsers } = useContext(AuthContext);
   const [newPassword, setNewPassword] = useState("");
+  const {url} = usePublication()
 
 
   // Lecture initiale depuis le localStorage
@@ -27,31 +31,61 @@ export const PageParametresCompte = () => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // const handlePhotoChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const updatedUser = {
-        ...userInfo,
-        photo: reader.result,
-      };
-      setUserInfo(updatedUser);
-      localStorage.setItem("userInfo", JSON.stringify(updatedUser));
-      setUsers(updatedUser); // synchro avec le contexte global
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     const updatedUser = {
+  //       ...userInfo,
+  //       photo: reader.result,
+  //     };
+  //     setUserInfo(updatedUser);
+  //     localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+  //     setUsers(updatedUser); // synchro avec le contexte global
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
+
+const handlePhotoChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "userProfiles"); // ton preset côté Cloudinary
+    formData.append("folder", "userProfiles"); // facultatif mais propre
+
+    const cloudinaryRes = await axios.post(
+      "https://api.cloudinary.com/v1_1/dddxx1rtc/image/upload",
+      formData
+    );
+
+    const secureUrl = cloudinaryRes.data.secure_url;
+
+    const updatedUser = {
+      ...userInfo,
+      photo: secureUrl,
     };
-    reader.readAsDataURL(file);
-  };
+    setUserInfo(updatedUser);
+    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+    setUsers(updatedUser);
+  } catch (error) {
+    console.error("Erreur lors de l'upload sur Cloudinary :", error);
+    alert("Échec du téléversement de l'image.");
+  }
+};
 
  const handleSave = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    // Fusionne les données
+    // Prépare les données à envoyer (userInfo + nouveau mot de passe si présent)
     const dataToSend = {
       ...userInfo,
-      ...(newPassword && { newPassword }), // ajoute seulement si rempli
+      ...(newPassword && { newPassword }),
     };
 
     const response = await fetch(`${url}/api/users/update`, {
@@ -63,13 +97,28 @@ export const PageParametresCompte = () => {
       body: JSON.stringify(dataToSend),
     });
 
-    const updatedUser = await response.json();
+    const result = await response.json();
 
-    if (!response.ok) throw new Error(updatedUser.message || "Erreur de mise à jour");
+    if (!response.ok) throw new Error(result.message || "Erreur de mise à jour");
 
-    // Mise à jour du localStorage et du contexte uniquement avec les infos utiles
-    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
-    setUsers(updatedUser);
+    // Si un nouveau token est retourné, on le met à jour dans localStorage
+    if (result.token) {
+      localStorage.setItem("token", result.token);
+    }
+
+    // Met à jour les infos utilisateur (dans result.user) dans localStorage et contexte
+    if (result.user) {
+      console.log("Utilisateur mis à jour :", result.user);
+      
+      localStorage.setItem("userInfo", JSON.stringify(result.user));
+      setUsers(result.user);
+    } else {
+      // Sinon on met à jour avec ce qu'on a (pour être sûr)
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+      setUsers(userInfo);
+      console.log("Pas de mise à jour utilisateur dans la réponse");
+      
+    }
 
     alert("Modifications enregistrées !");
   } catch (error) {
@@ -77,6 +126,7 @@ export const PageParametresCompte = () => {
     alert("Erreur lors de la mise à jour du profil.");
   }
 };
+
 
 
 
