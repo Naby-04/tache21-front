@@ -287,16 +287,7 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Modal commentaire */}
-      {/* {showCommentBox && (
-        <div className="mt-4">
-          <CommentModal
-            isOpen={true}
-            onClose={() => setShowCommentBox(false)}
-            onSubmit={handleCommentSubmit}
-            documentId={doc.id}
-          />
-        </div>
-      )} */}
+      
       {showCommentBox && (
         <div className="mt-4">
           <CommentModal
