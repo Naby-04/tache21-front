@@ -5,6 +5,7 @@ import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages
 import { Link } from "react-router-dom";
 import { checkActionCode } from "firebase/auth";
 
+
 function RapportsAccueil() {
   const [activeCategory, setActiveCategory] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
