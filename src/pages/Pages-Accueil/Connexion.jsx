@@ -1,5 +1,4 @@
-
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
@@ -7,37 +6,12 @@ import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Connexion = () => {
-  const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
-  const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
-  const {users, setUsers } = useContext(AuthContext);
 
    const {url} = usePublication()
 
-   useEffect(()=>{
-       const fetchProfil = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
 
-    try {
-      const response = await fetch(`${url}/api/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error("Échec récupération profil");
-
-      const data = await response.json();
-      setUsers(data);
-    } catch (error) {
-      console.error("Erreur récupération profil :", error);
-    }
-  };
-
-  fetchProfil()
-   },[])
 
     // if (!users) return null;
   const handleChange = (e) => {
@@ -84,6 +58,7 @@ const Connexion = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur de connexion");
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
       // await fetchProfil();
       toast.success("Connexion réussie !");
       resetFormData();
@@ -119,7 +94,7 @@ const Connexion = () => {
                 value={formData.email || ""}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
+                />
             </div>
 
             <div className="mb-2 w-[70%]">
@@ -170,11 +145,8 @@ const Connexion = () => {
             </button>
           </div>
 
-          {error && (
-            <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
-              {error}
-            </div>
-          )}
+       
+        s
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
