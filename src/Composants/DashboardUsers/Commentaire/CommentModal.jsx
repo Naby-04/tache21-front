@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export default function CommentModal({ onClose, onSubmit, documentId }) {
+export default function CommentModal({ onClose, onSubmit }) {
   const textareaRef = useRef();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function CommentModal({ onClose, onSubmit, documentId }) {
     e.preventDefault();
     const value = e.target.comment.value.trim();
     if (value) {
-      onSubmit(value, documentId);
+      onSubmit(value);
       e.target.reset();
       onClose();
     }

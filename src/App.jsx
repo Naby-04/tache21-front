@@ -15,9 +15,6 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
-
-
-
   
 
 const App = () => {
@@ -27,6 +24,7 @@ const App = () => {
 
        <BrowserRouter>
          <Routes>
+          <Route path="/admin" element={<Admin />} />
            <Route path="/" element={<HomePage />} />
            <Route path="/admin" element={<Admin/>} />
            <Route path="/inscription" element={<Inscription />} />
@@ -49,5 +47,6 @@ const App = () => {
    </>
   );
 };
+
 
 export default App;

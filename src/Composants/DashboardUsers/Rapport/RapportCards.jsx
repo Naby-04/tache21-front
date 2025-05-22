@@ -127,6 +127,8 @@ const handleDocumentClick = (e) => {
       ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
       : [];
 
+
+  // console.log(doc._id)
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
@@ -275,7 +277,7 @@ const handleDocumentClick = (e) => {
       {/* Section Commentaires */}
       {showComments && (
         <div className="mt-4">
-          <CommentairesSection rapportId={doc.id} />
+          <CommentairesSection rapportId={doc._id} />
         </div>
       )}
     </div>
