@@ -8,7 +8,7 @@
 //   authDomain: "login-d7ebb.firebaseapp.com",
 //   projectId: "login-d7ebb",
 //   storageBucket: "login-d7ebb.appspot.com", // corrigé ici
-//   messagingSenderId: "282972873652",
+// //   messagingSenderId: "282972873652",
 //   appId: "1:282972873652:web:21f82d257c9f3509cd48e1"
 // };
 
@@ -18,5 +18,5 @@
 // // Exports
 // export const auth = getAuth(app);
 // export const provider = new GoogleAuthProvider();
-
+// // 
 

@@ -38,8 +38,9 @@ const App = () => {
 
            <Route path="/pageParametre" element={<PageParametresCompte />} />
            <Route path="/rapports" element={<RapportsAccueil />} />
-           <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+           <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
+           <Route path="/Auth" element={<AuthProvider />} />
          </Routes>
          <Toaster position="top-center"/>
 
