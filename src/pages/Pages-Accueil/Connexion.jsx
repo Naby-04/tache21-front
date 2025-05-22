@@ -1,21 +1,20 @@
-
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth, provider } from "./firebase";
-// import { signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Connexion = () => {
-  const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const { fetchProfil, setUsers   } = useContext(AuthContext);
   const navigate = useNavigate();
 
    const {url} = usePublication()
 
+
+
+    // if (!users) return null;
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
@@ -64,7 +63,8 @@ const Connexion = () => {
 
 
       localStorage.setItem("token", data.token);
-      await fetchProfil();
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
+      // await fetchProfil();
       toast.success("Connexion réussie !");
       resetFormData();
       navigate("/users");
@@ -99,7 +99,7 @@ const Connexion = () => {
                 value={formData.email || ""}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
+                />
             </div>
 
             <div className="mb-2 w-[70%]">
@@ -150,11 +150,8 @@ const Connexion = () => {
             </button>
           </div>
 
-          {error && (
-            <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
-              {error}
-            </div>
-          )}
+       
+        s
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">

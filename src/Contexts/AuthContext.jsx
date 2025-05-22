@@ -1,7 +1,11 @@
-import React, { createContext, useState, useEffect } from "react";
-import { usePublication } from "./DashboardUser/UseContext";
+import React, { createContext, useState } from "react";
 
-const AuthContext = createContext();
+const initialUser = {
+  prenom: "",
+  email: "",
+  isAdmin: false
+}
+const AuthContext = createContext({users: initialUser, setUsers: () => {}, logout: () => {}});
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
@@ -56,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ users, setUsers, fetchProfil, logout }}>
+    <AuthContext.Provider value={values}>
       {children}
     </AuthContext.Provider>
   );

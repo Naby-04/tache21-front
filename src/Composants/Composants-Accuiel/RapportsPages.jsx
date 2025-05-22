@@ -1,5 +1,6 @@
 import { RapportCardAccueil } from "./RapportCardAccueil";
 
+
 // Test
 const fakeDocuments = [
     {
@@ -85,4 +86,14 @@ const filteredDocs = fakeDocuments.filter(doc =>
 </div>
         
         
+}
+
+// filter for Category 
+
+export const categoryRapport = ({activeCategory}) =>{
+  const filterCategory = fakeDocuments.filter(cat =>
+    doc.category.toLowerCase().includes(activeCategory.toLowerCase())
+  )
+
+  return 
 }
