@@ -3,15 +3,31 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function MotDePassOublie() {
-   const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("http://localhost:8000/api/users/forgot-password", { email });
-      toast.success(res.data.message);
-    } catch (err) { 
-      toast.error(err.response?.data?.status || "Erreur lors de la demande");
+      const response = await fetch("http://localhost:8000/api/users/forget-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message);
+      } else {
+        // Si le serveur renvoie une erreur, on affiche le message d'erreur
+        toast.error(data.message || "Erreur lors de la demande");
+      }
+    } catch (error) {
+      toast.error("Erreur réseau ou serveur");
+      console.error("Erreur fetch forgot-password:", error);
     }
   };
 

@@ -15,6 +15,7 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
+import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 
 
 
@@ -41,6 +42,7 @@ const App = () => {
            <Route path="/pageParametre" element={<PageParametresCompte />} />
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
+           <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
          <Toaster position="top-center"/>
