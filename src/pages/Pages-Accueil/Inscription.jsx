@@ -18,34 +18,52 @@ const Inscription = () => {
     updateFormData(name, value);
   };
 
+
   const handleGoogleLogin = async () => {
     try {
-      // Connexion via Google
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+    // 1. Connexion via Google
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      // Référence du document utilisateur dans Firestore
-      const userRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(userRef);
+    const prenom = user.displayName || "";
+    const email = user.email;
+    const password = user.uid; // ou une chaîne générée si nécessaire (backend doit gérer ça)
 
-      // Si l'utilisateur n'existe pas déjà, on l'ajoute
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          prenom: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL || null,
-          createdAt: new Date().toISOString(),
-        });
-      }
+    // 2. Ajouter l'utilisateur à Firestore s'il n'existe pas
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
 
-      toast.success("Connexion réussie avec Google !");
-      navigate("/users");
-    } catch (error) {
-      console.error("Erreur Google Auth:", error);
-      toast.error("Erreur lors de la connexion avec Google.");
-    }
-  };
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        prenom,
+        email,
+        createdAt: new Date().toISOString(),
+      });
+    }  toast.success("Connexion réussie avec Google !");
+    navigate("/users");
 
+    // 2. Obtenir le token Firebase
+    const idToken = await user.getIdToken();
+
+    // 3. L'envoyer à ton backend
+    const response = await fetch(`${url}/api/users/google-login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+
+    // 4. Stocker le token backend
+    localStorage.setItem("token", data.token);
+  } catch (error) {
+    console.error("Erreur Google Login :", error);
+    //toast.error("Erreur lors de la connexion avec Google.");
+  }
+};
 
   const {url} = usePublication()
   const handleSubmit = async (e) => {
@@ -214,8 +232,8 @@ const Inscription = () => {
 
           <div className="flex w-[80%] items-center justify-center">
             <button
-             onClick={handleGoogleLogin}
-              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-blue-600 text-gray-800 focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
+              onClick={handleGoogleLogin}
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 text-gray-800 hover:text-white focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />

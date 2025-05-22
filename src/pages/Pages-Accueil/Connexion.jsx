@@ -5,6 +5,7 @@ import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { signInWithPopup } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, provider, db } from "../../services/firebaseService";
 
 const Connexion = () => {
@@ -16,33 +17,96 @@ const Connexion = () => {
 
 
   const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    const userRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userRef);
-
-    // Si l'utilisateur n'existe pas encore dans Firestore, on l'ajoute
-    if (!docSnap.exists()) {
-      await setDoc(userRef, {
-        prenom: user.displayName || "",
-        email: user.email,
-        photoURL: user.photoURL || null,
-        createdAt: new Date().toISOString(),
+      try {
+      // 1. Connexion via Google
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+  
+      const prenom = user.displayName || "";
+      const email = user.email;
+      const password = user.uid; // ou une chaîne générée si nécessaire (backend doit gérer ça)
+      // 2. Ajouter l'utilisateur à Firestore s'il n'existe pas
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
+  
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          prenom,
+          email,
+          createdAt: new Date().toISOString(),
+        });
+      }  toast.success("Connexion réussie avec Google !");
+      navigate("/users");
+  
+      // 2. Obtenir le token Firebase
+      const idToken = await user.getIdToken();
+  
+      // 3. L'envoyer à ton backend
+      const response = await fetch(`${url}/api/users/google-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
       });
+  
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+  
+      // 4. Stocker le token backend
+      localStorage.setItem("token", data.token);
+    } catch (error) {
+      console.error("Erreur Google SignIn :", error);
+      //toast.error("Erreur lors de la connexion avec Google.");
     }
-
-    toast.success("Connexion réussie avec Google !");
-    navigate("/users");
-  } catch (error) {
-    console.error("Erreur lors de la connexion Google :", error);
-    toast.error("Échec de la connexion avec Google.");
-  }
-};
+  };
 
 
-   const {url} = usePublication()
+//   const handleGoogleSignIn = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider);
+//     const user = result.user;
+
+//     const userRef = doc(db, "users", user.uid);
+//     const docSnap = await getDoc(userRef);
+
+//     // Si l'utilisateur n'existe pas encore dans Firestore, on l'ajoute
+//     if (!docSnap.exists()) {
+//       await setDoc(userRef, {
+//         prenom: user.displayName || "",
+//         email: user.email,
+//         photoURL: user.photoURL || null,
+//         createdAt: new Date().toISOString(),
+//       });
+//     }
+
+//     toast.success("Connexion réussie avec Google !");
+//     navigate("/users");
+
+//     // 2. Obtenir le token Firebase
+//     const idToken = await user.getIdToken();
+
+//     // 3. L'envoyer à ton backend
+//     const response = await fetch(`${url}/api/users/google-login`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${idToken}`,
+//       },
+//     });
+
+//     const data = await response.json();
+//     if (!response.ok) throw new Error(data.message);
+
+//     // 4. Stocker le token backend
+//     localStorage.setItem("token", data.token);
+//   } catch (error) {
+//     //console.error("Erreur Google SignIn:", error);
+//     toast.error("Échec de la connexion avec Google.");
+//   }
+// };
+
+  const {url} = usePublication()
 
   //  useEffect(()=>{
   //      const fetchProfil = async () => {
@@ -192,7 +256,7 @@ const Connexion = () => {
             <button
               onClick={handleGoogleSignIn}
               type="button"
-              className="flex items-center justify-center bg-gray-200 hover:bg-blue-600 text-gray-800 font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
+              className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
               <span>Google</span>
