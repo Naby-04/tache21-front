@@ -17,8 +17,6 @@ import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 
-
-
   
 
 const App = () => {
@@ -51,5 +49,6 @@ const App = () => {
    </>
   );
 };
+
 
 export default App;
