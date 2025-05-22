@@ -7,7 +7,7 @@ import { checkActionCode } from "firebase/auth";
 
 
 function RapportsAccueil() {
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   
