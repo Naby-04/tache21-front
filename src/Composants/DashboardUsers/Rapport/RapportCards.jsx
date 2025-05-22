@@ -1,6 +1,6 @@
 import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal from "../Commentaire/CommentModal";
-import { useEffect, useState, useMemo, useContext } from "react";
+import { useEffect, useState, useMemo } from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
@@ -9,19 +9,16 @@ import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import AuthContext from "../../../Contexts/AuthContext";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
+import PdfViewer from "../PdfViewer/PdfViewer";
 export const RapportCard = ({ doc }) => {
   const [docHtml, setDocHtml] = useState(null);
-  const [numPages, setNumPages] = useState(null);
   const [pdfError, setPdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const {users} = useContext(AuthContext);
+//   const {users} = useContext(AuthContext);
 
-  console.log("users", users);
+  // console.log("users", users);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -68,18 +65,8 @@ export const RapportCard = ({ doc }) => {
     convertDocxToHtml();
   }, [doc.fileUrl, isdoc]);
 
-  // Gestion des événements PDF
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setPdfError(null);
-    setIsLoading(false);
-  };
 
-  const onDocumentLoadError = (error) => {
-    console.error("PDF load error:", error);
-    setPdfError("Erreur de chargement du PDF");
-    setIsLoading(false);
-  };
+console.log("doc.fileUrl", doc.fileUrl);
 
   // Gestion des commentaires
   const handleCommentSubmit = (comment) => {
@@ -139,7 +126,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{users.prenom}</p>
+          <p className="font-semibold text-sm text-gray-800">Baba Faye</p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>
@@ -169,25 +156,8 @@ const handleDocumentClick = (e) => {
 
         {ispdf ? (
           <div className="w-full max-h-[250px]">
-            {isLoading && <p>Chargement du PDF...</p>}
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-            <Document
-              file={memoizedFile}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={<p>Chargement...</p>}
-              error={<p className="text-red-500">Erreur de chargement</p>}
-              className="w-full"
-              crossOrigin="anonymous"
-            >
-              <Page 
-                pageNumber={1} 
-                width={null}
-                loading={<p>Chargement de la page...</p>}
-                error={<p className="text-red-500">Erreur d'affichage</p>}
-                className="w-full"
-              />
-            </Document>
+           <PdfViewer file={memoizedFile} width={null} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 overflow-y-auto">
