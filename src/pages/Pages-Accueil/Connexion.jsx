@@ -142,7 +142,7 @@ const Connexion = () => {
           </div>
           <div className="w-[70%]">
             <button
-              onClick={handleGoogleSignIn}
+              // onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center bg-gray-200 hover:bg-blue-600 text-gray-800 font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
             >
