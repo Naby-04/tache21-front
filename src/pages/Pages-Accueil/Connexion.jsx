@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider, db } from "../../services/firebaseService";
+// import { signInWithPopup } from "firebase/auth";
+// import { auth, provider, db } from "../../services/firebaseService";
 
 
 
@@ -167,4 +167,4 @@ const Connexion = () => {
   );
 };
 
-export default Connexion;
+export default Connexion;
