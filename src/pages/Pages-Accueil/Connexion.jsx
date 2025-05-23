@@ -9,7 +9,6 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../../services/firebaseService";
 
 
-
 const Connexion = () => {
   // const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
@@ -24,6 +23,25 @@ const Connexion = () => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
+
+  const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // Ici tu peux appeler ton backend pour enregistrer ou connecter l'utilisateur
+    // Par exemple :
+    // const response = await fetch(`${url}/api/users/google-login`, { ... })
+
+    toast.success("Connexion Google réussie !");
+    localStorage.setItem("userInfo", JSON.stringify(user));
+    navigate("/users");
+  } catch (error) {
+    console.error("Erreur lors de la connexion Google :", error);
+    toast.error("Échec de la connexion Google.");
+  }
+};
+
 
 
   const handleSubmit = async (e) => {
