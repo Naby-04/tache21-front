@@ -66,12 +66,12 @@ function MotDePassOublie() {
             Obtenir le lien
           </button>
         </form> 
-        {error && (
+        {/* {error && (
           <div className="text-red-500 mt-2 text-sm text-center">{error}</div>
         )}
         {success && (
           <div className="text-green-600 mt-2 text-sm text-center">{success}</div>
-        )} 
+        )}  */}
 
         <div className="mt-6 text-center">
           <p className="text-gray-700 text-sm">
