@@ -29,19 +29,32 @@ const Connexion = () => {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Ici tu peux appeler ton backend pour enregistrer ou connecter l'utilisateur
-    // Par exemple :
-    // const response = await fetch(`${url}/api/users/google-login`, { ... })
+    const res = await fetch(`${url}/api/users/google-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: user.email,
+        prenom: user.displayName, // optionnel pour l'affichage
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Échec de la connexion Google.");
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userInfo", JSON.stringify(data.user));
 
     toast.success("Connexion Google réussie !");
-    localStorage.setItem("userInfo", JSON.stringify(user));
     navigate("/users");
   } catch (error) {
     console.error("Erreur lors de la connexion Google :", error);
-    toast.error("Échec de la connexion Google.");
+    toast.error("Erreur lors de la connexion Google.");
   }
 };
-
 
 
   const handleSubmit = async (e) => {
