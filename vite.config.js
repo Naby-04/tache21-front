@@ -6,7 +6,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   assetsInclude: ['**/*.docx'],
-  optimizeDeps: {
-    include: ['pdfjs-dist/build/pdf.worker.entry'],
+ optimizeDeps: {
+    include: ['pdfjs-dist'],
+  },
+   build: {
+    assetsInlineLimit: 0, // Ensures worker files are not inlined
   },
 });

@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
 const ContextPublication = createContext();
 
@@ -47,7 +47,9 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+  const values = {form,setForm,fileInput,handleChange,
+     addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
+     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;
