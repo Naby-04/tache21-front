@@ -19,32 +19,38 @@ const Inscription = () => {
   };
 
   const handleGoogleLogin = async () => {
-    try {
-      // Connexion via Google
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      // Référence du document utilisateur dans Firestore
-      const userRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(userRef);
+    // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
+    const response = await fetch(`${url}/api/users/google-register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prenom: user.displayName,
+        email: user.email,
+      }),
+    });
 
-      // Si l'utilisateur n'existe pas déjà, on l'ajoute
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          prenom: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL || null,
-          createdAt: new Date().toISOString(),
-        });
-      }
+    const data = await response.json();
 
-      toast.success("Connexion réussie avec Google !");
-      navigate("/users");
-    } catch (error) {
-      console.error("Erreur Google Auth:", error);
-      toast.error("Erreur lors de la connexion avec Google.");
+    if (!response.ok) {
+      toast.error(data.message || "Erreur lors de l'inscription via Google.");
+      return;
     }
-  };
+
+    // Enregistre l'utilisateur localement
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userInfo", JSON.stringify(data.user));
+
+    toast.success("Inscription via Google réussie !");
+    navigate("/users");
+  } catch (error) {
+    console.error("Erreur Google Auth:", error);
+    toast.error("Erreur lors de l'inscription avec Google.");
+  }
+};
 
 
   const {url} = usePublication()
