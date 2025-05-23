@@ -1,3 +1,4 @@
+
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,7 +8,10 @@ import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../../services/firebaseService";
 
+
+
 const Connexion = () => {
+  // const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 

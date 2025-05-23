@@ -1,7 +1,46 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ReinitialiserMdp = () => {
+  const { token } = useParams(); 
+  const navigate = useNavigate();
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!password || !confirmPassword) {
+      toast.error("Veuillez remplir tous les champs");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(`http://localhost:8000/api/users/reset-password/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newPassword: password }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || "Mot de passe réinitialisé avec succès");
+        navigate("/connexion"); // redirige vers la page de connexion
+      } else {
+        toast.error(data.message || "Erreur lors de la réinitialisation");
+      }
+    } catch (error) {
+      toast.error("Erreur serveur ou réseau");
+      console.error(error);
+    }
+    setLoading(false);
+  };
   return (
     <div
       style={{
@@ -29,6 +68,9 @@ const ReinitialiserMdp = () => {
             id="password"
             type="password"
             placeholder="Votre mot de passe"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
@@ -44,17 +86,22 @@ const ReinitialiserMdp = () => {
             id="confirm-password"
             type="password"
             placeholder="Confirmer votre mot de passe"
+           name="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
 
-        <Link to="/connexion" className="w-full">
-          <button
-            className="bg-gray-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-            type="button"
-          >
-            Confirmer
-          </button>
-        </Link>
+         <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className={`bg-gray-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          type="button"
+        >
+          {loading ? "Chargement..." : "Confirmer"}
+        </button>
 
         {/* <div className="mt-6 text-center">
           <p className="text-gray-700 text-sm">
