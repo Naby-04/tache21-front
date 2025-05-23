@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { categories } from "../../data/Categorie";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
 import { Link } from "react-router-dom";
-
+import { SidebarAccuiel } from "../../Composants/Composants-Accuiel/SidebarAccuiel";
 
 function RapportsAccueil() {
-  const [activeCategory, setActiveCategory] = useState(categories[0].value);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [activeCategory, setActiveCategory] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <>
     <div className="w-full min-h-screen bg-gray-50">
       {/* Navbar */}
-      <div className="w-full fixed top-0 py-2 z-80 bg-white">
+      <div className="w-full fixed top-0 py-2 z-50 bg-white">
         <nav className="md:w-[95%] bg-gray-800 shadow-md rounded-full mx-auto flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-4">
             {/* Burger for mobile */}
@@ -26,13 +23,19 @@ function RapportsAccueil() {
               ☰
             </button>
             <Link to="/" className="text-2xl font-bold text-white">
-            <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
-          <span className="text-xl font-bold text-amber-300">SenRapport</span>
-        </div>
+              <div className="flex items-center gap-2">
+                <img
+                  src="/logo.png"
+                  alt="Logo"
+                  className="w-10 h-10 object-contain bg-amber-300 rounded-full"
+                />
+                <span className="text-xl font-bold text-amber-300">
+                  SenRapport
+                </span>
+              </div>
             </Link>
           </div>
-  
+
           {/* Search bar */}
           <div className="relative w-1/2 max-w-md hidden sm:block">
             <input
@@ -44,86 +47,68 @@ function RapportsAccueil() {
             />
             <FiSearch className="absolute left-2 top-3 text-gray-500" />
           </div>
-  
-          {/* User section */}
+
+          {/* Connexion button */}
           <div className="flex items-center space-x-3">
-            <Link  to="/connexion" className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition">
+            <Link
+              to="/connexion"
+              className="ml-4 px-4 py-2 bg-amber-400 text-white rounded-full hover:bg-amber-500 transition"
+            >
               Connexion
             </Link>
           </div>
         </nav>
       </div>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Sidebar */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black bg-opacity-40 lg:hidden"
+          className="fixed inset-0 z-40 flex lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
+          <div className="fixed inset-0 bg-black opacity-40" />
+
           <div
-            className="bg-white w-[250px] h-full p-4 shadow-lg"
+            className="relative z-50 w-[260px] h-full bg-amber-100 shadow-xl animate-slide-in-left"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-4">
-              <p className="text-xl font-bold">Catégories</p>
-              <button onClick={() => setSidebarOpen(false)} className="text-xl">
+            <div className="flex justify-end p-3">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="text-xl font-bold"
+              >
                 ✕
               </button>
             </div>
-            <ul className="space-y-1">
-              {categories.map((cat) => (
-                <li key={cat.value}>
-                  <Link to="/"
-                    
-                    onClick={() => {
-                      setActiveCategory(cat.value);
-                      setSidebarOpen(false);
-                    }}
-                    className={`block text-sm font-semibold px-4 py-2 rounded transition cursor-pointer ${
-                      activeCategory === cat.value
-                        ? "bg-gray-100 text-gray-800"
-                        : "text-gray-800 hover:bg-gray-200"
-                    }`}
-                  >
-                    {cat.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <SidebarAccuiel
+              setActiveCategory={(value) => {
+                setActiveCategory(value);
+                setSidebarOpen(false); 
+              }}
+              isMobile={true}
+            />
           </div>
         </div>
       )}
 
-      {/* Main layout */}
-      <div className="pt-[70px] flex">
-        {/* Sidebar desktop */}
-        <aside className="hidden lg:block w-[250px] fixed top-[70px] left-0 bottom-0 shadow-lg z-30 p-4 overflow-y-auto bg-white">
-          <p className="text-2xl font-semibold mb-6 text-start">Catégories</p>
-          <ul className="space-y-1">
-            {categories.map((cat) => (
-              <li key={cat.value}>
-                <Link to=""
-                  onClick={() => setActiveCategory(cat.value)}
-                  className={`block text-sm font-semibold px-4 py-2 rounded transition cursor-pointer ${
-                    activeCategory === cat.value
-                      ? "bg-gray-100 text-gray-800"
-                      : "text-gray-800 hover:bg-gray-200"
-                  }`}
-                >
-                  {cat.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+      {/* desktop*/}
+      <div className="pt-[80px] flex">
+        <aside className="hidden text-gray-800 lg:block w-[260px] fixed top-[80px] left-0 bottom-0 shadow-lg z-30 p-4 overflow-y-auto bg-white">
+          <SidebarAccuiel
+            setActiveCategory={setActiveCategory}
+            activeCategory={activeCategory}
+          />
         </aside>
 
-        {/* Main content */}
-        <main className="w-full lg:ml-[250px] px-4 py-6">
-          <RapportsPages searchTerm={searchTerm} />
+        {/*Contenue */}
+        <main className="w-full lg:ml-[260px] px-4 py-6">
+          <RapportsPages
+            searchTerm={searchTerm}
+            activeCategory={activeCategory}
+          />
         </main>
       </div>
     </div>
-    </>
   );
 }
 

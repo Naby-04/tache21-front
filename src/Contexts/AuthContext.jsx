@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }) => {
   //   if (!token) return;
 
   //   try {
-  //     const response = await fetch(`${url}/api/users/profile`, {
+  //     const response = await fetch(${url}/api/users/profile, {
   //       headers: {
-  //         Authorization: `Bearer ${token}`,
+  //         Authorization: Bearer ${token},
   //       },
   //     });
 
@@ -65,4 +65,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthContext;
+export default AuthContext;

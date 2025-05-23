@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 
-const TopRapports = ({ rapports }) => {
+const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Calcul de la pagination
+  // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentRapports = rapports.slice(indexOfFirstItem, indexOfLastItem);
@@ -28,18 +28,18 @@ const TopRapports = ({ rapports }) => {
 
           <tbody>
             {currentRapports.map((rapport, index) => (
-              <tr key={index} className="border-t">
+              <tr key={rapport._id || index} className="border-t">
                 <td className="py-2 px-3 font-bold text-gray-600">
-                  {rapport.rank}
+                  {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>
                 <td className="py-2 px-3 flex items-center gap-3">
                   <img
-                    src={rapport.imageRapport}
+                    src="https://via.placeholder.com/48"
                     alt="rapport"
                     className="w-12 h-12 object-cover rounded"
                   />
                   <div>
-                    <h4 className="font-semibold">{rapport.titre}</h4>
+                    <h4 className="font-semibold">{rapport.title}</h4>
                     <p className="text-sm text-gray-500 line-clamp-2">
                       {rapport.description}
                     </p>
@@ -47,20 +47,20 @@ const TopRapports = ({ rapports }) => {
                 </td>
                 <td className="py-2 px-3">
                   <img
-                    src={rapport.userPhoto}
+                    src="https://via.placeholder.com/40"
                     alt="user"
                     className="w-10 h-10 rounded-full border"
                   />
                 </td>
                 <td className="py-2 px-3 flex gap-2">
                   <button
-                    onClick={() => rapport.onDetailClick()}
+                    onClick={() => onDetailClick && onDetailClick(rapport)}
                     className="p-2 rounded bg-purple-100 text-purple-700 hover:bg-purple-200"
                   >
                     <FaEye />
                   </button>
                   <button
-                    onClick={() => rapport.onDeleteClick()}
+                    onClick={() => onDeleteClick && onDeleteClick(rapport._id)}
                     className="p-2 rounded bg-red-100 text-red-700 hover:bg-red-200"
                   >
                     <FaTrash />
