@@ -40,7 +40,7 @@ const App = () => {
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
-           <Route path="/Auth" element={<AuthProvider />} />
+           {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
          <Toaster position="top-center"/>
 
