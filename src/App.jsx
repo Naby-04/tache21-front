@@ -28,6 +28,7 @@ const App = () => {
 
        <BrowserRouter>
          <Routes>
+          <Route path="/admin" element={<Admin />} />
            <Route path="/" element={<HomePage />} />
            <Route path="/admin" element={<Admin/>} />
            <Route path="/inscription" element={<Inscription />} />
@@ -51,5 +52,6 @@ const App = () => {
    </>
   );
 };
+
 
 export default App;

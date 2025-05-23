@@ -9,7 +9,7 @@ const PublicationForm = () => {
     const { form, setForm, fileInput, handleChange, addPublication,url } = usePublication();
 
     const token = localStorage.getItem("token");
-    console.log("token", token);
+    // console.log("token", token);
     
 const navigate = useNavigate()
 const handleSubmit = async (e) => {

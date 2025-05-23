@@ -1,9 +1,17 @@
 import React, { createContext, useState } from "react";
 
-const AuthContext = createContext();
+const initialUser = {
+  prenom: "",
+  email: "",
+  isAdmin: false
+}
+const AuthContext = createContext({users: initialUser, setUsers: () => {}, logout: () => {}});
 
 export const AuthProvider = ({ children }) => {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    return userInfo ? JSON.parse(userInfo) : initialUser;
+  });
 
 
   // const fetchProfil = async (e) => {

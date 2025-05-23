@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -8,11 +8,12 @@ import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { db, serverTimestamp } from "../../services/firebaseService";
- import { initializeApp } from "firebase/app";
+//  import { initializeApp } from "firebase/app";
 import { collection, addDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import emailjs from '@emailjs/browser';
 import { toast} from 'react-toastify'
+import { useState } from "react";
 
 
 

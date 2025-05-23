@@ -177,6 +177,7 @@ const Connexion = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur de connexion");
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
       // await fetchProfil();
       toast.success("Connexion réussie !");
       resetFormData();
