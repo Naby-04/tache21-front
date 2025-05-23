@@ -2,9 +2,12 @@ import { RapportCardAccueil } from "./RapportCardAccueil";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { useEffect, useState } from "react";
 
+
+
+
       
  
-export const RapportsPages = ({ searchTerm }) => {
+export const RapportsPages = ({ searchTerm , activeCategory }) => {
    const[getRapport, setGetRapport] = useState([]);
 
      const {url} =usePublication()
@@ -29,14 +32,25 @@ export const RapportsPages = ({ searchTerm }) => {
       // console.log(getRapport);
   
 
-const filteredDocs = getRapport.filter(doc =>
-    doc.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const filteredDocs = getRapport.filter((doc) => {
+    const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory ? doc.category === activeCategory : true;
+    return matchesSearch && matchesCategory;
+    });
 
     return <div className=" grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
-     {filteredDocs.map((doc) => (
-        <RapportCardAccueil key={doc.id} doc={doc} />
-      ))}
+       {filteredDocs.length === 0 ? (
+        <div className="col-span-full text-center text-gray-500 text-lg mt-10">
+          Aucun rapport trouvé {activeCategory && `pour la catégorie "${activeCategory}"`}
+          {searchTerm && !activeCategory && ` correspondant à "${searchTerm}"`}
+          {searchTerm && activeCategory && ` pour "${searchTerm}" dans "${activeCategory}"`}
+        </div>
+      ) : (
+        filteredDocs.map((doc) => (
+          <RapportCardAccueil key={doc.id} doc={doc} />
+        ))
+      )}
+  
 </div>
         
         

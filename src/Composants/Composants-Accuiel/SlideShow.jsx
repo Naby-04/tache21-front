@@ -1,3 +1,4 @@
+// import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import background from "../../assets/background.jpg"
@@ -5,6 +6,7 @@ import background from "../../assets/background.jpg"
 
 const SlideShow = () => {
   return (
+    <section id="show">
   <div className="relative h-[425px] slideshow-bg mx-auto overflow-hidden rounded-none md:rounded-2xl shadow-lg mt-28 mb-15 w-100% md:w-[95%] bg-amber-100">
   {/* Superposition */}
   <div className="relative h-full w-full">
@@ -38,7 +40,7 @@ const SlideShow = () => {
 
   {/* <div className="absolute top-0 left-0 w-full h-full z-50 rounded-xl bg-gradient-to-br from-black/40 via-transparent to-black/30 pointer-events-none"></div> */}
 </div>
-
+</section>
 
   );
 };

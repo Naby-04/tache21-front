@@ -1,29 +1,25 @@
 import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal from "../Commentaire/CommentModal";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState} from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
-import { Document, Page, pdfjs } from 'react-pdf';
 import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import AuthContext from "../../../Contexts/AuthContext";
 import PdfViewer from "../PdfViewer/PdfViewer";
+
 export const RapportCard = ({ doc }) => {
   const [docHtml, setDocHtml] = useState(null);
-  const [pdfError, setPdfError] = useState(null);
+  const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
-//   const {users} = useContext(AuthContext);
 
   // console.log("users", users);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
-  const memoizedFile = useMemo(() => ({ url: doc.fileUrl }), [doc.fileUrl]);
 
   // Conversion des DOCX en HTML améliorée
   useEffect(() => {
@@ -65,29 +61,50 @@ export const RapportCard = ({ doc }) => {
     convertDocxToHtml();
   }, [doc.fileUrl, isdoc]);
 
-
-console.log("doc.fileUrl", doc.fileUrl);
-
   // Gestion des commentaires
-  const handleCommentSubmit = (comment) => {
-    console.log("Commentaire:", comment, "pour:", doc.id);
+
+  const handleCommentSubmit = async (comment) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `http://localhost:8000/api/comments/${doc._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comment }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Erreur lors de l’ajout du commentaire");
+      return;
+    }
+
+    // Facultatif : Affiche commentaires après ajout
+    setShowComments(true);
     setShowCommentBox(false);
-  };
+  } catch (error) {
+    console.error("Erreur ajout commentaire :", error);
+  }
+};
+
 
   // Gestion du clic sur le document
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
 
-  if (e.target.closest('.download-button')) return;
-
   if (isdoc) {
-    // Solution simple: toujours ouvrir dans le viewer Office Online
-    const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(doc.fileUrl)}`;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } else {
-    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
-  }
+  } else  {
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+  } 
 };
 
   // Gestion du téléchargement
@@ -148,7 +165,8 @@ const handleDocumentClick = (e) => {
         onClick={handleDocumentClick}
       >
         {/* Overlay au survol - style conservé */}
-        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
+        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300
+         flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
           <span className="bg-amber-500 text-white px-4 py-2 rounded-lg font-bold">
             {ispdf ? 'Lire le PDF' : isdoc ? 'Ouvrir le document' : 'Voir le fichier'}
           </span>
@@ -157,10 +175,10 @@ const handleDocumentClick = (e) => {
         {ispdf ? (
           <div className="w-full max-h-[250px]">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-           <PdfViewer file={memoizedFile} width={null} />
+           <PdfViewer file={doc.fileUrl} width={null} />
           </div>
         ) : isdoc ? (
-          <div className="w-full min-h-[200px] bg-gray-100 p-4 overflow-y-auto">
+          <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
             {isLoading ? (
               <p>Chargement du document...</p>
             ) : docHtml ? (
@@ -233,13 +251,12 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Modal commentaire */}
+      
       {showCommentBox && (
         <div className="mt-4">
           <CommentModal
-            isOpen={true}
             onClose={() => setShowCommentBox(false)}
             onSubmit={handleCommentSubmit}
-            documentId={doc.id}
           />
         </div>
       )}
