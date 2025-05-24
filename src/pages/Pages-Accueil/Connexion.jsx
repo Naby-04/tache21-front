@@ -18,14 +18,12 @@ const Connexion = () => {
 
   const handleGoogleSignIn = async () => {
       try {
-      // 1. Connexion via Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
   
       const prenom = user.displayName || "";
       const email = user.email;
       const password = user.uid; // ou une chaîne générée si nécessaire (backend doit gérer ça)
-      // 2. Ajouter l'utilisateur à Firestore s'il n'existe pas
       const userRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userRef);
   
@@ -38,10 +36,9 @@ const Connexion = () => {
       }  toast.success("Connexion réussie avec Google !");
       navigate("/users");
   
-      // 2. Obtenir le token Firebase
+
       const idToken = await user.getIdToken();
   
-      // 3. L'envoyer à ton backend
       const response = await fetch(`${url}/api/users/google-login`, {
         method: "POST",
         headers: {
@@ -53,7 +50,6 @@ const Connexion = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
   
-      // 4. Stocker le token backend
       localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("Erreur Google SignIn :", error);
