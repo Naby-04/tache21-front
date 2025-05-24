@@ -59,7 +59,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl]);
+  }, [doc.fileUrl, isdoc]);
 
   const handleDocumentClick = (e) => {
     e.preventDefault();
