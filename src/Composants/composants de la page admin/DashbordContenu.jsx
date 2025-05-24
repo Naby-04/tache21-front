@@ -12,7 +12,7 @@ import Image3 from "../../assets/back3.jpg";
 import Image4 from "../../assets/back4.jpg";
 import BasicPie from "./Diagramme";
 
-const DashboardContenu = ({ rapports }) => {
+const DashboardContenu = ({ rapports, onDelete, utilisateurs }) => {
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-4 p-3">
@@ -22,14 +22,14 @@ const DashboardContenu = ({ rapports }) => {
             image={Image}
             pourcent="30"
             icone={<LuUsers />}
-            valeur="200"
+            valeur={utilisateurs.length}
           />
           <StatsBox
             titre="Rapports"
             image={Image2}
             pourcent="30"
             icone={<BsFillFileTextFill />}
-            valeur="500"
+            valeur={rapports.length}
           />
           <StatsBox
             titre="Telechargement"
@@ -55,7 +55,7 @@ const DashboardContenu = ({ rapports }) => {
         </div>
       </div>
       <div className="p-3 w-full">
-        <TopRapports rapports={rapports} />
+        <TopRapports rapports={rapports} onDeleteClick={onDelete} />
       </div>
     </div>
   );

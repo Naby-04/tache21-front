@@ -48,7 +48,9 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+  const values = {form,setForm,fileInput,handleChange,
+     addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
+     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;
