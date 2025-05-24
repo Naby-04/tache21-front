@@ -50,7 +50,10 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs }) => {
           <div className="bg-white p-6 rounded shadow h-full">
             <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
             <h3 className="text-lg font-semibold mb-4">Les Statistiques</h3>
-            <BasicPie />
+            <BasicPie 
+              utilisateursCompte={utilisateurs.length}
+              rapportsCompte={rapports.length}
+             />
           </div>
         </div>
       </div>

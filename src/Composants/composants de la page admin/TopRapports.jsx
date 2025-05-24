@@ -10,7 +10,6 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
   const [docxPreviews, setDocxPreviews] = useState({});
   const itemsPerPage = 10;
 
-  // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentRapports = rapports.slice(indexOfFirstItem, indexOfLastItem);
@@ -45,7 +44,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
     const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     return (
-      <div className="w-16 h-20 bg-gray-200 rounded overflow-hidden flex items-center justify-center border shadow">
+      <div className="w-10 h-12 bg-gray-200 rounded overflow-hidden flex items-center justify-center border border-gray-300 shadow">
         {isPdf ? (
           <Document file={rapport.fileUrl}>
             <Page pageNumber={1} width={128} renderTextLayer={false} />
@@ -73,12 +72,12 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
       <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
 
       <div className="overflow-x-auto w-full">
-        <table className="w-full text-left min-w-[600px]">
+        <table className="w-full min-w-[700px] text-left text-sm sm:text-base">
           <thead>
             <tr className="bg-gray-800 text-gray-50">
               <th className="py-2 px-2">#</th>
               <th className="py-2 px-2">Rapport</th>
-              <th className="py-2 px-2">Profil</th>
+              <th className="py-2 px-2 hidden md:table-cell">Profil</th>
               <th className="py-2 px-2">Actions</th>
             </tr>
           </thead>
@@ -93,16 +92,20 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                   <div className="flex items-center gap-3">
                     {renderPreview(rapport)}
 
-                    {/* Titre + description : maintenant prend tout l'espace restant */}
-                    <div className="flex-1">
-                      <h4 className="font-semibold">{rapport.title}</h4>
-                      <p className="text-sm text-gray-500 line-clamp-2">
+                    <div className="flex-1 min-w-0">
+                      <h4
+                        className="font-semibold truncate"
+                        title={rapport.title}
+                      >
+                        {rapport.title}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
                         {rapport.description}
                       </p>
                     </div>
                   </div>
                 </td>
-                <td className="py-2 px-3">
+                <td className="py-2 px-3 hidden md:table-cell">
                   <img
                     src={rapport.user?.photoURL || "https://via.placeholder.com/40"}
                     alt="user"
@@ -113,20 +116,19 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                   <div className="flex items-center justify-center">
                     <button
                       onClick={() => onDeleteClick && onDeleteClick(rapport._id)}
-                      className="p-2 rounded bg-red-100 text-red-700 hover:bg-red-200 flex items-center justify-center"
+                      className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200 flex items-center justify-center"
+                      aria-label="Supprimer le rapport"
                     >
                       <FaTrash />
                     </button>
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-center mt-4 gap-2">
         <button
           disabled={currentPage === 1}
