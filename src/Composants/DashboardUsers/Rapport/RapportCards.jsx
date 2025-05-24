@@ -106,7 +106,8 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  // console.log(doc._id)
+  console.log("DOC reçu dans RapportCard :", doc);
+
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
@@ -117,7 +118,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">Baba Faye</p>
+          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>

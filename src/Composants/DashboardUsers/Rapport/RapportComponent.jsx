@@ -24,7 +24,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
 
   useEffect(() => {
     if (!isdoc || !doc.fileUrl) return;
-
+     
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
@@ -59,7 +59,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, [doc.fileUrl]);
 
   const handleDocumentClick = (e) => {
     e.preventDefault();
@@ -105,7 +105,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: "multipart/form-data",
+        body: formData,
       });
 
       const result = await response.json();
@@ -123,18 +123,24 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     }
   };
 
-
+  useEffect(() => {
+  if (editMode) {
+    setTitle(doc.title);
+    setDescription(doc.description || "");
+  }
+}, [editMode, doc]);
+console.log("Affichage du PDF :", doc.fileUrl);
   return (
     <div className="p-4 text-[var(--text-couleur)] bg-[var(--background-color)] min-w-[300px] min-h-[200px] flex-auto flex justify-center items-center composantRapport">
       <div className="flex gap-4 w-full bg-[#f2f2f2] p-2">
-        <div className="image flex-auto ">
+        <div className="image w-full flex-auto max-h-[200px] overflow-hidden">
           {ispdf ? (
-            <div className="w-full max-h-[250px] overflow-hidden">
+            <div className="w-full h-full ">
               {pdfError && <p className="text-red-500">{pdfError}</p>}
-              <PdfViewer file={doc.fileUrl} width={"200"} height={null} />
+              <PdfViewer file={doc.fileUrl} width={"200"} height={"200"} />
             </div>
           ) : isdoc ? (
-            <div className="w-full min-h-[200px] bg-gray-100 p-4 overflow-hidden">
+            <div className="w-full h-full bg-gray-100 p-4 ">
               {isLoading ? (
                 <p>Chargement du document...</p>
               ) : docHtml ? (
@@ -169,7 +175,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
                  <textarea
                    className="w-full border px-2 py-1 rounded text-sm"
                    rows={3}
-                   value={doc.description}
+                   value={description}
                    onChange={(e) => setDescription(e.target.value)}
                  />
                  <input
