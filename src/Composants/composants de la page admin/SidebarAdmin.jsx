@@ -12,6 +12,12 @@ const SidebarAdmin = ({ setVueActive }) => {
     setActiveItem(vue);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUsers(null);
+    navigate("/");
+  };
+
   return (
     <aside className="w-20 md:w-64 bg-gray-800 text-white px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
       <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
@@ -78,7 +84,7 @@ const SidebarAdmin = ({ setVueActive }) => {
         </ul>
       </div>
 
-      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4">
+      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4" onClick={handleLogout}>
         <CiLogout />
         <p className="text-amber-50 hidden md:inline">Déconnexion</p>
       </div>
