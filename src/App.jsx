@@ -42,6 +42,7 @@ const App = () => {
            <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
            <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
+           {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
          <Toaster position="top-center"/>
 

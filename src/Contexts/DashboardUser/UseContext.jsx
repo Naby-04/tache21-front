@@ -17,8 +17,9 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-  // const url = "https://tache21-back.onrender.com";
-  const url = "http://localhost:8000"
+  const url = "https://tache21-back.onrender.com";
+  // const url ="http://localhost:8080"
+
 
 
   // 🧠 Ajout d'une publication
@@ -35,7 +36,7 @@ export const ContextProvider = ({ children }) => {
     : validPublications;
 
   const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-    doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+    doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // 📝 Gestion des champs du formulaire
