@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { HiUsers } from "react-icons/hi2";
 import { HiDocumentReport } from "react-icons/hi";
 import { CiLogout } from "react-icons/ci";
+import AuthContext from "../../Contexts/AuthContext";
 
 const SidebarAdmin = ({ setVueActive }) => {
   const [activeItem, setActiveItem] = useState("dashboard"); // par défaut
+  const { users, setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleItemClick = (vue) => {
     setVueActive(vue);

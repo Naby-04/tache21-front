@@ -9,6 +9,7 @@ import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
+import { usePublication } from "../Contexts/DashboardUser/UseContext";
 
 // import LesUtilisateurs from "../data/LesUtilisateurs";
 
@@ -27,6 +28,8 @@ const Admin = () => {
   const [rechercheDashboard, setRechercheDashboard] = useState("");
   const [rechercheRapports, setRechercheRapports] = useState("");
 
+  const {url} = usePublication()
+
   const [allUsers, setAllUsers] = useState([])
   const [filtreUser, setFiltreUser] = useState([]);
   const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
@@ -39,7 +42,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchRapports = async () => {
       try {
-        const response = await fetch("http://localhost:8000/rapport/all");
+        const response = await fetch(`${url}/rapport/all`);
         const data = await response.json();
         setRapportsOriginaux(data);
         setRapportFiltre(data);
@@ -56,7 +59,7 @@ const Admin = () => {
       try {
         const token = localStorage.getItem("token"); // récupère le token stocké
 
-        const response = await fetch("http://localhost:8000/api/users/allusers", {
+        const response = await fetch(`${url}/api/users/allusers`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -127,7 +130,7 @@ const Admin = () => {
     try {
       const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
 
-      const response = await fetch(`http://localhost:8000/rapport/${id}`, {
+      const response = await fetch(`${url}/rapport/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -150,7 +153,7 @@ const Admin = () => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+    const response = await fetch(`${url}/api/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
