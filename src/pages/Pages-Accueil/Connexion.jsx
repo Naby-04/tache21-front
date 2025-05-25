@@ -5,9 +5,8 @@ import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-// import { signInWithPopup } from "firebase/auth";
-// import { auth, provider, db } from "../../services/firebaseService";
-
+ import { signInWithPopup } from "firebase/auth";
+ import { auth, provider, db } from "../../services/firebaseService";
 
 
 const Connexion = () => {
@@ -24,6 +23,38 @@ const Connexion = () => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
+
+  const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const res = await fetch(`${url}/api/users/google-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: user.email,
+        prenom: user.displayName, // optionnel pour l'affichage
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Échec de la connexion Google.");
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userInfo", JSON.stringify(data.user));
+
+    toast.success("Connexion Google réussie !");
+    navigate("/users");
+  } catch (error) {
+    console.error("Erreur lors de la connexion Google :", error);
+    toast.error("Erreur lors de la connexion Google.");
+  }
+};
 
 
   const handleSubmit = async (e) => {
@@ -142,7 +173,7 @@ const Connexion = () => {
           </div>
           <div className="w-[70%]">
             <button
-              // onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               type="button"
               className="flex items-center justify-center bg-gray-200 hover:bg-blue-600 text-gray-800 font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
             >
