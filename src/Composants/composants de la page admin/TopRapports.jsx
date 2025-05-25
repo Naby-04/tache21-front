@@ -84,7 +84,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
 
           <tbody>
             {currentRapports.map((rapport, index) => (
-              <tr key={rapport._id || index} className="border-t">
+              <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100 cursor-pointer">
                 <td className="py-2 px-3 font-bold text-gray-600">
                   {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>

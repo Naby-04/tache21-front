@@ -36,7 +36,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row p-3 rounded shadow-xl gap-3 bg-white">
+      <div className="flex flex-col lg:flex-row p-5 rounded shadow-xl gap-3 bg-white transition-transform duration-300 hover:scale-102 hover:shadow-lg cursor-pointer">
         {/* Aperçu du fichier */}
         <div className="relative shadow-md border border-gray-300 w-full lg:w-60 flex justify-center items-center h-52 bg-gray-50 px-3 py-5 overflow-hidden rounded">
           {isPdf ? (

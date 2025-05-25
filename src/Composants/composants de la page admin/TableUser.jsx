@@ -38,7 +38,7 @@ const TableUser = ({ tabUsers, onDelete }) => {
           </thead>
           <tbody>
             {currentUsers.map((user, index) => (
-              <tr key={user._id} className="border-t">
+              <tr key={user._id} className="border-t transition-color duration-200 hover:bg-gray-100">
                 <td className="py-2 px-3 font-bold text-gray-600">
                   {(currentPage - 1) * usersPerPage + index + 1}
                 </td>
