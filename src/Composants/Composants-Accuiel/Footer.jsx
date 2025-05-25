@@ -136,9 +136,9 @@ const Footer = () => {
             <div>
               <label
                 htmlFor="newsletter"
-                className="block text-sm text-amber-300"
+                className="text-sm text-amber-300"
               >
-                NEWSLETTER:
+               NEWSLETTER
               </label>
               <div className="mt-8 flex gap-2 flex-wrap">
                 <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-yellow-700">

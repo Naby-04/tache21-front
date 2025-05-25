@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"
 
 export const CommentairesSection = ({ rapportId }) => {
   const [commentaires, setCommentaires] = useState([]);
