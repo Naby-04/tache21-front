@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
 import { jwtDecode } from "jwt-decode";
+import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const CommentairesSection = ({ rapportId }) => {
   const [commentaires, setCommentaires] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
+  const { url } = usePublication();
 
   const token = localStorage.getItem("token");
   let userId = null;
@@ -24,7 +26,7 @@ export const CommentairesSection = ({ rapportId }) => {
   const fetchCommentaires = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/comments/${rapportId}`);
+      const response = await fetch(`${url}/api/comments/${rapportId}`);
       const data = await response.json();
 
       const commentairesFormates = data.map((comment) => ({

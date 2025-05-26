@@ -7,13 +7,10 @@ export const ContextProvider = ({ children }) => {
   const [publications, setPublications] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    tags: "",
-    category: "",
-    file: null,
-  });
+  const [form, setForm] = useState({title: "",description: "",tags: "",category: "", file: null});
+  const [docHtml, setDocHtml] = useState(null);
+  const [pdfError, setPdfError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
   const fileInput = useRef();
 
@@ -28,6 +25,8 @@ export const ContextProvider = ({ children }) => {
     localStorage.setItem("publications", JSON.stringify([...publications, newData]));
   };
 
+  
+
   // 🎯 Filtrage des publications
   const validPublications = Array.isArray(publications) ? publications : [];
 
@@ -35,9 +34,11 @@ export const ContextProvider = ({ children }) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
-  const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-    doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ const filteredPublicationsBySearch = filteredPublications.filter((doc) => {
+  const prenom = doc.user?.prenom?.toLowerCase() || "";
+  return prenom.includes(searchTerm.toLowerCase());
+});
+
 
   // 📝 Gestion des champs du formulaire
   const handleChange = (e) => {
@@ -51,6 +52,7 @@ export const ContextProvider = ({ children }) => {
   const values = {form,setForm,fileInput,handleChange,
      addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
      filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+     docHtml,setDocHtml,pdfError,setPdfError,isLoading,setIsLoading
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;

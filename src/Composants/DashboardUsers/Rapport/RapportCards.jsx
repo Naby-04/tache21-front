@@ -8,15 +8,15 @@ import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
+import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const RapportCard = ({ doc }) => {
-  const [docHtml, setDocHtml] = useState(null);
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const {url,docHtml, setDocHtml}= usePublication()
 
-  // console.log("users", users);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -68,7 +68,7 @@ export const RapportCard = ({ doc }) => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:8000/api/comments/${doc._id}`,
+      `${url}/api/comments/${doc._id}`,
       {
         method: "POST",
         headers: {
@@ -132,7 +132,7 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  console.log("DOC reçu dans RapportCard :", doc);
+  // console.log("DOC reçu dans RapportCard :", doc);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">

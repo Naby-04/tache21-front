@@ -5,16 +5,11 @@ import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconbtn3,
    iconbnt1, iconbtn2, date, onDeleteSuccess,onUpdateSuccess}) => {
-  const [docHtml, setDocHtml] = useState(null);
-  const [pdfError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(tite);
   const [description, setDescription] = useState(children);
   const [file, setFile] = useState(null);
- 
-
-  const { url } = usePublication();
+  const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading } = usePublication();
   const ispdf = doc.type === "application/pdf";
   const isdoc =
     doc.type ===
