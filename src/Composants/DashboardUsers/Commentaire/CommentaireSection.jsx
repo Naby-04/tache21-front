@@ -9,7 +9,7 @@ export const CommentairesSection = ({ rapportId }) => {
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
-  const { url } = usePublication();
+  const {url}= usePublication()
 
   const token = localStorage.getItem("token");
   let userId = null;

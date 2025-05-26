@@ -77,8 +77,8 @@ export const RapportCardAccueil = ({ doc }) => {
                     className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>
-                    <p className="font-semibold text-sm text-gray-800">{doc.userId.prenom}</p>
-                    <small className="text-gray-500">{doc.date}</small>
+                    <p className="font-semibold text-sm text-gray-800">{doc.user?.prenom}</p>
+                    <small className="text-gray-500">{doc.createdAt}</small>
                 </div>
             </div>
 

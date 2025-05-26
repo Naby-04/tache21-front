@@ -1,4 +1,4 @@
-import TableUser from "../Composants/composants de la page admin/TableUser";
+import TableUser from "./TableUser";
 // import avatar from "../assets/avatar.jpg"
 
 const Users = ({lesUtilisateurs, onDelete}) => {
