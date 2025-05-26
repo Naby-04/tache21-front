@@ -3,6 +3,7 @@ import CommentModal  from "../../Composants/DashboardUsers/Commentaire/CommentMo
 import { useState } from "react";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import { categories } from "../../data/Categorie"
+import PdfViewer from "../DashboardUsers/PdfViewer/PdfViewer";
 
 
 
@@ -50,11 +51,13 @@ export const RapportCardAccueil = ({ doc }) => {
 
             {/* Image */}
             <div className="rounded-md overflow-hidden mb-4">
-                <img
+
+               <PdfViewer/>
+                {/* <img
                     src={doc.img}
                     alt={doc.title}
                     className="w-full max-h-[300px] object-cover"
-                />
+                /> */}
             </div>
 
             {/* Description */}
