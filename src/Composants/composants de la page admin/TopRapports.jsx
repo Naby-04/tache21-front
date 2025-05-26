@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaTimes } from "react-icons/fa";
 import { Document, Page, pdfjs } from "react-pdf";
 import mammoth from "mammoth";
 
@@ -8,6 +8,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build
 const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [docxPreviews, setDocxPreviews] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRapport, setSelectedRapport] = useState(null);
   const itemsPerPage = 10;
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -115,7 +117,10 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                 <td className="py-2 px-3">
                   <div className="flex items-center justify-center">
                     <button
-                      onClick={() => onDeleteClick && onDeleteClick(rapport._id)}
+                      onClick={() => {
+                        setSelectedRapport(rapport);
+                        setShowModal(true);
+                      }}
                       className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200 flex items-center justify-center"
                       aria-label="Supprimer le rapport"
                     >
@@ -148,6 +153,43 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
           Suivant
         </button>
       </div>
+      {showModal && selectedRapport && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-md text-center max-w-sm w-full relative animate-fadeIn">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-red-600"
+            >
+              <FaTimes />
+            </button>
+
+            <p className="text-lg font-semibold mb-2 text-red-600">Confirmation de suppression</p>
+            <p className="text-sm text-gray-800 mb-4">
+              Supprimer le rapport <strong>{selectedRapport.title}</strong> de{" "}
+              <strong>{selectedRapport.user?.prenom}</strong> ?
+            </p>
+
+            <div className="flex justify-center gap-4 mt-3">
+              <button
+                onClick={() => {
+                  onDeleteClick && onDeleteClick(selectedRapport._id);
+                  setShowModal(false);
+                }}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Supprimer
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

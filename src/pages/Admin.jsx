@@ -11,7 +11,6 @@ import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
 import { usePublication } from "../Contexts/DashboardUser/UseContext";
 
-// import LesUtilisateurs from "../data/LesUtilisateurs";
 
 const services = [
   { icon: "📚", label: "Toutes les catégories" },
@@ -34,16 +33,18 @@ const Admin = () => {
   const [filtreUser, setFiltreUser] = useState([]);
   const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
   const [rapportfiltre, setRapportFiltre] = useState([]);
+  const [topRapports, setTopRapports] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
 
-  // 🔁 Récupération des rapports depuis l’API
+  // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
       try {
         const response = await fetch(`${url}/rapport/all`);
         const data = await response.json();
+        console.log(data)
         setRapportsOriginaux(data);
         setRapportFiltre(data);
       } catch (error) {
@@ -75,6 +76,26 @@ const Admin = () => {
     };
 
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchTopRapports = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${url}/api/comments/top/commented`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        setTopRapports(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des top rapports :", error);
+      }
+    };
+
+    fetchTopRapports();
   }, []);
 
   // 🔍 Recherche utilisateurs
@@ -204,7 +225,7 @@ const Admin = () => {
         {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapports} />
         )}
 
         {vueActive === "users" && (
