@@ -20,50 +20,39 @@ const Inscription = () => {
 
 
   const handleGoogleLogin = async () => {
-    try {
-    // 1. Connexion via Google
+  try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    const prenom = user.displayName || "";
-    const email = user.email;
-    const password = user.uid; // ou une chaîne générée si nécessaire (backend doit gérer ça)
-
-    // 2. Ajouter l'utilisateur à Firestore s'il n'existe pas
-    const userRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userRef);
-
-    if (!docSnap.exists()) {
-      await setDoc(userRef, {
-        prenom,
-        email,
-        createdAt: new Date().toISOString(),
-      });
-    }  toast.success("Connexion réussie avec Google !");
-    navigate("/users");
-
-    // 2. Obtenir le token Firebase
-    const idToken = await user.getIdToken();
-
-    // 3. L'envoyer à ton backend
-    const response = await fetch(`${url}/api/users/google-login`, {
+    // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
+    const response = await fetch(`${url}/api/users/google-register`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${idToken}`,
-      },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prenom: user.displayName,
+        email: user.email,
+      }),
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
 
-    // 4. Stocker le token backend
+    if (!response.ok) {
+      toast.error(data.message || "Erreur lors de l'inscription via Google.");
+      return;
+    }
+
+    // Enregistre l'utilisateur localement
     localStorage.setItem("token", data.token);
+    localStorage.setItem("userInfo", JSON.stringify(data.user));
+
+    toast.success("Inscription via Google réussie !");
+    navigate("/users");
   } catch (error) {
-    console.error("Erreur Google Login :", error);
-    //toast.error("Erreur lors de la connexion avec Google.");
+    console.error("Erreur Google Auth:", error);
+    toast.error("Erreur lors de l'inscription avec Google.");
   }
 };
+
 
   const {url} = usePublication()
   const handleSubmit = async (e) => {

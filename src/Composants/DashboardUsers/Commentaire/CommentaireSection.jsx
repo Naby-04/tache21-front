@@ -1,43 +1,46 @@
 import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
-import CommentModal from "./CommentModal";
+import { jwtDecode } from "jwt-decode";
 
 export const CommentairesSection = ({ rapportId }) => {
   const [commentaires, setCommentaires] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Pour la suppression
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
-  console.log("rapportId :", rapportId);
+
+  const token = localStorage.getItem("token");
+  let userId = null;
+
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      userId = decoded.id || decoded._id;
+    } catch (e) {
+      console.error("Erreur de décodage du token", e);
+    }
+  }
 
   const fetchCommentaires = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://tache21-back.onrender.com/api/comments/${rapportId}`
-      );
+      const response = await fetch(`http://localhost:8000/api/comments/${rapportId}`);
       const data = await response.json();
 
-      console.log("Données brutes reçues :", data);
       const commentairesFormates = data.map((comment) => ({
         id: comment._id,
         auteur: comment.user?.prenom || "Utilisateur inconnu",
         contenu: comment.comment,
+        userId: comment.user?._id || null,
       }));
 
-      console.log("Commentaires formatés :", commentairesFormates);
       setCommentaires(commentairesFormates);
     } catch (error) {
-      console.error("Erreur lors du chargement des commentaires :", error);
+      console.error("Erreur lors du chargement des commentaires :", error.message);
     } finally {
       setLoading(false);
     }
   };
-
-  console.log("Commentaires à afficher :", commentaires);
-
 
   useEffect(() => {
     if (rapportId) {
@@ -47,21 +50,20 @@ export const CommentairesSection = ({ rapportId }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:8000/api/comments/${idCommentToDelete}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      await fetch(
-        `https://tache21-back.onrender.com/api/comments/${idCommentToDelete}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(errorData.message || "Erreur lors de la suppression.");
+        return;
+      }
 
-      setCommentaires((prev) =>
-        prev.filter((c) => c.id !== idCommentToDelete)
-      );
+      setCommentaires((prev) => prev.filter((c) => c.id !== idCommentToDelete));
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
     } finally {
@@ -75,58 +77,14 @@ export const CommentairesSection = ({ rapportId }) => {
     setShowDeleteModal(true);
   };
 
-const handleAddComment = async (value) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await fetch(
-      `https://tache21-back.onrender.com/api/comments/${rapportId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ comment: value }),
-      }
-    );
-
-    if (!res.ok) {
-      console.error("Erreur lors de l’ajout du commentaire");
-      return;
-    }
-
-    await fetchCommentaires(); // Recharge les commentaires
-  } catch (error) {
-    console.error("Erreur ajout commentaire :", error);
-  }
-};
-
-
   if (loading) {
-    return (
-      <p className="text-sm text-gray-500 mt-2">
-        Chargement des commentaires...
-      </p>
-    );
+    return <p className="text-sm text-gray-500 mt-2">Chargement des commentaires...</p>;
   }
 
   return (
-    <div className="mt-4 bg-gray-50 p-4 rounded-lg shadow-inner">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">
-        Commentaires :
-      </h3>
-
-      <CommentModal
-        onClose={() => {}}
-        onSubmit={handleAddComment}
-        reloadComments={fetchCommentaires}
-      />
-
+    <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
       {commentaires.length === 0 ? (
-        <p className="text-sm text-gray-500">
-          Aucun commentaire pour l’instant.
-        </p>
+        <p className="text-sm text-gray-500">Aucun commentaire pour l’instant.</p>
       ) : (
         <ul className="space-y-3">
           {commentaires.map((comment) => (
@@ -137,15 +95,16 @@ const handleAddComment = async (value) => {
                   <small>{comment.contenu}</small>
                 </span>
               </div>
-              <div>
-                <span className="text-gray-500 cursor-pointer border">
+
+              {comment.userId === userId && (
+                <div>
                   <BsTrash
-                    className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 transition-all border"
+                    className="text-sm rounded-full p-2 w-[30px] h-[30px] hover:bg-gray-200 cursor-pointer border"
                     title="Supprimer"
                     onClick={() => askDeleteComment(comment.id)}
                   />
-                </span>
-              </div>
+                </div>
+              )}
             </li>
           ))}
         </ul>

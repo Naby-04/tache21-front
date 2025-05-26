@@ -16,6 +16,8 @@ export const RapportCard = ({ doc }) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
+  // console.log("users", users);
+
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
@@ -60,10 +62,36 @@ export const RapportCard = ({ doc }) => {
   }, [doc.fileUrl, isdoc]);
 
   // Gestion des commentaires
-  const handleCommentSubmit = (comment) => {
-    console.log("Commentaire:", comment, "pour:", doc.id);
+
+  const handleCommentSubmit = async (comment) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `http://localhost:8000/api/comments/${doc._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comment }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Erreur lors de l’ajout du commentaire");
+      return;
+    }
+
+    // Facultatif : Affiche commentaires après ajout
+    setShowComments(true);
     setShowCommentBox(false);
-  };
+  } catch (error) {
+    console.error("Erreur ajout commentaire :", error);
+  }
+};
+
 
   // Gestion du clic sur le document
 const handleDocumentClick = (e) => {
@@ -104,7 +132,8 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  // console.log(doc._id)
+  console.log("DOC reçu dans RapportCard :", doc);
+
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
@@ -115,7 +144,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{}</p>
+          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>
@@ -223,13 +252,12 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Modal commentaire */}
+      
       {showCommentBox && (
         <div className="mt-4">
           <CommentModal
-            isOpen={true}
             onClose={() => setShowCommentBox(false)}
             onSubmit={handleCommentSubmit}
-            documentId={doc.id}
           />
         </div>
       )}

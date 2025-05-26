@@ -4,16 +4,23 @@ import { useState } from "react";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import { categories } from "../../data/Categorie"
 
+
+
 export const RapportCardAccueil = ({ doc }) => {
     const [showCommentBox, setShowCommentBox] = useState(false);
+    
 
     const handleCommentSubmit = (comment) => {
         console.log("Commentaire:", comment, "pour:", doc.id);
         setShowCommentBox(false);
     };
 
-    const currentCategory = categories.find((cat) => cat.value === doc.category);
+    const currentCategory = categories.find((cat) => cat.value === doc.category); 
         const categoryClass = currentCategory?.color
+          
+      
+        
+     
 
     return (
         <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -29,6 +36,8 @@ export const RapportCardAccueil = ({ doc }) => {
                     <small className="text-gray-500">il y a 2 minutes</small>
                 </div>
             </div>
+
+           
 
             {/* Titre */}
             <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
