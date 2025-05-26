@@ -28,7 +28,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
 
         <div className="div">
           <p className="text-md font-semibold line-clamp-1">- {rapport.title}</p>
-          <p className="text-sm text-gray-700 line-clamp-3">{rapport.description}</p>
+          <p className="text-sm text-gray-800 line-clamp-3">{rapport.description}</p>
         </div>
 
         <div className="flex w-full justify-between items-center pt-2">

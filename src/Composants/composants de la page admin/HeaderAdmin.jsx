@@ -27,7 +27,7 @@ const HeaderAdmin = ({ onSearch }) => {
       <div className="flex-1 mx-auto gap-3">
         <SearchBar onSearch={onSearch} />
       </div>
-           <p className="font-medium text-gray-700">Bonjour, {users.prenom}</p>
+           <p className="font-medium text-gray-800">Bonjour, {users.prenom}</p>
       <div className="flex items-center gap-1 flex-col-reverse relative">
         <div className="w-10 h-10 rounded-full flex items-center justify-center bg-amber-300 overflow-hidden border border-gray-800 cursor-pointer" onClick={change}>
           {<Avatar />}

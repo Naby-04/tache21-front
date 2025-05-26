@@ -23,7 +23,7 @@ export default function TextExpandable({ children }) {
           transition: 'max-height 0.5s ease',
         }}
       >
-        <div className="text-sm text-gray-700">{children}</div>
+        <div className="text-sm text-gray-800">{children}</div>
       </div>
       <button
         onClick={() => setOpen(!open)}

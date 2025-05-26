@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FormContext from "../../Contexts/FormContext";
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider, db  } from "../../services/firebaseService";
-import { doc, setDoc , getDoc } from "firebase/firestore";
+import { auth, provider, db } from "../../services/firebaseService";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Inscription = () => {
   // const [error, setError] = useState("");
@@ -13,48 +14,51 @@ const Inscription = () => {
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
+  // Ajout des états pour afficher/masquer les mots de passe
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
 
+  const { url } = usePublication();
 
   const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
-    const response = await fetch(`${url}/api/users/google-register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prenom: user.displayName,
-        email: user.email,
-      }),
-    });
+      // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
+      const response = await fetch(`${url}/api/users/google-register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prenom: user.displayName,
+          email: user.email,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      toast.error(data.message || "Erreur lors de l'inscription via Google.");
-      return;
+      if (!response.ok) {
+        toast.error(data.message || "Erreur lors de l'inscription via Google.");
+        return;
+      }
+
+      // Enregistre l'utilisateur localement
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
+
+      toast.success("Inscription via Google réussie !");
+      navigate("/users");
+    } catch (error) {
+      console.error("Erreur Google Auth:", error);
+      toast.error("Erreur lors de l'inscription avec Google.");
     }
+  };
 
-    // Enregistre l'utilisateur localement
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("userInfo", JSON.stringify(data.user));
-
-    toast.success("Inscription via Google réussie !");
-    navigate("/users");
-  } catch (error) {
-    console.error("Erreur Google Auth:", error);
-    toast.error("Erreur lors de l'inscription avec Google.");
-  }
-};
-
-
-  const {url} = usePublication()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,7 +91,6 @@ const Inscription = () => {
       return;
     }
 
-   
     try {
       const response = await fetch(`${url}/api/users/register`, {
         method: "POST",
@@ -129,21 +132,7 @@ const Inscription = () => {
           </div>
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
-            <div className="mb-2 w-[70%]">
-              <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
-                Entrez votre nom
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-                id="name"
-                type="text"
-                placeholder="Votre nom"
-                name="prenom"
-                value={formData.prenom || ""}
-                onChange={handleChange}
-              />
-            </div>
-
+            {/* ...champ nom... */}
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Entrez votre email
@@ -159,36 +148,57 @@ const Inscription = () => {
               />
             </div>
 
+            {/* Champ mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="password">
                 Mot de passe
               </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Votre mot de passe"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
+            {/* Champ confirmation mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
-              <input                                                                                                                                                     
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="confirm-password"
-                type="password"
-                placeholder="Confirmer votre mot de passe"
-                name="confirmPassword"
-                value={formData.confirmPassword || ""}
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="confirm-password"
+                  type={showConfirm ? "text" : "password"}
+                  placeholder="Confirmer votre mot de passe"
+                  name="confirmPassword"
+                  value={formData.confirmPassword || ""}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowConfirm((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
-
             <div className="mb-2 w-[70%]">
               <label className="inline-flex items-center">
                 <input
@@ -244,4 +254,4 @@ const Inscription = () => {
   );
 };
 
-export default Inscription;
+export default Inscription;

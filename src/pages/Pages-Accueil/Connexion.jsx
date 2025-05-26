@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
@@ -7,38 +7,46 @@ import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, provider, db } from "../../services/firebaseService";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Connexion = () => {
   const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
-  const {users, setUsers } = useContext(AuthContext);
 
+  // Ajout de l'état pour afficher/masquer le mot de passe
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { url } = usePublication();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData(name, value);
+  };
 
   const handleGoogleSignIn = async () => {
-      try {
+    try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-  
+
       const prenom = user.displayName || "";
       const email = user.email;
-      const password = user.uid; // ou une chaîne générée si nécessaire (backend doit gérer ça)
       const userRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userRef);
-  
+
       if (!docSnap.exists()) {
         await setDoc(userRef, {
           prenom,
           email,
           createdAt: new Date().toISOString(),
         });
-      }  toast.success("Connexion réussie avec Google !");
+      }
+      toast.success("Connexion réussie avec Google !");
       navigate("/users");
-  
 
       const idToken = await user.getIdToken();
-  
+
       const response = await fetch(`${url}/api/users/google-login`, {
         method: "POST",
         headers: {
@@ -46,94 +54,17 @@ const Connexion = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
-  
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
-  
+
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
     } catch (error) {
       console.error("Erreur Google SignIn :", error);
-      //toast.error("Erreur lors de la connexion avec Google.");
+      toast.error("Erreur lors de la connexion avec Google.");
     }
   };
-
-
-//   const handleGoogleSignIn = async () => {
-//   try {
-//     const result = await signInWithPopup(auth, provider);
-//     const user = result.user;
-
-//     const userRef = doc(db, "users", user.uid);
-//     const docSnap = await getDoc(userRef);
-
-//     // Si l'utilisateur n'existe pas encore dans Firestore, on l'ajoute
-//     if (!docSnap.exists()) {
-//       await setDoc(userRef, {
-//         prenom: user.displayName || "",
-//         email: user.email,
-//         photoURL: user.photoURL || null,
-//         createdAt: new Date().toISOString(),
-//       });
-//     }
-
-//     toast.success("Connexion réussie avec Google !");
-//     navigate("/users");
-
-//     // 2. Obtenir le token Firebase
-//     const idToken = await user.getIdToken();
-
-//     // 3. L'envoyer à ton backend
-//     const response = await fetch(`${url}/api/users/google-login`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${idToken}`,
-//       },
-//     });
-
-//     const data = await response.json();
-//     if (!response.ok) throw new Error(data.message);
-
-//     // 4. Stocker le token backend
-//     localStorage.setItem("token", data.token);
-//   } catch (error) {
-//     //console.error("Erreur Google SignIn:", error);
-//     toast.error("Échec de la connexion avec Google.");
-//   }
-// };
-
-  const {url} = usePublication()
-
-  //  useEffect(()=>{
-  //      const fetchProfil = async () => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) return;
-
-  //   try {
-  //     const response = await fetch(`${url}/api/users/profile`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) throw new Error("Échec récupération profil");
-
-  //     const data = await response.json();
-  //     setUsers(data);
-  //   } catch (error) {
-  //     console.error("Erreur récupération profil :", error);
-  //   }
-  // };
-
-  // fetchProfil()
-  //  },[])
-
-    // if (!users) return null;
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateFormData(name, value);
-  };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -216,15 +147,25 @@ const Connexion = () => {
               <label htmlFor="password" className="block text-gray-800 text-sm font-bold mb-2">
                 Mot de passe
               </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Votre mot de passe"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
             <Link
