@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import FormContext from "../../Contexts/FormContext";
+import { auth, provider, db  } from "../../services/firebaseService";
+import { doc, setDoc , getDoc } from "firebase/firestore";
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider, db } from "../../services/firebaseService";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Inscription = () => {
   // const [error, setError] = useState("");
@@ -23,49 +23,42 @@ const Inscription = () => {
     updateFormData(name, value);
   };
 
-  const { url } = usePublication();
-
   const handleGoogleLogin = async () => {
     try {
+      // Connexion via Google
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
-      const response = await fetch(`${url}/api/users/google-register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      // Référence du document utilisateur dans Firestore
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
+
+      // Si l'utilisateur n'existe pas déjà, on l'ajoute
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
           prenom: user.displayName,
           email: user.email,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast.error(data.message || "Erreur lors de l'inscription via Google.");
-        return;
+          photoURL: user.photoURL || null,
+          createdAt: new Date().toISOString(),
+        });
       }
 
-      // Enregistre l'utilisateur localement
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userInfo", JSON.stringify(data.user));
-
-      toast.success("Inscription via Google réussie !");
+      toast.success("Connexion réussie avec Google !");
       navigate("/users");
     } catch (error) {
       console.error("Erreur Google Auth:", error);
-      toast.error("Erreur lors de l'inscription avec Google.");
+      toast.error("Erreur lors de la connexion avec Google.");
     }
   };
 
+  const {url} = usePublication()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { prenom, email, password, confirmPassword } = formData;
 
     // Validation des champs
-    if (!prenom || !email || !password || !confirmPassword) {
+    if (!prenom ||!email || !password || !confirmPassword) {
       toast.error("Veuillez remplir tous les champs.");
       return;
     }
@@ -91,6 +84,7 @@ const Inscription = () => {
       return;
     }
 
+   
     try {
       const response = await fetch(`${url}/api/users/register`, {
         method: "POST",
@@ -110,7 +104,7 @@ const Inscription = () => {
 
       localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
-      resetFormData();
+      resetFormData(); // Réinitialise les champs
       navigate("/connexion");
     } catch (error) {
       toast.error("Erreur : " + error.message);
@@ -132,13 +126,27 @@ const Inscription = () => {
           </div>
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
-            {/* ...champ nom... */}
+            <div className="mb-2 w-[70%]">
+              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="prenom">
+                Entrez votre prénom
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="prenom"
+                type="text"
+                placeholder="Votre prénom"
+                name="prenom"
+                value={formData.prenom || ""}
+                onChange={handleChange}
+              />
+            </div>
+           
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Entrez votre email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
                 name="email"
@@ -150,7 +158,7 @@ const Inscription = () => {
 
             {/* Champ mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="password">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Mot de passe
               </label>
               <div className="relative">
@@ -176,7 +184,7 @@ const Inscription = () => {
 
             {/* Champ confirmation mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="confirm-password">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
               <div className="relative">
@@ -199,6 +207,7 @@ const Inscription = () => {
                 </button>
               </div>
             </div>
+
             <div className="mb-2 w-[70%]">
               <label className="inline-flex items-center">
                 <input
@@ -207,7 +216,7 @@ const Inscription = () => {
                   checked={acceptCGU}
                   onChange={(e) => setAcceptCGU(e.target.checked)}
                 />
-                <span className="ml-2 text-gray-700 text-sm">
+                <span className="ml-2 text-gray-800 text-sm">
                   J'accepte toutes les conditions générales
                 </span>
               </label>
@@ -217,6 +226,7 @@ const Inscription = () => {
               <button
                 className="bg-gray-800 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
                 type="submit"
+                disabled={!acceptCGU}
               >
                 S'inscrire
               </button>
@@ -232,7 +242,7 @@ const Inscription = () => {
           <div className="flex w-[80%] items-center justify-center">
             <button
               onClick={handleGoogleLogin}
-              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 text-gray-800 hover:text-white focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
