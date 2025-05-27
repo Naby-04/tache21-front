@@ -160,8 +160,14 @@ const Admin = () => {
       });
 
       if (response.ok) {
-        const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
-        setRapportFiltre(nouveauTableau);
+        const supUnRap = rapportfiltre.filter((r) => r._id !== id);
+        const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
+
+        setRapportFiltre(supUnRap);
+        setRapportsOriginaux(supRapport);
+
+        // const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
+        // setRapportFiltre(nouveauTableau);
       } else {
         console.error("Erreur lors de la suppression");
       }

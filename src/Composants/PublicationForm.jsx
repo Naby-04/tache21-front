@@ -24,7 +24,7 @@ const handleSubmit = async (e) => {
   formData.append("fileUrl", form.file); // ✅ bon nom (correspond à upload.single("file"))
 
   try {
-    const response = await fetch(`${url}/rapport/create`, {
+    const response = await fetch(`https://tache21-back.onrender.com/rapport/create`, {
       method: "POST",
       body: formData, // ✅ on envoie le bon format
        headers: {
@@ -53,7 +53,9 @@ const handleSubmit = async (e) => {
   }
 };
 
-console.log("fichier :", form.file);
+console.log(form)
+
+// console.log("fichier :", form.file);
   return (
     <div className='mx-auto my-4 p-4 sm:p-6 md:p-8 bg-[#fff] rounded
       w-full max-w-md sm:max-w-lg md:max-w-2xl

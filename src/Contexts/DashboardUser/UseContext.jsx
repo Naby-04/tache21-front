@@ -35,9 +35,14 @@ export const ContextProvider = ({ children }) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
-  const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-    doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
+  //   doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  const filteredPublicationsBySearch = filteredPublications.filter(
+  (doc) =>
+    typeof doc.user?.prenom === "string" &&
+    doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
   // 📝 Gestion des champs du formulaire
   const handleChange = (e) => {
@@ -50,7 +55,7 @@ export const ContextProvider = ({ children }) => {
 
   const values = {form,setForm,fileInput,handleChange,
      addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
-     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;
