@@ -14,8 +14,8 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-   const url = "https://tache21-back.onrender.com";
-  // const url ="http://localhost:8080"
+  //  const url = "https://tache21-back.onrender.com";
+  const url ="http://localhost:8080"
 
 
 
@@ -32,8 +32,8 @@ export const ContextProvider = ({ children }) => {
     : validPublications;
 
  const filteredPublicationsBySearch = filteredPublications.filter((doc) => {
-  const prenom = doc.user?.prenom?.toLowerCase() || "";
-  return prenom.includes(searchTerm.toLowerCase());
+  const title = doc?.title.toLowerCase() || "";
+  return title.includes(searchTerm.toLowerCase());
 });
 
 

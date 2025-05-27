@@ -92,7 +92,7 @@ console.log("fichier :", form.file);
              placeholder:text-gray-800 text-gray-800 '
                onChange={handleChange}  ref={fileInput}/>
 
-            <button className="border bg-gray-600 rounded w-full p-2 outline-none border-gray-800
+            <button className="border bg-amber-500 rounded w-full p-2 outline-none 
              placeholder:text-white hover:opacity-80 text-white cursor-pointer" 
              onClick={handleSubmit}
              >

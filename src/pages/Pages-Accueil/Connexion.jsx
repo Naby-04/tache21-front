@@ -9,7 +9,7 @@ import { auth, provider, db } from "../../services/firebaseService";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Connexion = () => {
-  const [error, setError] = useState("");
+  const [error] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   // const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ console.log("url",url);
 
       const prenom = user.displayName || "";
       const email = user.email;
-      const password = user.uid;
+      // const password = user.uid;
       const userRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userRef);
 
