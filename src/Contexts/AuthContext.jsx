@@ -3,7 +3,8 @@ import React, { createContext, useState } from "react";
 const initialUser = {
   prenom: "",
   email: "",
-  isAdmin: false
+  isAdmin: false,
+  photo: "https://res.cloudinary.com/dddxx1rtc/image/upload/v1747827864/3cae079ca0b9e55ec6bfc1b358c9b1e2_l1xuma.jpg",
 }
 const AuthContext = createContext({users: initialUser, setUsers: () => {}, logout: () => {}});
 
