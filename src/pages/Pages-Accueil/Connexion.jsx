@@ -1,59 +1,71 @@
-
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
- import { signInWithPopup } from "firebase/auth";
- import { auth, provider, db } from "../../services/firebaseService";
-
+import { signInWithPopup } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, provider, db } from "../../services/firebaseService";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Connexion = () => {
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
+  const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { users, setUsers } = useContext(AuthContext);
 
-   const {url} = usePublication()
+  // Ajout de l'état pour afficher/masquer le mot de passe
+  const [showPassword, setShowPassword] = useState(false);
 
-    // if (!users) return null;
+  const { url } = usePublication();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData(name, value);
   };
 
   const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    const res = await fetch(`${url}/api/users/google-login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: user.email,
-        prenom: user.displayName, // optionnel pour l'affichage
-      }),
-    });
+      const prenom = user.displayName || "";
+      const email = user.email;
+      const password = user.uid;
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
 
-    const data = await res.json();
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          prenom,
+          email,
+          createdAt: new Date().toISOString(),
+        });
+      }
+      toast.success("Connexion réussie avec Google !");
+      navigate("/users");
 
-    if (!res.ok) {
-      toast.error(data.message || "Échec de la connexion Google.");
-      return;
+      const idToken = await user.getIdToken();
+
+      const response = await fetch(`${url}/api/users/google-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+
+      localStorage.setItem("token", data.token);
+    } catch (error) {
+      console.error("Erreur Google SignIn :", error);
+      //toast.error("Erreur lors de la connexion avec Google.");
     }
-
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("userInfo", JSON.stringify(data.user));
-
-    toast.success("Connexion Google réussie !");
-    navigate("/users");
-  } catch (error) {
-    console.error("Erreur lors de la connexion Google :", error);
-    toast.error("Erreur lors de la connexion Google.");
-  }
-};
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -128,23 +140,33 @@ const Connexion = () => {
                 name="email"
                 value={formData.email || ""}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+              />
             </div>
 
             <div className="mb-2 w-[70%]">
               <label htmlFor="password" className="block text-gray-800 text-sm font-bold mb-2">
                 Mot de passe
               </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Votre mot de passe"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
             <Link
@@ -173,15 +195,18 @@ const Connexion = () => {
             <button
               onClick={handleGoogleSignIn}
               type="button"
-              className="flex items-center justify-center bg-gray-200 hover:bg-blue-600 text-gray-800 font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
+              className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
               <span>Google</span>
             </button>
           </div>
 
-       
-        s
+          {error && (
+            <div className="text-red-500 mt-2 text-sm text-center w-[70%]">
+              {error}
+            </div>
+          )}
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
