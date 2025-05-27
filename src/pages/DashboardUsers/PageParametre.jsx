@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import { toast } from "react-toastify";
+
 
 
 export const PageParametresCompte = () => {
@@ -46,38 +48,66 @@ export const PageParametresCompte = () => {
     };
     reader.readAsDataURL(file);
   };
+const uploadImageToCloudinary = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "userProfiles"); 
+  // Ne mets pas cloud_name ici dans le formData, c'est dans l'URL seulement
 
-  const handleSave = async () => {
+  const response = await fetch("https://api.cloudinary.com/v1_1/dddxx1rtc/image/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Échec de l'upload sur Cloudinary");
+  }
+
+  const data = await response.json();
+  return data.secure_url;
+};
+
+const handleSave = async () => {
   const token = localStorage.getItem("token");
-
   if (!token) {
-    alert("Aucun token trouvé. Veuillez vous reconnecter.");
+    toast.error("Aucun token trouvé. Veuillez vous reconnecter.");
     return;
   }
 
   try {
+    let photoUrl = userInfo.photo;
+
+    if (userInfo.photoFile) {
+      photoUrl = await uploadImageToCloudinary(userInfo.photoFile);
+      console.log("Nouvelle URL photo:", photoUrl);
+    }
+
+    const dataToSend = { ...userInfo, photo: photoUrl };
+    delete dataToSend.photoFile;
+
     const response = await fetch(`${url}/api/users/update`, {
-      method: "PUT", // ou POST selon ton backend
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(dataToSend),
     });
 
     if (!response.ok) {
-      throw new Error("Échec de la mise à jour du profil");
+      toast.error("Échec de la mise à jour");
     }
 
     const updatedUser = await response.json();
+    console.log("Profil mis à jour :", updatedUser);
 
-    // Mise à jour du contexte et du localStorage
-    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
     setUsers(updatedUser);
-    alert("Modifications enregistrées avec succès !");
+    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+
+    toast.success("Modifications enregistrées avec succès !");
   } catch (error) {
-    console.error("Erreur lors de l'enregistrement :", error);
-    alert("Une erreur est survenue pendant l'enregistrement.");
+    console.error("Erreur lors de la mise à jour :", error);
+    toast.error(error.message || "Une erreur est survenue lors de la mise à jour du profil.");
   }
 };
 
@@ -127,7 +157,7 @@ export const PageParametresCompte = () => {
           <input
             type="text"
             name="prenom"
-            value={userInfo.prenom}
+            value={users.prenom}
             onChange={handleInputChange}
             className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
           />
@@ -140,7 +170,7 @@ export const PageParametresCompte = () => {
           <input
             type="email"
             name="email"
-            value={userInfo.email}
+            value={users.email}
             onChange={handleInputChange}
             className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
           />
