@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
-export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
-   iconbtn2, date, onDeleteSuccess, onUpdateSuccess }) => {
+
 export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
    iconbtn2, date, onDeleteSuccess, onUpdateSuccess }) => {
   const [editMode, setEditMode] = useState(false);

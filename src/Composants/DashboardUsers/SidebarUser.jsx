@@ -51,7 +51,7 @@ export const SidebarUser = () => {
 
 			<div className="mt-2 flex flex-col justify-start items-start gap-2 
 			text-sm text-gray-600 ">
-				<NavLink to={"/pageParametre"} className="cursor-pointer hover:bg-gray-200 
+				<NavLink to={"pageParametre"} className="cursor-pointer hover:bg-gray-200 
 				rounded-md transition p-2 w-full flex items-center gap-2">
 				<IoMdSettings />
 				<Buttons text="Paramètres du compte" />

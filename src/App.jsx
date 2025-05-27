@@ -38,10 +38,10 @@ const App = () => {
              <Route index element={<Acceuil />} />
              <Route path="rapport" element={<Rapport />} />
              <Route path="rapportTelecharger" element={<RapportTelecharger />} />
-              <Route path="publicationRapport" element={<PublicationForm />} />
+             <Route path="publicationRapport" element={<PublicationForm />} />
+              <Route path="pageParametre" element={<PageParametresCompte />} />
            </Route>
 
-           <Route path="/pageParametre" element={<PageParametresCompte />} />
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
            <Route path="/motdepasseoublie" element={<MotDePassOublie />} />

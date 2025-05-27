@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 // import axios from 'axios'
 
 const PublicationForm = () => {
-    const { form, setForm, fileInput, handleChange,url } = usePublication();
+    const { form, fileInput, handleChange,ajouterPublication } = usePublication();
 
     const token = localStorage.getItem("token");
     console.log("token", token);
@@ -14,45 +14,8 @@ const PublicationForm = () => {
 const navigate = useNavigate()
 const handleSubmit = async (e) => {
   e.preventDefault();
-
-  const formData = new FormData();
-  formData.append("title", form.title);
-  formData.append("description", form.description);
-  formData.append("category", form.category);
-  formData.append("tags", form.tags);
-  formData.append("type", form.file.type)
-  formData.append("fileUrl", form.file);
-  
-
-  try {
-    const response = await fetch(`${url}/rapport/create`, {
-      method: "POST",
-      body: formData, // ✅ on envoie le bon format
-       headers: {
-    Authorization: `Bearer ${token}`, // si tu l’as dans le localStorage par exemple
-  },
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error("Erreur serveur : " + errorText);
-    }
-
-    const respo = await response.json();
-
-    console.log("Réponse du backend :", respo);
-
-    toast.success("Publication ajoutée avec succès");
-    setForm({ title: "", description: "", category: "", tags: "", file: null });
-    fileInput.current.value = "";
-    navigate("/users");
-
-  } catch (error) {
-    console.error("Erreur lors de l'ajout de la publication:", error);
-    toast.error("Une erreur s'est produite lors de l'ajout.");
-  }
+  await ajouterPublication(form, fileInput, token, toast, navigate);
 };
-
 console.log("fichier :", form.file);
   return (
     <div className='mx-auto my-4 p-4 sm:p-6 md:p-8 bg-[#fff] rounded
