@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 export const Acceuil = () => {
   const token = localStorage.getItem("token");
-  // console.log("token",token);
   
   const {setPublications,filteredPublicationsBySearch,url}= usePublication()
   useEffect(() => {

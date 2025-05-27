@@ -97,14 +97,17 @@ export const RapportCard = ({ doc }) => {
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
-
+ const encodedUrl = encodeURIComponent(doc.fileUrl);
   if (isdoc) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } else  {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+  } else if (ispdf) {
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } 
+  } else {
+    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
+  }
+
 };
 
   // Gestion du téléchargement
@@ -144,7 +147,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
+          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>

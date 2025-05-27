@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 // import axios from 'axios'
 
 const PublicationForm = () => {
-    const { form, setForm, fileInput, handleChange,url,addPublication } = usePublication();
+    const { form, setForm, fileInput, handleChange,url } = usePublication();
 
     const token = localStorage.getItem("token");
     console.log("token", token);
@@ -43,7 +43,6 @@ const handleSubmit = async (e) => {
     console.log("Réponse du backend :", respo);
 
     toast.success("Publication ajoutée avec succès");
-    addPublication(respo.rapport); // ✅ récupère l'objet retourné
     setForm({ title: "", description: "", category: "", tags: "", file: null });
     fileInput.current.value = "";
     navigate("/users");

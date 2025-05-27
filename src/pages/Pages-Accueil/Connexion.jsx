@@ -3,10 +3,9 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormContext from "../../Contexts/FormContext";
-import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
  import { signInWithPopup } from "firebase/auth";
- import { auth, provider, db } from "../../services/firebaseService";
+ import { auth, provider} from "../../services/firebaseService";
 
 
 const Connexion = () => {
@@ -15,6 +14,7 @@ const Connexion = () => {
   const navigate = useNavigate();
 
    const {url} = usePublication()
+console.log("url",url);
 
     // if (!users) return null;
   const handleChange = (e) => {

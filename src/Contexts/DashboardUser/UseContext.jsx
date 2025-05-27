@@ -14,16 +14,13 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-  const url = "https://tache21-back.onrender.com";
-  // const url ="http://localhost:8000"
+  // const url = "https://tache21-back.onrender.com";
+  const url ="http://localhost:8080"
 
 
 
   // 🧠 Ajout d'une publication
-  const addPublication = (newData) => {
-    setPublications((prev) => [...prev, newData]);
-    localStorage.setItem("publications", JSON.stringify([...publications, newData]));
-  };
+
 
   
 
@@ -50,7 +47,7 @@ export const ContextProvider = ({ children }) => {
   };
 
   const values = {form,setForm,fileInput,handleChange,
-     addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
+     publications,setPublications,selectedCategory,setSelectedCategory,
      filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
      docHtml,setDocHtml,pdfError,setPdfError,isLoading,setIsLoading
 };

@@ -30,11 +30,9 @@ export const Rapport = () => {
 
    // Mettre à jour un rapport
  
-   
-  
     return <div className="w-full h-full text-[var(--background-color)] mt-5 p-5 flex flex-col gap-4">
-      if(rapports.length===0) return <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">Vous n'avez aucun rapport publier</h1>
       {rapports.map((rapport,i)=><div key={i}>
+         
         <ComponentRapport
            tite={rapport.title} 
            supp={"Supprimer"}
