@@ -42,7 +42,7 @@ export const NavbarUser = () => {
 				<div className="addDocs hidden  md:block">
 					<AddRapport/>
 				</div>
-
+                   
         {/* Toggle menu mobile */}
         <div className="block md:hidden">
           <RiMenuFill
