@@ -1,10 +1,15 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+
 
 export const PageParametresCompte = () => {
   const navigate = useNavigate();
-  const { setUsers } = useContext(AuthContext);
+  // const { setUsers } = useContext(AuthContext);
+  const { users, setUsers } = useContext(AuthContext);
+
+  const {url} = usePublication()
 
   // Lecture initiale depuis le localStorage
   const getInitialUser = () => {
@@ -42,12 +47,40 @@ export const PageParametresCompte = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleSave = () => {
-    console.log("Infos enregistrées :", userInfo);
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    setUsers(userInfo);
-    alert("Modifications enregistrées !");
-  };
+  const handleSave = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Aucun token trouvé. Veuillez vous reconnecter.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${url}/api/users/update`, {
+      method: "PUT", // ou POST selon ton backend
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    if (!response.ok) {
+      throw new Error("Échec de la mise à jour du profil");
+    }
+
+    const updatedUser = await response.json();
+
+    // Mise à jour du contexte et du localStorage
+    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+    setUsers(updatedUser);
+    alert("Modifications enregistrées avec succès !");
+  } catch (error) {
+    console.error("Erreur lors de l'enregistrement :", error);
+    alert("Une erreur est survenue pendant l'enregistrement.");
+  }
+};
+
 
   return (
     <div className="p-6 max-w-3xl mx-auto bg-white rounded-xl shadow-md">
@@ -64,7 +97,7 @@ export const PageParametresCompte = () => {
 
       <div className="mb-6 flex justify-between items-center gap-4">
         <img
-          src={userInfo.photo}
+          src={users.photo}
           alt="profil"
           className="w-20 h-20 rounded-full object-cover border"
         />
