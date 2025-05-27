@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
 const ContextPublication = createContext();
 
@@ -18,6 +18,7 @@ export const ContextProvider = ({ children }) => {
   const fileInput = useRef();
 
   const url = "https://tache21-back.onrender.com";
+  // const url ="http://localhost:8000"
 
 
 
@@ -35,7 +36,7 @@ export const ContextProvider = ({ children }) => {
     : validPublications;
 
   const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-    doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+    doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // 📝 Gestion des champs du formulaire
@@ -47,7 +48,9 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {form,setForm,fileInput,handleChange, addPublication,publications,setPublications,selectedCategory,setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+  const values = {form,setForm,fileInput,handleChange,
+     addPublication,publications,setPublications,selectedCategory,setSelectedCategory,
+     filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
 };
 
   return <ContextPublication.Provider value={values}>{children}</ContextPublication.Provider>;

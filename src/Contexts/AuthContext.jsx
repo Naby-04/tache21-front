@@ -1,9 +1,17 @@
 import React, { createContext, useState } from "react";
 
-const AuthContext = createContext();
+const initialUser = {
+  prenom: "",
+  email: "",
+  isAdmin: false
+}
+const AuthContext = createContext({users: initialUser, setUsers: () => {}, logout: () => {}});
 
 export const AuthProvider = ({ children }) => {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    return userInfo ? JSON.parse(userInfo) : initialUser;
+  });
 
 
   // const fetchProfil = async (e) => {
@@ -12,9 +20,9 @@ export const AuthProvider = ({ children }) => {
   //   if (!token) return;
 
   //   try {
-  //     const response = await fetch(`${url}/api/users/profile`, {
+  //     const response = await fetch(${url}/api/users/profile, {
   //       headers: {
-  //         Authorization: `Bearer ${token}`,
+  //         Authorization: Bearer ${token},
   //       },
   //     });
 
@@ -47,4 +55,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthContext;
+export default AuthContext;

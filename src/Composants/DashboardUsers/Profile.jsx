@@ -64,7 +64,7 @@ export const Profile = () => {
 
   if (!users) return null;
 
-  console.log("users", users.prenom);
+  // console.log("users", users.prenom);
   
 
   return (

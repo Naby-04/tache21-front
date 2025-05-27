@@ -1,30 +1,25 @@
 import { FaCloudDownloadAlt, FaCommentAlt, FaEye } from "react-icons/fa";
 import CommentModal from "../Commentaire/CommentModal";
-import { useEffect, useState, useMemo, useContext } from "react";
+import { useEffect, useState} from "react";
 import TextExpandable from "../TextExpandable";
 import { CommentairesSection } from "../Commentaire/CommentaireSection";
 import { categories } from "../../../data/Categorie";
-import { Document, Page, pdfjs } from 'react-pdf';
 import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import AuthContext from "../../../Contexts/AuthContext";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import PdfViewer from "../PdfViewer/PdfViewer";
 
 export const RapportCard = ({ doc }) => {
   const [docHtml, setDocHtml] = useState(null);
-  const [numPages, setNumPages] = useState(null);
-  const [pdfError, setPdfError] = useState(null);
+  const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const {users} = useContext(AuthContext);
+
+  // console.log("users", users);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
-  const memoizedFile = useMemo(() => ({ url: doc.fileUrl }), [doc.fileUrl]);
 
   // Conversion des DOCX en HTML améliorée
   useEffect(() => {
@@ -66,39 +61,50 @@ export const RapportCard = ({ doc }) => {
     convertDocxToHtml();
   }, [doc.fileUrl, isdoc]);
 
-  // Gestion des événements PDF
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setPdfError(null);
-    setIsLoading(false);
-  };
-
-  const onDocumentLoadError = (error) => {
-    console.error("PDF load error:", error);
-    setPdfError("Erreur de chargement du PDF");
-    setIsLoading(false);
-  };
-
   // Gestion des commentaires
-  const handleCommentSubmit = (comment) => {
-    console.log("Commentaire:", comment, "pour:", doc.id);
+
+  const handleCommentSubmit = async (comment) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(
+      `http://localhost:8000/api/comments/${doc._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comment }),
+      }
+    );
+
+    if (!res.ok) {
+      console.error("Erreur lors de l’ajout du commentaire");
+      return;
+    }
+
+    // Facultatif : Affiche commentaires après ajout
+    setShowComments(true);
     setShowCommentBox(false);
-  };
+  } catch (error) {
+    console.error("Erreur ajout commentaire :", error);
+  }
+};
+
 
   // Gestion du clic sur le document
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
 
-  if (e.target.closest('.download-button')) return;
-
   if (isdoc) {
-    // Solution simple: toujours ouvrir dans le viewer Office Online
-    const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(doc.fileUrl)}`;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } else {
-    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
-  }
+  } else  {
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+  } 
 };
 
   // Gestion du téléchargement
@@ -125,6 +131,9 @@ const handleDocumentClick = (e) => {
       ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
       : [];
 
+
+  // console.log("DOC reçu dans RapportCard :", doc);
+
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
@@ -135,7 +144,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{users.prenom}</p>
+          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>
@@ -157,7 +166,8 @@ const handleDocumentClick = (e) => {
         onClick={handleDocumentClick}
       >
         {/* Overlay au survol - style conservé */}
-        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
+        <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300
+         flex items-center justify-center opacity-0 group-hover:opacity-100 z-10">
           <span className="bg-amber-500 text-white px-4 py-2 rounded-lg font-bold">
             {ispdf ? 'Lire le PDF' : isdoc ? 'Ouvrir le document' : 'Voir le fichier'}
           </span>
@@ -165,28 +175,11 @@ const handleDocumentClick = (e) => {
 
         {ispdf ? (
           <div className="w-full max-h-[250px]">
-            {isLoading && <p>Chargement du PDF...</p>}
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-            <Document
-              file={memoizedFile}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={<p>Chargement...</p>}
-              error={<p className="text-red-500">Erreur de chargement</p>}
-              className="w-full"
-              crossOrigin="anonymous"
-            >
-              <Page 
-                pageNumber={1} 
-                width={null}
-                loading={<p>Chargement de la page...</p>}
-                error={<p className="text-red-500">Erreur d'affichage</p>}
-                className="w-full"
-              />
-            </Document>
+           <PdfViewer file={doc.fileUrl} width={null} />
           </div>
         ) : isdoc ? (
-          <div className="w-full min-h-[200px] bg-gray-100 p-4 overflow-y-auto">
+          <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
             {isLoading ? (
               <p>Chargement du document...</p>
             ) : docHtml ? (
@@ -259,13 +252,12 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Modal commentaire */}
+      
       {showCommentBox && (
         <div className="mt-4">
           <CommentModal
-            isOpen={true}
             onClose={() => setShowCommentBox(false)}
             onSubmit={handleCommentSubmit}
-            documentId={doc.id}
           />
         </div>
       )}
@@ -273,7 +265,7 @@ const handleDocumentClick = (e) => {
       {/* Section Commentaires */}
       {showComments && (
         <div className="mt-4">
-          <CommentairesSection rapportId={doc.id} />
+          <CommentairesSection rapportId={doc._id} />
         </div>
       )}
     </div>
