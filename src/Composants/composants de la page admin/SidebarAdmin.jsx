@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { HiUsers } from "react-icons/hi2";
 import { HiDocumentReport } from "react-icons/hi";
 import { CiLogout } from "react-icons/ci";
+import AuthContext from "../../Contexts/AuthContext";
 
 const SidebarAdmin = ({ setVueActive }) => {
   const [activeItem, setActiveItem] = useState("dashboard"); // par défaut
+  const { users, setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleItemClick = (vue) => {
     setVueActive(vue);
     setActiveItem(vue);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUsers(null);
+    navigate("/");
   };
 
   return (
@@ -78,7 +88,7 @@ const SidebarAdmin = ({ setVueActive }) => {
         </ul>
       </div>
 
-      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4">
+      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4" onClick={handleLogout}>
         <CiLogout />
         <p className="text-amber-50 hidden md:inline">Déconnexion</p>
       </div>

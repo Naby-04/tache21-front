@@ -8,6 +8,8 @@ import Footer from "../../Composants/Composants-Accuiel/Footer";
 import LesServices from "../../Composants/Composants-Accuiel/LesServices";
 
 
+
+
 function HomePage() {
   return ( 
     <div className="">

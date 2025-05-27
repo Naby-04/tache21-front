@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import "./StylePerdo.css";
 
-import Users from "./Users";
+import Users from "../Composants/composants de la page admin/Users";
 import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
+import { usePublication } from "../Contexts/DashboardUser/UseContext";
 
-// import LesUtilisateurs from "../data/LesUtilisateurs";
 
 const services = [
   { icon: "📚", label: "Toutes les catégories" },
@@ -27,20 +27,24 @@ const Admin = () => {
   const [rechercheDashboard, setRechercheDashboard] = useState("");
   const [rechercheRapports, setRechercheRapports] = useState("");
 
+  const {url} = usePublication()
+
   const [allUsers, setAllUsers] = useState([])
   const [filtreUser, setFiltreUser] = useState([]);
   const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
   const [rapportfiltre, setRapportFiltre] = useState([]);
+  const [topRapports, setTopRapports] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
 
-  // 🔁 Récupération des rapports depuis l’API
+  // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
       try {
-        const response = await fetch("http://localhost:8000/rapport/all");
+        const response = await fetch(`${url}/rapport/all`);
         const data = await response.json();
+        console.log(data)
         setRapportsOriginaux(data);
         setRapportFiltre(data);
       } catch (error) {
@@ -56,7 +60,7 @@ const Admin = () => {
       try {
         const token = localStorage.getItem("token"); // récupère le token stocké
 
-        const response = await fetch("http://localhost:8000/api/users/allusers", {
+        const response = await fetch(`${url}/api/users/allusers`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -72,6 +76,26 @@ const Admin = () => {
     };
 
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchTopRapports = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${url}/api/comments/top/commented`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        setTopRapports(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des top rapports :", error);
+      }
+    };
+
+    fetchTopRapports();
   }, []);
 
   // 🔍 Recherche utilisateurs
@@ -127,7 +151,7 @@ const Admin = () => {
     try {
       const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
 
-      const response = await fetch(`http://localhost:8000/rapport/${id}`, {
+      const response = await fetch(`${url}/rapport/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -150,7 +174,7 @@ const Admin = () => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+    const response = await fetch(`${url}/api/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -201,7 +225,7 @@ const Admin = () => {
         {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapports} />
         )}
 
         {vueActive === "users" && (
@@ -226,7 +250,7 @@ const Admin = () => {
                     setSelectedIndex={setSelectedIndex}
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                   {rapportfiltre.map((ele) => (
                     <RapportCard
                       key={ele._id}

@@ -3,7 +3,7 @@ import "../../index.css";
 
 const StatsBox = ({ image, titre, valeur, icone, pourcent }) => {
   return (
-    <div className="flex bg-gray-800 rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2">
+    <div className="flex bg-gray-800 rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2 transition-transform duration-300 hover:scale-102 hover:shadow-lg cursor-pointer">
       <img
         src={image}
         alt=""

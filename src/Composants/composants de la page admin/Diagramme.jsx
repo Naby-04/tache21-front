@@ -1,16 +1,16 @@
+// ./Diagramme.jsx
 import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 
-export default function BasicPie() {
+export default function BasicPie({ utilisateursCompte, rapportsCompte, topRapportsCompte }) {
   return (
     <PieChart
       series={[
         {
           data: [
-            { id: 0, value: 10, label: 'series A' },
-            { id: 1, value: 15, label: 'series B' },
-            { id: 2, value: 20, label: 'series C' },
-            { id: 3, value: 35, label: 'series D' },
+            { id: 0, value: utilisateursCompte, label: 'Utilisateurs' },
+            { id: 1, value: rapportsCompte, label: 'Rapports' },
+            { id: 2, value: topRapportsCompte, label: "Top Rapports"}
           ],
         },
       ]}

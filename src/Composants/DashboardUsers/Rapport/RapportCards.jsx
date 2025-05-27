@@ -132,7 +132,7 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  console.log("DOC reçu dans RapportCard :", doc);
+  // console.log("DOC reçu dans RapportCard :", doc);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
