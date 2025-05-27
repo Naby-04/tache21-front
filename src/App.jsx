@@ -15,6 +15,8 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
+
+
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 
   
@@ -44,6 +46,8 @@ const App = () => {
            <Route path="/publicationRapport" element={<PublicationForm />} />
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
+
+        
          <Toaster position="top-center"/>
 
        </BrowserRouter>
