@@ -16,6 +16,10 @@ import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
+import ChatbotWidget from "./Composants/components/ChatbotWidget";
+; // 👉 importe ton composant ici
+
+
 
 
   
@@ -43,6 +47,8 @@ const App = () => {
            <Route path="/motDePassOublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
          </Routes>
+
+         <ChatbotWidget /> {/* 👉 chatbot affiché partout */}
          <Toaster position="top-center"/>
 
        </BrowserRouter>
