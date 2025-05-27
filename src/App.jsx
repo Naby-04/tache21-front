@@ -16,8 +16,6 @@ import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
 
-import ChatbotWidget from "./Composants/components/ChatbotWidget";
-; // 👉 importe ton composant ici
 
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 
@@ -49,7 +47,7 @@ const App = () => {
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
 
-         <ChatbotWidget /> {/* 👉 chatbot affiché partout */}
+        
          <Toaster position="top-center"/>
 
        </BrowserRouter>
