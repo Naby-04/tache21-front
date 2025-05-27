@@ -188,17 +188,6 @@ const Footer = () => {
               SenRapports © 2025. Tous droits réservés.
             </p>
           </div>
-          {/* <div className="px-4">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="fixed bottom-5 right-5 bg-amber-300 text-white p-3 rounded-full shadow-lg  transition z-50 btnAnime"
-              title="Remonter"
-            >
-              <span className="flex items-center justify-center mx-auto text-gray-800">
-                <FaLongArrowAltUp />
-              </span>
-            </button>
-          </div> */}
         </div>
       </footer>
     </>
