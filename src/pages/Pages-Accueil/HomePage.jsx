@@ -6,6 +6,11 @@ import ProjectDescription from "../../Composants/Composants-Accuiel/ProjectDescr
 import TopReports from "../../Composants/Composants-Accuiel/TopReports";
 import Footer from "../../Composants/Composants-Accuiel/Footer";
 import LesServices from "../../Composants/Composants-Accuiel/LesServices";
+import Chatbot from "../../Composants/Composants-Accuiel/Chatbot";
+
+
+
+
 
 
 function HomePage() {
@@ -17,6 +22,7 @@ function HomePage() {
       <TopReports />
       <ProjectDescription />
       <Footer />
+       <Chatbot /> 
     </div>
   );
 }
