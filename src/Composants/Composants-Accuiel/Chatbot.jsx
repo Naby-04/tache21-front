@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineMessage } from "react-icons/ai";
 
-const ChatbotWidget = () => {
+const Chatbot = () => {
   const [open, setOpen] = useState(false);
 
   const toggleChat = () => {
@@ -35,4 +35,4 @@ const ChatbotWidget = () => {
   );
 };
 
-export default ChatbotWidget;
+export default Chatbot;
