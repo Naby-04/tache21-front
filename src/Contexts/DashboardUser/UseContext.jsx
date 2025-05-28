@@ -38,11 +38,19 @@ export const ContextProvider = ({ children }) => {
   // const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
   //   doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
   // );
-  const filteredPublicationsBySearch = filteredPublications.filter(
-  (doc) =>
-    typeof doc.user?.prenom === "string" &&
-    doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
-);
+//   const filteredPublicationsBySearch = filteredPublications.filter(
+//   (doc) =>
+//     typeof doc.user?.prenom === "string" &&
+//     doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+// );
+const filteredPublicationsBySearch = searchTerm.trim()
+  ? filteredPublications.filter(
+      (doc) =>
+        typeof doc.user?.prenom === "string" &&
+        doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : filteredPublications;
+
 
   // 📝 Gestion des champs du formulaire
   const handleChange = (e) => {
