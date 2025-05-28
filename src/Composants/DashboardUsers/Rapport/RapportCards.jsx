@@ -8,15 +8,15 @@ import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
+import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const RapportCard = ({ doc }) => {
-  const [docHtml, setDocHtml] = useState(null);
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const {url,docHtml, setDocHtml}= usePublication()
 
-  // console.log("users", users);
 
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -68,7 +68,7 @@ export const RapportCard = ({ doc }) => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:8000/api/comments/${doc._id}`,
+      `${url}/api/comments/${doc._id}`,
       {
         method: "POST",
         headers: {
@@ -97,14 +97,17 @@ export const RapportCard = ({ doc }) => {
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
-
+ const encodedUrl = encodeURIComponent(doc.fileUrl);
   if (isdoc) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } else  {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+  } else if (ispdf) {
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } 
+  } else {
+    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
+  }
+
 };
 
   // Gestion du téléchargement
@@ -144,7 +147,7 @@ const handleDocumentClick = (e) => {
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
+          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>
