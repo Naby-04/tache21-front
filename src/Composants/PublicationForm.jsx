@@ -21,10 +21,10 @@ const handleSubmit = async (e) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type)
-  formData.append("fileUrl", form.file); // ✅ bon nom (correspond à upload.single("file"))
+  formData.append("file", form.file); // ✅ bon nom (correspond à upload.single("file"))
 
   try {
-    const response = await fetch(`https://tache21-back.onrender.com/rapport/create`, {
+    const response = await fetch(`${url}/rapport/create`, {
       method: "POST",
       body: formData, // ✅ on envoie le bon format
        headers: {
