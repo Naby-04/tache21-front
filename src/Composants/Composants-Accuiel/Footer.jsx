@@ -65,8 +65,8 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-gray-800 py-5">
-        <div className="flex  flex-col md:flex-row justify-between px-4">
+      <footer className="bg-gray-800 py-10">
+        <div className="flex flex-col md:flex-row justify-between px-4">
           {/* ==============partie logo============== */}
           <div className="flex flex-col gap-8">
             <div>
@@ -82,17 +82,20 @@ const Footer = () => {
           </div>
           {/* ==============partie rapports============== */}
           <div className="flex flex-col gap-4  text-white">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <div className="hover:text-gray-300 text-amber-300">
-                <Link to='/'>Accueil</Link>
+                <Link to='/'>SenRapport</Link>
               </div>
-              <div className="hover:text-gray-300 text-white">
+              <div className="hover:text-amber-300 text-white cursor-pointer">
+                <ScrollLink to="show"  smooth={true} duration={500} offset={-70} >Accueil</ScrollLink>
+              </div>
+              <div className="hover:text-amber-300 text-white cursor-pointer">
                 <ScrollLink to="services"  smooth={true} duration={500} offset={-70} >Services</ScrollLink>
               </div>
-              <div className="hover:text-gray-300">
+              <div className="hover:text-amber-300 text-white cursor-pointer">
                 <ScrollLink to="rapports"  smooth={true} duration={500} offset={-70}>Rapports</ScrollLink>
               </div>
-              <div className="hover:text-gray-300">
+              <div className="hover:text-amber-300 text-white cursor-pointer">
                 <ScrollLink to="a-propos"  smooth={true} duration={500} offset={-70}>À propos</ScrollLink>
               </div>
             </div>
@@ -182,7 +185,7 @@ const Footer = () => {
             {/* ==================Button================== */}
           </div>
         </div>
-        <div className="border-t border-white py-4 mt-2  w-full sm:w-auto flex justify-between">
+        <div className="border-t border-white py-4 mt-5  w-full sm:w-auto flex justify-between">
           <div className="px-4">
             <p className="text-sm  text-white mt-2">
               SenRapports © 2025. Tous droits réservés.

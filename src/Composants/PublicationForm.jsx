@@ -21,7 +21,7 @@ const handleSubmit = async (e) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type)
-  formData.append("fileUrl", form.file); // ✅ bon nom (correspond à upload.single("file"))
+  formData.append("file", form.file); // ✅ bon nom (correspond à upload.single("file"))
 
   try {
     const response = await fetch(`${url}/rapport/create`, {
@@ -53,7 +53,9 @@ const handleSubmit = async (e) => {
   }
 };
 
-console.log("fichier :", form.file);
+console.log(form)
+
+// console.log("fichier :", form.file);
   return (
     <div className='mx-auto my-4 p-4 sm:p-6 md:p-8 bg-[#fff] rounded
       w-full max-w-md sm:max-w-lg md:max-w-2xl
