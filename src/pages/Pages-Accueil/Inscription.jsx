@@ -9,7 +9,6 @@ import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const Inscription = () => {
   // const [error, setError] = useState("");
-  const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
@@ -65,10 +64,6 @@ const Inscription = () => {
       return;
     }
 
-    if (!acceptCGU) {
-      toast.error("Vous devez accepter les conditions générales.");
-      return;
-    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -104,10 +99,13 @@ const Inscription = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
 
-      localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
-      resetFormData();
-      navigate("/connexion");
+      setTimeout(() => {
+        localStorage.setItem("token", data.token);
+        resetFormData();
+        navigate("/connexion");
+      }, 1000); // Attend 1 seconde
+      
     } catch (error) {
       toast.error("Erreur : " + error.message);
       console.error("Erreur lors de l'inscription :", error);
@@ -130,7 +128,7 @@ const Inscription = () => {
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
-                Entrez votre nom
+                Entrez votre nom complet
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
@@ -186,21 +184,12 @@ const Inscription = () => {
                 value={formData.confirmPassword || ""}
                 onChange={handleChange}
               />
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                 <p className="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas.</p>
+                )}
             </div>
 
-            <div className="mb-2 w-[70%]">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox h-5 text-blue-600"
-                  checked={acceptCGU}
-                  onChange={(e) => setAcceptCGU(e.target.checked)}
-                />
-                <span className="ml-2 text-gray-700 text-sm">
-                  J'accepte toutes les conditions générales
-                </span>
-              </label>
-            </div>
+            
 
             <div className="flex w-[70%] items-center justify-between">
               <button

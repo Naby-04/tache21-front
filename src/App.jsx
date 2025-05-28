@@ -24,7 +24,7 @@ import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 const App = () => {
   return (
     <>
-    <ToastContainer/>
+    <ToastContainer position="top-center" autoClose={2000}hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false}pauseOnFocusLoss={false}draggablepauseOnHover={false}theme="light"/>
 
        <BrowserRouter>
          <Routes>
