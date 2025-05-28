@@ -33,21 +33,30 @@ export const PageParametresCompte = () => {
   };
 
   const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const updatedUser = {
-        ...userInfo,
-        photo: reader.result,
-      };
-      setUserInfo(updatedUser);
-      localStorage.setItem("userInfo", JSON.stringify(updatedUser));
-      setUsers(updatedUser); // synchro avec le contexte global
+  const reader = new FileReader();
+  reader.onload = () => {
+    const updatedUser = {
+      ...userInfo,
+      photo: reader.result,      // pour affichage immédiat
+      photoFile: file,           // pour l'upload (NE PAS STOCKER dans localStorage)
     };
-    reader.readAsDataURL(file);
+
+    setUserInfo(updatedUser);
+    setUsers(updatedUser); // synchro avec le contexte
+
+    // ❌ on enlève photoFile ici pour le localStorage
+    const userInfoToStore = { ...updatedUser };
+    delete userInfoToStore.photoFile;
+    localStorage.setItem("userInfo", JSON.stringify(userInfoToStore));
   };
+
+  reader.readAsDataURL(file);
+};
+
+
 const uploadImageToCloudinary = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
@@ -77,13 +86,23 @@ const handleSave = async () => {
   try {
     let photoUrl = userInfo.photo;
 
+    // ⏬ Vérifie si un fichier image a été sélectionné
     if (userInfo.photoFile) {
+      console.log("Upload en cours vers Cloudinary...");
       photoUrl = await uploadImageToCloudinary(userInfo.photoFile);
-      console.log("Nouvelle URL photo:", photoUrl);
+      console.log("✅ Nouvelle URL de la photo :", photoUrl);
+    } else {
+      console.log("📌 Aucune nouvelle image sélectionnée");
     }
 
-    const dataToSend = { ...userInfo, photo: photoUrl };
-    delete dataToSend.photoFile;
+    // 📨 Préparer les données à envoyer
+    const dataToSend = {
+      ...userInfo,
+      photo: photoUrl,
+    };
+    delete dataToSend.photoFile; // ne jamais envoyer l'objet fichier brut
+
+    console.log("📤 Données envoyées au backend :", dataToSend);
 
     const response = await fetch(`${url}/api/users/update`, {
       method: "PUT",
@@ -95,21 +114,28 @@ const handleSave = async () => {
     });
 
     if (!response.ok) {
-      toast.error("Échec de la mise à jour");
+      toast.error("❌ Échec de la mise à jour");
+      return;
     }
 
-    const updatedUser = await response.json();
-    console.log("Profil mis à jour :", updatedUser);
+    const result = await response.json();
 
-    setUsers(updatedUser);
-    localStorage.setItem("userInfo", JSON.stringify(updatedUser));
+    console.log("✅ Réponse du serveur :", result);
+    console.log("✅ Réponse du serveur de l'utilisateur :", result.user);
 
-    toast.success("Modifications enregistrées avec succès !");
+    // 🧠 Mise à jour du contexte utilisateur
+    setUsers(result.user);
+
+    // 💾 Mise à jour du localStorage sans photoFile
+    localStorage.setItem("userInfo", JSON.stringify(result.user));
+
+    toast.success("✅ Modifications enregistrées avec succès !");
   } catch (error) {
-    console.error("Erreur lors de la mise à jour :", error);
+    console.error("❌ Erreur lors de la mise à jour :", error);
     toast.error(error.message || "Une erreur est survenue lors de la mise à jour du profil.");
   }
 };
+
 
 
   return (

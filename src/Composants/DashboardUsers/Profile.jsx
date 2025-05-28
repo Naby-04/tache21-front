@@ -12,12 +12,12 @@ export const Profile = () => {
   const {url} = usePublication()
 
   useEffect(() => {
-    console.log("✅ useEffect exécuté dans le composant Profile");
+    // console.log("✅ useEffect exécuté dans le composant Profile");
      const fetchProfil = async () => {
-      console.log("📡 fetchProfil appelé");
+      // console.log("📡 fetchProfil appelé");
     const token = localStorage.getItem("token");
     if (!token) {
-      console.warn("🚫 Aucun token trouvé");
+      // console.warn("🚫 Aucun token trouvé");
       return;
     }
 
@@ -31,7 +31,7 @@ export const Profile = () => {
       if (!response.ok) throw new Error("Échec récupération profil");
 
       const data = await response.json();
-      console.log("✅ Données utilisateur récupérées :", data);
+      // console.log("✅ Données utilisateur récupérées :", data);
       setUsers(data);
     } catch (error) {
       console.error("Erreur récupération profil :", error);
@@ -68,7 +68,7 @@ export const Profile = () => {
 
   if (!users) return null;
 
-   console.log("users", users.photo);
+  //  console.log("users", users.photo);
   
 
   return (
