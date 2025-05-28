@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom'
 // import axios from 'axios'
 
 const PublicationForm = () => {
-    const { form, setForm, fileInput, handleChange, addPublication,url } = usePublication();
+    const { form, setForm, fileInput, handleChange,url } = usePublication();
 
     const token = localStorage.getItem("token");
-    // console.log("token", token);
+    console.log("token", token);
     
 const navigate = useNavigate()
 const handleSubmit = async (e) => {
@@ -21,7 +21,8 @@ const handleSubmit = async (e) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type)
-  formData.append("fileUrl", form.file); // ✅ bon nom (correspond à upload.single("file"))
+  formData.append("fileUrl", form.file);
+  
 
   try {
     const response = await fetch(`${url}/rapport/create`, {
@@ -42,7 +43,6 @@ const handleSubmit = async (e) => {
     console.log("Réponse du backend :", respo);
 
     toast.success("Publication ajoutée avec succès");
-    addPublication(respo.rapport); // ✅ récupère l'objet retourné
     setForm({ title: "", description: "", category: "", tags: "", file: null });
     fileInput.current.value = "";
     navigate("/users");

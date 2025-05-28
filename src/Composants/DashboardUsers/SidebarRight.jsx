@@ -24,10 +24,10 @@ export const SidebarRight = () => {
   
         {/* Boutons catégories */}
         {categories.map((cat, i) => (
-          <li key={i} className="cursor-pointer">
+          <li key={i} className="cursor-pointer w-full">
             <button
               onClick={() => setSelectedCategory(cat.value)}
-              className={`text-sm px-3 py-1 rounded-md font-medium  text-left transition  cursor-pointer
+              className={`text-sm px-3 py-1 rounded-md font-medium w-full  text-left transition  cursor-pointer
                 ${selectedCategory === cat.value
                   ? `bg-gray-800 text-amber-300`
                   : "bg-gray-200 hover:opacity-80 hover:scale-105 text-gray-700"}`}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineMessage } from "react-icons/ai";
 
-const ChatbotWidget = () => {
+const Chatbot = () => {
   const [open, setOpen] = useState(false);
 
   const toggleChat = () => {
@@ -12,12 +12,11 @@ const ChatbotWidget = () => {
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
         <div
-          className="mb-2 w-[260px] h-[400px] rounded-lg shadow-lg border border-gray-200 overflow-hidden animate-fade-slide"
+          className="mb-2 w-[390px] h-[430px] rounded-lg shadow-lg border-4 border-gray-200 overflow-hidden animate-fade-slide"
         >
           <iframe
             src="https://typebot.co/faq-n5ywjzo"
-            className="w-full h-full"
-            frameBorder="0"
+            className="w-full h-full border-0"
             allow="clipboard-write; microphone"
             title="Chatbot FAQ"
           ></iframe>
@@ -35,4 +34,4 @@ const ChatbotWidget = () => {
   );
 };
 
-export default ChatbotWidget;
+export default Chatbot;

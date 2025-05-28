@@ -32,7 +32,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 							className={({ isActive }) =>
 								`flex items-center gap-2 text-sm p-2 rounded-md ${
 									isActive
-										? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"
+										? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-800"
 								}`
 							}
 						>
