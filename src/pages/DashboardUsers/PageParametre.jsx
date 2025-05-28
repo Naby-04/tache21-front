@@ -119,7 +119,6 @@ const handleSave = async () => {
     }
 
     const result = await response.json();
-
     console.log("Réponse du serveur :", result);
     console.log("Réponse du serveur de l'utilisateur :", result.user);
 
