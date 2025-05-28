@@ -180,9 +180,6 @@ const Connexion = () => {
             </button>
           </div>
 
-       
-        s
-
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
             Vous n'avez pas de compte ?{" "}
