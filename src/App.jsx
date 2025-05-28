@@ -15,6 +15,7 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import ProtectedRoute from "./Routes/ProtectedRoute";
+import PublicRoute from "./Routes/PublicRoute";
 
 
 import { Toaster } from "react-hot-toast";
@@ -32,10 +33,22 @@ const App = () => {
 
        <BrowserRouter>
          <Routes>
-           <Route path="/" element={<HomePage />} />
-           <Route path="/admin" element={<Admin/>} />
-           <Route path="/inscription" element={<Inscription />} />
-           <Route path="/connexion" element={<Connexion />} />
+           <Route path="/" element={
+            <PublicRoute>
+              <HomePage />
+            </PublicRoute>
+            } />
+           <Route path="/admin" element={
+            <ProtectedRoute>
+              <Admin/>
+            </ProtectedRoute>
+            } />
+            {/* ---------------Page authentification--------------- */}
+           <Route path="/inscription" element={<PublicRoute><Inscription /></PublicRoute>} />
+           <Route path="/connexion" element={<PublicRoute><Connexion /></PublicRoute>} />
+           <Route path="/reinitialisermdp/:token" element={<PublicRoute><ReinitialiserMdp/></PublicRoute>} />
+           <Route path="/motdepasseoublie" element={<PublicRoute><MotDePassOublie /></PublicRoute>} />
+            {/* ---------------Page authentification exit--------------- */}
 
            <Route path="/users" element={
             <ProtectedRoute>
@@ -54,20 +67,17 @@ const App = () => {
               </ProtectedRoute>
               } />
            </Route>
-
            <Route path="/pageParametre" element={
             <ProtectedRoute>
                 <PageParametresCompte />
             </ProtectedRoute>
             } />
-           <Route path="/rapports" element={<RapportsAccueil />} />
-           <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
-           <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={
             <ProtectedRoute>
               <PublicationForm />
             </ProtectedRoute>
             } />
+           <Route path="/rapports" element={<PublicRoute><RapportsAccueil /></PublicRoute>} />
            <Route path="/commentaires" element={<CommentairesSection />} />
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
