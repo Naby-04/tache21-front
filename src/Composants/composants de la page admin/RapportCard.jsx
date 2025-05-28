@@ -62,7 +62,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
           <div className="flex gap-2 items-center">
             <div className="w-8 h-8 rounded-full relative bg-amber-200 overflow-hidden">
               <img
-                src={rapport.user?.photoURL || "/images/default-user.png"}
+                src={rapport.userId?.photo || "/images/default-user.png"}
                 alt="Utilisateur"
                 className="absolute w-full h-full object-cover rounded-full"
               />
@@ -109,7 +109,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
             <p className="text-lg font-semibold mb-2 text-red-600">Confirmation de suppression</p>
             <p className="text-sm text-gray-800 mb-4">
               Supprimer le rapport <strong>{rapport.title}</strong> de{" "}
-              <strong>{rapport.user?.prenom}</strong> ?
+              <strong>{rapport.userId?.prenom}</strong> ?
             </p>
             <div className="flex justify-center gap-4 mt-3">
               <button

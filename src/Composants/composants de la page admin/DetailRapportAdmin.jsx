@@ -7,6 +7,7 @@ import mammoth from 'mammoth';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
+  console.log(rapportChoisi)
   const [docHtml, setDocHtml] = useState('');
   const [numPages, setNumPages] = useState(null);
   const [afficherWord, setAfficherWord] = useState(false);
@@ -107,7 +108,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
         <div className="flex flex-col basis-full md:basis-2/3 w-full gap-2">
           <div className="flex gap-3 items-center border-b border-gray-800 pb-3">
             <div className="w-10 h-10 rounded-full relative bg-amber-200">
-              <img src={rapportChoisi.userPhoto} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
+              <img src={rapportChoisi.userId.Photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
               <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
 const TableUser = ({ tabUsers, onDelete }) => {
+  // console.log(tabUsers)
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
@@ -45,7 +46,7 @@ const TableUser = ({ tabUsers, onDelete }) => {
                 <td className="py-2 px-3">
                   <div className="flex items-center gap-2 min-w-0">
                     <img
-                      src={user.photoURL || "/images/default-user.png"}
+                      src={user.photo || "/images/default-user.png"}
                       alt={user.prenom}
                       className="w-6 h-6 bg-amber-300 rounded-full object-cover flex-shrink-0"
                     />
