@@ -18,7 +18,7 @@ export const Acceuil = () => {
 
       
       const data = await response.json();
-      console.log("Publications:", data);
+      // console.log("Publications:", data);
       
       setPublications(data);
     } catch (error) {
