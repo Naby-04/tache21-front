@@ -10,7 +10,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Inscription = () => {
   // const [error, setError] = useState("");
-  const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
@@ -63,10 +62,6 @@ const Inscription = () => {
       return;
     }
 
-    if (!acceptCGU) {
-      toast.error("Vous devez accepter les conditions générales.");
-      return;
-    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -102,8 +97,13 @@ const Inscription = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
 
-      localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
+      setTimeout(() => {
+        localStorage.setItem("token", data.token);
+        resetFormData();
+        navigate("/connexion");
+      }, 1000); // Attend 1 seconde
+      
       resetFormData(); // Réinitialise les champs
       navigate("/connexion");
     } catch (error) {
@@ -127,8 +127,8 @@ const Inscription = () => {
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="prenom">
-                Entrez votre prénom
+              <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
+                Entrez votre nom complet
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -187,6 +187,18 @@ const Inscription = () => {
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
+              <input                                                                                                                                                     
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirm-password"
+                type="password"
+                placeholder="Confirmer votre mot de passe"
+                name="confirmPassword"
+                value={formData.confirmPassword || ""}
+                onChange={handleChange}
+              />
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                 <p className="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas.</p>
+                )}
               <div className="relative">
                 <input
                   className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -208,6 +220,7 @@ const Inscription = () => {
               </div>
             </div>
 
+            
             <div className="mb-2 w-[70%]">
               <label className="inline-flex items-center">
                 <input

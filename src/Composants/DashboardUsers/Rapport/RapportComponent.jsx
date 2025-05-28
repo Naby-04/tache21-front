@@ -9,9 +9,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(tite);
   const [description, setDescription] = useState(children);
-  const [file, setFile] = useState(null);
-  const { url, docHtml, setDocHtml, pdfError, isLoading, setIsLoading } = usePublication();
-  // const { url, docHtml, setDocHtml, pdfError, isLoading, setIsLoading } = usePublication();
+  const [fille, setFile] = useState(null);
+  const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading } = usePublication();
   const ispdf = doc.type === "application/pdf";
   const isdoc =
     doc.type ===
@@ -20,12 +19,12 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
   const rapportId = doc._id;
 
   useEffect(() => {
-    if (!isdoc || !doc.fileUrl) return;
+    if (!isdoc || !doc.file) return;
      
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(doc.fileUrl);
+        const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
 
@@ -56,13 +55,13 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, [doc.file, isdoc]);
 
   const handleDocumentClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(
-      doc.fileUrl
+      doc.file
     )}`;
     window.open(viewerUrl, "_blank", "noopener,noreferrer");
   };
@@ -91,8 +90,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    if (file) {
-      formData.append("file", file);
+    if (fille) {
+      formData.append("file", fille);
     }
 
     try {
@@ -138,7 +137,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
             {ispdf ? (
               <div className="w-full h-[128px]">
                 {pdfError && <p className="text-red-500 text-xs">{pdfError}</p>}
-                <PdfViewer file={doc.fileUrl} width={"96"} height={"128"} />
+                <PdfViewer file={doc.file} width={"96"} height={"128"} />
               </div>
             ) : isdoc ? (
               <div className="w-full max-h-[128px] p-2 text-black">

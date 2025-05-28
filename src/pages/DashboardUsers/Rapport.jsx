@@ -3,7 +3,6 @@ import { ComponentRapport } from "../../Composants/DashboardUsers/Rapport/Rappor
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import { useEffect, useState } from "react";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { HiDocumentArrowDown } from "react-icons/hi2";
 import { AddRapport } from "../../Composants/DashboardUsers/Rapport/AddRapport";
 
 export const Rapport = () => {
