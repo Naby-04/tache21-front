@@ -12,6 +12,8 @@ const PublicationForm = () => {
     console.log("token", token);
     
 const navigate = useNavigate()
+
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   await ajouterPublication(form, fileInput, token, toast, navigate);

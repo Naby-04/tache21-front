@@ -14,8 +14,8 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-  //  const url = "https://tache21-back.onrender.com";
-  const url ="http://localhost:8080"
+   const url = "https://tache21-back.onrender.com";
+  // const url ="http://localhost:8080"
 
 
 
@@ -35,7 +35,9 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,
+         "Connection": "keep-alive"
       },
+      
     });
 
     if (!response.ok) {
