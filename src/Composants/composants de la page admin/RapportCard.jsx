@@ -68,7 +68,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
               />
             </div>
             <div>
-              <p className="text-sm font-medium">{rapport.user?.prenom}</p>
+              <p className="text-sm font-medium">{rapport.userId?.prenom}</p>
               <p className="text-xs text-gray-600">{rapport.category}</p>
             </div>
           </div>

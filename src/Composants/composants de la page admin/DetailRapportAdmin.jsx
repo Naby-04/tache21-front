@@ -110,7 +110,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               <img src={rapportChoisi.userPhoto} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
-              <p className="text-sm sm:text-base font-medium">{rapportChoisi.user.prenom}</p>
+              <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>
               <p className="text-xs sm:text-sm text-gray-600">{rapportChoisi.category}</p>
             </div>
           </div>
