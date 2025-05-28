@@ -63,34 +63,6 @@ export const RapportCard = ({ doc }) => {
 
   // Gestion des commentaires
 
-//   const handleCommentSubmit = async (comment) => {
-//   try {
-//     const token = localStorage.getItem("token");
-
-//     const res = await fetch(
-//       `http://localhost:8000/api/comments/${doc._id}`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify({ comment }),
-//       }
-//     );
-
-//     if (!res.ok) {
-//       console.error("Erreur lors de l’ajout du commentaire");
-//       return;
-//     }
-
-//     // Facultatif : Affiche commentaires après ajout
-//     setShowComments(true);
-//     setShowCommentBox(false);
-//   } catch (error) {
-//     console.error("Erreur ajout commentaire :", error);
-//   }
-// };
 const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
