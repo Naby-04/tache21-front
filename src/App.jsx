@@ -14,6 +14,9 @@ import Inscription from "./pages/Pages-Accueil/Inscription";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
+import ProtectedRoute from "./Routes/ProtectedRoute";
+
+
 import { Toaster } from "react-hot-toast";
 
 
@@ -34,17 +37,37 @@ const App = () => {
            <Route path="/inscription" element={<Inscription />} />
            <Route path="/connexion" element={<Connexion />} />
 
-           <Route path="/users" element={<DashboardUsers />}>
+           <Route path="/users" element={
+            <ProtectedRoute>
+                <DashboardUsers />
+            </ProtectedRoute>
+            }>
              <Route index element={<Acceuil />} />
-             <Route path="rapport" element={<Rapport />} />
-             <Route path="rapportTelecharger" element={<RapportTelecharger />} />
+             <Route path="rapport" element={
+              <ProtectedRoute>
+                <Rapport />
+              </ProtectedRoute>
+              } />
+             <Route path="rapportTelecharger" element={
+              <ProtectedRoute>
+                <RapportTelecharger />
+              </ProtectedRoute>
+              } />
            </Route>
 
-           <Route path="/pageParametre" element={<PageParametresCompte />} />
+           <Route path="/pageParametre" element={
+            <ProtectedRoute>
+                <PageParametresCompte />
+            </ProtectedRoute>
+            } />
            <Route path="/rapports" element={<RapportsAccueil />} />
            <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
            <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
-           <Route path="/publicationRapport" element={<PublicationForm />} />
+           <Route path="/publicationRapport" element={
+            <ProtectedRoute>
+              <PublicationForm />
+            </ProtectedRoute>
+            } />
            <Route path="/commentaires" element={<CommentairesSection />} />
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
