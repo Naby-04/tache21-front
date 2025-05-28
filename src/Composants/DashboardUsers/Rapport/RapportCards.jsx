@@ -142,12 +142,12 @@ const handleDocumentClick = (e) => {
       {/* En-tête avec auteur */}
       <div className="flex items-center gap-3 mb-3">
         <img
-          src="/images/dev.jpg"
+          src={doc.userId ? `${doc.userId.photo} ` : " "}
           alt="Auteur"
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user.prenom} ` : "Utilisateur inconnu " } </p>
+          <p className="font-semibold text-sm text-gray-800">{doc.userId ? `${doc.userId.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
             <small className="text-gray-500">{doc.createdAt}</small>
