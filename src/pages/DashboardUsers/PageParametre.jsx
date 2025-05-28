@@ -90,9 +90,9 @@ const handleSave = async () => {
     if (userInfo.photoFile) {
       console.log("Upload en cours vers Cloudinary...");
       photoUrl = await uploadImageToCloudinary(userInfo.photoFile);
-      console.log("✅ Nouvelle URL de la photo :", photoUrl);
+      console.log("Nouvelle URL de la photo :", photoUrl);
     } else {
-      console.log("📌 Aucune nouvelle image sélectionnée");
+      console.log("Aucune nouvelle image sélectionnée");
     }
 
     // 📨 Préparer les données à envoyer
@@ -102,7 +102,7 @@ const handleSave = async () => {
     };
     delete dataToSend.photoFile; // ne jamais envoyer l'objet fichier brut
 
-    console.log("📤 Données envoyées au backend :", dataToSend);
+    console.log("Données envoyées au backend :", dataToSend);
 
     const response = await fetch(`${url}/api/users/update`, {
       method: "PUT",
@@ -114,14 +114,14 @@ const handleSave = async () => {
     });
 
     if (!response.ok) {
-      toast.error("❌ Échec de la mise à jour");
+      toast.error("Échec de la mise à jour");
       return;
     }
 
     const result = await response.json();
 
-    console.log("✅ Réponse du serveur :", result);
-    console.log("✅ Réponse du serveur de l'utilisateur :", result.user);
+    console.log("Réponse du serveur :", result);
+    console.log("Réponse du serveur de l'utilisateur :", result.user);
 
     // 🧠 Mise à jour du contexte utilisateur
     setUsers(result.user);
@@ -129,9 +129,9 @@ const handleSave = async () => {
     // 💾 Mise à jour du localStorage sans photoFile
     localStorage.setItem("userInfo", JSON.stringify(result.user));
 
-    toast.success("✅ Modifications enregistrées avec succès !");
+    toast.success("Modifications enregistrées avec succès !");
   } catch (error) {
-    console.error("❌ Erreur lors de la mise à jour :", error);
+    console.error("Erreur lors de la mise à jour :", error);
     toast.error(error.message || "Une erreur est survenue lors de la mise à jour du profil.");
   }
 };
