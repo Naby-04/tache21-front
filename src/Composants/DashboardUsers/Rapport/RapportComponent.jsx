@@ -8,7 +8,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(tite);
   const [description, setDescription] = useState(children);
-  const [file, setFile] = useState(null);
+  const [fille, setFile] = useState(null);
   const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading } = usePublication();
   const ispdf = doc.type === "application/pdf";
   const isdoc =
@@ -18,12 +18,12 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
   const rapportId = doc._id;
 
   useEffect(() => {
-    if (!isdoc || !doc.fileUrl) return;
+    if (!isdoc || !doc.file) return;
      
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(doc.fileUrl);
+        const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
 
@@ -54,13 +54,13 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, [doc.file, isdoc]);
 
   const handleDocumentClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(
-      doc.fileUrl
+      doc.file
     )}`;
     window.open(viewerUrl, "_blank", "noopener,noreferrer");
   };
@@ -90,8 +90,8 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    if (file) {
-      formData.append("file", file);
+    if (fille) {
+      formData.append("file", fille);
     }
 
     try {
@@ -124,7 +124,7 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     setDescription(doc.description || "");
   }
 }, [editMode, doc]);
-console.log("Affichage du PDF :", doc.fileUrl);
+console.log("Affichage du PDF :", doc.file);
   return (
     <div className="p-4 text-[var(--text-couleur)] bg-[var(--background-color)] min-w-[300px] min-h-[200px] flex-auto flex justify-center items-center composantRapport">
       <div className="flex gap-4 w-full bg-[#f2f2f2] p-2">
@@ -132,7 +132,7 @@ console.log("Affichage du PDF :", doc.fileUrl);
           {ispdf ? (
             <div className="w-full h-full ">
               {pdfError && <p className="text-red-500">{pdfError}</p>}
-              <PdfViewer file={doc.fileUrl} width={"200"} height={"200"} />
+              <PdfViewer file={doc.file} width={"200"} height={"200"} />
             </div>
           ) : isdoc ? (
             <div className="w-full h-full bg-gray-100 p-4 ">
