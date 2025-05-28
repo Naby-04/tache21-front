@@ -18,7 +18,7 @@ export const DashboardUsers = () => {
 					<SidebarUser />
 				</aside>
 
-				<main className="flex-1 ml-0 lg:ml-[250px] mr-0 lg:mr-[250px] h-[calc(100vh-70px)] overflow-y-auto p-4 no-scrollbar">
+				<main className="flex-1 ml-0 lg:ml-[250px] mr-0 lg:mr-[250px] h-[calc(100vh-70px)] overflow-y-auto p-4 no-scrollbar bg-[#fff]">
 					<Outlet />
 				</main>
 

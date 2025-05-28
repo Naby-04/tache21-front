@@ -45,6 +45,7 @@ export const SidebarUser = () => {
 						<span>{link.label}</span>
 					</NavLink>
 				))}
+				
 			</ul>
 
 			<hr className="mt-6 h-[2px] bg-gray-200" />

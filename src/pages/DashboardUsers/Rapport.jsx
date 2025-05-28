@@ -4,6 +4,7 @@ import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import { useEffect, useState } from "react";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { HiDocumentArrowDown } from "react-icons/hi2";
+import { AddRapport } from "../../Composants/DashboardUsers/Rapport/AddRapport";
 
 export const Rapport = () => {
    const {url} = usePublication()
@@ -32,10 +33,11 @@ export const Rapport = () => {
    // Mettre à jour un rapport
  
     return <div className="w-full h-full text-[var(--background-color)] mt-5 p-5 flex flex-col gap-4">
-      {rapports.length === 0 && <div className="text-2xl font-semibold text-center flex items-center justify-center
-      h-screen text-gray-800 mb-8">Vous n'avez pas encore de rapport
+      {rapports.length === 0 && <div className=" text-center flex flex-col gap-4 items-center justify-center
+      h-screen text-gray-800 mb-8">
+         <h1 className="text-2xl font-semibold">Vous n'avez pas encore de rapports</h1>
       <div className="ml-2">
-         <HiDocumentArrowDown />
+         <AddRapport />
       </div>
       </div>}
       {rapports.map((rapport,i)=><div key={i}>

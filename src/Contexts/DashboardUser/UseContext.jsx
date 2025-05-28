@@ -47,7 +47,6 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
 
     // ✅ Mettre à jour la liste directement ici
     setPublications((prev) => [res.rapport, ...prev]);
-
     toast.success("Publication ajoutée avec succès");
 
     // Reset formulaire
@@ -61,9 +60,6 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
     toast.error("Erreur lors de l'ajout");
   }
 };
-
-
-  
 
   // 🎯 Filtrage des publications
   const validPublications = Array.isArray(publications) ? publications : [];
