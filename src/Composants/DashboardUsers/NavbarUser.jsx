@@ -8,6 +8,7 @@ import { AddRapport } from "./Rapport/AddRapport";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { IoNotifications } from "react-icons/io5";
 import { NotificationModal } from "../NotificationModal";
+import logo from "../../assets/SenRapport.png";
 // import { FaMessage } from "react-icons/fa6";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
@@ -72,8 +73,7 @@ export const NavbarUser = () => {
         
 				<div>
 					<div className="md:flex items-center gap-2 hidden">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
-          <span className="text-xl font-bold text-amber-300">SenRapport</span>
+          <img src={logo} alt="Logo" className="w-26" />
         </div>
 					<div className="block md:hidden">
 						<Profile />
