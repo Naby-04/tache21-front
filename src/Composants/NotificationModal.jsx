@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa";
 
+
 export const NotificationModal = ({ isOpen, onClose, notifications,onMarkAsRead }) => {
   const modalRef = useRef(null);
 
