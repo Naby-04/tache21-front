@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef  } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
@@ -135,33 +135,34 @@ const handleSave = async () => {
   }
 };
 
+const fileInputRef = useRef(null);
+
+ const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
 
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white rounded-xl shadow-md">
-      <button
-        className="px-2 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg cursor-pointer mb-6"
-        onClick={() => navigate("/users")}
-      >
-        Retour au dashboard
-      </button>
-
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Paramètres du compte
-      </h1>
-
-      <div className="mb-6 flex justify-between items-center gap-4">
+    <div className="mt-9 md:mt-0 max-w-3xl mx-auto">
+      <p className="text-2xl font-bold text-gray-800 mb-3">
+        Modifier le profil
+      </p>
+      <div className="mb-2 flex justify-between items-center gap-4 bg-gray-800 px-4 py-2 rounded-lg">
         <img
           src={users.photo}
           alt="profil"
-          className="w-20 h-20 rounded-full object-cover border"
+          onClick={handleImageClick}
+          className="w-20 h-20 rounded-full object-cover cursor-pointer border-2 border-white"
         />
         <div>
           <label
             htmlFor="photo"
-            className="text-sm cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
+            className="text-sm cursor-pointer bg-white hover:bg-amber-500 text-gray-800 font-bold py-2 px-4 rounded"
           >
-            Modifier votre photo de profil
+            Modifier la photo
           </label>
           <input
             type="file"
@@ -169,61 +170,58 @@ const handleSave = async () => {
             className="mt-1 text-sm text-gray-600 hidden"
             id="photo"
             name="photo"
+            ref={fileInputRef}
             onChange={handlePhotoChange}
           />
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Nom complet
+      <div className="bg-gray-50 p-4 rounded-lg shadow-lg">
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className="text-sm font-medium text-gray-800">
+              Nom complet
+            </label>
+            <input
+              type="text"
+              name="prenom"
+              value={userInfo.prenom}
+              onChange={handleInputChange}
+              className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring"
+            />
+          </div>
+  
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-800">
+              Biographie
+            </label>
+            <textarea name="biographie" id="userBiographie" className="border border-gray-700 rounded-sm placeholder:text-gray-700 p-2" rows={3} placeholder="Bio"></textarea>
+          </div>
+        </div>
+  
+        <div className="mt-3">
+          <label className="text-sm font-medium text-gray-800">
+            Changer le mot de passe
           </label>
           <input
-            type="text"
-            name="prenom"
-            value={users.prenom}
-            onChange={handleInputChange}
-            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
+            type="password"
+            name="newPassword"
+            placeholder="Nouveau mot de passe"
+            className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring"
           />
         </div>
-
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Adresse email
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={users.email}
-            onChange={handleInputChange}
-            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
-          />
+  
+        <div className="mt-6 flex flex-col md:flex-row gap-2 items-start md:justify-between md:items-center">
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 font-bold bg-gray-800 text-white rounded hover:bg-gray-700 transition"
+          >
+            Enregistrer les modifications
+          </button>
+          <button className="bg-red-500 font-bold text-white p-2 rounded-sm hover:bg-red-700 text-sm">
+            Supprimer mon compte
+          </button>
         </div>
-      </div>
-
-      <div className="mt-6">
-        <label className="text-sm font-medium text-gray-700">
-          Changer le mot de passe
-        </label>
-        <input
-          type="password"
-          name="newPassword"
-          placeholder="Nouveau mot de passe"
-          className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring"
-        />
-      </div>
-
-      <div className="mt-6 flex justify-between items-center">
-        <button
-          onClick={handleSave}
-          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
-        >
-          Enregistrer les modifications
-        </button>
-        <button className="text-red-500 hover:underline text-sm">
-          Supprimer mon compte
-        </button>
       </div>
     </div>
   );

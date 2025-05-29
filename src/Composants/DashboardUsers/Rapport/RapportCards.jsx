@@ -69,7 +69,7 @@ export const RapportCard = ({ doc }) => {
 
   // Gestion des commentaires
 
-  const handleCommentSubmit = async (comment) => {
+const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -90,13 +90,14 @@ export const RapportCard = ({ doc }) => {
       return;
     }
 
-    // Facultatif : Affiche commentaires après ajout
+    // ✅ Afficher commentaires après ajout
     setShowComments(true);
     setShowCommentBox(false);
   } catch (error) {
     console.error("Erreur ajout commentaire :", error);
   }
 };
+
 
 
   // Gestion du clic sur le document
@@ -189,7 +190,11 @@ const handleDocumentClick = (e) => {
           <p className="font-semibold text-sm text-gray-800">{doc.userId ? `${doc.userId.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
-            <small className="text-gray-500">{doc.createdAt}</small>
+            <small className="text-gray-500">{new Date(doc.createdAt).toLocaleString("fr-FR", {
+             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+             hour: '2-digit', minute: '2-digit'
+           })}
+          </small>
           </p>
         </div>
       </div>
@@ -267,22 +272,41 @@ const handleDocumentClick = (e) => {
       {/* Barre d'actions */}
       <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
         <button
-          onClick={() => setShowCommentBox(!showCommentBox)}
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-        >
-          <FaCommentAlt />
-          <span className="hidden md:block">Commenter</span>
-        </button>
+  onClick={() => {
+    setShowCommentBox((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowComments(false); // Masquer les commentaires si on ouvre le champ
+      }
+      return newState;
+    });
+  }}
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+>
+  <FaCommentAlt />
+  <span className="hidden md:block">Commenter</span>
+</button>
 
-        <button 
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-          onClick={() => setShowComments(!showComments)}
-        >
-          <FaEye />
-          <span className="hidden md:block">
-            {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
-          </span>
-        </button>
+
+
+        <button
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+  onClick={() => {
+    setShowComments((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowCommentBox(false); // Masquer le champ de commentaire si on ouvre les commentaires
+      }
+      return newState;
+    });
+  }}
+>
+  <FaEye />
+  <span className="hidden md:block">
+    {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
+  </span>
+</button>
+
 
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
