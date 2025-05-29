@@ -6,11 +6,10 @@ import { signInWithPopup } from "firebase/auth";
 import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
+import { FaEye, FaEyeSlash , FaArrowLeft } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Inscription = () => {
   // const [error, setError] = useState("");
-  const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
 
@@ -63,10 +62,6 @@ const Inscription = () => {
       return;
     }
 
-    if (!acceptCGU) {
-      toast.error("Vous devez accepter les conditions générales.");
-      return;
-    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -102,8 +97,13 @@ const Inscription = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
 
-      localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
+      setTimeout(() => {
+        localStorage.setItem("token", data.token);
+        resetFormData();
+        navigate("/connexion");
+      }, 1000); // Attend 1 seconde
+      
       resetFormData(); // Réinitialise les champs
       navigate("/connexion");
     } catch (error) {
@@ -112,7 +112,14 @@ const Inscription = () => {
     }
   };
 
-  return (
+  return (<div className="min-h-screen md:h-screen bg-gray-100">
+      <button
+  onClick={() => navigate(-1)}
+  className="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2"
+  aria-label="Retour"
+>
+  <FaArrowLeft /> Retour
+</button>
     <div className="min-h-screen md:h-screen flex bg-gray-100">
       <div className="bg-gray-100 rounded-lg w-full flex 1/3">
         <div className="sm:flex justify-center flex-col w-[50%] p-10 hidden">
@@ -121,14 +128,15 @@ const Inscription = () => {
 
         {/* Partie droite */}
         <div className="md:w-[50%] text-xs px-8 flex flex-col items-center justify-center">
+       
           <div className="mb-4">
             <h2 className="text-2xl font-bold text-gray-800">Créer un compte</h2>
           </div>
 
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-700 text-base font-bold mb-2" htmlFor="prenom">
-                Entrez votre prénom
+              <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
+                Entrez votre nom complet
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -188,45 +196,36 @@ const Inscription = () => {
                 Confirmer le mot de passe
               </label>
               <div className="relative">
-                <input
-                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                  id="confirm-password"
-                  type={showConfirm ? "text" : "password"}
-                  placeholder="Confirmer votre mot de passe"
-                  name="confirmPassword"
-                  value={formData.confirmPassword || ""}
-                  onChange={handleChange}
-                />
-                <button
+              <input                                                                                                                                                     
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirm-password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Confirmer votre mot de passe"
+                name="confirmPassword"
+                value={formData.confirmPassword || ""}
+                onChange={handleChange}
+              />
+              <button
                   type="button"
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                  onClick={() => setShowConfirm((prev) => !prev)}
+                  onClick={() => setShowPassword((prev) => !prev)}
                   tabIndex={-1}
                 >
-                  {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                 <p className="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas.</p>
+                )}
               </div>
             </div>
 
-            <div className="mb-2 w-[70%]">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox h-5 text-blue-600"
-                  checked={acceptCGU}
-                  onChange={(e) => setAcceptCGU(e.target.checked)}
-                />
-                <span className="ml-2 text-gray-800 text-sm">
-                  J'accepte toutes les conditions générales
-                </span>
-              </label>
-            </div>
+            
+            
 
             <div className="flex w-[70%] items-center justify-between">
               <button
-                className="bg-gray-800 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+                className="bg-gray-800 hover:bg-gray-600 hover:text-white text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full cursor-pointer"
                 type="submit"
-                disabled={!acceptCGU}
               >
                 S'inscrire
               </button>
@@ -242,7 +241,7 @@ const Inscription = () => {
           <div className="flex w-[80%] items-center justify-center">
             <button
               onClick={handleGoogleLogin}
-              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 hover:text-white text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%] cursor-pointer"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
@@ -260,6 +259,7 @@ const Inscription = () => {
           {/* {error && <p className="text-red-500 mt-2">{error}</p>} */}
         </div>
       </div>
+    </div>
     </div>
   );
 };

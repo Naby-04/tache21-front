@@ -48,15 +48,15 @@ export const Profile = () => {
   }, []);
 
   // Redirection automatique selon le rôle
-  useEffect(() => {
-    if (users) {
-      if (users.isAdmin) {
-        navigate("/admin");
-      } else {
-        navigate("/users");
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (users) {
+  //     if (users.isAdmin) {
+  //       navigate("/admin");
+  //     } else {
+  //       navigate("/users");
+  //     }
+  //   }
+  // }, []);
 
   // console.log("users", users);
   

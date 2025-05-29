@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
-export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconbtn3,
-   iconbnt1, iconbtn2, date, onDeleteSuccess,onUpdateSuccess}) => {
+
+export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
+   iconbtn2, date, onDeleteSuccess, onUpdateSuccess }) => {
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(tite);
   const [description, setDescription] = useState(children);
-  const [file, setFile] = useState(null);
+  const [fille, setFile] = useState(null);
   const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading } = usePublication();
   const ispdf = doc.type === "application/pdf";
   const isdoc =
@@ -18,12 +19,12 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
   const rapportId = doc._id;
 
   useEffect(() => {
-    if (!isdoc || !doc.fileUrl) return;
+    if (!isdoc || !doc.file) return;
      
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(doc.fileUrl);
+        const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
 
@@ -54,13 +55,13 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, [doc.file, isdoc]);
 
   const handleDocumentClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(
-      doc.fileUrl
+      doc.file
     )}`;
     window.open(viewerUrl, "_blank", "noopener,noreferrer");
   };
@@ -68,6 +69,9 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
   const handleDelete = async (rapportId) => {
     const confirme = window.confirm("Voulez-vous vraiment supprimer ce rapport ?");
     if (!confirme) return;
+
+    console.log("token", localStorage.getItem("token"));
+    
 
     try {
       const response = await fetch(`${url}/rapport/deleteMyRapport/${rapportId}`, {
@@ -82,16 +86,17 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
       if (onDeleteSuccess) onDeleteSuccess(rapportId);
     } catch (err) {
       console.error("Erreur de suppression :", err);
+      console.log("rapportId", rapportId);
+      
     }
   };
-
 
   const handleUpdateRapport = async () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    if (file) {
-      formData.append("file", file);
+    if (fille) {
+      formData.append("file", fille);
     }
 
     try {
@@ -119,108 +124,110 @@ export const ComponentRapport = ({ doc, tite, children, view, supp, modif, iconb
   };
 
   useEffect(() => {
-  if (editMode) {
-    setTitle(doc.title);
-    setDescription(doc.description || "");
-  }
-}, [editMode, doc]);
-console.log("Affichage du PDF :", doc.fileUrl);
+    if (editMode) {
+      setTitle(doc.title);
+      setDescription(doc.description || "");
+    }
+  }, [editMode, doc]);
+
   return (
-    <div className="p-4 text-[var(--text-couleur)] bg-[var(--background-color)] min-w-[300px] min-h-[200px] flex-auto flex justify-center items-center composantRapport">
-      <div className="flex gap-4 w-full bg-[#f2f2f2] p-2">
-        <div className="image w-full flex-auto max-h-[200px] overflow-hidden">
-          {ispdf ? (
-            <div className="w-full h-full ">
-              {pdfError && <p className="text-red-500">{pdfError}</p>}
-              <PdfViewer file={doc.fileUrl} width={"200"} height={"200"} />
-            </div>
-          ) : isdoc ? (
-            <div className="w-full h-full bg-gray-100 p-4 ">
-              {isLoading ? (
-                <p>Chargement du document...</p>
-              ) : docHtml ? (
-                <div
-                  className="docx-preview max-h-64"
-                  dangerouslySetInnerHTML={{ __html: docHtml }}
-                />
-              ) : (
-                <p>Document non disponible</p>
-              )}
-            </div>
-          ) : (
-            <div className="w-full">
+    <div className="w-full h-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+      <div className="flex-1 p-4 flex flex-col bg-gray-100">
+        <div className="flex flex-1 gap-4">
+          {/* Preview section - fixed width but flexible height */}
+          <div 
+            className="w-24 flex-shrink-0 rounded flex justify-center overflow-hidden cursor-pointer"
+            onClick={handleDocumentClick}
+          >
+            {ispdf ? (
+              <div className="w-full h-[128px]">
+                {pdfError && <p className="text-red-500 text-xs">{pdfError}</p>}
+                <PdfViewer file={doc.file} width={"96"} height={"128"} />
+              </div>
+            ) : isdoc ? (
+              <div className="w-full max-h-[128px] p-2 text-black">
+                {isLoading ? (
+                  <p className="text-xs text-gray-500">Chargement...</p>
+                ) : docHtml ? (
+                  <div
+                    className="docx-preview h-full text-xs overflow-hidden"
+                    dangerouslySetInnerHTML={{ __html: docHtml }}
+                  />
+                ) : (
+                  <p className="text-xs text-gray-500">Document non disponible</p>
+                )}
+              </div>
+            ) : (
               <img
                 src="/images/word.jpg"
                 alt={doc.title}
-                className="w-full h-[200px] object-cover"
+                className="w-full h-full object-cover"
               />
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div className="contenu space-y-1">
-            {editMode ? (
-              <>
-                <input
-                   className="w-full border px-2 py-1 rounded"
-                   value={title}
-                   onChange={(e) => setTitle(e.target.value)}
-                 />
-                 <textarea
-                   className="w-full border px-2 py-1 rounded text-sm"
-                   rows={3}
-                   value={description}
-                   onChange={(e) => setDescription(e.target.value)}
-                 />
-                 <input
-                   type="file"
-                   accept=".pdf,.doc,.docx"
-                   onChange={(e) => setFile(e.target.files[0])}
-                 />
-              </>
-            ) : (
-              <>
-                <h1 className="font-semibold">{tite}</h1>
-                <div>Date : <span className="font-light text-[10px]">{date}</span></div>
-                <div className="text-sm line-clamp-2">{children}</div>
-              </>
             )}
           </div>
 
-          <div className="action_button mt-2 flex gap-4 flex-wrap text-[12px]">
-            <button
-              className="flex gap-2 items-center justify-center"
-              onClick={handleDocumentClick}
-            >
-              <span className="hidden md:block">{view}</span> {iconbnt1}
-            </button>
-
-            <button
-              className="flex gap-2 items-center justify-center"
-              onClick={() => handleDelete(rapportId)}
-            >
-              <span className="hidden md:block">{supp}</span> {iconbtn2}
-            </button>
-
+          {/* Content section - takes remaining space */}
+          <div className="flex-1 flex flex-col">
             {editMode ? (
-              <button
-                className="flex gap-2 items-center justify-center text-green-600"
-                onClick={handleUpdateRapport}
-              >
-                <span className="hidden md:block">Enregistrer</span> ✅
-              </button>
+              <div className="space-y-2 flex-1 text-gray-800">
+                <input
+                  className="w-full border-b border-gray-300 px-1 py-1 text-sm focus:outline-none focus:border-amber-500"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <textarea
+                  className="w-full flex-1 border border-gray-300 px-1 py-1 rounded text-xs"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  className="text-xs"
+                />
+              </div>
             ) : (
-              <button
-                className="flex gap-2 items-center justify-center"
-                onClick={() => setEditMode(true)}
-              >
-                <span className="hidden md:block">{modif}</span> {iconbtn3}
-              </button>
+              <div className="flex-1 space-y-1 text-black">
+                <h1 className="text-sm font-semibold text-gray-800">{tite}</h1>
+                <p className="text-xs text-gray-500 italic">by {doc.author || "Unknown Author"}</p>
+                <p className="text-xs text-gray-600 font-light">Journal/Conference</p>
+                <div className="text-xs text-gray-700 mt-2 line-clamp-4 flex-1">{children}</div>
+                <p className="text-xs text-gray-400 mt-1">Date: {date}</p>
+              </div>
             )}
+
+            {/* Actions - fixed at bottom of content section */}
+            <div className="mt-auto pt-2">
+              <div className="flex justify-center gap-6 items-center">
+                <button
+                  className="text-amber-600 border-1 p-2 rounded text-xs hover:bg-amber-50 transition-colors"
+                  onClick={editMode ? handleUpdateRapport : () => setEditMode(true)}
+                >
+                  {editMode ? (
+                    <span className="flex items-center gap-1">
+                      <span>Enregistrer</span> ✅
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1">
+                      <span>{modif}</span> {iconbtn3}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  className="text-red-600 text-xs hover:bg-red-50 border-1 p-2 rounded flex items-center gap-1"
+                  onClick={() => handleDelete(rapportId)}
+                >
+                  <span>{supp}</span> {iconbtn2}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+   
     </div>
   );
 };
