@@ -37,6 +37,7 @@ const Admin = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
+  const [telecharge, setTelechargement] = useState([])
 
   // Récupération des rapports depuis l’API
   useEffect(() => {
@@ -98,6 +99,21 @@ const Admin = () => {
     fetchTopRapports();
   }, []);
 
+  useEffect(() => {
+    const fetchTelechargement = async () => {
+      try {
+        const response = await fetch(`${url}/download/all/rapport`);
+
+        const data = await response.json();
+        setTelechargement(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des top rapports :", error);
+      }
+    };
+
+    fetchTelechargement();
+  }, []);
+
   // 🔍 Recherche utilisateurs
   const changement = (utile) => {
     setRecherche(utile);
@@ -148,33 +164,63 @@ const Admin = () => {
   };
 
   const supprimerRapport = async (id) => {
-    try {
-      const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
+  try {
+    const token = localStorage.getItem("token");
 
-      const response = await fetch(`${url}/rapport/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+    const response = await fetch(`${url}/rapport/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-      if (response.ok) {
-        const supUnRap = rapportfiltre.filter((r) => r._id !== id);
-        const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
+    if (response.ok) {
+      const supUnRap = rapportfiltre.filter((r) => r._id !== id);
+      const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
 
-        setRapportFiltre(supUnRap);
-        setRapportsOriginaux(supRapport);
-
-        // const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
-        // setRapportFiltre(nouveauTableau);
-      } else {
-        console.error("Erreur lors de la suppression");
-      }
-    } catch (error) {
-      console.error("Erreur serveur :", error);
+      setRapportFiltre(supUnRap);
+      setRapportsOriginaux(supRapport);
+      // setRapportFiltre((prev) => prev.filter((r) => r._id !== id));
+      // setRapportsOriginaux((prev) => prev.filter((r) => r._id !== id));
+      setTopRapports((prev) => prev.filter((t) => t.rapport._id !== id));
+    } else {
+      const errorText = await response.text();
+      console.error(`Erreur lors de la suppression. Status: ${response.status}, Message: ${errorText}`);
     }
-  };
+  } catch (error) {
+    console.error("Erreur serveur :", error);
+  }
+};
+
+  // const supprimerRapport = async (id) => {
+  //   try {
+  //     const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
+
+  //     const response = await fetch(`${url}/rapport/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const supUnRap = rapportfiltre.filter((r) => r._id !== id);
+  //       const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
+
+  //       setRapportFiltre(supUnRap);
+  //       setRapportsOriginaux(supRapport);
+
+  //       // const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
+  //       // setRapportFiltre(nouveauTableau);
+  //     } else {
+  //       console.error("Erreur lors de la suppression");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erreur serveur :", error);
+  //   }
+  // };
 
   const supprimerUtilisateur = async (id) => {
   try {
@@ -231,7 +277,7 @@ const Admin = () => {
         {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapports} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapports} telechargement={telecharge} />
         )}
 
         {vueActive === "users" && (

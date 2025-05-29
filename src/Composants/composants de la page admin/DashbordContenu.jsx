@@ -12,7 +12,7 @@ import Image3 from "../../assets/back3.jpg";
 import Image4 from "../../assets/back4.jpg";
 import BasicPie from "./Diagramme";
 
-const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports }) => {
+const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telechargement }) => {
 
   return (
     <div>
@@ -37,7 +37,7 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports }) => 
             image={Image3}
             pourcent="30"
             icone={<FaFileDownload />}
-            valeur="67"
+            valeur={telechargement.length}
           />
           <StatsBox
             titre="Top Rapports"
@@ -55,6 +55,7 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports }) => 
               utilisateursCompte={utilisateurs.length}
               rapportsCompte={rapports.length}
               topRapportsCompte={topRapports.length}
+              telechargeCompte={telechargement.length}
              />
           </div>
         </div>

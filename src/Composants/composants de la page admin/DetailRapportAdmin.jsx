@@ -132,7 +132,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               </div>
               <div className="flex gap-2 mb-2">
                 <p className="text-sm sm:text-base font-semibold underline">Tags :</p>
-                <p className="text-sm sm:text-base font-light">Python, Js, Développement Web</p>
+                <p className="text-sm sm:text-base font-light">{rapportChoisi.tags}</p>
               </div>
               <div className="flex gap-2 mb-2">
                 <p className="text-sm sm:text-base font-semibold underline">Type :</p>
