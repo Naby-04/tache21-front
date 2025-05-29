@@ -72,7 +72,7 @@ export const Profile = () => {
   
 
   return (
-    <div className="profile text-white flex items-center flex-col md:block">
+    <div className="profile text-white flex items-center justify-center flex-col md:block">
       <div
         className="img-profil mt-4 relative"
         onClick={() => setOpenMenu(!openMenu)}
@@ -89,7 +89,7 @@ export const Profile = () => {
       </div>
 
       <div className="infos-profil text-[var(--text-couleur)] mt-4">
-        <p className="name text-sm text-[#fff] md:text-[#212121] md:text-lg font-regular">
+        <p className="name text-[8px] font-bold text-[#fff] md:text-[#212121] md:text-lg font-regular">
           {users.prenom}
         </p>
         <p className="description text-sm hidden md:block text-gray-500">

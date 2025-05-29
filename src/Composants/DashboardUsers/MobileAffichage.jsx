@@ -49,7 +49,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 						<AddRapport
 						style={{backgroundColor: "#1E2939", color: "#fff"}}/>
 					</div>
-					<NavLink to="/pageParametre" onClick={onClose}>
+					<NavLink to="pageParametre" onClick={onClose}>
 						<Buttons text="Paramètres du compte" />
 					</NavLink>
 					<Buttons text="Déconnexion" />
