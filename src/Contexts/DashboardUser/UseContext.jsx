@@ -82,7 +82,7 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
 const filteredPublicationsBySearch = searchTerm.trim()
   ? filteredPublications.filter(
       (doc) =>
-        typeof doc.user?.prenom === "string" &&
+        typeof doc.userId?.prenom === "string" &&
         doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
     )
   : filteredPublications;
