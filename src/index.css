@@ -49,18 +49,6 @@
   }
 }
 
-/* Nave */
-.active{
-  cursor: pointer;
-    border-bottom: 2px solid #fe9a00;
-  transition: all 5s;
-}
-.active-link:hover{
-    border-bottom: 2px solid #fe9a00;
-    cursor: pointer;
-
-}
-
 /*-------- Modal Voir pdf ------------*/
 /* Overlay floue */
 .bg-opacity-40 {

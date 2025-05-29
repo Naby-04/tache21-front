@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from "react";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 import { BiArrowBack, BiX } from 'react-icons/bi';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
 import mammoth from 'mammoth';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
-
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
+  console.log(rapportChoisi)
   const [docHtml, setDocHtml] = useState('');
   const [numPages, setNumPages] = useState(null);
   const [afficherWord, setAfficherWord] = useState(false);
@@ -26,27 +25,34 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (rapportChoisi && rapportChoisi.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        mammoth.convertToHtml({ arrayBuffer: event.target.result })
-          .then(result => setDocHtml(result.value))
-          .catch(err => console.log(err));
-      };
-
-      if (rapportChoisi.fileUrl) {
-        fetch(rapportChoisi.fileUrl)
-          .then(response => response.blob())
-          .then(blob => reader.readAsArrayBuffer(blob));
-      }
-    }
-  }, [rapportChoisi]);
-
-  if (!rapportChoisi) return null;
-
   const isPdf = rapportChoisi.type === "application/pdf";
   const isDocx = rapportChoisi.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  
+  useEffect(() => {
+    if (rapportChoisi.file && isDocx) {
+  fetch(rapportChoisi.file)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Fichier inaccessible");
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const arrayBuffer = event.target.result;
+        mammoth.convertToHtml({ arrayBuffer })
+          .then(result => setDocHtml(result.value))
+          .catch(err => console.error("Erreur conversion DOCX:", err));
+      };
+      reader.readAsArrayBuffer(blob);
+    })
+    .catch(err => console.error("Erreur chargement fichier DOCX:", err));
+}
+
+  }, [rapportChoisi, isDocx]);
+
+  if (!rapportChoisi) return null;
 
   return (
     <div className="relative">
@@ -72,7 +78,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
           <div className="w-full flex justify-center">
             <div className="bg-white p-4 rounded shadow">
               <Document
-                file={rapportChoisi.fileUrl}
+                file={rapportChoisi.file}
                 onLoadSuccess={({ numPages }) => {
                   setNumPages(numPages);
                   setCurrentPage(1);
@@ -107,10 +113,10 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
         <div className="flex flex-col basis-full md:basis-2/3 w-full gap-2">
           <div className="flex gap-3 items-center border-b border-gray-800 pb-3">
             <div className="w-10 h-10 rounded-full relative bg-amber-200">
-              <img src={rapportChoisi.userPhoto} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
+              <img src={rapportChoisi.userId.Photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
-              <p className="text-sm sm:text-base font-medium">{rapportChoisi.user.prenom}</p>
+              <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>
               <p className="text-xs sm:text-sm text-gray-600">{rapportChoisi.category}</p>
             </div>
           </div>
@@ -126,7 +132,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               </div>
               <div className="flex gap-2 mb-2">
                 <p className="text-sm sm:text-base font-semibold underline">Tags :</p>
-                <p className="text-sm sm:text-base font-light">Python, Js, Développement Web</p>
+                <p className="text-sm sm:text-base font-light">{rapportChoisi.tags}</p>
               </div>
               <div className="flex gap-2 mb-2">
                 <p className="text-sm sm:text-base font-semibold underline">Type :</p>
@@ -155,7 +161,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
               )}
               <div className="flex items-center justify-center gap-2 p-2 sm:p-3 px-4 sm:px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer text-xs sm:text-sm">
                 <FaDownload />
-                <a href={rapportChoisi.fileUrl} download className="text-inherit no-underline">Télécharger</a>
+                <a href={rapportChoisi.file} download className="text-inherit no-underline">Télécharger</a>
               </div>
             </div>
           </div>
@@ -165,7 +171,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
         <div className="md:flex p-2 items-center justify-center">
           <div className="relative w-[200] h-[300px] md:w-[285px] md:h-[350px] rounded border border-gray-800 flex items-center justify-center shadow-lg overflow-hidden">
             {isPdf ? (
-              <Document file={rapportChoisi.fileUrl}>
+              <Document file={rapportChoisi.file}>
                 <Page pageNumber={1} width={250} />
               </Document>
             ) : isDocx ? (

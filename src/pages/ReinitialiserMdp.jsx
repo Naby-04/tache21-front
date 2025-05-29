@@ -22,7 +22,7 @@ const ReinitialiserMdp = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/users/reset-password/${token}`, {
+      const res = await fetch(`https://tache21-back.onrender.com/api/users/reset-password/${token}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newPassword: password }),
@@ -95,7 +95,7 @@ const ReinitialiserMdp = () => {
          <button
           onClick={handleSubmit}
           disabled={loading}
-          className={`bg-gray-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full ${
+          className={`bg-gray-700 text-white font-bold py-2 px-4 rounded w-full ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           type="button"
@@ -103,17 +103,6 @@ const ReinitialiserMdp = () => {
           {loading ? "Chargement..." : "Confirmer"}
         </button>
 
-        {/* <div className="mt-6 text-center">
-          <p className="text-gray-700 text-sm">
-            Tu te souviens du mot de passe ?
-            <a
-              className="font-bold text-gray-700 hover:text-blue-800 ml-1"
-              href="/connexion"
-            >
-              Se Connecter
-            </a>
-          </p>
-        </div> */}
       </div>
     </div>
   );
