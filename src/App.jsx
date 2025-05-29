@@ -13,6 +13,10 @@ import Inscription from "./pages/Pages-Accueil/Inscription";
 import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
+import ProtectedRoute from "./Routes/ProtectedRoute";
+import PublicRoute from "./Routes/PublicRoute";
+
+
 import { Toaster } from "react-hot-toast";
 
 
@@ -27,27 +31,26 @@ const App = () => {
     <ToastContainer position="top-center" autoClose={2000}hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false}pauseOnFocusLoss={false}draggablepauseOnHover={false}theme="light"/>
 
        <BrowserRouter>
-         <Routes>
-           <Route path="/" element={<HomePage />} />
-           <Route path="/admin" element={<Admin/>} />
-           <Route path="/inscription" element={<Inscription />} />
-           <Route path="/connexion" element={<Connexion />} />
+<Routes>
+           <Route path="/" element={<PublicRoute><HomePage /></PublicRoute>} />
+           <Route path="/admin" element={<ProtectedRoute><Admin/></ProtectedRoute>} />
+           <Route path="/inscription" element={<PublicRoute><Inscription /></PublicRoute>} />
+           <Route path="/connexion" element={<PublicRoute><Connexion /></PublicRoute>} />
 
-           <Route path="/users" element={<DashboardUsers />}>
-             <Route index element={<Acceuil />} />
-             <Route path="rapport" element={<Rapport />} />
-             <Route path="rapportTelecharger" element={<RapportTelecharger />} />
-             <Route path="publicationRapport" element={<PublicationForm />} />
-              <Route path="pageParametre" element={<PageParametresCompte />} />
+           <Route path="/users" element={<ProtectedRoute><DashboardUsers /></ProtectedRoute>}>
+             <Route index element={<ProtectedRoute><Acceuil /></ProtectedRoute>} />
+             <Route path="rapport" element={<ProtectedRoute><Rapport /></ProtectedRoute>} />
+             <Route path="rapportTelecharger" element={<ProtectedRoute><RapportTelecharger /></ProtectedRoute>} />
+             <Route path="publicationRapport" element={<ProtectedRoute><PublicationForm /></ProtectedRoute>} />
+              <Route path="pageParametre" element={<ProtectedRoute><PageParametresCompte /></ProtectedRoute>} />
            </Route>
 
-           <Route path="/rapports" element={<RapportsAccueil />} />
-           <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
-           <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
+           <Route path="/rapports" element={<PublicRoute><RapportsAccueil /></PublicRoute>} />
+           <Route path="/reinitialisermdp/:token" element={<PublicRoute><ReinitialiserMdp/></PublicRoute>} />
+           <Route path="/motdepasseoublie" element={<PublicRoute><MotDePassOublie /></PublicRoute>} />
            <Route path="/commentaires" element={<CommentairesSection />} />
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
-
         
          <Toaster position="top-center"/>
 
@@ -58,3 +61,72 @@ const App = () => {
 
 
 export default App;
+         <Routes>
+           <Route path="/" element={
+            //<PublicRoute>
+              <HomePage />
+           // </PublicRoute>
+            } />
+           <Route path="/admin" element={
+            //<ProtectedRoute>
+              <Admin/>
+           // </ProtectedRoute>
+            } />
+            {/* ---------------Page authentification--------------- */}
+           <Route path="/inscription" element={
+            //<PublicRoute>
+              <Inscription />
+              //</PublicRoute>
+            } />
+           <Route path="/connexion" element={
+            //<PublicRoute>
+              <Connexion />
+              //</PublicRoute>
+            } />
+           <Route path="/reinitialisermdp/:token" element={
+            //<PublicRoute>
+              <ReinitialiserMdp/>
+              //</PublicRoute>
+            } />
+           <Route path="/motdepasseoublie" element={
+            //<PublicRoute>
+              <MotDePassOublie />
+              //</PublicRoute>
+            } />
+            {/* ---------------Page authentification exit--------------- */}
+
+           <Route path="/users" element={
+            //<ProtectedRoute>
+                <DashboardUsers />
+            //</ProtectedRoute>
+            }>
+             <Route index element={<Acceuil />} />
+             <Route path="rapport" element={
+             // <ProtectedRoute>
+                <Rapport />
+             // </ProtectedRoute>
+              } />
+             <Route path="rapportTelecharger" element={
+             // <ProtectedRoute>
+                <RapportTelecharger />
+             // </ProtectedRoute>
+              } />
+           </Route>
+           <Route path="/pageParametre" element={
+           // <ProtectedRoute>
+                <PageParametresCompte />
+           // </ProtectedRoute>
+            } />
+           <Route path="/publicationRapport" element={
+            //<ProtectedRoute>
+              <PublicationForm />
+            //</ProtectedRoute>
+            } />
+           <Route path="/rapports" element={
+            //<PublicRoute>
+              <RapportsAccueil />
+              //</PublicRoute>
+            } />
+           <Route path="/commentaires" element={<CommentairesSection />} />
+           {/* <Route path="/Auth" element={<AuthProvider />} /> */}
+         </Routes>

@@ -69,10 +69,11 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
- const filteredPublicationsBySearch = filteredPublications.filter((doc) => {
-  const title = doc.title?.toLowerCase() || "";
-  return title.includes(searchTerm?.toLowerCase());
-});
+const filteredPublicationsBySearch = searchTerm.trim()
+  ? filteredPublications.filter(
+      (doc) => doc.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : filteredPublications;
 
 
   // 📝 Gestion des champs du formulaire
