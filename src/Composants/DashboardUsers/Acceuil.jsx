@@ -29,7 +29,7 @@ export const Acceuil = () => {
   if (filteredPublicationsBySearch.length === 0) {
     getPublications();
  }
-  }, [filteredPublicationsBySearch.length]);
+  }, []);
 
   
   
