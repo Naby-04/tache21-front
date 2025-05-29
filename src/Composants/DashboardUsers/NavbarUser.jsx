@@ -128,7 +128,6 @@ export const NavbarUser = () => {
 						rounded-full flex items-center justify-center">{unreadCount}</small>
 						
 					)}
-
 					</div>
 					<AddRapport/>
 				</div>

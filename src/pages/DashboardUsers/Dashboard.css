@@ -100,6 +100,14 @@ h1{
   padding: 8px;
   text-align: left;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 @keyframes slide-up {
     from {
       transform: translateY(100%);

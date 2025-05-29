@@ -9,11 +9,9 @@ import { auth, provider, db } from "../../services/firebaseService";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Connexion = () => {
-  const [error, setError] = useState("");
+  const [error] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
-  // const { fetchProfil } = useContext(AuthContext);
   const navigate = useNavigate();
-  // const { users, setUsers } = useContext(AuthContext);
 
   // Ajout de l'état pour afficher/masquer le mot de passe
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +31,7 @@ const Connexion = () => {
 
       const prenom = user.displayName || "";
       const email = user.email;
-      const password = user.uid;
+      // const password = user.uid;
       const userRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userRef);
 
@@ -63,7 +61,6 @@ const Connexion = () => {
       localStorage.setItem("token", data.token);
     } catch (error) {
       console.error("Erreur Google SignIn :", error);
-      //toast.error("Erreur lors de la connexion avec Google.");
     }
   };
 
