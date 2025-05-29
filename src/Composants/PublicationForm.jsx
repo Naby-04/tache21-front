@@ -21,7 +21,7 @@ const handleSubmit = async (e) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type)
-  formData.append("fileUrl", form.file);
+  formData.append("file", form.file);
   
 
   try {

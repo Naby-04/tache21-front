@@ -19,7 +19,7 @@ const Connexion = () => {
   const [showPassword, setShowPassword] = useState(false);
 
    const {url} = usePublication()
-console.log("url",url);
+// console.log("url",url);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

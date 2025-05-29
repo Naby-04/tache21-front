@@ -119,7 +119,6 @@ const handleSave = async () => {
     }
 
     const result = await response.json();
-
     console.log("Réponse du serveur :", result);
     console.log("Réponse du serveur de l'utilisateur :", result.user);
 
@@ -162,7 +161,7 @@ const handleSave = async () => {
             htmlFor="photo"
             className="text-sm cursor-pointer bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded"
           >
-            Modifier votre profil
+            Modifier votre photo de profil
           </label>
           <input
             type="file"
