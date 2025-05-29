@@ -14,8 +14,8 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-   const url = "https://tache21-back.onrender.com";
-  // const url ="http://localhost:8080"
+  //  const url = "https://tache21-back.onrender.com";
+  const url ="http://localhost:8080"
 
   // 🧠 Ajout d'une publication
 const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
@@ -25,7 +25,7 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type);
-  
+
   formData.append("file", form.file);
 
   try {
