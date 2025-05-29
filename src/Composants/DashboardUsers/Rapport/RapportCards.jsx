@@ -16,13 +16,19 @@ export const RapportCard = ({ doc }) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
+  
 
 
+  // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-  // Conversion des DOCX en HTML améliorée
+  // Affichage PDF ou conversion DOCX
   useEffect(() => {
+    if (ispdf && doc.file) {
+      setIsLoading(false);
+    }
+
     if (!isdoc || !doc.file) return;
 
     const convertDocxToHtml = async () => {
@@ -31,20 +37,20 @@ export const RapportCard = ({ doc }) => {
         const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
-        
+
         const result = await mammoth.convertToHtml(
           { arrayBuffer },
           {
             styleMap: [
               "p[style-name='Heading 1'] => h1:fresh",
               "p[style-name='Heading 2'] => h2:fresh",
-              "p[style-name='Heading 3'] => h3:fresh"
+              "p[style-name='Heading 3'] => h3:fresh",
             ],
             includeEmbeddedStyleMap: true,
-            includeDefaultStyleMap: true
+            includeDefaultStyleMap: true,
           }
         );
-        
+
         setDocHtml(result.value || "<p>Aucun contenu à afficher</p>");
       } catch (err) {
         console.error("Erreur de conversion docx:", err);
@@ -59,7 +65,7 @@ export const RapportCard = ({ doc }) => {
     };
 
     convertDocxToHtml();
-  }, []);
+  }, [doc]);
 
   // Gestion des commentaires
 
@@ -112,18 +118,51 @@ const handleDocumentClick = (e) => {
 };
 
   // Gestion du téléchargement
-  const handleDownload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const link = document.createElement('a');
-    link.href = doc.file;
-    link.download = doc.title || 'document';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (rapportId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors du téléchargement");
+      }
+
+      const blob = await response.blob();
+      const fileURL = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = doc.title || "document";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.error("Erreur de téléchargement :", error.message);
+      alert("Échec du téléchargement. Vérifie ton authentification.");
+    }
   };
+
+
+
+  // const handleDownload = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+    
+  //   const link = document.createElement('a');
+  //   link.href = doc.file;
+  //   link.download = doc.title || 'document';
+  //   link.style.display = 'none';
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
 
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
@@ -271,7 +310,7 @@ const handleDocumentClick = (e) => {
 
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
-          onClick={handleDownload}
+          onClick={() => handleDownload(doc._id)}
         >
           <FaCloudDownloadAlt />
           <span className="hidden md:block">Télécharger</span>
