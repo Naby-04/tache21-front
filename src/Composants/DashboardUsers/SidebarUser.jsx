@@ -29,8 +29,8 @@ export const SidebarUser = () => {
 			<ul className="mt-6 flex flex-col gap-2">
 				{[
 					{ to: "/users", icon: <FaHome />, label: "Accueil" },
-					{ to: "rapport", icon: <HiDocument />, label: "Rapports" },
-					{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
+					{ to: "rapport", icon: <HiDocument />, label: "Mes rapports" },
+					{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Mes téléchargements" },
 				].map((link, i) => (
 					<NavLink
 						key={i}

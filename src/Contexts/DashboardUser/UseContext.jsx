@@ -14,10 +14,8 @@ export const ContextProvider = ({ children }) => {
 
   const fileInput = useRef();
 
-   const url = "https://tache21-back.onrender.com";
-  // const url ="http://localhost:8000"
-
-
+  //  const url = "https://tache21-back.onrender.com";
+  const url ="http://localhost:8080"
 
   // 🧠 Ajout d'une publication
 const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
@@ -27,7 +25,7 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
   formData.append("category", form.category);
   formData.append("tags", form.tags);
   formData.append("type", form.file.type);
-  
+
   formData.append("file", form.file);
 
   try {
@@ -71,19 +69,9 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
-  // const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
-  //   doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-//   const filteredPublicationsBySearch = filteredPublications.filter(
-//   (doc) =>
-//     typeof doc.user?.prenom === "string" &&
-//     doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
-// );
 const filteredPublicationsBySearch = searchTerm.trim()
   ? filteredPublications.filter(
-      (doc) =>
-        typeof doc.userId?.prenom === "string" &&
-        doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+      (doc) => doc.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
   : filteredPublications;
 
