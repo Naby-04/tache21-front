@@ -70,6 +70,9 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
     const confirme = window.confirm("Voulez-vous vraiment supprimer ce rapport ?");
     if (!confirme) return;
 
+    console.log("token", localStorage.getItem("token"));
+    
+
     try {
       const response = await fetch(`${url}/rapport/deleteMyRapport/${rapportId}`, {
         method: "DELETE",
@@ -83,6 +86,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
       if (onDeleteSuccess) onDeleteSuccess(rapportId);
     } catch (err) {
       console.error("Erreur de suppression :", err);
+      console.log("rapportId", rapportId);
+      
     }
   };
 
