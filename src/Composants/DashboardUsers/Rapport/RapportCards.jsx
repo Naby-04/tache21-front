@@ -23,12 +23,12 @@ export const RapportCard = ({ doc }) => {
 
   // Conversion des DOCX en HTML améliorée
   useEffect(() => {
-    if (!isdoc || !doc.fileUrl) return;
+    if (!isdoc || !doc.file) return;
 
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(doc.fileUrl);
+        const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
         
@@ -59,7 +59,7 @@ export const RapportCard = ({ doc }) => {
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, []);
 
   // Gestion des commentaires
 
@@ -97,7 +97,7 @@ export const RapportCard = ({ doc }) => {
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
- const encodedUrl = encodeURIComponent(doc.fileUrl);
+ const encodedUrl = encodeURIComponent(doc.file);
   if (isdoc) {
     const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
@@ -105,7 +105,7 @@ const handleDocumentClick = (e) => {
     const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
   } else {
-    window.open(doc.fileUrl, '_blank', 'noopener,noreferrer');
+    window.open(doc.file, '_blank', 'noopener,noreferrer');
   }
 
 };
@@ -116,7 +116,7 @@ const handleDocumentClick = (e) => {
     e.stopPropagation();
     
     const link = document.createElement('a');
-    link.href = doc.fileUrl;
+    link.href = doc.file;
     link.download = doc.title || 'document';
     link.style.display = 'none';
     document.body.appendChild(link);
@@ -135,7 +135,7 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  // console.log("DOC reçu dans RapportCard :", doc);
+  console.log("url recu de cloudinary :", doc.file);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -179,7 +179,7 @@ const handleDocumentClick = (e) => {
         {ispdf ? (
           <div className="w-full max-h-[250px]">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-           <PdfViewer file={doc.fileUrl} width={null} />
+           <PdfViewer file={doc.file} width={null} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
