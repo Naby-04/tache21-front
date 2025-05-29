@@ -72,7 +72,6 @@ export const NavbarUser = () => {
 				{/* Logo et profil (mobile) */}
 				<div>
 					<div className="md:flex items-center gap-2 hidden">
-          {/* <span className="text-xl font-bold text-amber-300">SenRapport</span> */}
           <img src={logo} alt="Logo" className="w-26" />
         </div>
 					<div className="block md:hidden">
