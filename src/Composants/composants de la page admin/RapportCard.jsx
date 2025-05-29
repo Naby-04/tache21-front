@@ -13,7 +13,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
 
   useEffect(() => {
     if (isDocx) {
-      fetch(rapport.fileUrl)
+      fetch(rapport.file)
         .then(response => response.blob())
         .then(blob => {
           const reader = new FileReader();
@@ -27,7 +27,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
           reader.readAsArrayBuffer(blob);
         });
     }
-  }, [rapport.fileUrl, isDocx]);
+  }, [rapport.file, isDocx]);
 
   const handleDeleteConfirmed = () => {
     onDelete(rapport._id);
@@ -40,7 +40,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
         {/* Aperçu du fichier */}
         <div className="relative shadow-md border border-gray-300 w-full lg:w-60 flex justify-center items-center h-52 bg-gray-50 px-3 py-5 overflow-hidden rounded">
           {isPdf ? (
-            <Document file={rapport.fileUrl}>
+            <Document file={rapport.file}>
               <Page pageNumber={1} width={200} renderTextLayer={false} />
             </Document>
           ) : isDocx ? (
