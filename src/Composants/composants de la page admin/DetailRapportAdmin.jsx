@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from "react";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 import { BiArrowBack, BiX } from 'react-icons/bi';
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -7,6 +7,7 @@ import mammoth from 'mammoth';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
+  console.log(rapportChoisi)
   const [docHtml, setDocHtml] = useState('');
   const [numPages, setNumPages] = useState(null);
   const [afficherWord, setAfficherWord] = useState(false);
@@ -26,6 +27,9 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const isPdf = rapportChoisi.type === "application/pdf";
+  const isDocx = rapportChoisi.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  
   useEffect(() => {
     if (rapportChoisi && rapportChoisi.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
       const reader = new FileReader();
@@ -41,12 +45,9 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
           .then(blob => reader.readAsArrayBuffer(blob));
       }
     }
-  }, [rapportChoisi]);
+  }, [rapportChoisi, isDocx]);
 
   if (!rapportChoisi) return null;
-
-  const isPdf = rapportChoisi.type === "application/pdf";
-  const isDocx = rapportChoisi.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
   return (
     <div className="relative">
@@ -107,10 +108,10 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
         <div className="flex flex-col basis-full md:basis-2/3 w-full gap-2">
           <div className="flex gap-3 items-center border-b border-gray-800 pb-3">
             <div className="w-10 h-10 rounded-full relative bg-amber-200">
-              <img src={rapportChoisi.userPhoto} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
+              <img src={rapportChoisi.userId.Photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
-              <p className="text-sm sm:text-base font-medium">{rapportChoisi.user.prenom}</p>
+              <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>
               <p className="text-xs sm:text-sm text-gray-600">{rapportChoisi.category}</p>
             </div>
           </div>

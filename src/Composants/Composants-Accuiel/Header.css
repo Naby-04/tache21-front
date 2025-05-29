@@ -1,0 +1,6 @@
+.active-link {
+  color: #fbbf24; /* tailwind amber-300 */
+  font-size: 1.1rem; /* text-lg */
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
