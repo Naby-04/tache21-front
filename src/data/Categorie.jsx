@@ -1,50 +1,52 @@
 export const categories = [
   {
-    value: "Sciences, Technologie & Informatique ",
-    label: "Sciences, Technologie & Informatique ",
-    color: "bg-blue-300 text-blue-800"
+    label: "Informatique & Sciences",
+    value: "informatique_sciences",
+    color: "bg-blue-100 text-blue-700",
   },
-
   {
-    value: "Économie, Droit & Business  ",
-    label: "Économie, Droit & Business ",
-    color: "bg-green-100 text-green-700"
+    label: "Marketing & Économie",
+    value: "marketing_economie",
+    color: "bg-yellow-100 text-yellow-700",
   },
-  
   {
-    value: "Santé, Bien-être & Développement personnel ",
-    label: "Santé, Bien-être & Développement personnel ",
-    color: "bg-gray-200 text-gray-800"
+    label: "Éducation & Santé",
+    value: "education_sante",
+    color: "bg-purple-100 text-purple-700",
   },
-
   {
-    value: "Société, Politique & Environnement ",
-    label: "Société, Politique & Environnement ",
-    color: "bg-pink-100 text-pink-700"
+    label: "Environnement & Politique",
+    value: "environnement_politique",
+    color: "bg-teal-100 text-teal-700",
   },
-  
   {
-    value: "Éducation, Langues & Histoire ",
-    label: "Éducation, Langues & Histoire ",
-    color: "bg-purple-100 text-purple-700"
+    label: "Ingénierie & Entrepreneuriat",
+    value: "ingenierie_entrepreneuriat",
+    color: "bg-cyan-100 text-cyan-700",
   },
-  
   {
-    value: "Art, Culture & Divertissement ",
-    label: "Art, Culture & Divertissement ",
-    color: "bg-fuchsia-100 text-fuchsia-700"
+    label: "Rapport de stage & Projet de recherche",
+    value: "rapport_stage_recherche",
+    color: "bg-gray-100 text-gray-800",
   },
-  
   {
-    value: "Vie quotidienne & Loisirs ",
-    label: "Vie quotidienne & Loisirs ",
-    color: "bg-pink-200 text-pink-800"
+    label: "Réseaux sociaux & Communication",
+    value: "reseaux_communication",
+    color: "bg-pink-100 text-pink-700",
   },
-
   {
-    value: "Métiers & Domaines spécialisés ",
-    label: "Métiers & Domaines spécialisés ",
-    color: "bg-lime-100 text-lime-700"
-  }
- 
+    label: "Loisirs & Sport",
+    value: "loisirs_sport",
+    color: "bg-lime-100 text-lime-700",
+  },
+  {
+    label: "Culture & Art",
+    value: "culture_art",
+    color: "bg-orange-100 text-orange-700",
+  },
+  {
+    label: "Justice & Droit",
+    value: "justice_droit",
+    color: "bg-red-100 text-red-700",
+  },
 ];

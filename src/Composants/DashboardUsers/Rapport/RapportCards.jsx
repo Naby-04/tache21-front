@@ -150,7 +150,11 @@ const handleDocumentClick = (e) => {
           <p className="font-semibold text-sm text-gray-800">{doc.userId ? `${doc.userId.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
-            <small className="text-gray-500">{doc.createdAt}</small>
+            <small className="text-gray-500">{new Date(doc.createdAt).toLocaleString("fr-FR", {
+             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+             hour: '2-digit', minute: '2-digit'
+           })}
+          </small>
           </p>
         </div>
       </div>
