@@ -97,6 +97,7 @@ export const NavbarUser = () => {
 				className="flex justify-between items-center  p-2 w-full z-10"
 			>
 				{/* Logo et profil (mobile) */}
+        
 				<div>
 					<div className="md:flex items-center gap-2 hidden">
           <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain bg-amber-300 rounded-full" />
