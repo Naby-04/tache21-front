@@ -8,9 +8,6 @@ import { AddRapport } from "./Rapport/AddRapport";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { IoNotifications } from "react-icons/io5";
 import { NotificationModal } from "../NotificationModal";
-import { useEffect } from "react";
-import { socket } from "../DashboardUsers/socket"; 
-// import { useAuth } from "../../Contexts/AuthContext";
 // import { FaMessage } from "react-icons/fa6";
 // import { MobileSidebar } from "./MobileSidebar"; // importe ton composant mobile
 
@@ -35,31 +32,6 @@ export const NavbarUser = () => {
        avatar: "/images/dev.jpg"
      }
   ]);
-//   const {user} = useAuth()
-
-//   useEffect(() => {
-//   if (user?._id) {
-//     socket.emit("register", user._id); // enregistre l'utilisateur
-
-//     socket.on("new_notification", (data) => {
-//       setNotifications(prev => [
-//         {
-//           id: Date.now(), // ou data._id
-//           user: data.senderName || "Quelqu'un", // personnalise
-//           message: data.message || "a effectué une action",
-//           time: "Maintenant",
-//           read: false,
-//           avatar: "/images/dev.jpg"
-//         },
-//         ...prev,
-//       ]);
-//     });
-
-//     return () => {
-//       socket.off("new_notification");
-//     };
-//   }
-// }, [user]);
  const [isNotifOpen, setIsNotifOpen] = useState(false);
    // Marquer comme lu
   const markAsRead = (id) => {
