@@ -168,14 +168,14 @@ const Connexion = () => {
 
             <Link
               to="/motdepasseoublie"
-              className="inline-block text-end font-bold text-sm text-gray-800 hover:text-blue-800 mb-6 w-[70%]"
+              className="inline-block text-end font-bold text-sm text-gray-800 hover:text-black mb-6 w-[70%]"
             >
               Mot de passe oublié ?
             </Link>
 
             <div className="w-[70%]">
               <button
-                className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 h-10 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+                className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 h-10 rounded-2xl focus:outline-none focus:shadow-outline w-full cursor-pointer"
                 type="submit"
               >
                 Se connecter
@@ -192,7 +192,7 @@ const Connexion = () => {
             <button
               onClick={handleGoogleSignIn}
               type="button"
-              className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full"
+              className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full cursor-pointer"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
               <span>Google</span>
