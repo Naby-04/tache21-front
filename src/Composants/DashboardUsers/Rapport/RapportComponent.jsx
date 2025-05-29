@@ -71,8 +71,6 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
     if (!confirme) return;
 
     console.log("token", localStorage.getItem("token"));
-    
-
     try {
       const response = await fetch(`${url}/rapport/deleteMyRapport/${rapportId}`, {
         method: "DELETE",
@@ -98,7 +96,6 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
     if (fille) {
       formData.append("file", fille);
     }
-
     try {
       const response = await fetch(`${url}/rapport/updateMyRapport/${rapportId}`, {
         method: "PUT",
@@ -150,7 +147,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                   <p className="text-xs text-gray-500">Chargement...</p>
                 ) : docHtml ? (
                   <div
-                    className="docx-preview h-full text-xs overflow-hidden"
+                    className="docx-preview h-full text-xs overflow-hidden "
                     dangerouslySetInnerHTML={{ __html: docHtml }}
                   />
                 ) : (
@@ -190,8 +187,6 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
             ) : (
               <div className="flex-1 space-y-1 text-black">
                 <h1 className="text-sm font-semibold text-gray-800">{tite}</h1>
-                <p className="text-xs text-gray-500 italic">by {doc.author || "Unknown Author"}</p>
-                <p className="text-xs text-gray-600 font-light">Journal/Conference</p>
                 <div className="text-xs text-gray-700 mt-2 line-clamp-4 flex-1">{children}</div>
                 <p className="text-xs text-gray-400 mt-1">Date: {date}</p>
               </div>
