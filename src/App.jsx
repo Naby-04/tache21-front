@@ -15,14 +15,17 @@ import MotDePassOublie from "./pages/MotDePassOublie";
 import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import { Toaster } from "react-hot-toast";
+
+
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
+import { CommentairesSection } from "./Composants/DashboardUsers/Commentaire/CommentaireSection";
 
   
 
 const App = () => {
   return (
     <>
-    <ToastContainer/>
+    <ToastContainer position="top-center" autoClose={2000}hideProgressBar={false} newestOnTop={true} closeOnClick rtl={false}pauseOnFocusLoss={false}draggablepauseOnHover={false}theme="light"/>
 
        <BrowserRouter>
          <Routes>
@@ -42,8 +45,11 @@ const App = () => {
            <Route path="/reinitialisermdp/:token" element={<ReinitialiserMdp/>} />
            <Route path="/motdepasseoublie" element={<MotDePassOublie />} />
            <Route path="/publicationRapport" element={<PublicationForm />} />
+           <Route path="/commentaires" element={<CommentairesSection />} />
            {/* <Route path="/Auth" element={<AuthProvider />} /> */}
          </Routes>
+
+        
          <Toaster position="top-center"/>
 
        </BrowserRouter>

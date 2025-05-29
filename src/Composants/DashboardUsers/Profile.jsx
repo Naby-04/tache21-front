@@ -9,14 +9,17 @@ export const Profile = () => {
   const menuRef = useRef();
   const navigate = useNavigate();
   const { users, setUsers } = useContext(AuthContext);
-  // console.log("username",users);
   const {url} = usePublication()
 
   useEffect(() => {
+    // console.log("✅ useEffect exécuté dans le composant Profile");
      const fetchProfil = async () => {
-    // e.preventDefault()
+      // console.log("📡 fetchProfil appelé");
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      // console.warn("🚫 Aucun token trouvé");
+      return;
+    }
 
     try {
       const response = await fetch(`${url}/api/users/profile`, {
@@ -28,6 +31,7 @@ export const Profile = () => {
       if (!response.ok) throw new Error("Échec récupération profil");
 
       const data = await response.json();
+      // console.log("✅ Données utilisateur récupérées :", data);
       setUsers(data);
     } catch (error) {
       console.error("Erreur récupération profil :", error);
@@ -44,15 +48,15 @@ export const Profile = () => {
   }, []);
 
   // Redirection automatique selon le rôle
-  useEffect(() => {
-    if (users) {
-      if (users.isAdmin) {
-        navigate("/admin");
-      } else {
-        navigate("/users");
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (users) {
+  //     if (users.isAdmin) {
+  //       navigate("/admin");
+  //     } else {
+  //       navigate("/users");
+  //     }
+  //   }
+  // }, []);
 
   // console.log("users", users);
   
@@ -64,7 +68,7 @@ export const Profile = () => {
 
   if (!users) return null;
 
-  // console.log("users", users.prenom);
+  //  console.log("users", users.photo);
   
 
   return (

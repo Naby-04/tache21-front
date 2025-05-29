@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import FormContext from "../../Contexts/FormContext";
-import { signInWithPopup } from "firebase/auth";
 import { auth, provider, db  } from "../../services/firebaseService";
 import { doc, setDoc , getDoc } from "firebase/firestore";
+import { signInWithPopup } from "firebase/auth";
+import FormContext from "../../Contexts/FormContext";
 import { toast } from "react-toastify";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
 
 const Inscription = () => {
   // const [error, setError] = useState("");
-  const [acceptCGU, setAcceptCGU] = useState(false);
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
+
+  // Ajout des états pour afficher/masquer les mots de passe
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,39 +23,32 @@ const Inscription = () => {
   };
 
   const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      // Connexion via Google
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // 🔥 Appelle ton backend pour l'enregistrer dans MongoDB
-    const response = await fetch(`${url}/api/users/google-register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prenom: user.displayName,
-        email: user.email,
-      }),
-    });
+      // Référence du document utilisateur dans Firestore
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
 
-    const data = await response.json();
+      // Si l'utilisateur n'existe pas déjà, on l'ajoute
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          prenom: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL || null,
+          createdAt: new Date().toISOString(),
+        });
+      }
 
-    if (!response.ok) {
-      toast.error(data.message || "Erreur lors de l'inscription via Google.");
-      return;
+      toast.success("Connexion réussie avec Google !");
+      navigate("/users");
+    } catch (error) {
+      console.error("Erreur Google Auth:", error);
+      toast.error("Erreur lors de la connexion avec Google.");
     }
-
-    // Enregistre l'utilisateur localement
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("userInfo", JSON.stringify(data.user));
-
-    toast.success("Inscription via Google réussie !");
-    navigate("/users");
-  } catch (error) {
-    console.error("Erreur Google Auth:", error);
-    toast.error("Erreur lors de l'inscription avec Google.");
-  }
-};
-
+  };
 
   const {url} = usePublication()
   const handleSubmit = async (e) => {
@@ -60,15 +57,11 @@ const Inscription = () => {
     const { prenom, email, password, confirmPassword } = formData;
 
     // Validation des champs
-    if (!prenom || !email || !password || !confirmPassword) {
+    if (!prenom ||!email || !password || !confirmPassword) {
       toast.error("Veuillez remplir tous les champs.");
       return;
     }
 
-    if (!acceptCGU) {
-      toast.error("Vous devez accepter les conditions générales.");
-      return;
-    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -104,9 +97,14 @@ const Inscription = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
 
-      localStorage.setItem("token", data.token);
       toast.success("Inscription réussie !");
-      resetFormData();
+      setTimeout(() => {
+        localStorage.setItem("token", data.token);
+        resetFormData();
+        navigate("/connexion");
+      }, 1000); // Attend 1 seconde
+      
+      resetFormData(); // Réinitialise les champs
       navigate("/connexion");
     } catch (error) {
       toast.error("Erreur : " + error.message);
@@ -130,25 +128,25 @@ const Inscription = () => {
           <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-800 text-base font-bold mb-2" htmlFor="name">
-                Entrez votre nom
+                Entrez votre nom complet
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-                id="name"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="prenom"
                 type="text"
-                placeholder="Votre nom"
+                placeholder="Votre prénom"
                 name="prenom"
                 value={formData.prenom || ""}
                 onChange={handleChange}
               />
             </div>
-
+           
             <div className="mb-2 w-[70%]">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                 Entrez votre email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
                 name="email"
@@ -158,23 +156,35 @@ const Inscription = () => {
               />
             </div>
 
+            {/* Champ mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="password">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                 Mot de passe
               </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                name="password"
-                value={formData.password || ""}
-                onChange={handleChange}
-              />
+              <div className="relative">
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Votre mot de passe"
+                  name="password"
+                  value={formData.password || ""}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
+            {/* Champ confirmation mot de passe avec icône */}
             <div className="mb-2 w-[70%]">
-              <label className="block text-gray-800 text-sm font-bold mb-2" htmlFor="confirm-password">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirm-password">
                 Confirmer le mot de passe
               </label>
               <input                                                                                                                                                     
@@ -186,8 +196,31 @@ const Inscription = () => {
                 value={formData.confirmPassword || ""}
                 onChange={handleChange}
               />
+              {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                 <p className="text-red-500 text-xs mt-1">Les mots de passe ne correspondent pas.</p>
+                )}
+              <div className="relative">
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="confirm-password"
+                  type={showConfirm ? "text" : "password"}
+                  placeholder="Confirmer votre mot de passe"
+                  name="confirmPassword"
+                  value={formData.confirmPassword || ""}
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowConfirm((prev) => !prev)}
+                  tabIndex={-1}
+                >
+                  {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
 
+            
             <div className="mb-2 w-[70%]">
               <label className="inline-flex items-center">
                 <input
@@ -196,7 +229,7 @@ const Inscription = () => {
                   checked={acceptCGU}
                   onChange={(e) => setAcceptCGU(e.target.checked)}
                 />
-                <span className="ml-2 text-gray-700 text-sm">
+                <span className="ml-2 text-gray-800 text-sm">
                   J'accepte toutes les conditions générales
                 </span>
               </label>
@@ -206,6 +239,7 @@ const Inscription = () => {
               <button
                 className="bg-gray-800 hover:bg-gray-600 text-center text-white font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
                 type="submit"
+                disabled={!acceptCGU}
               >
                 S'inscrire
               </button>
@@ -220,8 +254,8 @@ const Inscription = () => {
 
           <div className="flex w-[80%] items-center justify-center">
             <button
-             onClick={handleGoogleLogin}
-              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-blue-600 text-gray-800 focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
+              onClick={handleGoogleLogin}
+              className="flex items-center justify-center gap-3 bg-gray-200 h-10 hover:bg-gray-800 text-black focus:shadow-outline font-bold py-3 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-[90%]"
               type="button"
             >
               <img src="/images/google.png" alt="Google" className="w-10 h-10" />
@@ -243,4 +277,4 @@ const Inscription = () => {
   );
 };
 
-export default Inscription;
+export default Inscription;
