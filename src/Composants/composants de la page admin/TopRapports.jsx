@@ -6,6 +6,8 @@ import mammoth from "mammoth";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
+  console.log(rapports);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [docxPreviews, setDocxPreviews] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -79,7 +81,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
             <tr className="bg-gray-800 text-gray-50">
               <th className="py-2 px-2">#</th>
               <th className="py-2 px-2">Rapport</th>
-              <th className="py-2 px-2 hidden md:table-cell">Profil</th>
+              {/* <th className="py-2 px-2 hidden md:table-cell">Profil</th> */}
               <th className="py-2 px-2">Actions</th>
             </tr>
           </thead>
@@ -107,13 +109,13 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                     </div>
                   </div>
                 </td>
-                <td className="py-2 px-3 hidden md:table-cell">
+                {/* <td className="py-2 px-3 hidden md:table-cell">
                   <img
-                    src={rapport.user?.photoURL || "https://via.placeholder.com/40"}
+                    src={rapport.user?.photo || "https://via.placeholder.com/40"}
                     alt="user"
                     className="w-10 h-10 rounded-full border"
                   />
-                </td>
+                </td> */}
                 <td className="py-2 px-3">
                   <div className="flex items-center justify-center">
                     <button

@@ -111,7 +111,7 @@ export const Profile = () => {
 
           <button
             onClick={() => {
-              navigate("/pageParametre");
+              navigate("pageParametre");
               setOpenMenu(false);
             }}
             className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"

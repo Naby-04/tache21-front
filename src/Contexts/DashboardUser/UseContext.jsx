@@ -15,7 +15,9 @@ export const ContextProvider = ({ children }) => {
   const fileInput = useRef();
 
    const url = "https://tache21-back.onrender.com";
-  //  const url ="http://localhost:8000"
+  // const url ="http://localhost:8000"
+
+
 
   // 🧠 Ajout d'une publication
 const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
@@ -69,10 +71,21 @@ const ajouterPublication = async (form, fileInput, token, toast, navigate) => {
     ? validPublications.filter((doc) => doc.category === selectedCategory)
     : validPublications;
 
- const filteredPublicationsBySearch = filteredPublications.filter((doc) => {
-  const title = doc.title?.toLowerCase() || "";
-  return title.includes(searchTerm?.toLowerCase());
-});
+  // const filteredPublicationsBySearch = filteredPublications.filter((doc) =>
+  //   doc.user?.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+//   const filteredPublicationsBySearch = filteredPublications.filter(
+//   (doc) =>
+//     typeof doc.user?.prenom === "string" &&
+//     doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+// );
+const filteredPublicationsBySearch = searchTerm.trim()
+  ? filteredPublications.filter(
+      (doc) =>
+        typeof doc.userId?.prenom === "string" &&
+        doc.user.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : filteredPublications;
 
 
   // 📝 Gestion des champs du formulaire
