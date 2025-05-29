@@ -35,8 +35,8 @@ function ReportCard({ report, isLoggedIn }) {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       fileType === "docx";
 
-    if (isDocx && report.fileUrl) {
-      fetch(report.fileUrl)
+    if (isDocx && report.file) {
+      fetch(report.file)
         .then((res) => res.blob())
         .then((blob) => {
           const reader = new FileReader();
@@ -57,7 +57,7 @@ function ReportCard({ report, isLoggedIn }) {
   const handleViewPdfClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      window.open(report.fileUrl, "_blank", "noopener,noreferrer");
+      window.open(report.file, "_blank", "noopener,noreferrer");
     } else {
       setIsModalOpen(true);
     }
@@ -81,30 +81,31 @@ function ReportCard({ report, isLoggedIn }) {
     const isPdf = fileType.includes("pdf");
     const isDocx = fileType.includes("wordprocessingml") || fileType === "docx";
 
+    
     // Si utilisateur pas connecté, on affiche direct fallback image
-    if (!isLoggedIn && (isPdf || isDocx)) {
-      return (
-        <div className="flex items-center justify-center h-55 w-full relative">
-          <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
-          <img
-            src={isPdf ? siPdf : siWord}
-            alt={isPdf ? "PDF fallback" : "Word fallback"}
-            className="h-[160px] max-w-[250px] object-contain"
-          />
-        </div>
-      );
-    }
+    // if (!isLoggedIn && (isPdf || isDocx)) {
+    //   return (
+    //     <div className="flex items-center justify-center h-55 w-full relative">
+    //       <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
+    //       <img
+    //         src={isPdf ? siPdf : siWord}
+    //         alt={isPdf ? "PDF fallback" : "Word fallback"}
+    //         className="h-[160px] max-w-[250px] object-contain"
+    //       />
+    //     </div>
+    //   );
+    // }
 
-    // Si erreur de chargement, on affiche fallback aussi
-    if (docLoadError) {
-      return (
-        <img
-          src={isPdf ? siPdf : siWord}
-          alt={isPdf ? "PDF fallback" : "Word fallback"}
-          className="max-h-full max-w-full object-contain"
-        />
-      );
-    }
+    // // Si erreur de chargement, on affiche fallback aussi
+    // if (docLoadError) {
+    //   return (
+    //     <img
+    //       src={isPdf ? siPdf : siWord}
+    //       alt={isPdf ? "PDF fallback" : "Word fallback"}
+    //       className="max-h-full max-w-full object-contain"
+    //     />
+    //   );
+    // }
 
     // Sinon, affichage normal
     return (
@@ -114,11 +115,23 @@ function ReportCard({ report, isLoggedIn }) {
         {/* Contenu du preview */}
         <div className="relative z-20">
           {isPdf ? (
+            // <Document
+            //   file={report.file}
+            //   onLoadError={() => setDocLoadError(true)}
+            //   onSourceError={() => setDocLoadError(true)}
+            // >
             <Document
-              file={report.fileUrl}
-              onLoadError={() => setDocLoadError(true)}
-              onSourceError={() => setDocLoadError(true)}
-            >
+  file={report.file}
+  onLoadError={(error) => {
+    console.error("Erreur de chargement PDF :", error);
+    setDocLoadError(true);
+  }}
+  onSourceError={(error) => {
+    console.error("Erreur source PDF :", error);
+    setDocLoadError(true);
+  }}
+>
+
               <Page
                 pageNumber={1}
                 width={250}

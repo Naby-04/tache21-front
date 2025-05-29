@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import { Document, Page,pdfjs } from 'react-pdf';
-// import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-=======
 import { Document, Page } from 'react-pdf';
 import { useEffect, useState } from 'react';
->>>>>>> df10b4cf8d1b0d7122648bc6dfd187a52f78207b
 
 
 function PdfViewer({ file, width, height }) {
