@@ -1,6 +1,8 @@
 import { Document, Page } from 'react-pdf';
 
 function PdfViewer({ file, width, height }) {
+  // console.log("url",file);
+  
   return (
     <Document file={file} loading="Chargement...">
       <Page 

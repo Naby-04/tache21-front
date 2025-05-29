@@ -222,15 +222,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
         </div>
       </div>
 
-      {/* View full paper button - fixed at bottom of card */}
-      {/* <div className="p-2 border-t border-gray-100">
-        <button 
-          className="w-full py-2 bg-amber-50 text-amber-600 text-xs font-medium rounded hover:bg-amber-100 transition-colors"
-          onClick={handleDocumentClick}
-        >
-          View Full Paper
-        </button>
-      </div> */}
+   
     </div>
   );
 };
