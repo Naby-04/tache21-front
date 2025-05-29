@@ -15,7 +15,7 @@ import emailjs from '@emailjs/browser';
 import { toast} from 'react-toastify'
  import {  Link as ScrollLink} from "react-scroll";
 import { useState } from "react";
-
+import logo from "../../assets/SenRapport.png"
 
 
 
@@ -70,7 +70,7 @@ const Footer = () => {
           {/* ==============partie logo============== */}
           <div className="flex flex-col gap-8">
             <div>
-              <img src="#" alt="logo (2).png" />
+              <img src={logo} alt="logo (2).png" className="w-25" />
             </div>
             <div>
               <p className=" text-white">
@@ -83,7 +83,7 @@ const Footer = () => {
           {/* ==============partie rapports============== */}
           <div className="flex flex-col gap-4  text-white">
             <div className="flex flex-col gap-2">
-              <div className="hover:text-gray-300 text-amber-300">
+              <div className="hover:text-gray-300 text-amber-300 mb-2">
                 <Link to='/'>SenRapport</Link>
               </div>
               <div className="hover:text-amber-300 text-white cursor-pointer">
@@ -93,7 +93,7 @@ const Footer = () => {
                 <ScrollLink to="services"  smooth={true} duration={500} offset={-70} >Services</ScrollLink>
               </div>
               <div className="hover:text-amber-300 text-white cursor-pointer">
-                <ScrollLink to="rapports"  smooth={true} duration={500} offset={-70}>Rapports</ScrollLink>
+                <ScrollLink to="rapports" smooth={true} duration={500} offset={-70}>Rapports</ScrollLink>
               </div>
               <div className="hover:text-amber-300 text-white cursor-pointer">
                 <ScrollLink to="a-propos"  smooth={true} duration={500} offset={-70}>À propos</ScrollLink>
@@ -102,7 +102,7 @@ const Footer = () => {
           </div>
           {/*================partie contact================ */}
           <div className="flex flex-col gap-4  text-white">
-          <p className="text-sm  text-amber-300">Contacts</p>
+          <p className="text-sm  text-amber-300 mb-2">Contacts</p>
             <div>
               <div className="flex gap-1 hover:text-gray-300">
                  <div className="text-xl text-amber-300">

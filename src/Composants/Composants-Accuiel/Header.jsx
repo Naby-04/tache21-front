@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import "./Header.css";
+import logo from '../../assets/SenRapport.png'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,11 +18,11 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img
-            src="/logo.png"
+            src={logo}
             alt="Logo"
-            className="w-6 h-6 md:w-10 md:h-10 object-contain bg-amber-300 rounded-full"
+            className="w-26"
           />
-          <span className="text-md md:text-xl font-bold text-amber-300">SenRapport</span>
+          {/* <span className="text-md md:text-xl font-bold text-amber-300">SenRapport</span> */}
         </div>
 
         {/* Bouton hamburger mobile */}
