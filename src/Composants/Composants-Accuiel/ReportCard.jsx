@@ -9,7 +9,7 @@ function ReportCard({ report, isLoggedIn }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSecondModal, setIsSecondModal] = useState(false);
   const [docxPreview, setDocxPreview] = useState(null);
-  const [docLoadError, setDocLoadError] = useState(false);
+  // const [docLoadError, setDocLoadError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function ReportCard({ report, isLoggedIn }) {
 
   // Reset error et preview quand le fichier change
   useEffect(() => {
-    setDocLoadError(false);
+    // setDocLoadError(false);
     setDocxPreview(null);
 
     const fileType = report.type ?? "";
