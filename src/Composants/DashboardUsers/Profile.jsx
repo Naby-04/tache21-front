@@ -9,35 +9,35 @@ export const Profile = () => {
   const menuRef = useRef();
   const navigate = useNavigate();
   const { users, setUsers } = useContext(AuthContext);
-  const {url} = usePublication()
+  const { url } = usePublication();
 
   useEffect(() => {
     // console.log("✅ useEffect exécuté dans le composant Profile");
-     const fetchProfil = async () => {
+    const fetchProfil = async () => {
       // console.log("📡 fetchProfil appelé");
-    const token = localStorage.getItem("token");
-    if (!token) {
-      // console.warn("🚫 Aucun token trouvé");
-      return;
-    }
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // console.warn("🚫 Aucun token trouvé");
+        return;
+      }
 
-    try {
-      const response = await fetch(`${url}/api/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const response = await fetch(`${url}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (!response.ok) throw new Error("Échec récupération profil");
+        if (!response.ok) throw new Error("Échec récupération profil");
 
-      const data = await response.json();
-      // console.log("✅ Données utilisateur récupérées :", data);
-      setUsers(data);
-    } catch (error) {
-      console.error("Erreur récupération profil :", error);
-    }
-  };
-  fetchProfil()
+        const data = await response.json();
+        // console.log("✅ Données utilisateur récupérées :", data);
+        setUsers(data);
+      } catch (error) {
+        console.error("Erreur récupération profil :", error);
+      }
+    };
+    fetchProfil();
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpenMenu(false);
@@ -59,7 +59,7 @@ export const Profile = () => {
   // }, []);
 
   // console.log("users", users);
-  
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUsers(null);
@@ -69,10 +69,9 @@ export const Profile = () => {
   if (!users) return null;
 
   //  console.log("users", users.photo);
-  
 
   return (
-    <div className="profile text-white flex items-center flex-col md:block">
+    <div className="profile text-white flex items-center justify-center flex-col md:block">
       <div
         className="img-profil mt-4 relative"
         onClick={() => setOpenMenu(!openMenu)}
@@ -89,11 +88,11 @@ export const Profile = () => {
       </div>
 
       <div className="infos-profil text-[var(--text-couleur)] mt-4">
-        <p className="name text-sm text-[#fff] md:text-[#212121] md:text-lg font-regular">
+        <p className="name text-[8px] font-bold text-[#fff] md:text-[#212121] md:text-lg font-regular">
           {users.prenom}
         </p>
         <p className="description text-sm hidden md:block text-gray-500">
-          {users.isAdmin ? "Administrateur" : "Utilisateur"}
+          {users.email}
         </p>
       </div>
 

@@ -1,31 +1,67 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaDownload } from "react-icons/fa";
-import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 
-export const RapportTelecharger = () => {
+import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
+
+import * as mammoth from "mammoth";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+
+export const RapportTelecharger = ({ doc }) => {
   const [rapports, setRapports] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const fetchRapports = async () => {
-    try {
-      const token = localStorage.getItem("token"); // ou autre méthode pour stocker ton token
-      const res = await axios.get("http://localhost:8000/download/all/userRapport", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setRapports(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des rapports :", error);
-      setLoading(false);
-    }
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [pdfError, setPdfError] = useState(null);
+  const { docHtml, setDocHtml } = usePublication();
 
   useEffect(() => {
+    const fetchRapports = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("https://tache21-back.onrender.com/download/all/userRapport", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setRapports(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des rapports :", error);
+        setLoading(false);
+      }
+    };
+
     fetchRapports();
   }, []);
+
+  const handleDocumentClick = async (e, file, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+  
+    if (type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      await convertDocxToHtml(file);
+    } else {
+      const encodedUrl = encodeURIComponent(file);
+      const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
+      window.open(viewerUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+  
+
+  const convertDocxToHtml = async (file) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(file);
+      const blob = await response.blob();
+      const arrayBuffer = await blob.arrayBuffer();
+      const result = await mammoth.convertToHtml({ arrayBuffer });
+      setDocHtml(result.value || "<p>Aucun contenu à afficher</p>");
+    } catch (err) {
+      console.error("Erreur de conversion docx:", err);
+      setDocHtml("<p>Erreur d'affichage</p>");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-6">
@@ -37,40 +73,72 @@ export const RapportTelecharger = () => {
         <p className="text-center">Chargement...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 place-items-center">
-          {rapports.map((doc, i) => (
-            <div
+           {rapports.map((rapport, i) => {
+            const { rapportId } = rapport;
+            const ispdf = rapportId?.type === "application/pdf";
+            const isdoc = rapportId?.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+           
+            return (
+              <div
               key={i}
-              className="bg-white shadow-lg rounded-xl overflow-hidden w-[90%] flex-auto transition-transform hover:scale-[1.02]"
-            >
-              {/* Placeholder image si tu n'as pas d'image */}
-              <img
-                src="/rapport-placeholder.jpg"
-                alt={doc.rapportId?.title}
-                className="h-[180px] w-full object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-lg font-bold text-gray-800 px-4">
-                  {doc.rapportId?.title}
-                </h2>
-                <TextExpandable>
-                  {doc.rapportId?.description}
-                </TextExpandable>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-green-600 text-sm flex items-center gap-2">
-                    <FaDownload /> Téléchargé
-                  </span>
-                  <a
-                    href={doc.rapportId?.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 text-sm hover:underline"
-                  >
-                    Voir le rapport
-                  </a>
+              className="bg-white shadow-lg rounded-xl overflow-hidden w-[90%] h-[300px] transition-transform hover:scale-[1.02]"
+              >
+                <div
+                  className="relative rounded-md overflow-hidden mb-4 cursor-pointer group"
+                  onClick={(e) => handleDocumentClick(e, rapportId?.file, rapportId?.type)}
+                >
+                  <div className="absolute inset-0 bg-opacity-0 bg-black/10  transition-all duration-300 flex items-center justify-center  z-10">
+                    <span className="bg-amber-500 text-white px-4 py-2 rounded-lg font-bold">
+                      {ispdf ? "Lire le PDF" : isdoc ? "Ouvrir le document" : "Voir le fichier"}
+                    </span>
+                  </div>
+
+                  {ispdf ? (
+                    <div className="w-full max-h-[250px] relative">
+                      {pdfError && <p className="text-red-500">{pdfError}</p>}
+                      <PdfViewer file={rapportId.file} width={null} height={"200"}/>
+                    </div>
+                  ) : isdoc ? (
+                    <div className="w-full min-h-[200px] bg-gray-100 p-4">
+                      {isLoading ? (
+                        <p>Chargement du document...</p>
+                      ) : (
+                        <div
+                          className="docx-preview max-h-64"
+                          dangerouslySetInnerHTML={{ __html: docHtml }}
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <div className="w-[50%]">
+                      <img
+                        src="/images/word.jpg"
+                        alt={rapportId?.title}
+                        className="w-full h-[200px] object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-2">
+                  <h2 className="text-md font-bold line-clamp-1 text-gray-800 px-4">
+                  {rapportId?.title}
+                  </h2>
+                  <div className="mt-6 flex gap-2 items-center justify-between">
+                    <span className="text-green-600 text-sm flex items-center gap-2">
+                      <FaDownload /> Téléchargé
+                    </span>
+                   
+                   <p className="line-clamp-1">Publié par : {rapportId?.userId?.prenom || "Utilisateur inconnu"}</p>
+                   {/* <p className="text-sm text-gray-500 mt-1">
+                Téléchargé le : {new Date(rapportId?.createdAt).toLocaleDateString()}
+                </p> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

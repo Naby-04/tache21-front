@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { FaTrash, FaTimes } from "react-icons/fa";
-import { Document, Page, pdfjs } from "react-pdf";
 import mammoth from "mammoth";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
+import PdfViewer from "../DashboardUsers/PdfViewer/PdfViewer";
 
 const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
   const [docxHtml, setDocxHtml] = useState('');
-  const [showModal, setShowModal] = useState(false); // ✅ Nouveau
+  const [showModal, setShowModal] = useState(false);
   const isPdf = rapport.type === "application/pdf";
   const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
   useEffect(() => {
     if (isDocx) {
-      fetch(rapport.fileUrl)
+      fetch(rapport.file)
         .then(response => response.blob())
         .then(blob => {
           const reader = new FileReader();
@@ -27,7 +25,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
           reader.readAsArrayBuffer(blob);
         });
     }
-  }, [rapport.fileUrl, isDocx]);
+  }, [rapport.file, isDocx]);
 
   const handleDeleteConfirmed = () => {
     onDelete(rapport._id);
@@ -40,9 +38,10 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
         {/* Aperçu du fichier */}
         <div className="relative shadow-md border border-gray-300 w-full lg:w-60 flex justify-center items-center h-52 bg-gray-50 px-3 py-5 overflow-hidden rounded">
           {isPdf ? (
-            <Document file={rapport.fileUrl}>
-              <Page pageNumber={1} width={200} renderTextLayer={false} />
-            </Document>
+            <PdfViewer
+            file={rapport.file}
+            width={"200"}
+            />
           ) : isDocx ? (
             <div
               className="prose text-sm max-h-full p-2"
