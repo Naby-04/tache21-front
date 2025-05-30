@@ -64,7 +64,7 @@ function ReportCard({ report, isLoggedIn }) {
         </div>
       </section>
 
-      {/* Overlay floue quand le premier modal s'ouvre */}
+      {/* Floue quand le premier modal s'ouvre */}
       {(isModalOpen || isSecondModal) && (
         <div
           className="fixed inset-0 z-30 bg-white bg-opacity-40 backdrop-blur-md"
