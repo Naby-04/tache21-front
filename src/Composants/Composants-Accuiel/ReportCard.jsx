@@ -42,7 +42,9 @@ function ReportCard({ report, isLoggedIn }) {
               .then((result) => {
                 setDocxPreview(result.value);
               })
-              .catch(() => setDocxPreview("<p>Impossible de charger l'aperçu.</p>"));
+              .catch(() =>
+                setDocxPreview("<p>Impossible de charger l'aperçu.</p>")
+              );
           };
           reader.readAsArrayBuffer(blob);
         })
@@ -77,7 +79,31 @@ function ReportCard({ report, isLoggedIn }) {
     const isPdf = fileType.includes("pdf");
     const isDocx = fileType.includes("wordprocessingml") || fileType === "docx";
 
-   
+    // Si utilisateur pas connecté, on affiche direct fallback image
+    if (!isLoggedIn && (isPdf || isDocx)) {
+      return (
+        <div className="flex items-center justify-center h-55 w-full relative">
+          <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
+          <img
+            src={isPdf ? siPdf : siWord}
+            alt={isPdf ? "PDF fallback" : "Word fallback"}
+            className="h-[160px] max-w-[250px] object-contain"
+          />
+        </div>
+      );
+    }
+
+    // // // Si erreur de chargement, on affiche fallback aussi
+    if (docLoadError) {
+      return (
+        <img
+          src={isPdf ? siPdf : siWord}
+          alt={isPdf ? "PDF fallback" : "Word fallback"}
+          className="max-h-full max-w-full object-contain"
+        />
+      );
+    }
+
     // Sinon, affichage normal
     return (
       <div className="relative flex items-center justify-center mb-4 overflow-hidden bg-gray-200 w-full h-full shadow rounded-md">
@@ -86,10 +112,31 @@ function ReportCard({ report, isLoggedIn }) {
         {/* Contenu du preview */}
         <div className="relative z-20">
           {isPdf ? (
-           <PdfViewer
-           file={report.file}
-           width={"200"}
-           />
+            // <Document
+            //   file={report.file}
+            //   onLoadError={() => setDocLoadError(true)}
+            //   onSourceError={() => setDocLoadError(true)}
+            // >
+            <Document
+              file={report.file}
+              // onLoadSuccess={onDocumentLoadSuccess}
+              // onLoadError={(error) => console.error("Erreur chargement PDF :", error)}
+              onLoadError={(error) => {
+                console.error("Erreur de chargement PDF :", error);
+                setDocLoadError(true);
+              }}
+              onSourceError={(error) => {
+                console.error("Erreur source PDF :", error);
+                setDocLoadError(true);
+              }}
+            >
+              <Page
+                pageNumber={1}
+                width={250}
+                renderTextLayer={false}
+                className="mx-auto"
+              />
+            </Document>
           ) : isDocx ? (
             <div
               className="text-sm text-gray-700 max-h-full overflow-hidden"
@@ -116,12 +163,16 @@ function ReportCard({ report, isLoggedIn }) {
     <>
       <section className="z-10">
         <div className="bg-white mx-auto rounded shadow-xl border border-gray-300 relative modal flex flex-col justify-between h-[400px] max-w-[350px] pb-3">
-          <div className="h-55 mb-2 border-b-2 border-gray-800">{renderPreview()}</div>
+          <div className="h-55 mb-2 border-b-2 border-gray-800">
+            {renderPreview()}
+          </div>
 
           <div className="flex-1 flex flex-col justify-center px-2">
             {/* Titre + Badge certifié */}
             <div className="flex flex-col mb-3 relative w-full">
-              <h3 className="text-lg font-semibold line-clamp-1">{report.title}</h3>
+              <h3 className="text-lg font-semibold line-clamp-1">
+                {report.title}
+              </h3>
               <div className="flex bg-gray-100 text-gray-700 text-xs font-medium px-1 py-1 w-fit rounded">
                 {report.category || "Sans catégorie"}
               </div>
@@ -187,7 +238,8 @@ function ReportCard({ report, isLoggedIn }) {
                 {report.tags || "Python, JS, Développement Web"}
               </p>
               <p className="mb-4">
-                <span className="font-semibold">Type :</span> {fileType || "docx"}
+                <span className="font-semibold">Type :</span>{" "}
+                {fileType || "docx"}
               </p>
 
               <div className="flex gap-4">
