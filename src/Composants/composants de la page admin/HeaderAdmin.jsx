@@ -10,9 +10,11 @@ const HeaderAdmin = ({ onSearch }) => {
   const navigate = useNavigate();
 
   const change = () => setAffichage(!affichage);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
     setUsers(null);
     navigate("/");
   };
