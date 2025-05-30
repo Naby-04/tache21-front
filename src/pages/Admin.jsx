@@ -34,6 +34,7 @@ const Admin = () => {
   const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
   const [rapportfiltre, setRapportFiltre] = useState([]);
   const [topRapports, setTopRapports] = useState([]);
+  const [topRapportsFiltres, setTopRapportsFiltres] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
@@ -131,18 +132,38 @@ const Admin = () => {
 
 
   // 🔍 Recherche et filtre dans "dashboard"
+  // const filtrerRapportsParTexte = (texte) => {
+  //   setRechercheDashboard(texte);
+  //   let filtered = rapportsOriginaux;
+
+  //   if (texte !== "") {
+  //     filtered = filtered.filter((r) =>
+  //       r.title.toLowerCase().includes(texte.toLowerCase())
+  //     );
+  //   }
+
+  //   setRapportFiltre(filtered);
+  // };
   const filtrerRapportsParTexte = (texte) => {
-    setRechercheDashboard(texte);
-    let filtered = rapportsOriginaux;
+  setRechercheDashboard(texte);
 
-    if (texte !== "") {
-      filtered = filtered.filter((r) =>
-        r.title.toLowerCase().includes(texte.toLowerCase())
-      );
-    }
+  let filteredRapports = rapportsOriginaux;
+  let filteredTops = topRapports;
 
-    setRapportFiltre(filtered);
-  };
+  if (texte !== "") {
+    filteredRapports = filteredRapports.filter((r) =>
+      r.title.toLowerCase().includes(texte.toLowerCase())
+    );
+
+    filteredTops = topRapports.filter((item) =>
+      item.rapport.title.toLowerCase().includes(texte.toLowerCase())
+    );
+  }
+
+  setRapportFiltre(filteredRapports);
+  setTopRapportsFiltres(filteredTops);
+};
+
 
   // 🔍 Recherche + catégorie dans "rapports"
   const filtrerRapportsParTexteEtCategorie = (texte) => {
@@ -272,21 +293,26 @@ const Admin = () => {
     <div className="h-screen flex">
       <SidebarAdmin setVueActive={setVueActive} />
       <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
-        {vueActive === "users" && <HeaderAdmin onSearch={changement} />}
-        {vueActive === "dashboard" && <HeaderAdmin onSearch={filtrerRapportsParTexte} />}
-        {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapports} telechargement={telecharge} />
+          <>
+          <HeaderAdmin onSearch={filtrerRapportsParTexte} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapportsFiltres.length ? topRapportsFiltres : topRapports} telechargement={telecharge} />
+          </>
         )}
 
         {vueActive === "users" && (
+          <>
+          <HeaderAdmin onSearch={changement} />
           <div className="p-3 w-full">
             <Users lesUtilisateurs={filtreUser} onDelete={supprimerUtilisateur} />
           </div>
+          </>
         )}
 
         {vueActive === "rapports" && (
+          <>
+          <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />
           <div className="p-3 w-full">
             {rapportSelect ? (
               <DetailRapportAdmin
@@ -315,6 +341,7 @@ const Admin = () => {
               </>
             )}
           </div>
+          </>
         )}
       </main>
     </div>
