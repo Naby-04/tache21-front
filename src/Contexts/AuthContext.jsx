@@ -6,7 +6,7 @@ const initialUser = {
   photo:"",
   isAdmin: false,
 }
-const AuthContext = createContext({users: initialUser, setUsers: () => {}, logout: () => {}});
+const AuthContext = createContext({users: null, setUsers: () => {}, logout: () => {}});
 
 export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(() => {
