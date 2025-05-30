@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Document, Page } from "react-pdf";
 import { FaCheckCircle } from "react-icons/fa";
 import mammoth from "mammoth";
 import siWord from "../../assets/siWord.png";
 import siPdf from "../../assets/siPdf.png";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 function ReportCard({ report, isLoggedIn }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
