@@ -16,8 +16,8 @@ const Connexion = () => {
   // Ajout de l'état pour afficher/masquer le mot de passe
   const [showPassword, setShowPassword] = useState(false);
 
-   const {url} = usePublication()
-// console.log("url",url);
+  const { url } = usePublication();
+  // console.log("url",url);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -123,11 +123,19 @@ const Connexion = () => {
 
         {/* Formulaire de connexion */}
         <div className="md:w-[50%] text-xs px-8 w-full flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Se connecter</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Se connecter
+          </h2>
 
-          <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
+          <form
+            className="w-full flex flex-col items-center"
+            onSubmit={handleSubmit}
+          >
             <div className="mb-2 w-[70%]">
-              <label htmlFor="email" className="block text-gray-800 text-sm font-bold mb-2">
+              <label
+                htmlFor="email"
+                className="block text-gray-800 text-sm font-bold mb-2"
+              >
                 Entrez votre email
               </label>
               <input
@@ -142,7 +150,10 @@ const Connexion = () => {
             </div>
 
             <div className="mb-2 w-[70%]">
-              <label htmlFor="password" className="block text-gray-800 text-sm font-bold mb-2">
+              <label
+                htmlFor="password"
+                className="block text-gray-800 text-sm font-bold mb-2"
+              >
                 Mot de passe
               </label>
               <div className="relative">
@@ -194,7 +205,11 @@ const Connexion = () => {
               type="button"
               className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full cursor-pointer"
             >
-              <img src="/images/google.png" alt="Google" className="w-10 h-10" />
+              <img
+                src="/images/google.png"
+                alt="Google"
+                className="w-10 h-10"
+              />
               <span>Google</span>
             </button>
           </div>
@@ -208,7 +223,10 @@ const Connexion = () => {
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
             Vous n'avez pas de compte ?{" "}
-            <Link to="/inscription" className="font-bold text-sm text-gray-800 hover:text-gray-400">
+            <Link
+              to="/inscription"
+              className="font-bold text-sm text-gray-800 hover:text-gray-400"
+            >
               S'inscrire
             </Link>
           </div>

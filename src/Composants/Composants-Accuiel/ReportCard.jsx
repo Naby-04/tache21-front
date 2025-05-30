@@ -83,29 +83,29 @@ function ReportCard({ report, isLoggedIn }) {
 
     
     // Si utilisateur pas connecté, on affiche direct fallback image
-    // if (!isLoggedIn && (isPdf || isDocx)) {
-    //   return (
-    //     <div className="flex items-center justify-center h-55 w-full relative">
-    //       <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
-    //       <img
-    //         src={isPdf ? siPdf : siWord}
-    //         alt={isPdf ? "PDF fallback" : "Word fallback"}
-    //         className="h-[160px] max-w-[250px] object-contain"
-    //       />
-    //     </div>
-    //   );
-    // }
+    if (!isLoggedIn && (isPdf || isDocx)) {
+      return (
+        <div className="flex items-center justify-center h-55 w-full relative">
+          <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
+          <img
+            src={isPdf ? siPdf : siWord}
+            alt={isPdf ? "PDF fallback" : "Word fallback"}
+            className="h-[160px] max-w-[250px] object-contain"
+          />
+        </div>
+      );
+    }
 
-    // // Si erreur de chargement, on affiche fallback aussi
-    // if (docLoadError) {
-    //   return (
-    //     <img
-    //       src={isPdf ? siPdf : siWord}
-    //       alt={isPdf ? "PDF fallback" : "Word fallback"}
-    //       className="max-h-full max-w-full object-contain"
-    //     />
-    //   );
-    // }
+    // // // Si erreur de chargement, on affiche fallback aussi
+    if (docLoadError) {
+      return (
+        <img
+          src={isPdf ? siPdf : siWord}
+          alt={isPdf ? "PDF fallback" : "Word fallback"}
+          className="max-h-full max-w-full object-contain"
+        />
+      );
+    }
 
     // Sinon, affichage normal
     return (
@@ -122,6 +122,8 @@ function ReportCard({ report, isLoggedIn }) {
             // >
             <Document
   file={report.file}
+  // onLoadSuccess={onDocumentLoadSuccess}
+  // onLoadError={(error) => console.error("Erreur chargement PDF :", error)}
   onLoadError={(error) => {
     console.error("Erreur de chargement PDF :", error);
     setDocLoadError(true);
