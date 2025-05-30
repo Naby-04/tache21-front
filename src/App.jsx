@@ -65,18 +65,18 @@ const App = () => {
           <Route
             path="/connexion"
             element={
-              //<PublicRoute>
-              <Connexion />
-              //Repo</PublicRoute>
+              <PublicRoute>
+                <Connexion />
+              </PublicRoute>
             }
           />
 
           <Route
             path="/users"
             element={
-              //<ProtectedRoute>
-              <DashboardUsers />
-              //</ProtectedRoute>
+              <ProtectedRoute>
+                <DashboardUsers />
+              </ProtectedRoute>
             }
           >
             <Route
@@ -160,50 +160,50 @@ export default App;
   <Route
     path="/"
     element={
-      //<PublicRoute>
-      <HomePage />
-      // </PublicRoute>
+      <PublicRoute>
+        <HomePage />
+      </PublicRoute>
     }
   />
   <Route
     path="/admin"
     element={
-      //<ProtectedRoute>
-      <Admin />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <Admin />
+      </ProtectedRoute>
     }
   />
   {/* ---------------Page authentification--------------- */}
   <Route
     path="/inscription"
     element={
-      //<PublicRoute>
-      <Inscription />
-      //</PublicRoute>
+      <PublicRoute>
+        <Inscription />
+      </PublicRoute>
     }
   />
   <Route
     path="/connexion"
     element={
-      //<PublicRoute>
-      <Connexion />
-      //</PublicRoute>
+      <PublicRoute>
+        <Connexion />
+      </PublicRoute>
     }
   />
   <Route
     path="/reinitialisermdp/:token"
     element={
-      //<PublicRoute>
-      <ReinitialiserMdp />
-      //</PublicRoute>
+      <PublicRoute>
+        <ReinitialiserMdp />
+      </PublicRoute>
     }
   />
   <Route
     path="/motdepasseoublie"
     element={
-      //<PublicRoute>
-      <MotDePassOublie />
-      //</PublicRoute>
+      <PublicRoute>
+        <MotDePassOublie />
+      </PublicRoute>
     }
   />
   {/* ---------------Page authentification exit--------------- */}
@@ -211,51 +211,51 @@ export default App;
   <Route
     path="/users"
     element={
-      //<ProtectedRoute>
-      <DashboardUsers />
-      //</ProtectedRoute>
+      <ProtectedRoute>
+        <DashboardUsers />
+      </ProtectedRoute>
     }
   >
     <Route index element={<Acceuil />} />
     <Route
       path="rapport"
       element={
-        // <ProtectedRoute>
-        <Rapport />
-        // </ProtectedRoute>
+        <ProtectedRoute>
+          <Rapport />
+        </ProtectedRoute>
       }
     />
     <Route
       path="rapportTelecharger"
       element={
-        // <ProtectedRoute>
-        <RapportTelecharger />
-        // </ProtectedRoute>
+        <ProtectedRoute>
+          <RapportTelecharger />
+        </ProtectedRoute>
       }
     />
   </Route>
   <Route
     path="/pageParametre"
     element={
-      // <ProtectedRoute>
-      <PageParametresCompte />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <PageParametresCompte />
+      </ProtectedRoute>
     }
   />
   <Route
     path="/publicationRapport"
     element={
-      //<ProtectedRoute>
-      <PublicationForm />
-      //</ProtectedRoute>
+      <ProtectedRoute>
+        <PublicationForm />
+      </ProtectedRoute>
     }
   />
   <Route
     path="/rapports"
     element={
-      //<PublicRoute>
-      <RapportsAccueil />
-      //</PublicRoute>
+      <PublicRoute>
+        <RapportsAccueil />
+      </PublicRoute>
     }
   />
   <Route path="/commentaires" element={<CommentairesSection />} />
