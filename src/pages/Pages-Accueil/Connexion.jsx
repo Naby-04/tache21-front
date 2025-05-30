@@ -106,7 +106,11 @@ const Connexion = () => {
       // await fetchProfil();
       toast.success("Connexion réussie !");
       resetFormData();
-      navigate(data.user.isAdmin ? "/admin" : "/users");
+      if (data.user && data.user.isAdmin === true) {
+        navigate("/admin");
+      } else {
+        navigate("/users");
+      }
     } catch (error) {
       toast.error("Erreur de connexion : " + error.message);
       console.error("Erreur lors de la connexion :", error);
