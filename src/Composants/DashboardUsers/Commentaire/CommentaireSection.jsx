@@ -52,7 +52,7 @@ export const CommentairesSection = ({ rapportId }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/api/comments/${idCommentToDelete}`, {
+      const res = await fetch(`${url}/api/comments/${idCommentToDelete}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

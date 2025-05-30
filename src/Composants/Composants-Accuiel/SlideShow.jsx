@@ -1,47 +1,85 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import background from "../../assets/background.jpg"
+import accueil from "../../assets/accueilt.png";
+import test from "../../assets/test 1.png";
+import testi from "../../assets/test 2.png";
 
+import RainbowMessages from "./Animation";
 
 const SlideShow = () => {
+  const images = [accueil, test, testi];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    // Timer qui gère l’affichage + transition
+    const displayTime = 5000;  // 5 secondes affichage
+    const transitionTime = 1000; // 1 seconde transition
+
+    const interval = setInterval(() => {
+      // Démarre la transition (image sort)
+      setIsTransitioning(true);
+
+      // Après la transition, change d’image
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setIsTransitioning(false); // Fin transition
+      }, transitionTime);
+    }, displayTime + transitionTime);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
-    <section id="show">
-  <div className="relative h-[425px] slideshow-bg mx-auto overflow-hidden rounded-none md:rounded-2xl shadow-lg mt-28 mb-15 w-100% md:w-[95%] bg-amber-100">
-  {/* Superposition */}
-  <div className="relative h-full w-full">
-    <div className="absolute top-0 left-0 w-[100%] md:w-[90%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-10"></div>
-    <div className="absolute top-[20%] left-0 w-[100%] md:w-[80%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-20"></div>
-    <div className="absolute top-[40%] left-0 w-[100%] md:w-[70%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-30"></div>
-    <div className="absolute top-[60%] left-0 w-[100%] md:w-[60%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-40"></div>
-    <div className="absolute bottom-0 left-0 w-[100%] md:w-[50%] h-[20%] bg-gray-100 opacity-80 rounded-none md:rounded-br-xl shadow-lg z-50"></div>
+    <section id="show" className="w-full">
+      <div className="relative min-h-[500px] md:min-h-[600px] lg:min-h-[100vh] mx-auto overflow-hidden pt-20 md:pt-30 mb-10 w-full px-4">
+        <div className="absolute inset-0 z-40 bg-gradient-to-l from-gray-300/20 via-white/0 to-transparent pointer-events-none"></div>
 
-    {/* Image */}
-    <img src={background} alt="" className="absolute z-0 right-0 h-full w-full object-cover" />
-  </div>
+        <div className="relative w-full h-full flex flex-col-reverse md:flex-row items-center justify-center bg-white">
+          {/* Texte */}
+          <div className="w-full md:w-1/2 flex flex-col justify-center items-start px-6 pt-6 pb-8 md:px-12 z-50">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5" style={{fontFamily: "var(--font-subtitle)", color: "rgb(30, 41, 57)"}}>
+              Plateforme de Partage de rapports
+            </h1>
+            <p className="text-gray-700 text-sm sm:text-base md:text-lg lg:text-xl mb-6 max-w-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta natus aut atque ut unde eveniet...
+            </p>
+            <Link to="/rapports">
+              <button className="bg-gray-800 mt-3 text-amber-300 px-6 py-3 rounded-full font-semibold hover:bg-amber-300 hover:text-gray-800 transition cursor-pointer shadow">
+                Découvrir les meilleurs rapports
+              </button>
+            </Link>
+          </div>
 
-  {/* Texte centré responsive */}
-  <div className="absolute inset-0 z-60 flex flex-col items-center md:items-start justify-center text-start px-4 sm:px-8 gap-3">
-    <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-      Plateforme de Partage de rapports
-    </p>
-    <p className="text-center md:text-start sm:text-lg md:text-xl max-w-xl text-gray-800 font-semibold mb-4">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta natus aut atque ut unde eveniet...
-    </p>
-    <Link to="/rapports">
-      <button className="mt-3 bg-amber-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-600 transition">
-        Découvrir les meilleurs rapports
-      </button>
-    </Link>
-  </div>
+          {/* Image avec transition */}
+          {/* <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-0 z-50 overflow-hidden max-h-[400px] relative">
+            <img
+              src={images[currentIndex]}
+              alt="illustration"
+              className={`w-full h-auto max-h-[400px] object-contain
+                transition-all duration-1000 ease-in-out
+                ${isTransitioning ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"}`}
+            />
+          </div> */}
+          <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-0 z-50 overflow-hidden relative">
+            <img
+              src={images[currentIndex]}
+              alt="illustration"
+              className={`max-w-full h-auto object-contain
+                transition-all duration-1000 ease-in-out
+                ${isTransitioning ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"}
+                max-h-[220px] sm:max-h-[280px] md:max-h-[360px] lg:max-h-[420px]`}
+            />
+          </div>
 
-  {/* Dégradé */}
-  <div className="absolute top-0 left-0 w-full h-full z-50 rounded-xl bg-gradient-to-r from-white/80 via-white/20 to-white/5 pointer-events-none"></div>
+        </div>
 
-  {/* <div className="absolute top-0 left-0 w-full h-full z-50 rounded-xl bg-gradient-to-br from-black/40 via-transparent to-black/30 pointer-events-none"></div> */}
-</div>
-</section>
+        <RainbowMessages />
 
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-white/70 via-white/10 to-transparent pointer-events-none"></div>
+      </div>
+    </section>
   );
 };
 

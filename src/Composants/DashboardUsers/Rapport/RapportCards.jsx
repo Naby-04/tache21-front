@@ -16,13 +16,19 @@ export const RapportCard = ({ doc }) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
+  
 
 
+  // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-  // Conversion des DOCX en HTML améliorée
+  // Affichage PDF ou conversion DOCX
   useEffect(() => {
+    if (ispdf && doc.file) {
+      setIsLoading(false);
+    }
+
     if (!isdoc || !doc.file) return;
 
     const convertDocxToHtml = async () => {
@@ -31,20 +37,20 @@ export const RapportCard = ({ doc }) => {
         const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
-        
+
         const result = await mammoth.convertToHtml(
           { arrayBuffer },
           {
             styleMap: [
               "p[style-name='Heading 1'] => h1:fresh",
               "p[style-name='Heading 2'] => h2:fresh",
-              "p[style-name='Heading 3'] => h3:fresh"
+              "p[style-name='Heading 3'] => h3:fresh",
             ],
             includeEmbeddedStyleMap: true,
-            includeDefaultStyleMap: true
+            includeDefaultStyleMap: true,
           }
         );
-        
+
         setDocHtml(result.value || "<p>Aucun contenu à afficher</p>");
       } catch (err) {
         console.error("Erreur de conversion docx:", err);
@@ -59,11 +65,11 @@ export const RapportCard = ({ doc }) => {
     };
 
     convertDocxToHtml();
-  }, []);
+  }, [doc]);
 
   // Gestion des commentaires
 
-  const handleCommentSubmit = async (comment) => {
+const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -84,13 +90,14 @@ export const RapportCard = ({ doc }) => {
       return;
     }
 
-    // Facultatif : Affiche commentaires après ajout
+    // ✅ Afficher commentaires après ajout
     setShowComments(true);
     setShowCommentBox(false);
   } catch (error) {
     console.error("Erreur ajout commentaire :", error);
   }
 };
+
 
 
   // Gestion du clic sur le document
@@ -111,18 +118,51 @@ const handleDocumentClick = (e) => {
 };
 
   // Gestion du téléchargement
-  const handleDownload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const link = document.createElement('a');
-    link.href = doc.file;
-    link.download = doc.title || 'document';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (rapportId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors du téléchargement");
+      }
+
+      const blob = await response.blob();
+      const fileURL = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = doc.title || "document";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.error("Erreur de téléchargement :", error.message);
+      alert("Échec du téléchargement. Vérifie ton authentification.");
+    }
   };
+
+
+
+  // const handleDownload = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+    
+  //   const link = document.createElement('a');
+  //   link.href = doc.file;
+  //   link.download = doc.title || 'document';
+  //   link.style.display = 'none';
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
 
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
@@ -150,7 +190,11 @@ const handleDocumentClick = (e) => {
           <p className="font-semibold text-sm text-gray-800">{doc.userId ? `${doc.userId.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
-            <small className="text-gray-500">{doc.createdAt}</small>
+            <small className="text-gray-500">{new Date(doc.createdAt).toLocaleString("fr-FR", {
+             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+             hour: '2-digit', minute: '2-digit'
+           })}
+          </small>
           </p>
         </div>
       </div>
@@ -228,26 +272,45 @@ const handleDocumentClick = (e) => {
       {/* Barre d'actions */}
       <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
         <button
-          onClick={() => setShowCommentBox(!showCommentBox)}
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-        >
-          <FaCommentAlt />
-          <span className="hidden md:block">Commenter</span>
-        </button>
+  onClick={() => {
+    setShowCommentBox((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowComments(false); // Masquer les commentaires si on ouvre le champ
+      }
+      return newState;
+    });
+  }}
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+>
+  <FaCommentAlt />
+  <span className="hidden md:block">Commenter</span>
+</button>
 
-        <button 
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-          onClick={() => setShowComments(!showComments)}
-        >
-          <FaEye />
-          <span className="hidden md:block">
-            {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
-          </span>
-        </button>
+
+
+        <button
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+  onClick={() => {
+    setShowComments((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowCommentBox(false); // Masquer le champ de commentaire si on ouvre les commentaires
+      }
+      return newState;
+    });
+  }}
+>
+  <FaEye />
+  <span className="hidden md:block">
+    {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
+  </span>
+</button>
+
 
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
-          onClick={handleDownload}
+          onClick={() => handleDownload(doc._id)}
         >
           <FaCloudDownloadAlt />
           <span className="hidden md:block">Télécharger</span>

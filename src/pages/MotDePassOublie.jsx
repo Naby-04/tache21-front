@@ -9,7 +9,7 @@ function MotDePassOublie() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/api/users/forget-password", {
+      const response = await fetch("https://tache21-back.onrender.com/api/users/forget-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,10 +60,10 @@ function MotDePassOublie() {
             />
           </div>
           <button
-            className="bg-gray-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-7"
+            className="bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-7"
             type="submit"
           >
-            Obtenir le lien
+            Réinitialiser
           </button>
         </form> 
         {/* {error && (
@@ -77,7 +77,7 @@ function MotDePassOublie() {
           <p className="text-gray-700 text-sm">
             Tu te souviens du mot de passe ?
             <Link
-              className="font-bold text-gray-700 hover:text-blue-800 ml-1"
+              className="font-bold text-gray-700  ml-1"
               to="/connexion"
             >
               Se Connecter

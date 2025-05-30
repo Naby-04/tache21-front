@@ -13,7 +13,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
 
   useEffect(() => {
     if (isDocx) {
-      fetch(rapport.fileUrl)
+      fetch(rapport.file)
         .then(response => response.blob())
         .then(blob => {
           const reader = new FileReader();
@@ -27,7 +27,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
           reader.readAsArrayBuffer(blob);
         });
     }
-  }, [rapport.fileUrl, isDocx]);
+  }, [rapport.file, isDocx]);
 
   const handleDeleteConfirmed = () => {
     onDelete(rapport._id);
@@ -40,7 +40,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
         {/* Aperçu du fichier */}
         <div className="relative shadow-md border border-gray-300 w-full lg:w-60 flex justify-center items-center h-52 bg-gray-50 px-3 py-5 overflow-hidden rounded">
           {isPdf ? (
-            <Document file={rapport.fileUrl}>
+            <Document file={rapport.file}>
               <Page pageNumber={1} width={200} renderTextLayer={false} />
             </Document>
           ) : isDocx ? (
@@ -62,13 +62,13 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
           <div className="flex gap-2 items-center">
             <div className="w-8 h-8 rounded-full relative bg-amber-200 overflow-hidden">
               <img
-                src={rapport.user?.photoURL || "/images/default-user.png"}
+                src={rapport.userId?.photo || "/images/default-user.png"}
                 alt="Utilisateur"
                 className="absolute w-full h-full object-cover rounded-full"
               />
             </div>
             <div>
-              <p className="text-sm font-medium">{rapport.user?.prenom}</p>
+              <p className="text-sm font-medium">{rapport.userId?.prenom}</p>
               <p className="text-xs text-gray-600">{rapport.category}</p>
             </div>
           </div>
@@ -109,7 +109,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
             <p className="text-lg font-semibold mb-2 text-red-600">Confirmation de suppression</p>
             <p className="text-sm text-gray-800 mb-4">
               Supprimer le rapport <strong>{rapport.title}</strong> de{" "}
-              <strong>{rapport.user?.prenom}</strong> ?
+              <strong>{rapport.userId?.prenom}</strong> ?
             </p>
             <div className="flex justify-center gap-4 mt-3">
               <button

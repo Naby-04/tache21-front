@@ -29,9 +29,9 @@ console.log("fichier :", form.file);
             <input type="text" placeholder='Titre' className="border rounded w-full p-2
              outline-none border-gray-800 placeholder:text-[12px]
              placeholder:text-gray-800 text-gray-800" value={form.title} name='title'
-              onChange={handleChange} required/>
+              onChange={handleChange} required/>  
 
-            <textarea name="description" id="" rows="4" className='border rounded w-full p-2 outline-none border-gray-800
+            <textarea name="description" id="rapportDescription" rows="4" className='border rounded w-full p-2 outline-none border-gray-800
              placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]' 
              placeholder='Description' value={form.description} onChange={handleChange}></textarea>
 
