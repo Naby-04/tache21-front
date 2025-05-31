@@ -198,6 +198,7 @@ function ReportCard({ report, isLoggedIn }) {
         </div>
       </section>
 
+      {/* Floue quand le premier modal s'ouvre */}
       {(isModalOpen || isSecondModal) && (
         <div
           className="fixed inset-0 z-100 bg-gray-800/20 backdrop-blur-xs"
