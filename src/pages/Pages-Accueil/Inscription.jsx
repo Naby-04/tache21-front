@@ -7,11 +7,15 @@ import FormContext from '../../Contexts/FormContext';
 import { toast } from 'react-toastify';
 import { usePublication } from '../../Contexts/DashboardUser/UseContext';
 import { FaEye, FaEyeSlash, FaArrowLeft, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
+import AuthContext from '../../Contexts/AuthContext';
 
 const Inscription = () => {
   // const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
+  const { url } = usePublication();
+  const {setUsers} = useContext(AuthContext)
+
 
   // Ajout des états pour afficher/masquer les mots de passe
   const [showPassword, setShowPassword] = useState(false);
@@ -23,34 +27,86 @@ const Inscription = () => {
   };
 
   const handleGoogleLogin = async () => {
-    try {
-      // Connexion via Google
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      // Référence du document utilisateur dans Firestore
-      const userRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(userRef);
+    const prenom = user.displayName;
+    const email = user.email;
 
-      // Si l'utilisateur n'existe pas déjà, on l'ajoute
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          prenom: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL || null,
-          createdAt: new Date().toISOString(),
-        });
-      }
+    // 🔐 Optionnel : enregistrer dans Firestore (frontend DB)
+    const userRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(userRef);
 
-      toast.success('Connexion réussie avec Google !');
-      navigate('/users');
-    } catch (error) {
-      console.error('Erreur Google Auth:', error);
-      toast.error('Erreur lors de la connexion avec Google.');
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        prenom,
+        email,
+        photoURL: user.photoURL || null,
+        createdAt: new Date().toISOString(),
+      });
     }
-  };
 
-  const { url } = usePublication();
+    // 🔐 Récupère le token Firebase (pour sécurité si besoin)
+    const idToken = await user.getIdToken();
+
+    // 📡 Appelle ton backend pour enregistrer
+    const response = await fetch(`${url}/api/users/google-register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`, // seulement si ton backend le vérifie
+      },
+      body: JSON.stringify({ prenom, email })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+
+    // 💾 Stockage local
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userInfo', JSON.stringify(data.user));
+    setUsers(data.user);
+
+    // ✅ Connexion OK
+    toast.success('Inscription réussie avec Google !');
+    navigate('/users');
+
+  } catch (error) {
+    console.error('Erreur Google Auth:', error);
+    toast.error(error.message || 'Erreur lors de la connexion avec Google.');
+  }
+};
+
+
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     // Connexion via Google
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+
+  //     // Référence du document utilisateur dans Firestore
+  //     const userRef = doc(db, 'users', user.uid);
+  //     const docSnap = await getDoc(userRef);
+
+  //     // Si l'utilisateur n'existe pas déjà, on l'ajoute
+  //     if (!docSnap.exists()) {
+  //       await setDoc(userRef, {
+  //         prenom: user.displayName,
+  //         email: user.email,
+  //         photoURL: user.photoURL || null,
+  //         createdAt: new Date().toISOString(),
+  //       });
+  //     }
+
+  //     toast.success('Connexion réussie avec Google !');
+  //     navigate('/users');
+  //   } catch (error) {
+  //     console.error('Erreur Google Auth:', error);
+  //     toast.error('Erreur lors de la connexion avec Google.');
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 

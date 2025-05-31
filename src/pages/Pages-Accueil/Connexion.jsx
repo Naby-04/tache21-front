@@ -27,44 +27,52 @@ const Connexion = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const prenom = user.displayName || '';
-      const email = user.email;
-      // const password = user.uid;
-      const userRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(userRef);
+    const prenom = user.displayName || '';
+    const email = user.email;
+    const userRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(userRef);
 
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          prenom,
-          email,
-          createdAt: new Date().toISOString(),
-        });
-      }
-      toast.success('Connexion réussie avec Google !');
-      navigate('/users');
-
-      const idToken = await user.getIdToken();
-
-      const response = await fetch(`${url}/api/users/google-login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        prenom,
+        email,
+        createdAt: new Date().toISOString(),
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-
-      localStorage.setItem('token', data.token);
-    } catch (error) {
-      console.error('Erreur Google SignIn :', error);
     }
-  };
+
+    const idToken = await user.getIdToken(); 
+
+    const response = await fetch(`${url}/api/users/google-login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`, 
+      },
+      body: JSON.stringify({ email, prenom })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    localStorage.setItem('token', data.token);
+
+    localStorage.setItem('userInfo', JSON.stringify(data.user));
+
+    setUsers(data.user); // depuis AuthContext
+
+    toast.success('Connexion réussie avec Google !');
+    navigate('/users');
+
+  } catch (error) {
+    console.error('Erreur Google SignIn :', error);
+    toast.error('Échec connexion Google');
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +114,6 @@ const Connexion = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('userInfo', JSON.stringify(data.user));
       setUsers(data.user); //  mise à jour du contexte
-
       // await fetchProfil();
       toast.success('Connexion réussie !');
       resetFormData();
