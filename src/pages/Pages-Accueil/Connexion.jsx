@@ -7,10 +7,12 @@ import { signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, provider, db } from '../../services/firebaseService';
 import { FaEye, FaEyeSlash, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
+import AuthContext from '../../Contexts/AuthContext';
 
 const Connexion = () => {
   const [error] = useState('');
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
+  const { setUsers } = useContext(AuthContext)
   const navigate = useNavigate();
 
   // Ajout de l'état pour afficher/masquer le mot de passe
@@ -103,6 +105,8 @@ const Connexion = () => {
       if (!response.ok) throw new Error(data.message || 'Erreur de connexion');
       localStorage.setItem('token', data.token);
       localStorage.setItem('userInfo', JSON.stringify(data.user));
+      setUsers(data.user); //  mise à jour du contexte
+
       // await fetchProfil();
       toast.success('Connexion réussie !');
       resetFormData();

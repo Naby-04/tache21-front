@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaTrash, FaTimes } from "react-icons/fa";
 import { Document, Page, pdfjs } from "react-pdf";
 import mammoth from "mammoth";
+import ErrorBoundary from "../Composants-Accuiel/ErrorBoundary";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
@@ -24,7 +25,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
       const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
       if (isDocx && !docxPreviews[rapport._id]) {
-        fetch(rapport.fileUrl)
+        fetch(rapport.file)
           .then(res => res.blob())
           .then(blob => {
             const reader = new FileReader();
@@ -50,9 +51,11 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
     return (
       <div className="w-10 h-12 bg-gray-200 rounded overflow-hidden flex items-center justify-center border border-gray-300 shadow">
         {isPdf ? (
-          <Document file={rapport.fileUrl}>
+          <ErrorBoundary>
+          <Document file={rapport.file}>
             <Page pageNumber={1} width={128} renderTextLayer={false} />
           </Document>
+          </ErrorBoundary>
         ) : isDocx ? (
           <div
             className="w-full h-full text-xs p-1 leading-tight"
