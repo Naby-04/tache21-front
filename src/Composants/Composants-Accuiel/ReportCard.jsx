@@ -44,7 +44,9 @@ function ReportCard({ report, isLoggedIn }) {
               .then((result) => {
                 setDocxPreview(result.value);
               })
-              .catch(() => setDocxPreview("<p>Impossible de charger l'aperçu.</p>"));
+              .catch(() =>
+                setDocxPreview("<p>Impossible de charger l'aperçu.</p>")
+              );
           };
           reader.readAsArrayBuffer(blob);
         })
@@ -116,12 +118,16 @@ function ReportCard({ report, isLoggedIn }) {
     <>
       <section className="z-10">
         <div className="bg-white mx-auto rounded shadow-xl border border-gray-300 relative modal flex flex-col justify-between h-[400px] max-w-[350px] pb-3">
-          <div className="h-55 mb-2 border-b-2 border-gray-800">{renderPreview()}</div>
+          <div className="h-55 mb-2 border-b-2 border-gray-800">
+            {renderPreview()}
+          </div>
 
           <div className="flex-1 flex flex-col justify-center px-2">
             {/* Titre + Badge certifié */}
             <div className="flex flex-col mb-3 relative w-full">
-              <h3 className="text-lg font-semibold line-clamp-1">{report.title}</h3>
+              <h3 className="text-lg font-semibold line-clamp-1">
+                {report.title}
+              </h3>
               <div className="flex bg-gray-100 text-gray-700 text-xs font-medium px-1 py-1 w-fit rounded">
                 {report.category || "Sans catégorie"}
               </div>
@@ -147,6 +153,7 @@ function ReportCard({ report, isLoggedIn }) {
         </div>
       </section>
 
+      {/* Floue quand le premier modal s'ouvre */}
       {(isModalOpen || isSecondModal) && (
         <div
           className="fixed inset-0 z-100 bg-gray-800/20 backdrop-blur-xs"
@@ -187,7 +194,8 @@ function ReportCard({ report, isLoggedIn }) {
                 {report.tags || "Python, JS, Développement Web"}
               </p>
               <p className="mb-4">
-                <span className="font-semibold">Type :</span> {fileType || "docx"}
+                <span className="font-semibold">Type :</span>{" "}
+                {fileType || "docx"}
               </p>
 
               <div className="flex gap-4">

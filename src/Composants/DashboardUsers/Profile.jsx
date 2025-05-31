@@ -14,7 +14,6 @@ export const Profile = () => {
   useEffect(() => {
     // console.log("✅ useEffect exécuté dans le composant Profile");
     const fetchProfil = async () => {
-      // console.log("📡 fetchProfil appelé");
       const token = localStorage.getItem("token");
       if (!token) {
         // console.warn("🚫 Aucun token trouvé");
@@ -48,17 +47,7 @@ export const Profile = () => {
   }, []);
 
   // Redirection automatique selon le rôle
-  // useEffect(() => {
-  //   if (users) {
-  //     if (users.isAdmin) {
-  //       navigate("/admin");
-  //     } else {
-  //       navigate("/users");
-  //     }
-  //   }
-  // }, []);
-
-  // console.log("users", users);
+ 
 
   const handleLogout = () => {
     localStorage.removeItem("token");
