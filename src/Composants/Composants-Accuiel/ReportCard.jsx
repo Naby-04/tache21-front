@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import mammoth from "mammoth";
 import PdfViewer from "../DashboardUsers/PdfViewer/PdfViewer";
+import ErrorBoundary from "./ErrorBoundary";
 
 
 function ReportCard({ report, isLoggedIn }) {
@@ -85,8 +86,10 @@ function ReportCard({ report, isLoggedIn }) {
         <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
         {/* Contenu du preview */}
         <div className="relative z-20">
-          {isPdf ? (
-            <PdfViewer file={report.file} width={"200"} />
+          {isPdf && report.file ? (
+            <ErrorBoundary>
+            <PdfViewer file={report.file} width={200} />
+            </ErrorBoundary>
           ) : isDocx ? (
             <div
               className="text-sm text-gray-700 max-h-full overflow-hidden"
