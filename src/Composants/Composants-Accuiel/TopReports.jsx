@@ -33,7 +33,7 @@ function TopReports() {
     };
 
     fetchTopRapports();
-  }, [url]);
+  }, []);
 
   //  useEffect(() => {
   //   if (ispdf && doc.file) {

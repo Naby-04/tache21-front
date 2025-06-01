@@ -12,7 +12,7 @@ const Chatbot = () => {
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
         <div
-          className="mb-2 w-[390px] h-[430px] rounded-lg shadow-lg border-4 border-gray-200 overflow-hidden animate-fade-slide"
+          className="mb-2 w-[390px] max-w-[95vw] h-[430px] max-h-[80vh] rounded-lg shadow-lg border-4 border-gray-200 overflow-hidden animate-fade-slide"
         >
           <iframe
             src="https://typebot.co/faq-n5ywjzo"
