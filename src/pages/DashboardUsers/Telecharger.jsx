@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaDownload , FaTrash} from "react-icons/fa";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
-
+import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { toast } from "react-toastify";
@@ -77,7 +77,7 @@ const deleteDownload = async (downloadId) => {
 
     const data = await response.json();
     if (response.ok) {
-      toast.success("✅ Supprimé :", data.message);
+      toast.success(" Supprimé :", data.message);
       setRapports((prev) => prev.filter((r) => r._id !== downloadId)); // Met à jour l'affichage
     } else {
       console.error("❌ Erreur :", data.message);
@@ -98,7 +98,10 @@ const deleteDownload = async (downloadId) => {
       </h1>
 
       {loading ? (
-        <p className="text-center">Chargement...</p>
+        <div className="flex flex-col items-center justify-center mt-10">
+        <ClipLoader color="#36d7b7" size={20} />
+        <p className="mt-4 text-center text-gray-600">Chargement...</p>
+      </div>
       ) : rapports.length === 0 ? (
         <p className="text-center text-gray-600 text-lg">
           Vous n'avez pas encore téléchargé de rapport.
