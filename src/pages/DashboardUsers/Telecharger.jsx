@@ -64,6 +64,8 @@ export const RapportTelecharger = ({ doc }) => {
   };
 
 const deleteDownload = async (downloadId) => {
+  // const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce rapport ?");
+  // if (!confirmDelete) return;
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(`https://tache21-back.onrender.com/download/${downloadId}`, {
