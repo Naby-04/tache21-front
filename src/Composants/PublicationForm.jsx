@@ -1,71 +1,113 @@
-import React from 'react'
-import { toast } from 'react-hot-toast'
-import {usePublication } from '../Contexts/DashboardUser/UseContext'
-import { categories } from '../data/Categorie'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import { usePublication } from "../Contexts/DashboardUser/UseContext";
+import { categories } from "../data/Categorie";
+import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 // import axios from 'axios'
 
 const PublicationForm = () => {
-    const { form, fileInput, handleChange,ajouterPublication } = usePublication();
+  const { form, fileInput, handleChange, ajouterPublication } =
+    usePublication();
+  const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem("token");
-    console.log("token", token);
-    
-const navigate = useNavigate()
+  const token = localStorage.getItem("token");
+  console.log("token", token);
 
+  const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  await ajouterPublication(form, fileInput, token, toast, navigate);
-};
-console.log("fichier :", form.file);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    await ajouterPublication(form, fileInput, token, toast, navigate);
+    setLoading(true);
+  };
+  console.log("fichier :", form.file);
   return (
-    <div className='mx-auto my-4 p-4 sm:p-6 md:p-8 bg-[#fff] rounded
+    <div
+      className="mx-auto my-4 p-4 sm:p-6 md:p-8 bg-[#fff] rounded
       w-full max-w-md sm:max-w-lg md:max-w-2xl
-      lg:max-w-3xl shadow-xl'>
-        <h2 className="text-center text-xl font-bold mb-6">Ajouter un Rapport</h2>
+      lg:max-w-3xl shadow-xl"
+    >
+      <h2 className="text-center text-xl font-bold mb-6">Ajouter un Rapport</h2>
 
-        <form className='space-y-4' onSubmit={handleSubmit} encType='multipart/form-data'>
-            <input type="text" placeholder='Titre' className="border rounded w-full p-2
+      <form
+        className="space-y-4"
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+      >
+        <input
+          type="text"
+          placeholder="Titre"
+          className="border rounded w-full p-2
              outline-none border-gray-800 placeholder:text-[12px]
-             placeholder:text-gray-800 text-gray-800" value={form.title} name='title'
-              onChange={handleChange} required/>  
+             placeholder:text-gray-800 text-gray-800"
+          value={form.title}
+          name="title"
+          onChange={handleChange}
+          required
+        />
 
-            <textarea name="description" id="rapportDescription" rows="4" className='border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]' 
-             placeholder='Description' value={form.description} onChange={handleChange}></textarea>
+        <textarea
+          name="description"
+          id="rapportDescription"
+          rows="4"
+          className="border rounded w-full p-2 outline-none border-gray-800
+             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]"
+          placeholder="Description"
+          value={form.description}
+          onChange={handleChange}
+        ></textarea>
 
-           <select name="category" className='border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]'
-              value={form.category} onChange={handleChange}>
-                <option value="" className='text-blue-950 text-[12px]'>Veuillez choisir une categorie</option>
-                {categories.map((categorie,i) => (
-                    <option key={i} value={categorie.value}
-                     className='text-blue-950'>{categorie.label}
-                     </option>
-                ))}
-                
-           </select>
+        <select
+          name="category"
+          className="border rounded w-full p-2 outline-none border-gray-800
+             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]"
+          value={form.category}
+          onChange={handleChange}
+        >
+          <option value="" className="text-blue-950 text-[12px]">
+            Veuillez choisir une categorie
+          </option>
+          {categories.map((categorie, i) => (
+            <option key={i} value={categorie.value} className="text-blue-950">
+              {categorie.label}
+            </option>
+          ))}
+        </select>
 
-            <input type="text" name='tags' placeholder='Entrez un/des tags separes par des virgules'
-             className='border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]'
-              onChange={handleChange} value={form.tags} />
+        <input
+          type="text"
+          name="tags"
+          placeholder="Entrez un/des tags separes par des virgules"
+          className="border rounded w-full p-2 outline-none border-gray-800
+             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]"
+          onChange={handleChange}
+          value={form.tags}
+        />
 
-            <input type="file" name="file" accept='.pdf,.doc,.docx,.xls,.xlsx'
-             required className='border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 '
-               onChange={handleChange}  ref={fileInput}/>
+        <input
+          type="file"
+          name="file"
+          accept=".pdf,.doc,.docx,.xls,.xlsx"
+          required
+          className="border rounded w-full p-2 outline-none border-gray-800
+             placeholder:text-gray-800 text-gray-800 "
+          onChange={handleChange}
+          ref={fileInput}
+        />
 
-            <button className="border bg-amber-500 rounded w-full p-2 outline-none 
-             placeholder:text-white hover:opacity-80 text-white cursor-pointer" 
-             onClick={handleSubmit}
-             >
-                Ajouter
-                </button>
-        </form>
+        <button
+          className="border bg-amber-500 rounded w-full p-2 outline-none 
+             placeholder:text-white hover:opacity-80 text-white cursor-pointer"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? <ClipLoader color="#fff" size={20} /> : "Ajouter"}
+        </button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default PublicationForm
+export default PublicationForm;
