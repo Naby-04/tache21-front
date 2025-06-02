@@ -88,7 +88,6 @@ const deleteDownload = async (downloadId) => {
 };
 
   
-  deleteDownload("6839f451c3b41acd46be8d19"); // ← L’ID à utiliser
   
 
   return (
@@ -173,7 +172,7 @@ const deleteDownload = async (downloadId) => {
              onClick={() => deleteDownload(rapport._id)}
              className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow"
              >
-            <FaTrash />
+            <FaTrash className="text-red-500"/>
            </button>
                   </div>
                 </div>
