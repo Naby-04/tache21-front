@@ -30,7 +30,6 @@ export const Profile = () => {
         if (!response.ok) throw new Error("Échec récupération profil");
 
         const data = await response.json();
-        // console.log("✅ Données utilisateur récupérées :", data);
         setUsers(data);
       } catch (error) {
         console.error("Erreur récupération profil :", error);
@@ -88,7 +87,7 @@ export const Profile = () => {
       {openMenu && (
         <div
           ref={menuRef}
-          className="absolute top-[60px] bg-white text-gray-800 shadow-lg rounded-lg w-[200px] z-50 py-2"
+          className="absolute top-[65px] left-[-5px] bg-white text-gray-800 shadow-lg rounded-lg w-[200px] z-50 py-2"
         >
           <div className="px-4 py-2 border-b">
             <p className="text-sm font-semibold">{users.prenom}</p>
