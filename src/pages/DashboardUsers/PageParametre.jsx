@@ -87,13 +87,31 @@ export const PageParametresCompte = () => {
     try {
       let photoUrl = userInfo.photo;
 
-      // ⏬ Vérifie si un fichier image a été sélectionné
+      // Vérifie si un fichier image a été sélectionné (donc image modifiée)
       if (userInfo.photoFile) {
         console.log("Upload en cours vers Cloudinary...");
         photoUrl = await uploadImageToCloudinary(userInfo.photoFile);
         console.log("Nouvelle URL de la photo :", photoUrl);
-      } else {
-        console.log("Aucune nouvelle image sélectionnée");
+      }
+
+      // 🔍 Vérification des changements
+      const currentData = {
+        prenom: users.prenom || "",
+        photo: users.photo || "",
+      };
+
+      const newData = {
+        prenom: userInfo.prenom,
+        photo: photoUrl,
+      };
+
+      const hasChanged =
+        currentData.prenom !== newData.prenom ||
+        currentData.photo !== newData.photo;
+
+      if (!hasChanged) {
+        toast.info("Aucune modification à enregistrer");
+        return;
       }
 
       // 📨 Préparer les données à envoyer
@@ -101,7 +119,7 @@ export const PageParametresCompte = () => {
         ...userInfo,
         photo: photoUrl,
       };
-      delete dataToSend.photoFile; // ne jamais envoyer l'objet fichier brut
+      delete dataToSend.photoFile;
 
       console.log("Données envoyées au backend :", dataToSend);
 
@@ -121,12 +139,8 @@ export const PageParametresCompte = () => {
 
       const result = await response.json();
       console.log("Réponse du serveur :", result);
-      console.log("Réponse du serveur de l'utilisateur :", result.user);
 
-      // 🧠 Mise à jour du contexte utilisateur
       setUsers(result.user);
-
-      // 💾 Mise à jour du localStorage sans photoFile
       localStorage.setItem("userInfo", JSON.stringify(result.user));
 
       toast.success("Modifications enregistrées avec succès !");
