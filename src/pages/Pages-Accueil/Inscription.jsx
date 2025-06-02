@@ -6,8 +6,9 @@ import { signInWithPopup } from 'firebase/auth';
 import FormContext from '../../Contexts/FormContext';
 import { toast } from 'react-toastify';
 import { usePublication } from '../../Contexts/DashboardUser/UseContext';
-import { FaEye, FaEyeSlash, FaArrowLeft, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
+import { FaEye, FaEyeSlash, FaArrowLeft, FaSignOutAlt } from 'react-icons/fa'; 
 import AuthContext from '../../Contexts/AuthContext';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Inscription = () => {
   // const [error, setError] = useState("");
@@ -15,6 +16,8 @@ const Inscription = () => {
   const navigate = useNavigate();
   const { url } = usePublication();
   const {setUsers} = useContext(AuthContext)
+  const [loading, setLoading] = useState(false);
+  
 
 
   // Ajout des états pour afficher/masquer les mots de passe
@@ -133,6 +136,7 @@ const Inscription = () => {
       toast.error('Les mots de passe ne correspondent pas.');
       return;
     }
+    setLoading(true);
 
     try {
       const response = await fetch(`${url}/api/users/register`, {
@@ -156,13 +160,14 @@ const Inscription = () => {
         localStorage.setItem('token', data.token);
         resetFormData();
         navigate('/connexion');
-      }, 1000); // Attend 1 seconde
+      }, 100); 
 
-      resetFormData(); // Réinitialise les champs
-      navigate('/connexion');
+      resetFormData(); 
     } catch (error) {
       toast.error('Erreur : ' + error.message);
       console.error("Erreur lors de l'inscription :", error);
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -189,7 +194,12 @@ const Inscription = () => {
                 Créer un compte
               </h2>
             </div>
-
+            {loading && (
+            <div className="mb-4 flex flex-col items-center text-gray-600 text-sm">
+           <ClipLoader color="#36d7b7" size={40} />
+          <span className="mt-2">Connexion en cours...</span>
+              </div>
+           )}
             <form
               className="w-full flex flex-col items-center"
               onSubmit={handleSubmit}

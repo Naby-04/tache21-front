@@ -10,12 +10,14 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
+
 export const RapportCard = ({ doc }) => {
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
+  const [downloading, setDownloading] = useState(false);
   
 
 
@@ -72,6 +74,7 @@ export const RapportCard = ({ doc }) => {
 const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
+  
 
     const res = await fetch(
       `${url}/api/comments/${doc._id}`,
@@ -118,6 +121,7 @@ const handleDocumentClick = (e) => {
   // Gestion du téléchargement
   const handleDownload = async (rapportId) => {
     const token = localStorage.getItem("token");
+    setDownloading(true);
 
     try {
       const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
@@ -143,6 +147,8 @@ const handleDocumentClick = (e) => {
     } catch (error) {
       console.error("Erreur de téléchargement :", error.message);
       alert("Échec du téléchargement. Vérifie ton authentification.");
+    } finally {
+      setDownloading(false); 
     }
   };
 
@@ -293,9 +299,16 @@ const handleDocumentClick = (e) => {
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
           onClick={() => handleDownload(doc._id)}
-        >
+          disabled={downloading} // désactive pendant l'action
+          >
+            {downloading ? (
+              <span className="text-blue-500 animate-pulse">Téléchargement en cours...</span>
+            ) : (
+              <>
           <FaCloudDownloadAlt />
-          <span className="hidden md:block">Télécharger</span>
+          <span className="hidden md:block">Télécharge</span>
+          </>
+  )}
         </button>
       </div>
 
