@@ -55,7 +55,7 @@ export const NotificationModal = ({ isOpen, onClose, notifications, onMarkAsRead
                   <div className="flex items-start gap-3">
                     <div className="relative shrink-0">
                       <img
-                        src={notif.messager.photo || "/default-avatar.png"}
+                        src={notif?.messager?.photo || "/default-avatar.png"}
                         alt="Profile"
                         className="w-10 h-10 rounded-full object-cover border border-gray-800 shadow"
                       />
@@ -65,7 +65,7 @@ export const NotificationModal = ({ isOpen, onClose, notifications, onMarkAsRead
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm break-words">
-                        <span className="font-semibold">{notif.messager.prenom}</span> a commenté : 
+                        <span className="font-semibold">{notif.messager?.prenom}</span> a commenté : 
                         <span className="italic"> "{notif.comment.length > 80 ? notif.comment.slice(0, 80) + "..." : notif.comment}" </span>
                         <br />
                         <span>Sur votre rapport : </span>
