@@ -109,6 +109,11 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
         body: formData,
       });
 
+      setPublications((prevPublications) =>
+        prevPublications.map((pub) =>
+          pub._id === rapportId ? { ...pub, title, description } : pub
+        )
+      );
       const result = await response.json();
 
       if (!response.ok) throw new Error(result.message || "Erreur de mise à jour");
