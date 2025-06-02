@@ -5,8 +5,8 @@ export const SidebarRight = () => {
   const {setSelectedCategory,selectedCategory} = usePublication()
   
     return <div className="w-[350px] shadow-2xl bg-[var(--background-color)] h-screen hidden md:block p-2">
-    <div className="p-4 ">
-      <h4 className="text-[18px] font-bold mb-4">Rechercher par Catégorie</h4>
+    <div className="p-4 fixed mb-4">
+      <h4 className="text-[16px]  mb-4">Rechercher par Catégorie</h4>
   
       <ul className="w-full space-y-2 mb-4">
         {/* Bouton "Tous" */}

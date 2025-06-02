@@ -78,7 +78,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  // 🎯 Filtrage des publications
+  //  Filtrage des publications
   const validPublications = Array.isArray(publications) ? publications : [];
 
   const filteredPublications = selectedCategory

@@ -59,22 +59,17 @@ const PublicationForm = () => {
           onChange={handleChange}
         ></textarea>
 
-        <select
-          name="category"
-          className="border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]"
-          value={form.category}
-          onChange={handleChange}
-        >
-          <option value="" className="text-blue-950 text-[12px]">
-            Veuillez choisir une categorie
-          </option>
-          {categories.map((categorie, i) => (
-            <option key={i} value={categorie.value} className="text-blue-950">
-              {categorie.label}
-            </option>
-          ))}
-        </select>
+           <select name="category" className='border rounded w-full p-2 outline-none border-gray-800
+             placeholder:text-gray-800 text-gray-800 placeholder:text-[12px]'
+              value={form.category} onChange={handleChange}>
+                <option value="" className='text-blue-950 text-[12px]'>Veuillez choisir une catégorie</option>
+                {categories.map((categorie,i) => (
+                    <option key={i} value={categorie.value}
+                     className='text-blue-950'>{categorie.label}
+                     </option>
+                ))}
+                
+           </select>
 
         <input
           type="text"

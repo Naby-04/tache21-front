@@ -10,7 +10,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
   const [title, setTitle] = useState(tite);
   const [description, setDescription] = useState(children);
   const [fille, setFile] = useState(null);
-  const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading } = usePublication();
+  const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading,setPublications } = usePublication();
   const ispdf = doc.type === "application/pdf";
   const isdoc =
     doc.type ===
@@ -78,6 +78,10 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
+      setPublications((prevPublications) =>
+        prevPublications.filter((pub) => pub._id !== rapportId)
+      );
 
       if (!response.ok) throw new Error("Erreur lors de la suppression");
 
@@ -177,18 +181,18 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                <input
+                {/* <input
                   type="file"
                   accept=".pdf,.doc,.docx"
                   onChange={(e) => setFile(e.target.files[0])}
                   className="text-xs"
-                />
+                /> */}
               </div>
             ) : (
               <div className="flex-1 space-y-1 text-black">
                 <h1 className="text-sm font-semibold text-gray-800">{tite}</h1>
                 <div className="text-xs text-gray-700 mt-2 line-clamp-4 flex-1">{children}</div>
-                <p className="text-xs text-gray-400 mt-1">Date: {date}</p>
+                <p className="text-xs text-gray-400 mt-1">Date: {new Date(date).toLocaleString("fr-FR")}</p>
               </div>
             )}
 
