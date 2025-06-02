@@ -8,43 +8,49 @@ import mammoth from "mammoth";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
+import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const RapportCard = ({ doc }) => {
-  const [docHtml, setDocHtml] = useState(null);
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const {url,docHtml, setDocHtml}= usePublication()
+  
 
-  // console.log("users", users);
 
+  // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
   const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-  // Conversion des DOCX en HTML améliorée
+  // Affichage PDF ou conversion DOCX
   useEffect(() => {
-    if (!isdoc || !doc.fileUrl) return;
+    if (ispdf && doc.file) {
+      setIsLoading(false);
+    }
+
+    if (!isdoc || !doc.file) return;
 
     const convertDocxToHtml = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(doc.fileUrl);
+        const response = await fetch(doc.file);
         const blob = await response.blob();
         const arrayBuffer = await new Response(blob).arrayBuffer();
-        
+
         const result = await mammoth.convertToHtml(
           { arrayBuffer },
           {
             styleMap: [
               "p[style-name='Heading 1'] => h1:fresh",
               "p[style-name='Heading 2'] => h2:fresh",
-              "p[style-name='Heading 3'] => h3:fresh"
+              "p[style-name='Heading 3'] => h3:fresh",
             ],
             includeEmbeddedStyleMap: true,
-            includeDefaultStyleMap: true
+            includeDefaultStyleMap: true,
           }
         );
-        
+
         setDocHtml(result.value || "<p>Aucun contenu à afficher</p>");
       } catch (err) {
         console.error("Erreur de conversion docx:", err);
@@ -59,16 +65,16 @@ export const RapportCard = ({ doc }) => {
     };
 
     convertDocxToHtml();
-  }, [doc.fileUrl, isdoc]);
+  }, [doc]);
 
   // Gestion des commentaires
 
-  const handleCommentSubmit = async (comment) => {
+const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:8000/api/comments/${doc._id}`,
+      `${url}/api/comments/${doc._id}`,
       {
         method: "POST",
         headers: {
@@ -84,7 +90,7 @@ export const RapportCard = ({ doc }) => {
       return;
     }
 
-    // Facultatif : Affiche commentaires après ajout
+    // ✅ Afficher commentaires après ajout
     setShowComments(true);
     setShowCommentBox(false);
   } catch (error) {
@@ -93,33 +99,70 @@ export const RapportCard = ({ doc }) => {
 };
 
 
+
   // Gestion du clic sur le document
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
-
+ const encodedUrl = encodeURIComponent(doc.file);
   if (isdoc) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } else  {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.fileUrl)}`;
+  } else if (ispdf) {
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
     window.open(viewerUrl, '_blank', 'noopener,noreferrer');
-  } 
+  } else {
+    window.open(doc.file, '_blank', 'noopener,noreferrer');
+  }
+
 };
 
   // Gestion du téléchargement
-  const handleDownload = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const link = document.createElement('a');
-    link.href = doc.fileUrl;
-    link.download = doc.title || 'document';
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (rapportId) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors du téléchargement");
+      }
+
+      const blob = await response.blob();
+      const fileURL = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = doc.title || "document";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.error("Erreur de téléchargement :", error.message);
+      alert("Échec du téléchargement. Vérifie ton authentification.");
+    }
   };
+
+
+
+  // const handleDownload = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+    
+  //   const link = document.createElement('a');
+  //   link.href = doc.file;
+  //   link.download = doc.title || 'document';
+  //   link.style.display = 'none';
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
 
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
@@ -132,22 +175,26 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  console.log("DOC reçu dans RapportCard :", doc);
+  console.log("url recu de cloudinary :", doc.file);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
       <div className="flex items-center gap-3 mb-3">
         <img
-          src="/images/dev.jpg"
+          src={doc.userId ? `${doc.userId.photo} ` : " "}
           alt="Auteur"
           className="w-10 h-10 rounded-full object-cover"
         />
         <div>
-          <p className="font-semibold text-sm text-gray-800">{doc.user ? `${doc.user?.prenom} ` : "Utilisateur inconnu " } </p>
+          <p className="font-semibold text-sm text-gray-800">{doc.userId ? `${doc.userId.prenom} ` : "Utilisateur inconnu " } </p>
           <p>
             <span>Publié le: </span>
-            <small className="text-gray-500">{doc.createdAt}</small>
+            <small className="text-gray-500">{new Date(doc.createdAt).toLocaleString("fr-FR", {
+             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+             hour: '2-digit', minute: '2-digit'
+           })}
+          </small>
           </p>
         </div>
       </div>
@@ -176,7 +223,7 @@ const handleDocumentClick = (e) => {
         {ispdf ? (
           <div className="w-full max-h-[250px]">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-           <PdfViewer file={doc.fileUrl} width={null} />
+           <PdfViewer file={doc.file} width={null} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
@@ -225,26 +272,45 @@ const handleDocumentClick = (e) => {
       {/* Barre d'actions */}
       <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
         <button
-          onClick={() => setShowCommentBox(!showCommentBox)}
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-        >
-          <FaCommentAlt />
-          <span className="hidden md:block">Commenter</span>
-        </button>
+  onClick={() => {
+    setShowCommentBox((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowComments(false); // Masquer les commentaires si on ouvre le champ
+      }
+      return newState;
+    });
+  }}
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+>
+  <FaCommentAlt />
+  <span className="hidden md:block">Commenter</span>
+</button>
 
-        <button 
-          className="flex items-center gap-2 hover:text-blue-600 transition"
-          onClick={() => setShowComments(!showComments)}
-        >
-          <FaEye />
-          <span className="hidden md:block">
-            {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
-          </span>
-        </button>
+
+
+        <button
+  className="flex items-center gap-2 hover:text-blue-600 transition"
+  onClick={() => {
+    setShowComments((prev) => {
+      const newState = !prev;
+      if (newState) {
+        setShowCommentBox(false); // Masquer le champ de commentaire si on ouvre les commentaires
+      }
+      return newState;
+    });
+  }}
+>
+  <FaEye />
+  <span className="hidden md:block">
+    {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
+  </span>
+</button>
+
 
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
-          onClick={handleDownload}
+          onClick={() => handleDownload(doc._id)}
         >
           <FaCloudDownloadAlt />
           <span className="hidden md:block">Télécharger</span>

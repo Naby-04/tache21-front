@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import "./StylePerdo.css";
 
-import Users from "./Users";
+import Users from "../Composants/composants de la page admin/Users";
 import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
 import HeaderAdmin from "../Composants/composants de la page admin/HeaderAdmin";
 import DashboardContenu from "../Composants/composants de la page admin/DashbordContenu";
 import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
+import { usePublication } from "../Contexts/DashboardUser/UseContext";
 
-// import LesUtilisateurs from "../data/LesUtilisateurs";
 
 const services = [
   { icon: "📚", label: "Toutes les catégories" },
@@ -27,20 +27,26 @@ const Admin = () => {
   const [rechercheDashboard, setRechercheDashboard] = useState("");
   const [rechercheRapports, setRechercheRapports] = useState("");
 
+  const {url} = usePublication()
+
   const [allUsers, setAllUsers] = useState([])
   const [filtreUser, setFiltreUser] = useState([]);
   const [rapportsOriginaux, setRapportsOriginaux] = useState([]);
   const [rapportfiltre, setRapportFiltre] = useState([]);
+  const [topRapports, setTopRapports] = useState([]);
+  const [topRapportsFiltres, setTopRapportsFiltres] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
+  const [telecharge, setTelechargement] = useState([])
 
-  // 🔁 Récupération des rapports depuis l’API
+  // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
       try {
-        const response = await fetch("http://localhost:8000/rapport/all");
+        const response = await fetch(`${url}/rapport/all`);
         const data = await response.json();
+        console.log(data)
         setRapportsOriginaux(data);
         setRapportFiltre(data);
       } catch (error) {
@@ -56,7 +62,7 @@ const Admin = () => {
       try {
         const token = localStorage.getItem("token"); // récupère le token stocké
 
-        const response = await fetch("http://localhost:8000/api/users/allusers", {
+        const response = await fetch(`${url}/api/users/allusers`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -72,6 +78,41 @@ const Admin = () => {
     };
 
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchTopRapports = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${url}/api/comments/top/commented`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        setTopRapports(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des top rapports :", error);
+      }
+    };
+
+    fetchTopRapports();
+  }, []);
+
+  useEffect(() => {
+    const fetchTelechargement = async () => {
+      try {
+        const response = await fetch(`${url}/download/all/rapport`);
+
+        const data = await response.json();
+        setTelechargement(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des top rapports :", error);
+      }
+    };
+
+    fetchTelechargement();
   }, []);
 
   // 🔍 Recherche utilisateurs
@@ -91,18 +132,38 @@ const Admin = () => {
 
 
   // 🔍 Recherche et filtre dans "dashboard"
+  // const filtrerRapportsParTexte = (texte) => {
+  //   setRechercheDashboard(texte);
+  //   let filtered = rapportsOriginaux;
+
+  //   if (texte !== "") {
+  //     filtered = filtered.filter((r) =>
+  //       r.title.toLowerCase().includes(texte.toLowerCase())
+  //     );
+  //   }
+
+  //   setRapportFiltre(filtered);
+  // };
   const filtrerRapportsParTexte = (texte) => {
-    setRechercheDashboard(texte);
-    let filtered = rapportsOriginaux;
+  setRechercheDashboard(texte);
 
-    if (texte !== "") {
-      filtered = filtered.filter((r) =>
-        r.title.toLowerCase().includes(texte.toLowerCase())
-      );
-    }
+  let filteredRapports = rapportsOriginaux;
+  let filteredTops = topRapports;
 
-    setRapportFiltre(filtered);
-  };
+  if (texte !== "") {
+    filteredRapports = filteredRapports.filter((r) =>
+      r.title.toLowerCase().includes(texte.toLowerCase())
+    );
+
+    filteredTops = topRapports.filter((item) =>
+      item.rapport.title.toLowerCase().includes(texte.toLowerCase())
+    );
+  }
+
+  setRapportFiltre(filteredRapports);
+  setTopRapportsFiltres(filteredTops);
+};
+
 
   // 🔍 Recherche + catégorie dans "rapports"
   const filtrerRapportsParTexteEtCategorie = (texte) => {
@@ -124,33 +185,69 @@ const Admin = () => {
   };
 
   const supprimerRapport = async (id) => {
-    try {
-      const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
+  try {
+    const token = localStorage.getItem("token");
 
-      const response = await fetch(`http://localhost:8000/rapport/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+    const response = await fetch(`${url}/rapport/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-      if (response.ok) {
-        const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
-        setRapportFiltre(nouveauTableau);
-      } else {
-        console.error("Erreur lors de la suppression");
-      }
-    } catch (error) {
-      console.error("Erreur serveur :", error);
+    if (response.ok) {
+      const supUnRap = rapportfiltre.filter((r) => r._id !== id);
+      const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
+
+      setRapportFiltre(supUnRap);
+      setRapportsOriginaux(supRapport);
+      // setRapportFiltre((prev) => prev.filter((r) => r._id !== id));
+      // setRapportsOriginaux((prev) => prev.filter((r) => r._id !== id));
+      setTopRapports((prev) => prev.filter((t) => t.rapport._id !== id));
+    } else {
+      const errorText = await response.text();
+      console.error(`Erreur lors de la suppression. Status: ${response.status}, Message: ${errorText}`);
     }
-  };
+  } catch (error) {
+    console.error("Erreur serveur :", error);
+  }
+};
+
+  // const supprimerRapport = async (id) => {
+  //   try {
+  //     const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
+
+  //     const response = await fetch(`${url}/rapport/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const supUnRap = rapportfiltre.filter((r) => r._id !== id);
+  //       const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
+
+  //       setRapportFiltre(supUnRap);
+  //       setRapportsOriginaux(supRapport);
+
+  //       // const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
+  //       // setRapportFiltre(nouveauTableau);
+  //     } else {
+  //       console.error("Erreur lors de la suppression");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erreur serveur :", error);
+  //   }
+  // };
 
   const supprimerUtilisateur = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:8000/api/users/${id}`, {
+    const response = await fetch(`${url}/api/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -196,21 +293,26 @@ const Admin = () => {
     <div className="h-screen flex">
       <SidebarAdmin setVueActive={setVueActive} />
       <main className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300">
-        {vueActive === "users" && <HeaderAdmin onSearch={changement} />}
-        {vueActive === "dashboard" && <HeaderAdmin onSearch={filtrerRapportsParTexte} />}
-        {vueActive === "rapports" && <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />}
 
         {vueActive === "dashboard" && (
-          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} />
+          <>
+          <HeaderAdmin onSearch={filtrerRapportsParTexte} />
+          <DashboardContenu rapports={rapportfiltre} onDelete={supprimerRapport} utilisateurs={allUsers} topRapports={topRapportsFiltres.length ? topRapportsFiltres : topRapports} telechargement={telecharge} />
+          </>
         )}
 
         {vueActive === "users" && (
+          <>
+          <HeaderAdmin onSearch={changement} />
           <div className="p-3 w-full">
             <Users lesUtilisateurs={filtreUser} onDelete={supprimerUtilisateur} />
           </div>
+          </>
         )}
 
         {vueActive === "rapports" && (
+          <>
+          <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />
           <div className="p-3 w-full">
             {rapportSelect ? (
               <DetailRapportAdmin
@@ -226,7 +328,7 @@ const Admin = () => {
                     setSelectedIndex={setSelectedIndex}
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                   {rapportfiltre.map((ele) => (
                     <RapportCard
                       key={ele._id}
@@ -239,6 +341,7 @@ const Admin = () => {
               </>
             )}
           </div>
+          </>
         )}
       </main>
     </div>

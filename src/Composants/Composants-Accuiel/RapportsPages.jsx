@@ -30,6 +30,7 @@ export const RapportsPages = ({ searchTerm , activeCategory }) => {
         getPublications()
       },[])
       // console.log(getRapport);
+  
 
 const filteredDocs = getRapport.filter((doc) => {
     const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase());

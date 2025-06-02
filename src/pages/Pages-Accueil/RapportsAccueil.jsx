@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { RapportsPages } from "../../Composants/Composants-Accuiel/RapportsPages";
 import { Link } from "react-router-dom";
 import { SidebarAccuiel } from "../../Composants/Composants-Accuiel/SidebarAccuiel";
+import  logo  from "../../assets/SenRapport.png"
 
 function RapportsAccueil() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,15 +25,13 @@ function RapportsAccueil() {
             </button>
             <Link to="/" className="text-2xl font-bold text-white">
               <div className="flex items-center gap-2">
-                <img
-                  src="/logo.png"
-                  alt="Logo"
-                  className="w-10 h-10 object-contain bg-amber-300 rounded-full"
-                />
-                <span className="text-xl font-bold text-amber-300">
-                  SenRapport
-                </span>
-              </div>
+                        <img
+                          src={logo}
+                          alt="Logo"
+                          className="w-26"
+                        />
+                        {/* <span className="text-md md:text-xl font-bold text-amber-300">SenRapport</span> */}
+                      </div>
             </Link>
           </div>
 

@@ -1,13 +1,25 @@
 import { FaCloudUploadAlt, FaDochub, FaHome, FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
 import { AddRapport } from "./Rapport/AddRapport";
+import { useContext } from "react";
+import AuthContext from "../../Contexts/AuthContext";
 
 export const MobileSidebar = ({ isOpen, onClose }) => {
+	const {users,setUsers } = useContext(AuthContext);
+	  const navigate = useNavigate();
+	
+		  const handleLogout = () => {
+		 localStorage.removeItem("token");
+		 setUsers(null);
+		 navigate("/");
+	   };
+
+	   if (!users) return ;
 	const links = [
 		{ to: "/users", icon: <FaHome />, label: "Accueil" },
-		{ to: "rapport", icon: <FaDochub />, label: "Rapports" },
-		{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Téléchargements" },
+		{ to: "rapport", icon: <FaDochub />, label: "Mes rapports" },
+		{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Mes téléchargements" },
 	];
 
 	return (
@@ -32,7 +44,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 							className={({ isActive }) =>
 								`flex items-center gap-2 text-sm p-2 rounded-md ${
 									isActive
-										? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-700"
+										? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-800"
 								}`
 							}
 						>
@@ -49,11 +61,12 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 						<AddRapport
 						style={{backgroundColor: "#1E2939", color: "#fff"}}/>
 					</div>
-					<NavLink to="/pageParametre" onClick={onClose}>
+					<NavLink to="pageParametre" onClick={onClose}>
 						<Buttons text="Paramètres du compte" />
 					</NavLink>
+					<div onClick={handleLogout}>
 					<Buttons text="Déconnexion" />
-					<Buttons text="À propos" />
+					</div>
 				</div>
 			</div>
 		</div>

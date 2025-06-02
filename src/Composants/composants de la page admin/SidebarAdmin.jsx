@@ -1,30 +1,43 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { HiUsers } from "react-icons/hi2";
 import { HiDocumentReport } from "react-icons/hi";
 import { CiLogout } from "react-icons/ci";
+import AuthContext from "../../Contexts/AuthContext";
+import leSen from "../../assets/S.png"
+import enR from "../../assets/en'Rapport.png"
 
 const SidebarAdmin = ({ setVueActive }) => {
   const [activeItem, setActiveItem] = useState("dashboard"); // par défaut
+  const { users, setUsers } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleItemClick = (vue) => {
     setVueActive(vue);
     setActiveItem(vue);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUsers(null);
+    navigate("/");
+  };
+
   return (
     <aside className="w-20 md:w-64 bg-gray-800 text-white px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
       <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
-        <div className="w-8 h-8 relative rounded-full border-amber-300 border">
+        <div className="relative">
           <img
-            src=""
-            alt=""
-            className="absolute w-full h-full object-cover rounded-full"
+            src={leSen}
+            alt="S"
+            className="w-12"
           />
         </div>
-        <h4 className="text-white text-xl font-bold uppercase hidden md:block">
+        <img src={enR} alt="en'Rapport" className="hidden md:block w-23 ml-[-18px]" />
+        {/* <h4 className="text-white text-xl font-bold uppercase hidden md:block">
           SenRapport
-        </h4>
+        </h4> */}
       </div>
 
       <div className="mt-10">
@@ -78,7 +91,7 @@ const SidebarAdmin = ({ setVueActive }) => {
         </ul>
       </div>
 
-      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4">
+      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4" onClick={handleLogout}>
         <CiLogout />
         <p className="text-amber-50 hidden md:inline">Déconnexion</p>
       </div>

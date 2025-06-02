@@ -12,7 +12,8 @@ import Image3 from "../../assets/back3.jpg";
 import Image4 from "../../assets/back4.jpg";
 import BasicPie from "./Diagramme";
 
-const DashboardContenu = ({ rapports, onDelete, utilisateurs }) => {
+const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telechargement }) => {
+
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-4 p-3">
@@ -36,26 +37,38 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs }) => {
             image={Image3}
             pourcent="30"
             icone={<FaFileDownload />}
-            valeur="67"
+            valeur={telechargement.length}
           />
           <StatsBox
             titre="Top Rapports"
             image={Image4}
             pourcent="30"
             icone={<FaDownload />}
-            valeur="700"
+            valeur={topRapports.length}
           />
         </div>
         <div className="w-full lg:w-1/3 flex-shrink-0">
           <div className="bg-white p-6 rounded shadow h-full">
             <p className="text-gray-600 text-sm mb-3">Diagrammes</p>
             <h3 className="text-lg font-semibold mb-4">Les Statistiques</h3>
-            <BasicPie />
+            <BasicPie 
+              utilisateursCompte={utilisateurs.length}
+              rapportsCompte={rapports.length}
+              topRapportsCompte={topRapports.length}
+              telechargeCompte={telechargement.length}
+             />
           </div>
         </div>
       </div>
       <div className="p-3 w-full">
-        <TopRapports rapports={rapports} onDeleteClick={onDelete} />
+        <TopRapports
+          rapports={topRapports.map(item => ({
+            ...item.rapport,
+            totalComments: item.totalComments
+          }))}
+          onDeleteClick={onDelete}
+        />
+
       </div>
     </div>
   );

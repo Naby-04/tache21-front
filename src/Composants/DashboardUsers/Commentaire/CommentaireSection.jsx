@@ -1,13 +1,14 @@
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
+import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
 export const CommentairesSection = ({ rapportId }) => {
   const [loading, setLoading] = useState(true);
   const [commentaires, setCommentaires] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
+  const {url}= usePublication()
 
   const token = localStorage.getItem("token");
   let userId = null;
@@ -24,7 +25,7 @@ export const CommentairesSection = ({ rapportId }) => {
   const fetchCommentaires = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/comments/${rapportId}`);
+      const response = await fetch(`${url}/api/comments/${rapportId}`);
       const data = await response.json();
 
       const commentairesFormates = data.map((comment) => ({
@@ -50,7 +51,7 @@ export const CommentairesSection = ({ rapportId }) => {
 
   const handleConfirmDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:8000/api/comments/${idCommentToDelete}`, {
+      const res = await fetch(`${url}/api/comments/${idCommentToDelete}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
