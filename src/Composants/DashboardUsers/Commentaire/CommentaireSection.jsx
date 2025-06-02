@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
 import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 export const CommentairesSection = ({ rapportId }) => {
-  const [commentaires, setCommentaires] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [commentaires, setCommentaires] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [idCommentToDelete, setIdCommentToDelete] = useState(null);
 
