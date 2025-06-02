@@ -44,7 +44,7 @@ export const PageParametresCompte = () => {
       };
 
       setUserInfo(updatedUser);
-      setUsers(updatedUser); // synchro avec le contexte
+      //setUsers(updatedUser); // synchro avec le contexte
 
       // ❌ on enlève photoFile ici pour le localStorage
       const userInfoToStore = { ...updatedUser };
@@ -155,7 +155,7 @@ export const PageParametresCompte = () => {
       </p>
       <div className="mb-2 flex justify-between items-center gap-4 bg-gray-800 px-4 py-2 rounded-lg">
         <img
-          src={users.photo}
+          src={userInfo.photo}
           alt="profil"
           onClick={handleImageClick}
           className="w-20 h-20 rounded-full object-cover cursor-pointer border-2 border-white"
