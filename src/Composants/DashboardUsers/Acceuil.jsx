@@ -31,6 +31,7 @@ export const Acceuil = () => {
  }
   }, []);
 
+
   
   
   const sortedPublications = filteredPublicationsBySearch.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -40,7 +41,7 @@ export const Acceuil = () => {
         <h1 className="mt-5 md:mt-0 text-start text-3xl font-[var(--font-title)]">Les derniers Rapports publiés</h1>
       </div>
       {sortedPublications.length === 0 ? (
-        <p className="text-sm text-gray-500">Aucun rapport publié pour cette categorie.</p>
+        <p className="text-sm text-gray-500">Aucun rapport publié pour cette recherche</p>
       ) : (
         sortedPublications.map((doc,i)=>(<RapportCard key={i} doc={doc} />))
       )}

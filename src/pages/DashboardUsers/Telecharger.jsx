@@ -99,7 +99,7 @@ const deleteDownload = async (downloadId) => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center mt-10">
-        <ClipLoader color="#36d7b7" size={20} />
+        <ClipLoader color="#36d7b7" size={50} />
         <p className="mt-4 text-center text-gray-600">Chargement...</p>
       </div>
       ) : rapports.length === 0 ? (
