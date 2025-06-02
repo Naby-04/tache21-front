@@ -1,9 +1,12 @@
 import { useEffect, useRef } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa";
+import { formatDistanceToNow } from "date-fns";
+import { fr } from "date-fns/locale"; // Pour le français
 
 export const NotificationModal = ({ isOpen, onClose, notifications,onMarkAsRead }) => {
   const modalRef = useRef(null);
+  console.log(notifications)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,23 +48,27 @@ export const NotificationModal = ({ isOpen, onClose, notifications,onMarkAsRead 
           {notifications.length > 0 ? (
             <ul className="divide-y divide-gray-200">
               {notifications.map((notif, index) => (
-                <li key={index} className="p-4 hover:bg-gray-50" onClick={() => onMarkAsRead(notif.id)}>
+                <li key={index} className="p-4 hover:bg-gray-50" onClick={() => onMarkAsRead(notif._id)}>
                   <div className="flex items-start gap-3">
                     <div className="relative">
                       <img 
-                        src={notif.avatar || "/default-avatar.png"} 
+                        src={notif.messager.photo || "/default-avatar.png"} 
                         alt="Profile" 
-                        className="w-10 h-10 rounded-full"
+                        className="w-10 h-10 rounded-full object-cover"
                       />
-                      {!notif.read && (
+                      {!notif.isRead && (
                         <FaCircle className="text-blue-500 absolute -top-1 -right-1 text-xs" />
                       )}
                     </div>
                     <div className="flex-1">
                       <p className="text-sm">
-                        <span className="font-semibold">{notif.user}</span> {notif.message}
+                        <span className="font-semibold">{notif.messager.prenom}</span> à commenté : " <span className="italic">{notif.comment}</span> " <br />
+                        <span>Sur votre rapport : </span> <span className="italic font-bold">{notif.rapport.title}</span>
                       </p>
-                      <p className="text-xs text-gray-500 mt-1">{notif.time}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: fr })}
+                      </p>
+
                     </div>
                   </div>
                 </li>
