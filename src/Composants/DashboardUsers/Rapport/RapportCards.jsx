@@ -158,7 +158,6 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  console.log("url recu de cloudinary :", doc.file);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
