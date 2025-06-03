@@ -13,14 +13,24 @@ const TableUser = ({ tabUsers, onDelete }) => {
     const fetchRapportsByUser = async () => {
       if (!selectedUser) return;
 
+      console.log("🟡 Requête envoyée pour l'utilisateur :", selectedUser);
+
       try {
         const response = await fetch(
           `${url}/rapports/user/${selectedUser._id}`
         );
+
+        if (!response.ok) {
+          console.error("❌ Erreur HTTP :", response.status);
+          return;
+        }
+
         const data = await response.json();
-        setSelectedUserReportsCount(data.length); // tu peux ajuster selon ton backend
+        console.log("✅ Rapports récupérés :", data);
+
+        setSelectedUserReportsCount(data.length);
       } catch (error) {
-        console.error("Erreur lors du chargement des rapports :", error);
+        console.error("❌ Erreur lors du chargement des rapports :", error);
         setSelectedUserReportsCount(0);
       }
     };
