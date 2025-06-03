@@ -102,6 +102,11 @@ const PublicationForm = () => {
           <IoCloudUploadSharp size={30} className="text-amber-500"/>
         </label>
 
+        {form.file && (
+          <p className="text-gray-800 ">{form.file.name}</p>
+        )}  
+
+
         <button
           className="border bg-amber-500 rounded w-full p-2 outline-none 
              placeholder:text-white hover:opacity-80 text-white cursor-pointer"

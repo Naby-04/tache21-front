@@ -21,8 +21,6 @@ export const NavbarUser = () => {
   const [userInf, setUserInfo] = useState(null)
   const socketRef = useRef(null);
 
-  
-
   // Initialiser le socket.io
   useEffect(() => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
