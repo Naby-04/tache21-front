@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaDownload , FaTrash} from "react-icons/fa";
 import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
 import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
-
+import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { toast } from "react-toastify";
@@ -64,6 +64,8 @@ export const RapportTelecharger = ({ doc }) => {
   };
 
 const deleteDownload = async (downloadId) => {
+  const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce rapport ?");
+  if (!confirmDelete) return;
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(`https://tache21-back.onrender.com/download/${downloadId}`, {
@@ -75,18 +77,20 @@ const deleteDownload = async (downloadId) => {
 
     const data = await response.json();
     if (response.ok) {
-      toast.success("✅ Supprimé :", data.message);
-      setRapports((prev) => prev.filter((r) => r._id !== downloadId)); // Met à jour l'affichage
+      toast.success(data.message || "Rapport supprimé avec succès");
+      setRapports((prev) => prev.filter((r) => r._id !== downloadId));
     } else {
-      console.error("❌ Erreur :", data.message);
+      toast.error(data.message || "Erreur lors de la suppression");
+      console.error("Erreur de suppression :", data.message);
     }
   } catch (error) {
+    toast.error("Erreur serveur lors de la suppression");
     console.error("Erreur serveur :", error);
   }
 };
 
+
   
-  deleteDownload("6839f451c3b41acd46be8d19"); // ← L’ID à utiliser
   
 
   return (
@@ -96,7 +100,10 @@ const deleteDownload = async (downloadId) => {
       </h1>
 
       {loading ? (
-        <p className="text-center">Chargement...</p>
+        <div className="flex flex-col items-center justify-center mt-10">
+        <ClipLoader color="#36d7b7" size={20} />
+        <p className="mt-4 text-center text-gray-600">Chargement...</p>
+      </div>
       ) : rapports.length === 0 ? (
         <p className="text-center text-gray-600 text-lg">
           Vous n'avez pas encore téléchargé de rapport.
@@ -157,7 +164,7 @@ const deleteDownload = async (downloadId) => {
                   </h2>
                   <div className="mt-6 flex gap-2 items-center justify-between">
                     <span className="text-green-600 text-sm flex items-center gap-2">
-                      <FaDownload /> Téléchargé
+                      Téléchargé
                     </span>
                    
                    <p className="line-clamp-1">Publié par : {rapportId?.userId?.prenom || "Utilisateur inconnu"}</p>
@@ -165,10 +172,11 @@ const deleteDownload = async (downloadId) => {
                 Téléchargé le : {new Date(rapportId?.createdAt).toLocaleDateString()}
                 </p> */}
                <button
+             
              onClick={() => deleteDownload(rapport._id)}
-             className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow"
+             className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow cursor-pointer"
              >
-            <FaTrash />
+            <FaTrash className="text-red-500"/>
            </button>
                   </div>
                 </div>

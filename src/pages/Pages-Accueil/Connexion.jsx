@@ -8,11 +8,14 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, provider, db } from '../../services/firebaseService';
 import { FaEye, FaEyeSlash, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
 import AuthContext from '../../Contexts/AuthContext';
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const Connexion = () => {
   const [error] = useState('');
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const { setUsers } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Ajout de l'état pour afficher/masquer le mot de passe
@@ -95,7 +98,7 @@ const Connexion = () => {
       toast.error('Le mot de passe doit contenir au moins 6 caractères.');
       return;
     }
-
+    setLoading(true);
     try {
       const response = await fetch(`${url}/api/users/login`, {
         method: 'POST',
@@ -125,6 +128,8 @@ const Connexion = () => {
     } catch (error) {
       toast.error('Erreur de connexion : ' + error.message);
       console.error('Erreur lors de la connexion :', error);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -149,7 +154,12 @@ const Connexion = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             Se connecter
           </h2>
-
+          {loading && (
+  <div className="mb-4 flex flex-col items-center text-gray-600 text-sm">
+    <ClipLoader color="#36d7b7" size={40} />
+    <span className="mt-2">Connexion en cours...</span>
+  </div>
+)}
           <form
             className="w-full flex flex-col items-center"
             onSubmit={handleSubmit}
@@ -212,7 +222,8 @@ const Connexion = () => {
                 className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 h-10 rounded-2xl focus:outline-none focus:shadow-outline w-full cursor-pointer"
                 type="submit"
               >
-                Se connecter
+               
+               Se connecter
               </button>
             </div>
           </form>

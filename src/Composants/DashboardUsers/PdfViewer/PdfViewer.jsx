@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 
 
 function PdfViewer({ file, width, height }) {
+  // eslint-disable-next-line no-unused-vars
   const [numPages, setNumPages] = useState(null);
   const [error, setError] = useState(null);
 
-  console.log(numPages);
   useEffect(() => {
     setError(null);
     setNumPages(null);
