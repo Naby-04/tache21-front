@@ -112,13 +112,6 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                     </div>
                   </div>
                 </td>
-                {/* <td className="py-2 px-3 hidden md:table-cell">
-                  <img
-                    src={rapport.user?.photo || "https://via.placeholder.com/40"}
-                    alt="user"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                </td> */}
                 <td className="py-2 px-3">
                   <div className="flex items-center justify-center">
                     <button

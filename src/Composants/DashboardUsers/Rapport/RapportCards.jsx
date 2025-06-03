@@ -9,6 +9,8 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
+import { LirePdf } from "../LirePdf";
+import { LireDocx } from "../LireDocx";
 
 
 export const RapportCard = ({ doc }) => {
@@ -18,8 +20,8 @@ export const RapportCard = ({ doc }) => {
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
   const [downloading, setDownloading] = useState(false);
-  
-
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showdocModal, setShowDocModal] = useState(false);
 
   // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
@@ -70,7 +72,6 @@ export const RapportCard = ({ doc }) => {
   }, [doc]);
 
   // Gestion des commentaires
-
 const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
@@ -99,19 +100,16 @@ const handleCommentSubmit = async (comment) => {
   }
 };
 
-
-
   // Gestion du clic sur le document
+  const encodedUrl = encodeURIComponent(doc.file);
+   const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
- const encodedUrl = encodeURIComponent(doc.file);
   if (isdoc) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+    setShowDocModal(true);
   } else if (ispdf) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+    setShowPdfModal(true);
   } else {
     window.open(doc.file, '_blank', 'noopener,noreferrer');
   }
@@ -152,7 +150,6 @@ const handleDocumentClick = (e) => {
     }
   };
 
-
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
   const categoryClass = currentCategory?.color;
@@ -162,8 +159,6 @@ const handleDocumentClick = (e) => {
     : typeof doc.tags === "string"
       ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
       : [];
-
-
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -260,7 +255,7 @@ const handleDocumentClick = (e) => {
       {/* Barre d'actions */}
       <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
         <button
-  onClick={() => {
+       onClick={() => {
     setShowCommentBox((prev) => {
       const newState = !prev;
       if (newState) {
@@ -273,11 +268,11 @@ const handleDocumentClick = (e) => {
 >
   <FaCommentAlt />
   <span className="hidden md:block">Commenter</span>
-</button>
+  </button>
 
 
 
-        <button
+ <button
   className="flex items-center gap-2 hover:text-blue-600 transition"
   onClick={() => {
     setShowComments((prev) => {
@@ -294,8 +289,6 @@ const handleDocumentClick = (e) => {
     {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
   </span>
 </button>
-
-
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
           onClick={() => handleDownload(doc._id)}
@@ -329,6 +322,29 @@ const handleDocumentClick = (e) => {
           <CommentairesSection rapportId={doc._id} />
         </div>
       )}
+
+      {/* modal lecture */}
+      {showPdfModal && (
+        <div>
+          <LirePdf isOpen={showPdfModal}
+           onClose={() => setShowPdfModal(false)} 
+           file={doc.file} 
+           onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+           />
+        </div>
+      )}
+
+      {/* modal docx */}
+      {showdocModal && (
+        <div>
+          <LireDocx isOpen={showdocModal}
+           onClose={() => setShowDocModal(false)}
+            htmlContent={docHtml} 
+            onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+            />
+        </div>
+      )}
+      
     </div>
   );
 };

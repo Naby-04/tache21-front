@@ -177,7 +177,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
             {editMode ? (
               <div className="space-y-2 flex-1 text-gray-800">
                 <input
-                  className="w-full border-b border-gray-300 px-1 py-1 text-sm focus:outline-none focus:border-amber-500"
+                  className="w-full border-b border-gray-300 px-1 py-1 text-sm focus:outline-none
+                   focus:border-amber-500"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
@@ -186,12 +187,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                {/* <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  className="text-xs"
-                /> */}
+               
               </div>
             ) : (
               <div className="flex-1 space-y-1 text-black">

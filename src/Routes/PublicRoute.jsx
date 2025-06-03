@@ -1,11 +1,13 @@
+// PublicRoute.jsx
 import { Navigate } from "react-router-dom";
 
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const isAdmin = user?.isAdmin === true;
 
   if (token) {
-    // Si l'utilisateur est déjà connecté, rediriger vers le dashboard
-    return <Navigate to="/users" replace />;
+    return <Navigate to={isAdmin ? "/admin" : "/users"} replace />;
   }
 
   return children;
