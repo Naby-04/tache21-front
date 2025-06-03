@@ -26,15 +26,15 @@ function ReportCard({ report, isLoggedIn }) {
     // setDocLoadError(false);
     setDocxPreview(null);
 
-    const fileType = report.type ?? "";
+    const fileType = report.rapport.type ?? "";
 
     const isDocx =
       fileType ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       fileType === "docx";
 
-    if (isDocx && report.file) {
-      fetch(report.file)
+    if (isDocx && report.rapport.file) {
+      fetch(report.rapport.file)
         .then((res) => res.blob())
         .then((blob) => {
           const reader = new FileReader();
@@ -57,7 +57,7 @@ function ReportCard({ report, isLoggedIn }) {
   const handleViewPdfClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      window.open(report.file, "_blank", "noopener,noreferrer");
+      window.open(report.rapport.file, "_blank", "noopener,noreferrer");
     } else {
       setIsModalOpen(true);
     }
@@ -77,7 +77,7 @@ function ReportCard({ report, isLoggedIn }) {
   const handleFirstModalClose = () => setIsModalOpen(false);
 
   const renderPreview = () => {
-    const fileType = report.type ?? "";
+    const fileType = report.rapport.type ?? "";
     const isPdf = fileType.includes("pdf");
     const isDocx = fileType.includes("wordprocessingml") || fileType === "docx";
 
@@ -88,9 +88,9 @@ function ReportCard({ report, isLoggedIn }) {
         <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
         {/* Contenu du preview */}
         <div className="relative z-20">
-          {isPdf && report.file ? (
+          {isPdf && report.rapport.file ? (
             <ErrorBoundary>
-            <PdfViewer file={report.file} width={200} />
+            <PdfViewer file={report.rapport.file} width={200} />
             </ErrorBoundary>
           ) : isDocx ? (
             <div
@@ -102,8 +102,8 @@ function ReportCard({ report, isLoggedIn }) {
             />
           ) : (
             <img
-              src={report.imageRapport || "https://via.placeholder.com/250x160"}
-              alt={report.title}
+              src={report.rapport.imageRapport || "https://via.placeholder.com/250x160"}
+              alt={report.rapport.title}
               className="max-h-full max-w-full object-contain"
             />
           )}
@@ -112,7 +112,7 @@ function ReportCard({ report, isLoggedIn }) {
     );
   };
 
-  const fileType = report.type ?? "";
+  const fileType = report.rapport.type ?? "";
 
   return (
     <>
@@ -126,10 +126,10 @@ function ReportCard({ report, isLoggedIn }) {
             {/* Titre + Badge certifié */}
             <div className="flex flex-col mb-3 relative w-full">
               <h3 className="text-lg font-semibold line-clamp-1">
-                {report.title}
+                {report.rapport.title}
               </h3>
               <div className="flex bg-gray-100 text-gray-700 text-xs font-medium px-1 py-1 w-fit rounded">
-                {report.category || "Sans catégorie"}
+                {report.rapport.category || "Sans catégorie"}
               </div>
               <span
                 className="text-amber-300 p-1 bg-white rounded-full text-lg absolute right-0 top-1"
@@ -140,7 +140,7 @@ function ReportCard({ report, isLoggedIn }) {
             </div>
 
             <p className="text-gray-600 text-sm mb-2 line-clamp-3">
-              {report.description}
+              {report.rapport.description}
             </p>
 
             <button
@@ -182,16 +182,16 @@ function ReportCard({ report, isLoggedIn }) {
             <div className="border-t pt-4 w-full">
               <h2 className="text-lg font-bold mb-2">- Rapport de Mémoire</h2>
               <p className="text-gray-700 mb-3">
-                {report.description ||
+                {report.rapport.description ||
                   "Lorem ipsum dolor sit amet consectetur adipisicing elit."}
               </p>
               <p className="mb-1">
                 <span className="font-semibold">Catégories :</span>{" "}
-                {report.category || "Informatique"}
+                {report.rapport.category || "Informatique"}
               </p>
               <p className="mb-1">
                 <span className="font-semibold">Tags :</span>{" "}
-                {report.tags || "Python, JS, Développement Web"}
+                {report.rapport.tags || "Python, JS, Développement Web"}
               </p>
               <p className="mb-4">
                 <span className="font-semibold">Type :</span>{" "}

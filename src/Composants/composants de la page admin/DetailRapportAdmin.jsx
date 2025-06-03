@@ -113,7 +113,7 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
         <div className="flex flex-col basis-full md:basis-2/3 w-full gap-2">
           <div className="flex gap-3 items-center border-b border-gray-800 pb-3">
             <div className="w-10 h-10 rounded-full relative bg-amber-200">
-              <img src={rapportChoisi.userId.photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
+              <img src={rapportChoisi.userId?.photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
               <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>

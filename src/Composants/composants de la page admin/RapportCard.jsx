@@ -8,7 +8,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
   const [showModal, setShowModal] = useState(false);
   const isPdf = rapport.type === "application/pdf";
   const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
+  console.log(rapport)
   useEffect(() => {
     if (isDocx) {
       fetch(rapport.file)
