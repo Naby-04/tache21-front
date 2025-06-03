@@ -10,6 +10,6 @@ export default defineConfig({
     include: ['pdfjs-dist'],
   },
    build: {
-    assetsInlineLimit: 0, // Ensures worker files are not inlined
+    assetsInlineLimit: 0,
   },
 });

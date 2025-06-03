@@ -4,6 +4,7 @@ import { usePublication } from "../Contexts/DashboardUser/UseContext";
 import { categories } from "../data/Categorie";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { IoCloudUploadSharp } from "react-icons/io5";
 // import axios from 'axios'
 
 const PublicationForm = () => {
@@ -18,6 +19,10 @@ const PublicationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(form.title === "" || form.description === "" || form.category === "" || form.tags === "" || form.file === null){
+      toast.error("Veuillez remplir tous les champs");
+      return
+    }
     setLoading(true);
     await ajouterPublication(form, fileInput, token, toast, navigate);
     setLoading(true);
@@ -80,17 +85,22 @@ const PublicationForm = () => {
           onChange={handleChange}
           value={form.tags}
         />
-
+   
         <input
           type="file"
           name="file"
+          id="file"
           accept=".pdf,.doc,.docx,.xls,.xlsx"
           required
           className="border rounded w-full p-2 outline-none border-gray-800
-             placeholder:text-gray-800 text-gray-800 "
+             placeholder:text-gray-800 text-gray-800 hidden"
           onChange={handleChange}
           ref={fileInput}
         />
+        <label htmlFor="file" className="border-1 flex justify-center rounded w-full p-2 outline-none
+         border-gray-800 mb-2 cursor-pointer">
+          <IoCloudUploadSharp size={30} className="text-amber-500"/>
+        </label>
 
         <button
           className="border bg-amber-500 rounded w-full p-2 outline-none 
@@ -98,7 +108,11 @@ const PublicationForm = () => {
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? <ClipLoader color="#fff" size={20} /> : "Ajouter"}
+          {loading ? (
+            <ClipLoader color="#fff" size={20} />
+          ) : (
+            "Ajouter"
+          )}
         </button>
       </form>
     </div>
