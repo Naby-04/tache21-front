@@ -21,29 +21,7 @@ export const NavbarUser = () => {
   const [userInf, setUserInfo] = useState(null)
   const socketRef = useRef(null);
 
-  // ⚡️ Initialiser le socket.io
-  // useEffect(() => {
-  //   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  //   const userId = userInfo?._id;
-
-  //   if (userId && !socketRef.current) {
-  //     socketRef.current = io(url);
-
-  //     socketRef.current.emit("join", userId);
-
-  //     socketRef.current.on("newNotification", (notif) => {
-  //       console.log("🔔 Notification reçue en temps réel :", notif);
-  //       setLiveNotifications((prev) => [notif, ...prev]);
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (socketRef.current) {
-  //       socketRef.current.disconnect();
-  //     }
-  //   };
-  // }, []); // Ne pas mettre [url] pour éviter de recréer la connexion
-
+  // Initialiser le socket.io
   useEffect(() => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   setUserInfo(userInfo)
@@ -61,16 +39,16 @@ export const NavbarUser = () => {
     });
 
     socketRef.current.on("connect", () => {
-      console.log("✅ Socket connecté !");
+      console.log("Socket connecté !");
       socketRef.current.emit("join", userId);
     });
 
     socketRef.current.on("connect_error", (err) => {
-      console.error("❌ Erreur de connexion socket.io :", err.message);
+      console.error("Erreur de connexion socket.io :", err.message);
     });
 
     socketRef.current.on("newNotification", (notif) => {
-      console.log("🔔 Notification reçue :", notif);
+      console.log("Notification reçue :", notif);
       setLiveNotifications((prev) => [notif, ...prev]);
     });
   }
@@ -86,7 +64,7 @@ console.log(userInf)
 console.log(user)
 
 
-  // 📥 Charger les notifications depuis l’API
+  // Charger les notifications depuis l’API
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -105,10 +83,10 @@ console.log(user)
     fetchNotifications();
   }, [url]);
 
-  // ✅ Fusion des notifications socket + serveur
+  // Fusion des notifications socket + serveur
   const allNotifications = [...liveNotifications, ...notifications];
 
-  // ✔️ Marquer une notification comme lue
+  // Marquer une notification comme lue
   const markAsRead = async (id) => {
     try {
       await fetch(`${url}/api/notifications/${id}/read`, {
