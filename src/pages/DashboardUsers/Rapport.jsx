@@ -11,6 +11,7 @@ export const Rapport = () => {
    const [rapports, setRapports] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    
    useEffect(() => {
       const rapportUser = async () => {
          try {

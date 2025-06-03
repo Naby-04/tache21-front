@@ -5,10 +5,10 @@ export const LireDocx = ({ isOpen, onClose, htmlContent, onOpen }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur bg-opacity-50">
       <div className="bg-white max-h-[80vh] overflow-y-auto w-full max-w-4xl p-6 rounded-md shadow-lg relative">
-        <button onClick={onClose} className="fixed top-[60px] right-50 text-red-500 text-xl font-bold
+        <button onClick={onClose} className="fixed right-25 top-[60px] md:right-50 text-red-500 text-xl font-bold
         cursor-pointer">✕</button>
 
-        <button className="fixed top-[60px] left-50 text-gray-800 text-2xl font-bold cursor-pointer"
+        <button className="fixed top-[60px] left-25 md:left-50 text-gray-800 text-2xl font-bold cursor-pointer"
         onClick={onOpen}>
             <IoOpenOutline/>
         </button>
