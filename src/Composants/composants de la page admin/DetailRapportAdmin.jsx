@@ -176,11 +176,6 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             ) : (
               <p className="text-xs sm:text-sm p-4 text-gray-500">Aucun fichier à afficher</p>
             )}
-            {/* <img
-              src={rapportChoisi.imageRapport}
-              alt="Image rapport"
-              className="absolute z-20 w-10 h-10 rounded-3xl object-cover border bg-gray-800 bottom-2 right-2"
-            /> */}
           </div>
         </div>
 

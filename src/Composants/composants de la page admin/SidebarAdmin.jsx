@@ -35,9 +35,6 @@ const SidebarAdmin = ({ setVueActive }) => {
           />
         </div>
         <img src={enR} alt="en'Rapport" className="hidden md:block w-23 ml-[-18px]" />
-        {/* <h4 className="text-white text-xl font-bold uppercase hidden md:block">
-          SenRapport
-        </h4> */}
       </div>
 
       <div className="mt-10">

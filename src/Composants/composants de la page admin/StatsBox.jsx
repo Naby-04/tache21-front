@@ -21,15 +21,9 @@ const StatsBox = ({ image, titre, valeur, icone }) => {
         </div>
         <div className="mt-12">
           <div className="p-1 w-20 h-8 flex flex-col relative items-center gap-3">
-            <span className="p-[1px] rounded bg-gray-300 absolute w-[50%] top-[20%] left-0">
-              {/* +{pourcent}% */}
-            </span>
-            <span className="p-[1px] rounded bg-amber-300 absolute w-[50%] top-[50%] left-[10%]">
-              {/* +{pourcent}% */}
-            </span>
-            <span className="p-[1px] rounded bg-gray-300 absolute w-[50%] top-[80%] left-0">
-              {/* +{pourcent}% */}
-            </span>
+            <span className="p-[1px] rounded bg-gray-300 absolute w-[50%] top-[20%] left-0"></span>
+            <span className="p-[1px] rounded bg-amber-300 absolute w-[50%] top-[50%] left-[10%]"></span>
+            <span className="p-[1px] rounded bg-gray-300 absolute w-[50%] top-[80%] left-0"></span>
           </div>
         </div>
       </div>
