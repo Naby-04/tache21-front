@@ -2,6 +2,8 @@ import mammoth from "mammoth";
 import { useEffect, useState } from "react";
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
+import { LireDocx } from "../LireDocx";
+import { LirePdf } from "../LirePdf";
 
 
 export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
@@ -11,6 +13,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
   const [description, setDescription] = useState(children);
   const [fille, setFile] = useState(null);
   const { url,docHtml, setDocHtml,pdfError,isLoading,setIsLoading,setPublications } = usePublication();
+  const [showPdfModal, setShowPdfModal] = useState(false);
+    const [showdocModal, setShowDocModal] = useState(false);
   const ispdf = doc.type === "application/pdf";
   const isdoc =
     doc.type ===
@@ -56,14 +60,21 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
 
     convertDocxToHtml();
   }, [doc.file, isdoc]);
-
+  
+  const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.file)}`;
   const handleDocumentClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(
-      doc.file
-    )}`;
-    window.open(viewerUrl, "_blank", "noopener,noreferrer");
+    {
+      if (isdoc) {
+        setShowDocModal(true);
+      } else if (ispdf) {
+        setShowPdfModal(true);
+      } else {
+        window.open(doc.file, "_blank", "noopener,noreferrer");
+      }
+    }
+    // window.open(viewerUrl, "_blank", "noopener,noreferrer");
   };
 
   const handleDelete = async (rapportId) => {
@@ -137,7 +148,8 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
   }, [editMode, doc]);
 
   return (
-    <div className="w-full h-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+    <div className="w-full h-full bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow 
+    duration-300 flex flex-col text-black">
       <div className="flex-1 p-4 flex flex-col bg-gray-100">
         <div className="flex flex-1 gap-4">
           {/* Preview section - fixed width but flexible height */}
@@ -215,18 +227,50 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                   )}
                 </button>
 
+                {editMode ? (
+                  <button
+                    className="text-gray-600 border-1 p-2 rounded text-xs hover:bg-gray-50 transition-colors"
+                    onClick={() => setEditMode(false)}
+                  >
+                    Annuler
+                  </button>
+                ):(
+
                 <button
                   className="text-red-600 text-xs hover:bg-red-50 border-1 p-2 rounded flex items-center gap-1"
                   onClick={() => handleDelete(rapportId)}
                 >
                   <span>{supp}</span> {iconbtn2}
                 </button>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* modal lecture */}
+           {showPdfModal && (
+             <div>
+               <LirePdf isOpen={showPdfModal}
+                onClose={() => setShowPdfModal(false)} 
+                file={doc.file} 
+                onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+                />
+             </div>
+           )}
+     
+           {/* modal docx */}
+           {showdocModal && (
+             <div>
+               <LireDocx isOpen={showdocModal}
+                onClose={() => setShowDocModal(false)}
+                 htmlContent={docHtml} 
+                 onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+                 />
+             </div>
+           )}
+        
    
     </div>
   );
