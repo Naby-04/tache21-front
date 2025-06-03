@@ -59,20 +59,20 @@ export const NotificationModal = ({ isOpen, onClose, notifications, onMarkAsRead
                         alt="Profile"
                         className="w-10 h-10 rounded-full object-cover border border-gray-800 shadow"
                       />
-                      {!notif.isRead && (
+                      {!notif?.isRead && (
                         <FaCircle className="text-gray-800 absolute -top-1 -right-1 text-xs" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm break-words">
                         <span className="font-semibold">{notif.messager?.prenom}</span> a commenté : 
-                        <span className="italic"> "{notif.comment.length > 80 ? notif.comment.slice(0, 80) + "..." : notif.comment}" </span>
+                        <span className="italic"> "{notif?.comment.length > 80 ? notif?.comment.slice(0, 80) + "..." : notif?.comment}" </span>
                         <br />
                         <span>Sur votre rapport : </span>
-                        <span className="italic font-bold break-words">{notif.rapport.title}</span>
+                        <span className="italic font-bold break-words">{notif.rapport?.title}</span>
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
-                        {formatDistanceToNow(new Date(notif.createdAt), {
+                        {formatDistanceToNow(new Date(notif?.createdAt), {
                           addSuffix: true,
                           locale: fr,
                         })}

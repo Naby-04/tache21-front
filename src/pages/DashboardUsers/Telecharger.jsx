@@ -68,7 +68,7 @@ const deleteDownload = async (downloadId) => {
   if (!confirmDelete) return;
   try {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/download/${downloadId}`, {
+    const response = await fetch(`https://tache21-back.onrender.com/download/${downloadId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
