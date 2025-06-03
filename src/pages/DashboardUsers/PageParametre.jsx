@@ -44,7 +44,7 @@ export const PageParametresCompte = () => {
       };
 
       setUserInfo(updatedUser);
-      setUsers(updatedUser); // synchro avec le contexte
+      //setUsers(updatedUser); // synchro avec le contexte
 
       // ❌ on enlève photoFile ici pour le localStorage
       const userInfoToStore = { ...updatedUser };
@@ -148,6 +148,30 @@ export const PageParametresCompte = () => {
     }
   };
 
+  const handleCancelChanges = () => {
+    const currentData = {
+      prenom: users.prenom || "Utilisateur prenom",
+      email: users.email || "john@example.com",
+      photo:
+        users.photo ||
+        "https://i.pinimg.com/736x/3c/ae/07/3cae079ca0b9e55ec6bfc1b358c9b1e2.jpg",
+    };
+
+    // Vérification s'il y a eu des modifications
+    const hasChanged =
+      userInfo.prenom !== currentData.prenom ||
+      userInfo.photo !== currentData.photo;
+
+    if (!hasChanged) {
+      toast.info("Vous n'avez fait aucune modification");
+      return;
+    }
+
+    // Réinitialisation des infos
+    setUserInfo(currentData);
+    toast.info("Modifications annulées");
+  };
+
   return (
     <div className="mt-9 md:mt-0 max-w-3xl mx-auto">
       <p className="text-2xl font-bold text-gray-800 mb-3">
@@ -155,7 +179,7 @@ export const PageParametresCompte = () => {
       </p>
       <div className="mb-2 flex justify-between items-center gap-4 bg-gray-800 px-4 py-2 rounded-lg">
         <img
-          src={users.photo}
+          src={userInfo.photo || users.photo}
           alt="profil"
           onClick={handleImageClick}
           className="w-20 h-20 rounded-full object-cover cursor-pointer border-2 border-white"
@@ -227,8 +251,11 @@ export const PageParametresCompte = () => {
           >
             Enregistrer les modifications
           </button>
-          <button className="bg-red-500 font-bold text-white p-2 rounded-sm hover:bg-red-700 text-sm">
-            Supprimer mon compte
+          <button
+            className="bg-red-500 font-bold text-white p-2 rounded-sm hover:bg-red-700 text-sm"
+            onClick={handleCancelChanges}
+          >
+            Annuler les modifications
           </button>
         </div>
       </div>

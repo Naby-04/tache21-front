@@ -21,7 +21,7 @@ export const ContextProvider = ({ children }) => {
   const fileInput = useRef();
 
    const url = "https://tache21-back.onrender.com";
-  // const url ="http://localhost:8080"
+  // const url ="http://localhost:8000"
 
   // 🧠 Ajout d'une publication
   const ajouterPublication = async (
@@ -78,7 +78,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  // 🎯 Filtrage des publications
+  //  Filtrage des publications
   const validPublications = Array.isArray(publications) ? publications : [];
 
   const filteredPublications = selectedCategory

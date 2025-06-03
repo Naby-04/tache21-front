@@ -9,7 +9,10 @@ export default defineConfig({
  optimizeDeps: {
     include: ['pdfjs-dist'],
   },
+   base: '/',
    build: {
     assetsInlineLimit: 0, // Ensures worker files are not inlined
+    outDir: 'dist',
   },
+
 });

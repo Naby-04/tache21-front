@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import mammoth from "mammoth";
 import PdfViewer from "../DashboardUsers/PdfViewer/PdfViewer";
+import ErrorBoundary from "./ErrorBoundary";
+
 
 function ReportCard({ report, isLoggedIn }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,31 +81,6 @@ function ReportCard({ report, isLoggedIn }) {
     const isPdf = fileType.includes("pdf");
     const isDocx = fileType.includes("wordprocessingml") || fileType === "docx";
 
-    // Si utilisateur pas connecté, on affiche direct fallback image
-    if (!isLoggedIn && (isPdf || isDocx)) {
-      return (
-        <div className="flex items-center justify-center h-55 w-full relative">
-          <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
-          <img
-            src={isPdf ? siPdf : siWord}
-            alt={isPdf ? "PDF fallback" : "Word fallback"}
-            className="h-[160px] max-w-[250px] object-contain"
-          />
-        </div>
-      );
-    }
-
-    // // // Si erreur de chargement, on affiche fallback aussi
-    if (docLoadError) {
-      return (
-        <img
-          src={isPdf ? siPdf : siWord}
-          alt={isPdf ? "PDF fallback" : "Word fallback"}
-          className="max-h-full max-w-full object-contain"
-        />
-      );
-    }
-
     // Sinon, affichage normal
     return (
       <div className="relative flex items-center justify-center mb-4 overflow-hidden bg-gray-200 w-full h-full shadow rounded-md">
@@ -111,32 +88,10 @@ function ReportCard({ report, isLoggedIn }) {
         <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
         {/* Contenu du preview */}
         <div className="relative z-20">
-          {isPdf ? (
-            // <Document
-            //   file={report.file}
-            //   onLoadError={() => setDocLoadError(true)}
-            //   onSourceError={() => setDocLoadError(true)}
-            // >
-            <Document
-              file={report.file}
-              // onLoadSuccess={onDocumentLoadSuccess}
-              // onLoadError={(error) => console.error("Erreur chargement PDF :", error)}
-              onLoadError={(error) => {
-                console.error("Erreur de chargement PDF :", error);
-                setDocLoadError(true);
-              }}
-              onSourceError={(error) => {
-                console.error("Erreur source PDF :", error);
-                setDocLoadError(true);
-              }}
-            >
-              <Page
-                pageNumber={1}
-                width={250}
-                renderTextLayer={false}
-                className="mx-auto"
-              />
-            </Document>
+          {isPdf && report.file ? (
+            <ErrorBoundary>
+            <PdfViewer file={report.file} width={200} />
+            </ErrorBoundary>
           ) : isDocx ? (
             <div
               className="text-sm text-gray-700 max-h-full overflow-hidden"
@@ -198,6 +153,7 @@ function ReportCard({ report, isLoggedIn }) {
         </div>
       </section>
 
+      {/* Floue quand le premier modal s'ouvre */}
       {(isModalOpen || isSecondModal) && (
         <div
           className="fixed inset-0 z-100 bg-gray-800/20 backdrop-blur-xs"

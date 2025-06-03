@@ -10,12 +10,14 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
 
+
 export const RapportCard = ({ doc }) => {
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
+  const [downloading, setDownloading] = useState(false);
   
 
 
@@ -72,6 +74,7 @@ export const RapportCard = ({ doc }) => {
 const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
+  
 
     const res = await fetch(
       `${url}/api/comments/${doc._id}`,
@@ -89,8 +92,6 @@ const handleCommentSubmit = async (comment) => {
       console.error("Erreur lors de l’ajout du commentaire");
       return;
     }
-
-    // ✅ Afficher commentaires après ajout
     setShowComments(true);
     setShowCommentBox(false);
   } catch (error) {
@@ -120,6 +121,7 @@ const handleDocumentClick = (e) => {
   // Gestion du téléchargement
   const handleDownload = async (rapportId) => {
     const token = localStorage.getItem("token");
+    setDownloading(true);
 
     try {
       const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
@@ -135,7 +137,6 @@ const handleDocumentClick = (e) => {
 
       const blob = await response.blob();
       const fileURL = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
       link.href = fileURL;
       link.download = doc.title || "document";
@@ -146,23 +147,11 @@ const handleDocumentClick = (e) => {
     } catch (error) {
       console.error("Erreur de téléchargement :", error.message);
       alert("Échec du téléchargement. Vérifie ton authentification.");
+    } finally {
+      setDownloading(false); 
     }
   };
 
-
-
-  // const handleDownload = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-    
-  //   const link = document.createElement('a');
-  //   link.href = doc.file;
-  //   link.download = doc.title || 'document';
-  //   link.style.display = 'none';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
 
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
@@ -175,7 +164,6 @@ const handleDocumentClick = (e) => {
       : [];
 
 
-  console.log("url recu de cloudinary :", doc.file);
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
@@ -311,9 +299,16 @@ const handleDocumentClick = (e) => {
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
           onClick={() => handleDownload(doc._id)}
-        >
+          disabled={downloading} // désactive pendant l'action
+          >
+            {downloading ? (
+              <span className="text-blue-500 animate-pulse">Téléchargement en cours...</span>
+            ) : (
+              <>
           <FaCloudDownloadAlt />
-          <span className="hidden md:block">Télécharger</span>
+          <span className="hidden md:block">Télécharge</span>
+          </>
+  )}
         </button>
       </div>
 
