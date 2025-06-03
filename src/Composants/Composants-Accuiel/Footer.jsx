@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -8,7 +7,6 @@ import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { db, serverTimestamp } from "../../services/firebaseService";
-//  import { initializeApp } from "firebase/app";
 import { collection, addDoc , query, where, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
@@ -43,12 +41,14 @@ const Footer = () => {
       //  Si l'email existe déjà
       if (!querySnapshot.empty) {
         toast.info("Cet email est déjà enregistré.");
+        setEmail("")
         return;
       }
 
       //  Si l'email est nouveau, on l'ajoute
       await addDoc(emailsRef, {
         email,
+          subscribed: true, // ✅ nouvel attribut
         time: serverTimestamp(),
       });
    //  Envoi de l'email avec EmailJS
@@ -56,7 +56,7 @@ const Footer = () => {
         .send(
           "service_wmra0c7",
           "template_0u9mmwe",
-          { user_email: email },
+          { user_email: email},
           "8uD6SuB_tZuWwNH9Y"
         )
         .then(() => {
