@@ -18,14 +18,14 @@ export const LirePdf = ({ isOpen, onClose, file , onOpen}) => {
       <div className="bg-white p-4 rounded-lg shadow-lg max-w-[80vw] w-full max-h-[90vh] overflow-y-auto relative">
         <button
           onClick={onClose}
-          className="fixed top-[30px] z-100 right-25 md:right-50 text-gray-700 hover:text-red-600 text-2xl font-bold"
+          className="fixed top-[50px] z-100 right-25 md:right-50 text-gray-700 hover:text-red-600 text-2xl font-bold"
         >
           ✕
         </button>
 
         {/* button pour ouvrir sur une autre page */}
         <button
-          className="fixed top-[30px] z-100 left-25 md:left-50 text-gray-900 hover:text-blue-600 text-2xl font-bold"
+          className="fixed top-[50px] z-100 left-25 md:left-50 text-gray-900 hover:text-blue-600 text-2xl font-bold"
           onClick={onOpen}
         >
           <IoOpenOutline />
