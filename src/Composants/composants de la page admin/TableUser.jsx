@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 
 const TableUser = ({ tabUsers, onDelete }) => {
+  // Gestion modal
+  const [selectedUser, setSelectedUser] = useState(null);
+
   // console.log(tabUsers)
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
@@ -33,13 +36,18 @@ const TableUser = ({ tabUsers, onDelete }) => {
               <th className="py-2 px-3">Prénom</th>
               <th className="py-2 px-3 hidden sm:table-cell">Email</th>
               <th className="py-2 px-3">Rôle</th>
-              <th className="py-2 px-3 hidden md:table-cell">Date d'inscription</th>
+              <th className="py-2 px-3 hidden md:table-cell">
+                Date d'inscription
+              </th>
               <th className="py-2 px-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentUsers.map((user, index) => (
-              <tr key={user._id} className="border-t transition-color duration-200 hover:bg-gray-100">
+              <tr
+                key={user._id}
+                className="border-t transition-color duration-200 hover:bg-gray-100"
+              >
                 <td className="py-2 px-3 font-bold text-gray-600">
                   {(currentPage - 1) * usersPerPage + index + 1}
                 </td>
@@ -48,12 +56,10 @@ const TableUser = ({ tabUsers, onDelete }) => {
                     <img
                       src={user.photo || "/images/default-user.png"}
                       alt={user.prenom}
-                      className="w-6 h-6 bg-amber-300 rounded-full object-cover flex-shrink-0"
+                      className="w-6 h-6 bg-amber-300 rounded-full object-cover flex-shrink-0 cursor-pointer"
+                      onClick={() => setSelectedUser(user)}
                     />
-                    <span
-                      className="truncate"
-                      title={user.prenom}
-                    >
+                    <span className="truncate" title={user.prenom}>
                       {user.prenom}
                     </span>
                   </div>
@@ -76,15 +82,15 @@ const TableUser = ({ tabUsers, onDelete }) => {
                 <td className="px-3 py-2">
                   <div className="flex items-center justify-center">
                     <button
-                    onClick={() => {
-                      setUserToDelete(user);
-                      setShowModal(true);
-                    }}
-                    className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200"
-                    aria-label={`Supprimer ${user.prenom}`}
-                  >
-                    <FaTrash />
-                  </button>
+                      onClick={() => {
+                        setUserToDelete(user);
+                        setShowModal(true);
+                      }}
+                      className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200"
+                      aria-label={`Supprimer ${user.prenom}`}
+                    >
+                      <FaTrash />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -118,9 +124,13 @@ const TableUser = ({ tabUsers, onDelete }) => {
       {showModal && userToDelete && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md text-center max-w-sm w-full">
-            <p className="text-lg font-semibold mb-2 text-red-600">Confirmation de suppression</p>
+            <p className="text-lg font-semibold mb-2 text-red-600">
+              Confirmation de suppression
+            </p>
             <p className="text-sm text-gray-800 mb-4">
-              Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>{userToDelete.prenom}</strong> avec le mail <strong>{userToDelete.email}</strong> ?
+              Êtes-vous sûr de vouloir supprimer l'utilisateur{" "}
+              <strong>{userToDelete.prenom}</strong> avec le mail{" "}
+              <strong>{userToDelete.email}</strong> ?
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -142,6 +152,54 @@ const TableUser = ({ tabUsers, onDelete }) => {
               >
                 Annuler
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal d'informations utilisateur */}
+      {selectedUser && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full relative">
+            <button
+              onClick={() => setSelectedUser(null)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-lg"
+            >
+              ✕
+            </button>
+            <h3 className="text-xl font-bold mb-4">Détails de l'utilisateur</h3>
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src={selectedUser.photo || "/images/default-user.png"}
+                alt={selectedUser.prenom}
+                className="w-16 h-16 rounded-full object-cover border"
+              />
+              <div>
+                <p>
+                  <strong>Nom Complet :</strong> {selectedUser.prenom}
+                </p>
+                <p>
+                  <strong>Email :</strong> {selectedUser.email}
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-2 text-sm text-gray-700">
+              <p>
+                <strong>Rôle :</strong>{" "}
+                {selectedUser.isAdmin ? "Administrateur" : "Utilisateur"}
+              </p>
+              <p>
+                <strong>Date d'inscription :</strong>{" "}
+                {new Date(selectedUser.createdAt).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Nombre de rapports :</strong>{" "}
+                {selectedUser.telephone || "—"}
+              </p>
+              <p>
+                <strong>Biographie :</strong> {selectedUser.adresse || "—"}
+              </p>
+              {/* Ajoute d'autres champs si nécessaire */}
             </div>
           </div>
         </div>
