@@ -13,6 +13,7 @@ export const RapportTelecharger = ({ doc }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pdfError, setPdfError] = useState(null);
   const { docHtml, setDocHtml } = usePublication();
+  
 
   useEffect(() => {
     const fetchRapports = async () => {
