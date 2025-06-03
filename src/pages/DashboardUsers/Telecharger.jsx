@@ -173,9 +173,9 @@ const deleteDownload = async (downloadId) => {
                <button
              
              onClick={() => deleteDownload(rapport._id)}
-             className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow cursor-pointer"
+             className="flex items-center gap-2 bg-red-500 hover:red-500 text-white px-3 py-1 rounded shadow cursor-pointer"
              >
-            <FaTrash className="text-red-500"/>
+            <FaTrash className="text-white"/>
            </button>
                   </div>
                 </div>
