@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaCertificate } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import mammoth from "mammoth";
@@ -135,7 +136,7 @@ function ReportCard({ report, isLoggedIn }) {
                 className="text-amber-300 p-1 bg-white rounded-full text-lg absolute right-0 top-1"
                 title="Certifié"
               >
-                <FaCheckCircle className="text-amber-300" />
+              <FaCertificate className="text-lg text-amber-300" />
               </span>
             </div>
 
