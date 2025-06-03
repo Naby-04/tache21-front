@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const TableUser = ({ tabUsers, onDelete }) => {
   // Gestion modal
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUserReportsCount, setSelectedUserReportsCount] =
+    useState(null);
+  const { url } = usePublication();
+
+  useEffect(() => {
+    const fetchRapportsByUser = async () => {
+      if (!selectedUser) return;
+
+      try {
+        const response = await fetch(
+          `${url}/rapports/user/${selectedUser.}`
+        );
+        const data = await response.json();
+        setSelectedUserReportsCount(data.length); // tu peux ajuster selon ton backend
+      } catch (error) {
+        console.error("Erreur lors du chargement des rapports :", error);
+        setSelectedUserReportsCount(0);
+      }
+    };
+
+    fetchRapportsByUser();
+  }, [selectedUser]);
 
   // console.log(tabUsers)
   const [currentPage, setCurrentPage] = useState(1);
@@ -194,7 +217,9 @@ const TableUser = ({ tabUsers, onDelete }) => {
               </p>
               <p>
                 <strong>Nombre de rapports :</strong>{" "}
-                {selectedUser.telephone || "—"}
+                {selectedUserReportsCount === 0
+                  ? "Aucun rapport"
+                  : selectedUserReportsCount || "Chargement..."}
               </p>
               <p>
                 <strong>Biographie :</strong> {selectedUser.adresse || "—"}
