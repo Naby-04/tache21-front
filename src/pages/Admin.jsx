@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../index.css";
 import "./StylePerdo.css";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Users from "../Composants/composants de la page admin/Users";
 import RapportCard from "../Composants/composants de la page admin/RapportCard";
 import SidebarAdmin from "../Composants/composants de la page admin/SidebarAdmin";
@@ -24,6 +27,7 @@ const categoryIcons = {
   culture_art: "🎨",
   justice_droit: "⚖️",
 };
+
 const services = [
   { icon: "📚", label: "Toutes les catégories", value: "all" },
   ...categories.map((cat) => ({
@@ -106,26 +110,6 @@ const Admin = () => {
   fetchTopDownloadedRapports();
 }, []);
 
-  // useEffect(() => {
-  //   const fetchTopRapports = async () => {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const response = await fetch(`${url}/api/comments/top/commented`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-
-  //       const data = await response.json();
-  //       setTopRapports(data);
-  //     } catch (error) {
-  //       console.error("Erreur lors du chargement des top rapports :", error);
-  //     }
-  //   };
-
-  //   fetchTopRapports();
-  // }, []);
-
   useEffect(() => {
     const fetchTelechargement = async () => {
       try {
@@ -157,7 +141,6 @@ const Admin = () => {
     }
   };
 
-  // 🔍 Recherche et filtre dans "dashboard"
   // const filtrerRapportsParTexte = (texte) => {
   //   setRechercheDashboard(texte);
   //   let filtered = rapportsOriginaux;
@@ -231,45 +214,20 @@ const Admin = () => {
         // setRapportFiltre((prev) => prev.filter((r) => r._id !== id));
         // setRapportsOriginaux((prev) => prev.filter((r) => r._id !== id));
         setTopRapports((prev) => prev.filter((t) => t.rapport._id !== id));
+
+        toast.success("Rapport supprimé avec succès !");
       } else {
+        toast.error("Échec de la suppression du rapport.");
         const errorText = await response.text();
         console.error(
           `Erreur lors de la suppression. Status: ${response.status}, Message: ${errorText}`
         );
       }
     } catch (error) {
+      toast.error("Erreur serveur lors de la suppression.");
       console.error("Erreur serveur :", error);
     }
   };
-
-  // const supprimerRapport = async (id) => {
-  //   try {
-  //     const token = localStorage.getItem("token"); // ou "access_token", selon ton backend
-
-  //     const response = await fetch(`${url}/rapport/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       const supUnRap = rapportfiltre.filter((r) => r._id !== id);
-  //       const supRapport = rapportsOriginaux.filter((r) => r._id !== id);
-
-  //       setRapportFiltre(supUnRap);
-  //       setRapportsOriginaux(supRapport);
-
-  //       // const nouveauTableau = rapportfiltre.filter((r) => r._id !== id);
-  //       // setRapportFiltre(nouveauTableau);
-  //     } else {
-  //       console.error("Erreur lors de la suppression");
-  //     }
-  //   } catch (error) {
-  //     console.error("Erreur serveur :", error);
-  //   }
-  // };
 
   const supprimerUtilisateur = async (id) => {
     try {
@@ -287,10 +245,13 @@ const Admin = () => {
         const miseAJour = filtreUser.filter((u) => u._id !== id);
         setAllUsers(miseAJour);
         setFiltreUser(miseAJour);
+        toast.success("Utilisateur supprimé avec succès !");
       } else {
+        toast.error("Échec de la suppression de l'utilisateur.");
         console.error("Erreur lors de la suppression de l'utilisateur");
       }
     } catch (error) {
+      toast.error("Erreur serveur lors de la suppression.")
       console.error("Erreur serveur lors de la suppression :", error);
     }
   };
@@ -380,6 +341,7 @@ const Admin = () => {
             </div>
           </>
         )}
+        <ToastContainer position="top-right" autoClose={3000} />
       </main>
     </div>
   );
