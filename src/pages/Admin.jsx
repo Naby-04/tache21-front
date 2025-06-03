@@ -50,6 +50,7 @@ const Admin = () => {
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
+  console.log(topRapports)
 
   // Récupération des rapports depuis l’API
   useEffect(() => {
@@ -92,24 +93,38 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
-    const fetchTopRapports = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(`${url}/api/comments/top/commented`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  const fetchTopDownloadedRapports = async () => {
+    try {
+      const response = await fetch(`${url}/download/top/downloaded`);
+      const data = await response.json();
+      setTopRapports(data); // car tu utilises topRapports dans l’affichage
+    } catch (error) {
+      console.error("Erreur lors du chargement des rapports les plus téléchargés :", error);
+    }
+  };
 
-        const data = await response.json();
-        setTopRapports(data);
-      } catch (error) {
-        console.error("Erreur lors du chargement des top rapports :", error);
-      }
-    };
+  fetchTopDownloadedRapports();
+}, []);
 
-    fetchTopRapports();
-  }, []);
+  // useEffect(() => {
+  //   const fetchTopRapports = async () => {
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       const response = await fetch(`${url}/api/comments/top/commented`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+
+  //       const data = await response.json();
+  //       setTopRapports(data);
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement des top rapports :", error);
+  //     }
+  //   };
+
+  //   fetchTopRapports();
+  // }, []);
 
   useEffect(() => {
     const fetchTelechargement = async () => {
