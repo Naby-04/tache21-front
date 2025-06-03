@@ -15,7 +15,7 @@ const TableUser = ({ tabUsers, onDelete }) => {
 
       try {
         const response = await fetch(
-          `${url}/rapports/user/${selectedUser.}`
+          `${url}/rapports/user/${selectedUser._id}`
         );
         const data = await response.json();
         setSelectedUserReportsCount(data.length); // tu peux ajuster selon ton backend
