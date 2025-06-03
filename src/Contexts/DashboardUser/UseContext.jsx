@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [docHtml, setDocHtml] = useState(null);
   const [pdfError, setPdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  
 
   const fileInput = useRef();
 
@@ -78,7 +79,7 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
-  //  Filtrage des publications
+  // 🎯 Filtrage des publications
   const validPublications = Array.isArray(publications) ? publications : [];
 
   const filteredPublications = selectedCategory

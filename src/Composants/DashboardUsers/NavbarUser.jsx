@@ -39,7 +39,7 @@ export const NavbarUser = () => {
     });
 
     socketRef.current.on("connect", () => {
-      console.log("Socket connecté !");
+      // console.log("Socket connecté !");
       socketRef.current.emit("join", userId);
     });
 
@@ -60,8 +60,7 @@ export const NavbarUser = () => {
     }
   };
 }, []);
-console.log(userInf)
-console.log(user)
+
 
 
   // Charger les notifications depuis l’API
