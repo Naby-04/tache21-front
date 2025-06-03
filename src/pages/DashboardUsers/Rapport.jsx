@@ -11,7 +11,6 @@ export const Rapport = () => {
    const [rapports, setRapports] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    
    useEffect(() => {
       const rapportUser = async () => {
          try {
@@ -32,7 +31,6 @@ export const Rapport = () => {
      
       rapportUser();
    }, [url]);
-
 
    // Mettre à jour un rapport
     return (

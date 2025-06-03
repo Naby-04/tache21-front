@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaDownload , FaTrash} from "react-icons/fa";
-import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+import { FaTrash} from "react-icons/fa";
 import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
 import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";

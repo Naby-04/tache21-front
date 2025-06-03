@@ -21,6 +21,8 @@ export const NavbarUser = () => {
   const [userInf, setUserInfo] = useState(null)
   const socketRef = useRef(null);
 
+  
+
   // Initialiser le socket.io
   useEffect(() => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -136,7 +138,7 @@ export const NavbarUser = () => {
           <Input value={searchTerm} onSearch={setSearchTerm} />
         </div>
 
-        <div className="addDocs hidden md:flex gap-2 items-center">
+        <div className="addDocs  flex gap-2 items-center">
           <div
             className="relative cursor-pointer"
             title="Notifications"
@@ -150,10 +152,12 @@ export const NavbarUser = () => {
               </small>
             )}
           </div>
+          <div className="cursor-pointer hidden lg:block">
           <AddRapport />
+          </div>
         </div>
 
-        <div className="block md:hidden">
+        <div className="block lg:hidden">
           <RiMenuFill
             className="text-white text-2xl"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}
