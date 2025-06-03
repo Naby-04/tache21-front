@@ -19,10 +19,12 @@ const PublicationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(form.title === "" || form.description === "" || form.category === "" || form.tags === "" || form.file === null){
+    if(form.title === "" || form.description === "" || form.category === ""  || form.file === null){
       toast.error("Veuillez remplir tous les champs");
       return
     }
+
+
     setLoading(true);
     await ajouterPublication(form, fileInput, token, toast, navigate);
     setLoading(true);

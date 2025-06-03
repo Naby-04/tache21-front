@@ -46,10 +46,10 @@ export const RapportTelecharger = ({ doc }) => {
   };
   
 
-  const convertDocxToHtml = async (file) => {
+  const convertDocxToHtml = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(file);
+      const response = await fetch(doc.file);
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
       const result = await mammoth.convertToHtml({ arrayBuffer });
@@ -131,7 +131,7 @@ const deleteDownload = async (downloadId) => {
                   </div>
 
                   {ispdf ? (
-                    <div className="w-full max-h-[250px] relative">
+                    <div className="w-full max-h-[250px] relative flex items-center justify-center">
                       {pdfError && <p className="text-red-500">{pdfError}</p>}
                       <PdfViewer file={rapportId.file} width={null} height={"200"}/>
                     </div>
