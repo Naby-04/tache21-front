@@ -1,7 +1,7 @@
 export const categories = [
   {
-    label: "Informatique & Sciences",
-    value: "informatique_sciences",
+    label: "Informatique,Technologie & Sciences",
+    value: "informatique_Technologie_sciences",
     color: "bg-blue-100 text-blue-700",
   },
   {

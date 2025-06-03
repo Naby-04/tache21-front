@@ -163,10 +163,10 @@ export const RapportCardAccueil = ({ doc }) => {
       {/* Aperçu du document avec overlay */}
       <div
         className="relative rounded-md overflow-hidden mb-4 cursor-pointer group"
-        onClick={handleDocumentClick}
+        // onClick={handleDocumentClick}
       >
         {/* Overlay au survol - style conservé */}
-        <div
+        {/* <div
           className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300
          flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
         >
@@ -177,7 +177,7 @@ export const RapportCardAccueil = ({ doc }) => {
               ? "Ouvrir le document"
               : "Voir le fichier"}
           </span>
-        </div>
+        </div> */}
 
         {ispdf ? (
           <div className="w-full max-h-[250px]">

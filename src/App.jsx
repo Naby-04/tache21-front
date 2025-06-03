@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
@@ -36,7 +36,7 @@ const App = () => {
         theme="light"
       />
 
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/"
@@ -150,7 +150,7 @@ const App = () => {
         </Routes>
 
         <Toaster position="top-center" />
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 };
