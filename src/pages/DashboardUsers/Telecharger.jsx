@@ -11,9 +11,9 @@ export const RapportTelecharger = ({ doc }) => {
   const [rapports, setRapports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [pdfError, setPdfError] = useState(null);
   const { docHtml, setDocHtml } = usePublication();
-  
 
   useEffect(() => {
     const fetchRapports = async () => {
@@ -47,10 +47,10 @@ export const RapportTelecharger = ({ doc }) => {
   };
   
 
-  const convertDocxToHtml = async () => {
+  const convertDocxToHtml = async (file) => {
     try {
       setIsLoading(true);
-      const response = await fetch(doc.file);
+      const response = await fetch(file);
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
       const result = await mammoth.convertToHtml({ arrayBuffer });

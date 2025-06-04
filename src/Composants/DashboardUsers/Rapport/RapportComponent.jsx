@@ -203,7 +203,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
               </div>
             ) : (
               <div className="flex-1 space-y-1 text-black">
-                <h1 className="text-sm font-semibold text-gray-800">{tite}</h1>
+                <h1 className="text-sm font-semibold text-gray-800 line-clamp-2">{tite}</h1>
                 <div className="text-xs text-gray-700 mt-2 line-clamp-4 flex-1">{children}</div>
                 <p className="text-xs text-gray-400 mt-1">Date: {new Date(date).toLocaleString("fr-FR")}</p>
               </div>
@@ -217,11 +217,11 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                   onClick={editMode ? handleUpdateRapport : () => setEditMode(true)}
                 >
                   {editMode ? (
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 cursor-pointer">
                       <span>Enregistrer</span> ✅
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 cursor-pointer">
                       <span>{modif}</span> {iconbtn3}
                     </span>
                   )}
@@ -229,7 +229,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
 
                 {editMode ? (
                   <button
-                    className="text-gray-600 border-1 p-2 rounded text-xs hover:bg-gray-50 transition-colors"
+                    className="text-gray-600 border-1 p-2 rounded text-xs cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => setEditMode(false)}
                   >
                     Annuler
@@ -237,7 +237,7 @@ export const ComponentRapport = ({ doc, tite, children, supp, modif, iconbtn3,
                 ):(
 
                 <button
-                  className="text-red-600 text-xs hover:bg-red-50 border-1 p-2 rounded flex items-center gap-1"
+                  className="text-red-600 text-xs hover:bg-red-50 cursor-pointer border-1 p-2 rounded flex items-center gap-1"
                   onClick={() => handleDelete(rapportId)}
                 >
                   <span>{supp}</span> {iconbtn2}
