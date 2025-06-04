@@ -21,6 +21,7 @@ import { Toaster } from "react-hot-toast";
 
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 import { CommentairesSection } from "./Composants/DashboardUsers/Commentaire/CommentaireSection";
+import Unsubscribe from "./pages/DescNewsletter";
 
 const App = () => {
   return (
@@ -148,6 +149,7 @@ const App = () => {
           />
           <Route path="/commentaires" element={<CommentairesSection />} />
           {/* <Route path="/Auth" element={<AuthProvider />} /> */}
+          <Route path="/unsubscribe" element={<Unsubscribe />} />
         </Routes>
 
         <Toaster position="top-center" />
