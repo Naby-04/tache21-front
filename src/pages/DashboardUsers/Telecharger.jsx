@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { toast } from "react-toastify";
+import EmptyList from "../../Composants/EmptyList";
 
 export const RapportTelecharger = ({ doc }) => {
   const [rapports, setRapports] = useState([]);
@@ -94,7 +95,7 @@ const deleteDownload = async (downloadId) => {
   
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-6">
+    <div className="w-full min-h-[85vh] bg-gray-100 p-6">
       <h1 className="mt-5 md:mt-0 text-2xl font-semibold text-center text-gray-800 mb-8">
         Mes rapports téléchargés
       </h1>
@@ -106,6 +107,7 @@ const deleteDownload = async (downloadId) => {
       </div>
       ) : rapports.length === 0 ? (
         <p className="text-center text-gray-600 text-lg">
+          <EmptyList />
           Vous n'avez pas encore téléchargé de rapport.
         </p>
         ) : (

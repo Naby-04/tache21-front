@@ -18,8 +18,6 @@ export const ContextProvider = ({ children }) => {
   const [pdfError, setPdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  
-
   const fileInput = useRef();
 
   //  const url = "https://tache21-back.onrender.com";
@@ -102,9 +100,27 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {form,setForm,fileInput,handleChange,publications,setPublications,selectedCategory,
-    setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
-    docHtml,setDocHtml,pdfError,setPdfError,isLoading,setIsLoading,ajouterPublication
+  const values = {
+    form,
+    setForm,
+    fileInput,
+    handleChange,
+    publications,
+    setPublications,
+    selectedCategory,
+    setSelectedCategory,
+    filteredPublications,
+    searchTerm,
+    setSearchTerm,
+    filteredPublicationsBySearch,
+    url,
+    docHtml,
+    setDocHtml,
+    pdfError,
+    setPdfError,
+    isLoading,
+    setIsLoading,
+    ajouterPublication,
   };
 
   return (

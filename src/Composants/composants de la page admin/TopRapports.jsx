@@ -76,7 +76,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
+      <h2 className="text-xl font-semibold mb-4">Top Rapports <span className="text-xs opacity-75 mr-5">Les plus telecharger</span></h2>
 
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[700px] text-left text-sm sm:text-base">
