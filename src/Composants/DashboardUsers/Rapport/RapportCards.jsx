@@ -14,6 +14,7 @@ import { LireDocx } from "../LireDocx";
 
 
 export const RapportCard = ({ doc }) => {
+  console.log(doc)
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
@@ -180,7 +181,7 @@ const handleDocumentClick = (e) => {
       {/* En-tête avec auteur */}
       <div className="flex items-center gap-3 mb-3">
         <img
-          src={doc.userId ? `${doc.userId.photo} ` : " "}
+          src={doc?.userId ? `${doc?.userId?.photo} ` : " "}
           alt="Auteur"
           className="w-10 h-10 rounded-full object-cover"
         />
