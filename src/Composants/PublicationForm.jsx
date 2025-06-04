@@ -19,10 +19,12 @@ const PublicationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(form.title === "" || form.description === "" || form.category === "" || form.tags === "" || form.file === null){
+    if(form.title === "" || form.description === "" || form.category === ""  || form.file === null){
       toast.error("Veuillez remplir tous les champs");
       return
     }
+
+
     setLoading(true);
     await ajouterPublication(form, fileInput, token, toast, navigate);
     setLoading(true);
@@ -101,6 +103,11 @@ const PublicationForm = () => {
          border-gray-800 mb-2 cursor-pointer">
           <IoCloudUploadSharp size={30} className="text-amber-500"/>
         </label>
+
+        {form.file && (
+          <p className="text-gray-800 ">{form.file.name}</p>
+        )}  
+
 
         <button
           className="border bg-amber-500 rounded w-full p-2 outline-none 

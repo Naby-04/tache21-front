@@ -113,10 +113,20 @@ const Connexion = () => {
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || 'Erreur de connexion');
+    if (!response.ok) {
+      // Gestion des erreurs spécifiques du backend
+      if (response.status === 404 && data.message?.includes("email")) {
+        toast.error("Cet email n'existe pas. Veuillez vous inscrire.");
+      } else if (data.message?.includes("Mot de passe")) {
+        toast.error("Mot de passe incorrect.");
+      } else {
+        toast.error(data.message || "Erreur de connexion.");
+      }
+      return;
+    }
       localStorage.setItem('token', data.token);
       localStorage.setItem('userInfo', JSON.stringify(data.user));
-      setUsers(data.user); //  mise à jour du contexte
+      setUsers(data.user);
       // await fetchProfil();
       toast.success('Connexion réussie !');
       resetFormData();
