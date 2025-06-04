@@ -48,7 +48,6 @@ const Footer = () => {
       //  Si l'email est nouveau, on l'ajoute
       await addDoc(emailsRef, {
         email,
-          subscribed: true, // ✅ nouvel attribut
         time: serverTimestamp(),
       });
    //  Envoi de l'email avec EmailJS

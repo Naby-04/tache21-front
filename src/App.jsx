@@ -21,7 +21,6 @@ import { Toaster } from "react-hot-toast";
 
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 import { CommentairesSection } from "./Composants/DashboardUsers/Commentaire/CommentaireSection";
-import TestNews from "./pages/TestAdmin/TestNews";
 
 const App = () => {
   return (
@@ -40,7 +39,6 @@ const App = () => {
 
       <HashRouter>
         <Routes>
-          {/* <Route path="/" element={<TestNews/>}/> */}
           <Route
             path="/"
             element={
