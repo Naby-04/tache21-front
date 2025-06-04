@@ -17,11 +17,10 @@ export const ContextProvider = ({ children }) => {
   const [docHtml, setDocHtml] = useState(null);
   const [pdfError, setPdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  
 
   const fileInput = useRef();
 
-   const url = "https://tache21-back.onrender.com";
+  const url = "https://tache21-back.onrender.com";
   // const url ="http://localhost:8000"
 
   // 🧠 Ajout d'une publication
