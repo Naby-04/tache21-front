@@ -1,9 +1,9 @@
 import React from "react";
 import "../../index.css";
 
-const StatsBox = ({ image, titre, valeur, icone }) => {
+const StatsBox = ({ image, titre, valeur, icone, onClick }) => {
   return (
-    <div className="flex bg-gray-800 rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2 transition-transform duration-300 hover:scale-102 hover:shadow-lg cursor-pointer">
+    <div className="flex bg-gray-800 rounded-lg border border-gray-300 items-center w-full relative overflow-hidden p-2 transition-transform duration-300 hover:scale-102 hover:shadow-lg cursor-pointer" onClick={onClick} >
       <img
         src={image}
         alt=""

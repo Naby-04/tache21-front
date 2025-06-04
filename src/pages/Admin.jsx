@@ -55,7 +55,7 @@ const Admin = () => {
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
   console.log(topRapports)
-
+  console.log(telecharge)
   // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
@@ -292,6 +292,7 @@ const Admin = () => {
                 topRapportsFiltres.length ? topRapportsFiltres : topRapports
               }
               telechargement={telecharge}
+              setVueActive={setVueActive}
             />
           </>
         )}
