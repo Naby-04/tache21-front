@@ -2,6 +2,7 @@ import { BsTrash } from "react-icons/bs";
 import ModalComponent from "../../modalComponent";
 import { jwtDecode } from "jwt-decode";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
+import { useEffect, useState } from "react";
 
 export const CommentairesSection = ({ rapportId }) => {
   const [loading, setLoading] = useState(true);
