@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaDownload , FaTrash} from "react-icons/fa";
-import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+import { FaTrash} from "react-icons/fa";
 import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
 import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
@@ -14,6 +13,7 @@ export const RapportTelecharger = ({ doc }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pdfError, setPdfError] = useState(null);
   const { docHtml, setDocHtml } = usePublication();
+  
 
   useEffect(() => {
     const fetchRapports = async () => {
@@ -47,10 +47,10 @@ export const RapportTelecharger = ({ doc }) => {
   };
   
 
-  const convertDocxToHtml = async (file) => {
+  const convertDocxToHtml = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(file);
+      const response = await fetch(doc.file);
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
       const result = await mammoth.convertToHtml({ arrayBuffer });
@@ -132,7 +132,7 @@ const deleteDownload = async (downloadId) => {
                   </div>
 
                   {ispdf ? (
-                    <div className="w-full max-h-[250px] relative">
+                    <div className="w-full max-h-[250px] relative flex items-center justify-center">
                       {pdfError && <p className="text-red-500">{pdfError}</p>}
                       <PdfViewer file={rapportId.file} width={null} height={"200"}/>
                     </div>
@@ -174,9 +174,9 @@ const deleteDownload = async (downloadId) => {
                <button
              
              onClick={() => deleteDownload(rapport._id)}
-             className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow cursor-pointer"
+             className="flex items-center gap-2 bg-red-500 hover:red-500 text-white px-3 py-1 rounded shadow cursor-pointer"
              >
-            <FaTrash className="text-red-500"/>
+            <FaTrash className="text-white"/>
            </button>
                   </div>
                 </div>

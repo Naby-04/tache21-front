@@ -15,6 +15,7 @@ import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import PublicRoute from "./Routes/PublicRoute";
+import AdminRoute from "./Routes/AdminRoute";
 
 import { Toaster } from "react-hot-toast";
 
@@ -49,9 +50,9 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Admin />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
           <Route

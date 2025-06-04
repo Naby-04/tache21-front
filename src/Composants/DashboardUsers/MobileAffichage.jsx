@@ -1,9 +1,10 @@
-import { FaCloudUploadAlt, FaDochub, FaHome, FaTimes } from "react-icons/fa";
+import { FaCloudUploadAlt, FaHome, FaTimes } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
 import { AddRapport } from "./Rapport/AddRapport";
 import { useContext } from "react";
 import AuthContext from "../../Contexts/AuthContext";
+import { HiDocument } from "react-icons/hi2";
 
 export const MobileSidebar = ({ isOpen, onClose }) => {
 	const {users,setUsers } = useContext(AuthContext);
@@ -18,7 +19,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 	   if (!users) return ;
 	const links = [
 		{ to: "/users", icon: <FaHome />, label: "Accueil" },
-		{ to: "rapport", icon: <FaDochub />, label: "Mes rapports" },
+		{ to: "rapport", icon: <HiDocument/> , label: "Mes rapports" },
 		{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Mes téléchargements" },
 	];
 

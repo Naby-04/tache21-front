@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../Contexts/AuthContext";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { toast } from "react-toastify";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export const PageParametresCompte = () => {
   const navigate = useNavigate();
   // const { setUsers } = useContext(AuthContext);
   const { users, setUsers } = useContext(AuthContext);
+
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { url } = usePublication();
 
@@ -87,21 +91,61 @@ export const PageParametresCompte = () => {
     try {
       let photoUrl = userInfo.photo;
 
-      // ⏬ Vérifie si un fichier image a été sélectionné
+      // Vérifie si un fichier image a été sélectionné (donc image modifiée)
       if (userInfo.photoFile) {
         console.log("Upload en cours vers Cloudinary...");
         photoUrl = await uploadImageToCloudinary(userInfo.photoFile);
         console.log("Nouvelle URL de la photo :", photoUrl);
-      } else {
-        console.log("Aucune nouvelle image sélectionnée");
+      }
+
+      // 🔍 Vérification des changements
+      const currentData = {
+        prenom: users.prenom || "",
+        photo: users.photo || "",
+        password: "", // mot de passe actuel, pas nécessaire pour l'update
+        confirmationMotDePasse: "", // pas nécessaire pour l'update
+      };
+
+      const newData = {
+        prenom: userInfo.prenom,
+        photo: photoUrl,
+        password: userInfo.nouveauMotDePasse || "",
+        confirmationMotDePasse: userInfo.confirmationMotDePasse || "",
+      };
+
+      if (userInfo.nouveauMotDePasse || userInfo.confirmationMotDePasse) {
+        if (userInfo.nouveauMotDePasse.length < 6) {
+          toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+          return;
+        }
+
+        if (userInfo.nouveauMotDePasse !== userInfo.confirmationMotDePasse) {
+          toast.error("Les mots de passe ne correspondent pas.");
+          return;
+        }
+      }
+
+      const hasChanged =
+        currentData.prenom !== newData.prenom ||
+        currentData.photo !== newData.photo ||
+        currentData.password !== newData.password ||
+        currentData.confirmationMotDePasse !== newData.confirmationMotDePasse;
+
+      if (!hasChanged) {
+        toast.info("Aucune modification à enregistrer");
+        return;
       }
 
       // 📨 Préparer les données à envoyer
       const dataToSend = {
         ...userInfo,
         photo: photoUrl,
+        biographie: userInfo.biographie,
       };
-      delete dataToSend.photoFile; // ne jamais envoyer l'objet fichier brut
+      if (userInfo.nouveauMotDePasse) {
+        dataToSend.password = userInfo.nouveauMotDePasse;
+      }
+      delete dataToSend.photoFile;
 
       console.log("Données envoyées au backend :", dataToSend);
 
@@ -121,12 +165,8 @@ export const PageParametresCompte = () => {
 
       const result = await response.json();
       console.log("Réponse du serveur :", result);
-      console.log("Réponse du serveur de l'utilisateur :", result.user);
 
-      // 🧠 Mise à jour du contexte utilisateur
       setUsers(result.user);
-
-      // 💾 Mise à jour du localStorage sans photoFile
       localStorage.setItem("userInfo", JSON.stringify(result.user));
 
       toast.success("Modifications enregistrées avec succès !");
@@ -225,6 +265,8 @@ export const PageParametresCompte = () => {
             <textarea
               name="biographie"
               id="userBiographie"
+              value={userInfo.biographie}
+              onChange={handleInputChange}
               className="border border-gray-700 rounded-sm placeholder:text-gray-700 p-2"
               rows={3}
               placeholder="Bio"
@@ -232,16 +274,46 @@ export const PageParametresCompte = () => {
           </div>
         </div>
 
-        <div className="mt-3">
+        <div className="mt-3 relative">
           <label className="text-sm font-medium text-gray-800">
             Changer le mot de passe
           </label>
           <input
-            type="password"
-            name="newPassword"
+            type={showNewPassword ? "text" : "password"}
+            name="nouveauMotDePasse"
             placeholder="Nouveau mot de passe"
-            className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring"
+            value={userInfo.nouveauMotDePasse || ""}
+            onChange={handleInputChange}
+            className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring pr-10"
           />
+          <button
+            type="button"
+            onClick={() => setShowNewPassword(!showNewPassword)}
+            className="absolute right-2 top-9 text-sm text-gray-600"
+          >
+            {showNewPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+          </button>
+        </div>
+
+        <div className="mt-3 relative">
+          <label className="text-sm font-medium text-gray-800">
+            Confirmer le nouveau mot de passe
+          </label>
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirmationMotDePasse"
+            placeholder="Confirmer le nouveau mot de passe"
+            value={userInfo.confirmationMotDePasse || ""}
+            onChange={handleInputChange}
+            className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-2 top-9 text-sm text-gray-600"
+          >
+            {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+          </button>
         </div>
 
         <div className="mt-6 flex flex-col md:flex-row gap-2 items-start md:justify-between md:items-center">

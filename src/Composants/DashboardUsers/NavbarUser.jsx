@@ -183,7 +183,7 @@ console.log(user)
           <Input value={searchTerm} onSearch={setSearchTerm} />
         </div>
 
-        <div className="addDocs hidden md:flex gap-2 items-center">
+        <div className="addDocs  flex gap-2 items-center">
           <div
             className="relative cursor-pointer"
             title="Notifications"
@@ -197,10 +197,12 @@ console.log(user)
               </small>
             )}
           </div>
+          <div className="cursor-pointer hidden lg:block">
           <AddRapport />
+          </div>
         </div>
 
-        <div className="block md:hidden">
+        <div className="block lg:hidden">
           <RiMenuFill
             className="text-white text-2xl"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}
