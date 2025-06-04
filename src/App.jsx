@@ -22,6 +22,7 @@ import { Toaster } from "react-hot-toast";
 import ReinitialiserMdp from "./pages/ReinitialiserMdp";
 import { CommentairesSection } from "./Composants/DashboardUsers/Commentaire/CommentaireSection";
 import Unsubscribe from "./pages/DescNewsletter";
+import AdminNewsletter from "./pages/News/AdminNewsletter";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
 
       <HashRouter>
         <Routes>
+          <Route path="/" element={<AdminNewsletter/>}/>
           <Route
             path="/"
             element={
