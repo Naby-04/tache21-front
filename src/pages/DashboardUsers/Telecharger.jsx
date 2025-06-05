@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaDownload } from "react-icons/fa";
-
-import TextExpandable from "../../Composants/DashboardUsers/TextExpandable";
+import { FaTrash} from "react-icons/fa";
 import PdfViewer from "../../Composants/DashboardUsers/PdfViewer/PdfViewer";
-
+import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import { toast } from "react-toastify";
+import EmptyList from "../../Composants/EmptyList";
 
 export const RapportTelecharger = ({ doc }) => {
   const [rapports, setRapports] = useState([]);
@@ -14,6 +14,7 @@ export const RapportTelecharger = ({ doc }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pdfError, setPdfError] = useState(null);
   const { docHtml, setDocHtml } = usePublication();
+  
 
   useEffect(() => {
     const fetchRapports = async () => {
@@ -47,10 +48,10 @@ export const RapportTelecharger = ({ doc }) => {
   };
   
 
-  const convertDocxToHtml = async (file) => {
+  const convertDocxToHtml = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(file);
+      const response = await fetch(doc.file);
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
       const result = await mammoth.convertToHtml({ arrayBuffer });
@@ -63,15 +64,53 @@ export const RapportTelecharger = ({ doc }) => {
     }
   };
 
+const deleteDownload = async (downloadId) => {
+  const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce rapport ?");
+  if (!confirmDelete) return;
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`https://tache21-back.onrender.com/download/${downloadId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      toast.success(data.message || "Rapport supprimé avec succès");
+      setRapports((prev) => prev.filter((r) => r._id !== downloadId));
+    } else {
+      toast.error(data.message || "Erreur lors de la suppression");
+      console.error("Erreur de suppression :", data.message);
+    }
+  } catch (error) {
+    toast.error("Erreur serveur lors de la suppression");
+    console.error("Erreur serveur :", error);
+  }
+};
+
+
+  
+  
+
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-6">
+    <div className="w-full min-h-[85vh] bg-gray-100 p-6">
       <h1 className="mt-5 md:mt-0 text-2xl font-semibold text-center text-gray-800 mb-8">
         Mes rapports téléchargés
       </h1>
 
       {loading ? (
-        <p className="text-center">Chargement...</p>
-      ) : (
+        <div className="flex flex-col items-center justify-center mt-10">
+        <ClipLoader color="#36d7b7" size={20} />
+        <p className="mt-4 text-center text-gray-600">Chargement...</p>
+      </div>
+      ) : rapports.length === 0 ? (
+        <p className="text-center text-gray-600 text-lg">
+          <EmptyList />
+          Vous n'avez pas encore téléchargé de rapport.
+        </p>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 place-items-center">
            {rapports.map((rapport, i) => {
             const { rapportId } = rapport;
@@ -82,7 +121,7 @@ export const RapportTelecharger = ({ doc }) => {
             return (
               <div
               key={i}
-              className="bg-white shadow-lg rounded-xl overflow-hidden w-[90%] h-[300px] transition-transform hover:scale-[1.02]"
+              className="bg-white shadow-lg rounded-xl overflow-hidden w-[100%] h-[300px] transition-transform hover:scale-[1.02]"
               >
                 <div
                   className="relative rounded-md overflow-hidden mb-4 cursor-pointer group"
@@ -95,7 +134,7 @@ export const RapportTelecharger = ({ doc }) => {
                   </div>
 
                   {ispdf ? (
-                    <div className="w-full max-h-[250px] relative">
+                    <div className="w-full max-h-[250px] relative flex items-center justify-center">
                       {pdfError && <p className="text-red-500">{pdfError}</p>}
                       <PdfViewer file={rapportId.file} width={null} height={"200"}/>
                     </div>
@@ -127,13 +166,20 @@ export const RapportTelecharger = ({ doc }) => {
                   </h2>
                   <div className="mt-6 flex gap-2 items-center justify-between">
                     <span className="text-green-600 text-sm flex items-center gap-2">
-                      <FaDownload /> Téléchargé
+                      Téléchargé
                     </span>
                    
                    <p className="line-clamp-1">Publié par : {rapportId?.userId?.prenom || "Utilisateur inconnu"}</p>
                    {/* <p className="text-sm text-gray-500 mt-1">
                 Téléchargé le : {new Date(rapportId?.createdAt).toLocaleDateString()}
                 </p> */}
+               <button
+             
+             onClick={() => deleteDownload(rapport._id)}
+             className="flex items-center gap-2 bg-red-500 hover:red-500 text-white px-3 py-1 rounded shadow cursor-pointer"
+             >
+            <FaTrash className="text-white"/>
+           </button>
                   </div>
                 </div>
               </div>

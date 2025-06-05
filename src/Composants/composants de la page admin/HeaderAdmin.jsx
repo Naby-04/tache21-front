@@ -10,9 +10,11 @@ const HeaderAdmin = ({ onSearch }) => {
   const navigate = useNavigate();
 
   const change = () => setAffichage(!affichage);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
     setUsers(null);
     navigate("/");
   };
@@ -40,7 +42,7 @@ const HeaderAdmin = ({ onSearch }) => {
 
         {/* Texte à côté de l'avatar, masqué sur petits écrans */}
         <div className="hidden sm:flex flex-col">
-          <p className="font-medium text-gray-700 text-sm">{users.prenom}</p>
+          <p className="font-medium text-gray-700 text-sm">{users.prenom || 'Admin'}</p>
           <p className="font-light text-gray-500 text-xs">Administrateur</p>
         </div>
 

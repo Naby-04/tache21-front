@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FaTrash, FaTimes } from "react-icons/fa";
 import { Document, Page, pdfjs } from "react-pdf";
 import mammoth from "mammoth";
+import ErrorBoundary from "../Composants-Accuiel/ErrorBoundary";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
@@ -24,7 +25,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
       const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
       if (isDocx && !docxPreviews[rapport._id]) {
-        fetch(rapport.fileUrl)
+        fetch(rapport.file)
           .then(res => res.blob())
           .then(blob => {
             const reader = new FileReader();
@@ -50,9 +51,11 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
     return (
       <div className="w-10 h-12 bg-gray-200 rounded overflow-hidden flex items-center justify-center border border-gray-300 shadow">
         {isPdf ? (
-          <Document file={rapport.fileUrl}>
+          <ErrorBoundary>
+          <Document file={rapport.file}>
             <Page pageNumber={1} width={128} renderTextLayer={false} />
           </Document>
+          </ErrorBoundary>
         ) : isDocx ? (
           <div
             className="w-full h-full text-xs p-1 leading-tight"
@@ -73,7 +76,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
+      <h2 className="text-xl font-semibold mb-4">Top Rapports <span className="text-xs opacity-75 mr-5">Les plus telecharger</span></h2>
 
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[700px] text-left text-sm sm:text-base">
@@ -109,13 +112,6 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
                     </div>
                   </div>
                 </td>
-                {/* <td className="py-2 px-3 hidden md:table-cell">
-                  <img
-                    src={rapport.user?.photo || "https://via.placeholder.com/40"}
-                    alt="user"
-                    className="w-10 h-10 rounded-full border"
-                  />
-                </td> */}
                 <td className="py-2 px-3">
                   <div className="flex items-center justify-center">
                     <button

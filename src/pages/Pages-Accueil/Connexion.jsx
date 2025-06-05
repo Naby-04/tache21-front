@@ -1,23 +1,28 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import FormContext from "../../Contexts/FormContext";
-import { usePublication } from "../../Contexts/DashboardUser/UseContext";
-import { signInWithPopup } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, provider, db } from "../../services/firebaseService";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // <-- Ajout de l'import
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import FormContext from '../../Contexts/FormContext';
+import { usePublication } from '../../Contexts/DashboardUser/UseContext';
+import { signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, provider, db } from '../../services/firebaseService';
+import { FaEye, FaEyeSlash, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
+import AuthContext from '../../Contexts/AuthContext';
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const Connexion = () => {
-  const [error] = useState("");
+  const [error] = useState('');
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
+  const { setUsers } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Ajout de l'état pour afficher/masquer le mot de passe
   const [showPassword, setShowPassword] = useState(false);
 
-   const {url} = usePublication()
-// console.log("url",url);
+  const { url } = usePublication();
+  // console.log("url",url);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,44 +30,52 @@ const Connexion = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const prenom = user.displayName || "";
-      const email = user.email;
-      // const password = user.uid;
-      const userRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(userRef);
+    const prenom = user.displayName || '';
+    const email = user.email;
+    const userRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(userRef);
 
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          prenom,
-          email,
-          createdAt: new Date().toISOString(),
-        });
-      }
-      toast.success("Connexion réussie avec Google !");
-      navigate("/users");
-
-      const idToken = await user.getIdToken();
-
-      const response = await fetch(`${url}/api/users/google-login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        prenom,
+        email,
+        createdAt: new Date().toISOString(),
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-
-      localStorage.setItem("token", data.token);
-    } catch (error) {
-      console.error("Erreur Google SignIn :", error);
     }
-  };
+
+    const idToken = await user.getIdToken(); 
+
+    const response = await fetch(`${url}/api/users/google-login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`, 
+      },
+      body: JSON.stringify({ email, prenom })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data.message);
+
+    localStorage.setItem('token', data.token);
+
+    localStorage.setItem('userInfo', JSON.stringify(data.user));
+
+    setUsers(data.user); // depuis AuthContext
+
+    toast.success('Connexion réussie avec Google !');
+    navigate('/users');
+
+  } catch (error) {
+    console.error('Erreur Google SignIn :', error);
+    toast.error('Échec connexion Google');
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,26 +84,26 @@ const Connexion = () => {
 
     // Validation des champs
     if (!email || !password) {
-      toast.error("Veuillez remplir tous les champs.");
+      toast.error('Veuillez remplir tous les champs.');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error("Adresse email invalide.");
+      toast.error('Adresse email invalide.');
       return;
     }
 
     if (password.length < 6) {
-      toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+      toast.error('Le mot de passe doit contenir au moins 6 caractères.');
       return;
     }
-
+    setLoading(true);
     try {
       const response = await fetch(`${url}/api/users/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: formData.email,
@@ -100,21 +113,46 @@ const Connexion = () => {
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "Erreur de connexion");
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userInfo", JSON.stringify(data.user));
+    if (!response.ok) {
+      // Gestion des erreurs spécifiques du backend
+      if (response.status === 404 && data.message?.includes("email")) {
+        toast.error("Cet email n'existe pas. Veuillez vous inscrire.");
+      } else if (data.message?.includes("Mot de passe")) {
+        toast.error("Mot de passe incorrect.");
+      } else {
+        toast.error(data.message || "Erreur de connexion.");
+      }
+      return;
+    }
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userInfo', JSON.stringify(data.user));
+      setUsers(data.user);
       // await fetchProfil();
-      toast.success("Connexion réussie !");
+      toast.success('Connexion réussie !');
       resetFormData();
-      navigate("/users");
+      if (data.user && data.user.isAdmin === true) {
+        navigate("/admin");
+      } else {
+        navigate("/users");
+      }
     } catch (error) {
-      toast.error("Erreur de connexion : " + error.message);
-      console.error("Erreur lors de la connexion :", error);
+      toast.error('Erreur de connexion : ' + error.message);
+      console.error('Erreur lors de la connexion :', error);
+    }finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen md:h-screen flex bg-gray-100">
+      {/*----------- Bouton retour--------- */}
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-6 left-10 text-gray-800 text-3xl p-2 hover:text-gray-700 transition-colors duration-200 z-50"
+        aria-label="Retour"
+      >
+        <FaSignOutAlt className="rotate-180" />
+      </button>
       <div className="rounded-lg w-full flex 1/3">
         {/* Image gauche */}
         <div className="sm:flex justify-center flex-col w-[50%] p-10 hidden">
@@ -123,11 +161,24 @@ const Connexion = () => {
 
         {/* Formulaire de connexion */}
         <div className="md:w-[50%] text-xs px-8 w-full flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Se connecter</h2>
-
-          <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Se connecter
+          </h2>
+          {loading && (
+  <div className="mb-4 flex flex-col items-center text-gray-600 text-sm">
+    <ClipLoader color="#36d7b7" size={40} />
+    <span className="mt-2">Connexion en cours...</span>
+  </div>
+)}
+          <form
+            className="w-full flex flex-col items-center"
+            onSubmit={handleSubmit}
+          >
             <div className="mb-2 w-[70%]">
-              <label htmlFor="email" className="block text-gray-800 text-sm font-bold mb-2">
+              <label
+                htmlFor="email"
+                className="block text-gray-800 text-sm font-bold mb-2"
+              >
                 Entrez votre email
               </label>
               <input
@@ -135,23 +186,26 @@ const Connexion = () => {
                 type="email"
                 placeholder="Votre email"
                 name="email"
-                value={formData.email || ""}
+                value={formData.email || ''}
                 onChange={handleChange}
                 className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
 
             <div className="mb-2 w-[70%]">
-              <label htmlFor="password" className="block text-gray-800 text-sm font-bold mb-2">
+              <label
+                htmlFor="password"
+                className="block text-gray-800 text-sm font-bold mb-2"
+              >
                 Mot de passe
               </label>
               <div className="relative">
                 <input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Votre mot de passe"
                   name="password"
-                  value={formData.password || ""}
+                  value={formData.password || ''}
                   onChange={handleChange}
                   className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 />
@@ -178,7 +232,8 @@ const Connexion = () => {
                 className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-3 px-4 h-10 rounded-2xl focus:outline-none focus:shadow-outline w-full cursor-pointer"
                 type="submit"
               >
-                Se connecter
+               
+               Se connecter
               </button>
             </div>
           </form>
@@ -194,7 +249,11 @@ const Connexion = () => {
               type="button"
               className="flex items-center justify-center bg-gray-200 hover:bg-gray-800 text-gray-800 hover:text-white font-bold py-2 px-4 rounded-2xl h-10  focus:outline-none focus:shadow-outline w-full cursor-pointer"
             >
-              <img src="/images/google.png" alt="Google" className="w-10 h-10" />
+              <img
+                src="/images/google.png"
+                alt="Google"
+                className="w-10 h-10"
+              />
               <span>Google</span>
             </button>
           </div>
@@ -207,8 +266,11 @@ const Connexion = () => {
 
           {/* Lien d'inscription */}
           <div className="text-center mt-3">
-            Vous n'avez pas de compte ?{" "}
-            <Link to="/inscription" className="font-bold text-sm text-gray-800 hover:text-gray-400">
+            Vous n'avez pas de compte ?{' '}
+            <Link
+              to="/inscription"
+              className="font-bold text-sm text-gray-800 hover:text-gray-400"
+            >
               S'inscrire
             </Link>
           </div>

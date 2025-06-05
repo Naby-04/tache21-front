@@ -21,28 +21,24 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telec
           <StatsBox
             titre="Utilisateurs"
             image={Image}
-            pourcent="30"
             icone={<LuUsers />}
             valeur={utilisateurs.length}
           />
           <StatsBox
             titre="Rapports"
             image={Image2}
-            pourcent="30"
             icone={<BsFillFileTextFill />}
             valeur={rapports.length}
           />
           <StatsBox
             titre="Telechargement"
             image={Image3}
-            pourcent="30"
             icone={<FaFileDownload />}
             valeur={telechargement.length}
           />
           <StatsBox
             titre="Top Rapports"
             image={Image4}
-            pourcent="30"
             icone={<FaDownload />}
             valeur={topRapports.length}
           />

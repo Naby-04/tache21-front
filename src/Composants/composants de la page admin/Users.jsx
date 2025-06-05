@@ -1,5 +1,4 @@
 import TableUser from "./TableUser";
-// import avatar from "../assets/avatar.jpg"
 
 const Users = ({lesUtilisateurs, onDelete}) => {
 

@@ -9,15 +9,35 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import PdfViewer from "../PdfViewer/PdfViewer";
 import { usePublication } from "../../../Contexts/DashboardUser/UseContext";
+import { LirePdf } from "../LirePdf";
+import { LireDocx } from "../LireDocx";
+
 
 export const RapportCard = ({ doc }) => {
+  console.log(doc)
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const {url,docHtml, setDocHtml}= usePublication()
+  const [downloading, setDownloading] = useState(false);
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [showdocModal, setShowDocModal] = useState(false);
+    const [pageWidth, setPageWidth] = useState(500)
   
-
+    useEffect(() => {
+        const handleResize = () => {
+        const maxWidth = 600;
+        const screenWidth = window.innerWidth;
+        const newWidth = screenWidth < maxWidth ? screenWidth * 0.9 : maxWidth;
+        setPageWidth(newWidth);
+      };
+  
+      handleResize(); // appeler au chargement
+      window.addEventListener('resize', handleResize); // mettre à jour au redimensionnement
+  
+      return () => window.removeEventListener('resize', handleResize);
+    })
 
   // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
@@ -68,10 +88,10 @@ export const RapportCard = ({ doc }) => {
   }, [doc]);
 
   // Gestion des commentaires
-
 const handleCommentSubmit = async (comment) => {
   try {
     const token = localStorage.getItem("token");
+  
 
     const res = await fetch(
       `${url}/api/comments/${doc._id}`,
@@ -89,8 +109,6 @@ const handleCommentSubmit = async (comment) => {
       console.error("Erreur lors de l’ajout du commentaire");
       return;
     }
-
-    // ✅ Afficher commentaires après ajout
     setShowComments(true);
     setShowCommentBox(false);
   } catch (error) {
@@ -98,19 +116,16 @@ const handleCommentSubmit = async (comment) => {
   }
 };
 
-
-
   // Gestion du clic sur le document
+  const encodedUrl = encodeURIComponent(doc.file);
+   const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
 const handleDocumentClick = (e) => {
   e.preventDefault();
   e.stopPropagation();
- const encodedUrl = encodeURIComponent(doc.file);
   if (isdoc) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+    setShowDocModal(true);
   } else if (ispdf) {
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-    window.open(viewerUrl, '_blank', 'noopener,noreferrer');
+    setShowPdfModal(true);
   } else {
     window.open(doc.file, '_blank', 'noopener,noreferrer');
   }
@@ -120,6 +135,7 @@ const handleDocumentClick = (e) => {
   // Gestion du téléchargement
   const handleDownload = async (rapportId) => {
     const token = localStorage.getItem("token");
+    setDownloading(true);
 
     try {
       const response = await fetch(`https://tache21-back.onrender.com/download/${rapportId}`, {
@@ -135,7 +151,6 @@ const handleDocumentClick = (e) => {
 
       const blob = await response.blob();
       const fileURL = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
       link.href = fileURL;
       link.download = doc.title || "document";
@@ -146,23 +161,10 @@ const handleDocumentClick = (e) => {
     } catch (error) {
       console.error("Erreur de téléchargement :", error.message);
       alert("Échec du téléchargement. Vérifie ton authentification.");
+    } finally {
+      setDownloading(false); 
     }
   };
-
-
-
-  // const handleDownload = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-    
-  //   const link = document.createElement('a');
-  //   link.href = doc.file;
-  //   link.download = doc.title || 'document';
-  //   link.style.display = 'none';
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // };
 
   // Catégories et tags
   const currentCategory = categories.find((cat) => cat.value === doc.category);
@@ -174,15 +176,12 @@ const handleDocumentClick = (e) => {
       ? doc.tags.split(",").map(t => t.trim()).filter(Boolean)
       : [];
 
-
-  console.log("url recu de cloudinary :", doc.file);
-
   return (
     <div className="bg-white rounded-xl shadow-md p-5 w-full max-w-3xl mx-auto mb-6 transition hover:shadow-lg">
       {/* En-tête avec auteur */}
       <div className="flex items-center gap-3 mb-3">
         <img
-          src={doc.userId ? `${doc.userId.photo} ` : " "}
+          src={doc?.userId ? `${doc?.userId?.photo} ` : " "}
           alt="Auteur"
           className="w-10 h-10 rounded-full object-cover"
         />
@@ -200,7 +199,7 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Titre et catégorie */}
-      <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{doc.title}</h2>
       <div className="mb-4">
         <strong>Categories:</strong> <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-md mb-2 ${categoryClass}`}>
           {doc.category}
@@ -221,9 +220,9 @@ const handleDocumentClick = (e) => {
         </div>
 
         {ispdf ? (
-          <div className="w-full max-h-[250px]">
+          <div className="w-full max-h-[250px] flex justify-center">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-           <PdfViewer file={doc.file} width={null} />
+           <PdfViewer file={doc.file} width={pageWidth} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
@@ -272,7 +271,7 @@ const handleDocumentClick = (e) => {
       {/* Barre d'actions */}
       <div className="flex mt-3 justify-around md:justify-between items-center border-t pt-3 text-sm text-gray-600 p-4">
         <button
-  onClick={() => {
+       onClick={() => {
     setShowCommentBox((prev) => {
       const newState = !prev;
       if (newState) {
@@ -285,11 +284,11 @@ const handleDocumentClick = (e) => {
 >
   <FaCommentAlt />
   <span className="hidden md:block">Commenter</span>
-</button>
+  </button>
 
 
 
-        <button
+ <button
   className="flex items-center gap-2 hover:text-blue-600 transition"
   onClick={() => {
     setShowComments((prev) => {
@@ -306,14 +305,19 @@ const handleDocumentClick = (e) => {
     {showComments ? "Masquer Commentaires" : "Afficher Commentaires"}
   </span>
 </button>
-
-
         <button 
           className="flex items-center gap-2 hover:text-blue-600 transition download-button"
           onClick={() => handleDownload(doc._id)}
-        >
+          disabled={downloading} // désactive pendant l'action
+          >
+            {downloading ? (
+              <span className="text-blue-500 animate-pulse">Téléchargement en cours...</span>
+            ) : (
+              <>
           <FaCloudDownloadAlt />
-          <span className="hidden md:block">Télécharger</span>
+          <span className="hidden md:block">Télécharge</span>
+          </>
+  )}
         </button>
       </div>
 
@@ -334,6 +338,29 @@ const handleDocumentClick = (e) => {
           <CommentairesSection rapportId={doc._id} />
         </div>
       )}
+
+      {/* modal lecture */}
+      {showPdfModal && (
+        <div>
+          <LirePdf isOpen={showPdfModal}
+           onClose={() => setShowPdfModal(false)} 
+           file={doc.file} 
+           onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+           />
+        </div>
+      )}
+
+      {/* modal docx */}
+      {showdocModal && (
+        <div>
+          <LireDocx isOpen={showdocModal}
+           onClose={() => setShowDocModal(false)}
+            htmlContent={docHtml} 
+            onOpen={() => window.open(viewerUrl, "_blank", "noopener,noreferrer")}
+            />
+        </div>
+      )}
+      
     </div>
   );
 };

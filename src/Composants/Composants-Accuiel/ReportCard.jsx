@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { FaCertificate } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Document, Page, pdfjs } from "react-pdf";
 import { FaCheckCircle } from "react-icons/fa";
 import mammoth from "mammoth";
-import siWord from "../../assets/siWord.png";
-import siPdf from "../../assets/siPdf.png";
+import PdfViewer from "../DashboardUsers/PdfViewer/PdfViewer";
+import ErrorBoundary from "./ErrorBoundary";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 function ReportCard({ report, isLoggedIn }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSecondModal, setIsSecondModal] = useState(false);
   const [docxPreview, setDocxPreview] = useState(null);
-  const [docLoadError, setDocLoadError] = useState(false);
+  // const [docLoadError, setDocLoadError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,18 +24,18 @@ function ReportCard({ report, isLoggedIn }) {
 
   // Reset error et preview quand le fichier change
   useEffect(() => {
-    setDocLoadError(false);
+    // setDocLoadError(false);
     setDocxPreview(null);
 
-    const fileType = report.type ?? "";
+    const fileType = report.rapport.type ?? "";
 
     const isDocx =
       fileType ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       fileType === "docx";
 
-    if (isDocx && report.file) {
-      fetch(report.file)
+    if (isDocx && report.rapport.file) {
+      fetch(report.rapport.file)
         .then((res) => res.blob())
         .then((blob) => {
           const reader = new FileReader();
@@ -46,7 +45,9 @@ function ReportCard({ report, isLoggedIn }) {
               .then((result) => {
                 setDocxPreview(result.value);
               })
-              .catch(() => setDocxPreview("<p>Impossible de charger l'aperçu.</p>"));
+              .catch(() =>
+                setDocxPreview("<p>Impossible de charger l'aperçu.</p>")
+              );
           };
           reader.readAsArrayBuffer(blob);
         })
@@ -57,7 +58,7 @@ function ReportCard({ report, isLoggedIn }) {
   const handleViewPdfClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      window.open(report.file, "_blank", "noopener,noreferrer");
+      window.open(report.rapport.file, "_blank", "noopener,noreferrer");
     } else {
       setIsModalOpen(true);
     }
@@ -77,35 +78,9 @@ function ReportCard({ report, isLoggedIn }) {
   const handleFirstModalClose = () => setIsModalOpen(false);
 
   const renderPreview = () => {
-    const fileType = report.type ?? "";
+    const fileType = report.rapport.type ?? "";
     const isPdf = fileType.includes("pdf");
     const isDocx = fileType.includes("wordprocessingml") || fileType === "docx";
-
-    
-    // Si utilisateur pas connecté, on affiche direct fallback image
-    // if (!isLoggedIn && (isPdf || isDocx)) {
-    //   return (
-    //     <div className="flex items-center justify-center h-55 w-full relative">
-    //       <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
-    //       <img
-    //         src={isPdf ? siPdf : siWord}
-    //         alt={isPdf ? "PDF fallback" : "Word fallback"}
-    //         className="h-[160px] max-w-[250px] object-contain"
-    //       />
-    //     </div>
-    //   );
-    // }
-
-    // // Si erreur de chargement, on affiche fallback aussi
-    // if (docLoadError) {
-    //   return (
-    //     <img
-    //       src={isPdf ? siPdf : siWord}
-    //       alt={isPdf ? "PDF fallback" : "Word fallback"}
-    //       className="max-h-full max-w-full object-contain"
-    //     />
-    //   );
-    // }
 
     // Sinon, affichage normal
     return (
@@ -114,31 +89,10 @@ function ReportCard({ report, isLoggedIn }) {
         <div className="absolute inset-0 bg-gray-800/10 z-30 pointer-events-none" />
         {/* Contenu du preview */}
         <div className="relative z-20">
-          {isPdf ? (
-            // <Document
-            //   file={report.file}
-            //   onLoadError={() => setDocLoadError(true)}
-            //   onSourceError={() => setDocLoadError(true)}
-            // >
-            <Document
-  file={report.file}
-  onLoadError={(error) => {
-    console.error("Erreur de chargement PDF :", error);
-    setDocLoadError(true);
-  }}
-  onSourceError={(error) => {
-    console.error("Erreur source PDF :", error);
-    setDocLoadError(true);
-  }}
->
-
-              <Page
-                pageNumber={1}
-                width={250}
-                renderTextLayer={false}
-                className="mx-auto"
-              />
-            </Document>
+          {isPdf && report.rapport.file ? (
+            <ErrorBoundary>
+            <PdfViewer file={report.rapport.file} width={200} />
+            </ErrorBoundary>
           ) : isDocx ? (
             <div
               className="text-sm text-gray-700 max-h-full overflow-hidden"
@@ -149,8 +103,8 @@ function ReportCard({ report, isLoggedIn }) {
             />
           ) : (
             <img
-              src={report.imageRapport || "https://via.placeholder.com/250x160"}
-              alt={report.title}
+              src={report.rapport.imageRapport || "https://via.placeholder.com/250x160"}
+              alt={report.rapport.title}
               className="max-h-full max-w-full object-contain"
             />
           )}
@@ -159,31 +113,35 @@ function ReportCard({ report, isLoggedIn }) {
     );
   };
 
-  const fileType = report.type ?? "";
+  const fileType = report.rapport.type ?? "";
 
   return (
     <>
       <section className="z-10">
         <div className="bg-white mx-auto rounded shadow-xl border border-gray-300 relative modal flex flex-col justify-between h-[400px] max-w-[350px] pb-3">
-          <div className="h-55 mb-2 border-b-2 border-gray-800">{renderPreview()}</div>
+          <div className="h-55 mb-2 border-b-2 border-gray-800">
+            {renderPreview()}
+          </div>
 
           <div className="flex-1 flex flex-col justify-center px-2">
             {/* Titre + Badge certifié */}
             <div className="flex flex-col mb-3 relative w-full">
-              <h3 className="text-lg font-semibold line-clamp-1">{report.title}</h3>
+              <h3 className="text-lg font-semibold line-clamp-1">
+                {report.rapport.title}
+              </h3>
               <div className="flex bg-gray-100 text-gray-700 text-xs font-medium px-1 py-1 w-fit rounded">
-                {report.category || "Sans catégorie"}
+                {report.rapport.category || "Sans catégorie"}
               </div>
               <span
                 className="text-amber-300 p-1 bg-white rounded-full text-lg absolute right-0 top-1"
                 title="Certifié"
               >
-                <FaCheckCircle className="text-amber-300" />
+              <FaCertificate className="text-lg text-amber-300" />
               </span>
             </div>
 
             <p className="text-gray-600 text-sm mb-2 line-clamp-3">
-              {report.description}
+              {report.rapport.description}
             </p>
 
             <button
@@ -196,6 +154,7 @@ function ReportCard({ report, isLoggedIn }) {
         </div>
       </section>
 
+      {/* Floue quand le premier modal s'ouvre */}
       {(isModalOpen || isSecondModal) && (
         <div
           className="fixed inset-0 z-100 bg-gray-800/20 backdrop-blur-xs"
@@ -224,19 +183,20 @@ function ReportCard({ report, isLoggedIn }) {
             <div className="border-t pt-4 w-full">
               <h2 className="text-lg font-bold mb-2">- Rapport de Mémoire</h2>
               <p className="text-gray-700 mb-3">
-                {report.description ||
+                {report.rapport.description ||
                   "Lorem ipsum dolor sit amet consectetur adipisicing elit."}
               </p>
               <p className="mb-1">
                 <span className="font-semibold">Catégories :</span>{" "}
-                {report.category || "Informatique"}
+                {report.rapport.category || "Informatique"}
               </p>
               <p className="mb-1">
                 <span className="font-semibold">Tags :</span>{" "}
-                {report.tags || "Python, JS, Développement Web"}
+                {report.rapport.tags || "Python, JS, Développement Web"}
               </p>
               <p className="mb-4">
-                <span className="font-semibold">Type :</span> {fileType || "docx"}
+                <span className="font-semibold">Type :</span>{" "}
+                {fileType || "docx"}
               </p>
 
               <div className="flex gap-4">
