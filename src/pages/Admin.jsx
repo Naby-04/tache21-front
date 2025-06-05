@@ -245,6 +245,12 @@ const Admin = () => {
         const miseAJour = filtreUser.filter((u) => u._id !== id);
         setAllUsers(miseAJour);
         setFiltreUser(miseAJour);
+
+        const refreshed = await fetch(`${url}/rapport/all`);
+        const rapportsData = await refreshed.json();
+        setRapportsOriginaux(rapportsData);
+        setRapportFiltre(rapportsData);
+
         toast.success("Utilisateur supprimé avec succès !");
       } else {
         toast.error("Échec de la suppression de l'utilisateur.");
