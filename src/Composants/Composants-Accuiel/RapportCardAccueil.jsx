@@ -305,7 +305,7 @@ export const RapportCardAccueil = ({ doc }) => {
           onClick={() => {
             setShowLoginModal(false);
             
-            window.location.href = "/inscription"; 
+            window.location.href = "/#/inscription"; 
           }}
           className="bg-gray-800 hover:text-white text-amber-300 px-4 py-2 rounded w"
         >

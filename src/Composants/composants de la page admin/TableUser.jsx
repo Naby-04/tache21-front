@@ -10,33 +10,27 @@ const TableUser = ({ tabUsers, onDelete }) => {
   const { url } = usePublication();
 
   useEffect(() => {
+    if (!selectedUser) return;
+
+    // On peut ajouter une vérification si les données sont déjà chargées
+    if (selectedUserReportsCount !== null) return;
+
     const fetchRapportsByUser = async () => {
-      if (!selectedUser) return;
-
-      console.log("🟡 Requête envoyée pour l'utilisateur :", selectedUser);
-
       try {
         const response = await fetch(
           `${url}/rapports/user/${selectedUser._id}`
         );
-
-        if (!response.ok) {
-          console.error("❌ Erreur HTTP :", response.status);
-          return;
-        }
-
+        if (!response.ok) return;
         const data = await response.json();
-        console.log("✅ Rapports récupérés :", data);
-
         setSelectedUserReportsCount(data.length);
       } catch (error) {
-        console.error("❌ Erreur lors du chargement des rapports :", error);
+        console.error("Erreur:", error);
         setSelectedUserReportsCount(0);
       }
     };
 
     fetchRapportsByUser();
-  }, [selectedUser]);
+  }, [selectedUser, url, selectedUserReportsCount]);
 
   // console.log(tabUsers)
   const [currentPage, setCurrentPage] = useState(1);
@@ -192,10 +186,17 @@ const TableUser = ({ tabUsers, onDelete }) => {
 
       {/* Modal d'informations utilisateur */}
       {selectedUser && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
+        >
           <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full relative">
             <button
-              onClick={() => setSelectedUser(null)}
+              onClick={() => {
+                setSelectedUser(null);
+                setSelectedUserReportsCount(null);
+              }}
               className="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-lg"
             >
               ✕
@@ -230,9 +231,6 @@ const TableUser = ({ tabUsers, onDelete }) => {
                 {selectedUserReportsCount === 0
                   ? "Aucun rapport"
                   : selectedUserReportsCount || "Chargement..."}
-              </p>
-              <p>
-                <strong>Biographie :</strong> {selectedUser.adresse || "—"}
               </p>
               {/* Ajoute d'autres champs si nécessaire */}
             </div>

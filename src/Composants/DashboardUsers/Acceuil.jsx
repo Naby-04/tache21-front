@@ -1,4 +1,5 @@
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import EmptyList from "../EmptyList";
 import { RapportCard } from "./Rapport/RapportCards";
 import { useEffect } from "react";
 // Test
@@ -43,7 +44,7 @@ export const Acceuil = () => {
       {sortedPublications.length === 0 ? (
         <div className="flex flex-col items-center gap-4">
           <p className="text-sm text-gray-500">Aucun rapport publié pour cette recherche</p>
-           <img src="/images/undraw_my-files_yynz.svg" alt="empty state" />
+          <EmptyList/>
 
         </div>
       ) : (

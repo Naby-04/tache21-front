@@ -9,6 +9,8 @@ import { IoNotifications } from "react-icons/io5";
 import { NotificationModal } from "../NotificationModal";
 import logo from "../../assets/SenRapport.png";
 import { io } from "socket.io-client";
+import {jwtDecode} from "jwt-decode";
+
 
 export const NavbarUser = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
@@ -23,35 +25,80 @@ export const NavbarUser = () => {
   const socketRef = useRef(null);
 
   // Initialiser le socket.io
-  useEffect(() => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  setUserInfo(userInfo)
-  const userId = userInfo?.id;
-  setUser(userId)
+//   useEffect(() => {
+//   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+//   setUserInfo(userInfo)
+//   const userId = userInfo?.id;
+//   setUser(userId)
 
-  if (!userId) return;
+//   if (!userId) return;
 
-  // Crée une seule connexion
-  if (!socketRef.current) {
-    socketRef.current = io(url, {
-      transports: ['websocket'],
-      reconnection: true,
-      reconnectionAttempts: 5,
-    });
+//   // Crée une seule connexion
+//   if (!socketRef.current) {
+//     socketRef.current = io(url, {
+//       transports: ['websocket'],
+//       reconnection: true,
+//       reconnectionAttempts: 5,
+//     });
 
-    socketRef.current.on("connect", () => {
-      // console.log("Socket connecté !");
-      socketRef.current.emit("join", userId);
-    });
+//     socketRef.current.on("connect", () => {
+//       // console.log("Socket connecté !");
+//       socketRef.current.emit("join", userId);
+//     });
 
-    socketRef.current.on("connect_error", (err) => {
-      console.error("Erreur de connexion socket.io :", err.message);
-    });
+//     socketRef.current.on("connect_error", (err) => {
+//       console.error("Erreur de connexion socket.io :", err.message);
+//     });
 
-    socketRef.current.on("newNotification", (notif) => {
-      console.log("Notification reçue :", notif);
-      setLiveNotifications((prev) => [notif, ...prev]);
-    });
+//     socketRef.current.on("newNotification", (notif) => {
+//       console.log("Notification reçue :", notif);
+//       setLiveNotifications((prev) => [notif, ...prev]);
+//     });
+//   }
+
+//   return () => {
+//     if (socketRef.current) {
+//       socketRef.current.disconnect();
+//       socketRef.current = null;
+//     }
+//   };
+// }, []);
+
+// ...
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
+
+  try {
+    const decoded = jwtDecode(token);
+    const userId = decoded.id; // ou decoded._id selon le backend
+    setUser(userId);
+    setUserInfo(decoded);
+
+    if (!socketRef.current) {
+      socketRef.current = io(url, {
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: 5,
+      });
+
+      socketRef.current.on("connect", () => {
+        socketRef.current.emit("join", userId);
+      });
+
+      socketRef.current.on("connect_error", (err) => {
+        console.error("Erreur de connexion socket.io :", err.message);
+      });
+
+      socketRef.current.on("newNotification", (notif) => {
+        setLiveNotifications((prev) => [notif, ...prev]);
+      });
+    }
+  } catch (err) {
+    console.error("Token invalide ou expiré :", err);
+    // éventuellement déconnecter l'utilisateur ici
   }
 
   return () => {
@@ -62,7 +109,7 @@ export const NavbarUser = () => {
   };
 }, []);
 
-
+console.log(user)
 
   // Charger les notifications depuis l’API
   useEffect(() => {

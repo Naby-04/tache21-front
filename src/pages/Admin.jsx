@@ -246,6 +246,13 @@ const Admin = () => {
         setAllUsers(miseAJour);
         setFiltreUser(miseAJour);
         toast.success("Utilisateur supprimé avec succès !");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (userInfo && userInfo.id === id) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
+        toast.info("Votre compte a été supprimé. Déconnexion...");
+        navigate("/#/connexion");
+      }
       } else {
         toast.error("Échec de la suppression de l'utilisateur.");
         console.error("Erreur lors de la suppression de l'utilisateur");

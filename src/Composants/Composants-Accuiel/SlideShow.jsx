@@ -43,7 +43,7 @@ const SlideShow = () => {
               Plateforme de Partage de rapports
             </h1>
             <p className="text-gray-700 text-sm sm:text-base md:text-lg lg:text-xl mb-6 max-w-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora soluta natus aut atque ut unde eveniet...
+              Des idées partagées, des rapports qui parlent, une communauté qui grandit et inspire demain.
             </p>
             <Link to="/rapports">
               <button className="bg-gray-800 mt-3 text-amber-300 px-6 py-3 rounded-full font-semibold hover:bg-amber-300 hover:text-gray-800 transition cursor-pointer shadow">

@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import * as mammoth from "mammoth";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { toast } from "react-toastify";
+import EmptyList from "../../Composants/EmptyList";
 import { IoOpenOutline } from "react-icons/io5";
 import { Document, Page } from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -185,7 +186,7 @@ export const RapportTelecharger = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 p-6">
+    <div className="w-full min-h-[85vh] bg-gray-100 p-6">
       <h1 className="mt-5 md:mt-0 text-2xl font-semibold text-center text-gray-800 mb-8">
         Mes rapports téléchargés
       </h1>
@@ -212,6 +213,7 @@ export const RapportTelecharger = () => {
         </div>
       ) : rapports.length === 0 ? (
         <p className="text-center text-gray-600 text-lg">
+          <EmptyList />
           Vous n'avez pas encore téléchargé de rapport.
         </p>
       ) : (
@@ -272,13 +274,17 @@ export const RapportTelecharger = () => {
                       Téléchargé
                     </span>
                    
-                    <p className="line-clamp-1">Publié par : {rapportId?.userId?.prenom || "Utilisateur inconnu"}</p>
-                    <button
-                      onClick={() => deleteDownload(rapport._id)}
-                      className="flex items-center gap-2 bg-gray-800 hover:bg-grey-700 text-white px-3 py-1 rounded shadow cursor-pointer"
-                    >
-                      <FaTrash className="text-red-500"/>
-                    </button>
+                   <p className="line-clamp-1">Publié par : {rapportId?.userId?.prenom || "Utilisateur inconnu"}</p>
+                   {/* <p className="text-sm text-gray-500 mt-1">
+                Téléchargé le : {new Date(rapportId?.createdAt).toLocaleDateString()}
+                </p> */}
+               <button
+             
+             onClick={() => deleteDownload(rapport._id)}
+             className="flex items-center gap-2 bg-red-500 hover:red-500 text-white px-3 py-1 rounded shadow cursor-pointer"
+             >
+            <FaTrash className="text-white"/>
+           </button>
                   </div>
                 </div>
               </div>
