@@ -41,7 +41,11 @@ export const Acceuil = () => {
         <h1 className="mt-5 md:mt-0 text-start text-3xl font-[var(--font-title)]">Les derniers Rapports publiés</h1>
       </div>
       {sortedPublications.length === 0 ? (
-        <p className="text-sm text-gray-500">Aucun rapport publié pour cette recherche</p>
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-sm text-gray-500">Aucun rapport publié pour cette recherche</p>
+           <img src="/images/undraw_my-files_yynz.svg" alt="empty state" />
+
+        </div>
       ) : (
         sortedPublications.map((doc,i)=>(<RapportCard key={i} doc={doc} />))
       )}

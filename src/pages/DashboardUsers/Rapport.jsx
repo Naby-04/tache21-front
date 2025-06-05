@@ -41,8 +41,9 @@ export const Rapport = () => {
         <p className="mt-4 text-center text-gray-600">Chargement...</p>
       </div>
     ) : rapports.length === 0 ? (
-      <div className="text-center flex flex-col gap-4 items-center justify-center h-screen text-gray-800 mb-8">
-        <h1 className="text-2xl font-semibold">Vous n'avez pas encore de rapports</h1>
+      <div className="text-center flex flex-col gap-4 items-center justify-center h-screen  mb-8">
+        <h1 className="text-2xl font-semibold text-amber-500">Vous n'avez pas encore de rapports</h1>
+        <img src="/images/undraw_my-files_yynz.svg" alt="empty state" />
         <div className="ml-2">
           <AddRapport />
         </div>

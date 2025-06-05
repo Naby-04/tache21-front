@@ -125,16 +125,14 @@ export const NavbarUser = () => {
 
       <div className="flex justify-between items-center p-2 w-full z-10">
         <div>
-          <div className="md:flex items-center gap-2 hidden">
-            <img src={logo} alt="Logo" className="w-26" />
+          <div className="cursor-pointer flex items-center gap-2">
+            <img src={logo} alt="Logo" className="w-15 md:w-26" />
           </div>
-          <div className="block md:hidden">
-            <Profile />
-          </div>
+          
         </div>
 
         <div className="flex items-center gap-3">
-          <Input value={searchTerm} onSearch={setSearchTerm} />
+          <Input value={searchTerm} onSearch={setSearchTerm} className="flex-1"/>
         </div>
 
         <div className="addDocs  flex gap-2 items-center">
