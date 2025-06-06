@@ -91,7 +91,7 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
 
           <tbody>
             {currentRapports.map((rapport, index) => (
-              <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100 cursor-pointer">
+              <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100">
                 <td className="py-2 px-3 font-bold text-gray-600">
                   {(currentPage - 1) * itemsPerPage + index + 1}
                 </td>
@@ -119,7 +119,7 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
                         setSelectedRapport(rapport);
                         setShowModal(true);
                       }}
-                      className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200 flex items-center justify-center"
+                      className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
                       aria-label="Supprimer le rapport"
                     >
                       <FaTrash />

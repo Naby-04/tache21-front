@@ -113,7 +113,7 @@ const TableUser = ({ tabUsers, onDelete }) => {
                         setUserToDelete(user);
                         setShowModal(true);
                       }}
-                      className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200"
+                      className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
                       aria-label={`Supprimer ${user.prenom}`}
                     >
                       <FaTrash />

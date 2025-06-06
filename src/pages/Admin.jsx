@@ -333,16 +333,23 @@ const Admin = () => {
                       setSelectedIndex={setSelectedIndex}
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
-                    {rapportfiltre.map((ele) => (
-                      <RapportCard
-                        key={ele._id}
-                        rapport={ele}
-                        onDelete={() => supprimerRapport(ele._id)}
-                        onDetailCliquer={() => setRapportSelect(ele)}
-                      />
-                    ))}
-                  </div>
+                  {rapportfiltre.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+                      {rapportfiltre.map((ele) => (
+                        <RapportCard
+                          key={ele._id}
+                          rapport={ele}
+                          onDelete={() => supprimerRapport(ele._id)}
+                          onDetailCliquer={() => setRapportSelect(ele)}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500 mt-10">
+                      Aucun rapport trouvé pour cette recherche.
+                    </div>
+                  )}
+
                 </>
               )}
             </div>
