@@ -55,7 +55,7 @@ const Admin = () => {
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
   console.log(topRapports)
-
+  console.log(telecharge)
   // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
@@ -245,6 +245,12 @@ const Admin = () => {
         const miseAJour = filtreUser.filter((u) => u._id !== id);
         setAllUsers(miseAJour);
         setFiltreUser(miseAJour);
+
+        const refreshed = await fetch(`${url}/rapport/all`);
+        const rapportsData = await refreshed.json();
+        setRapportsOriginaux(rapportsData);
+        setRapportFiltre(rapportsData);
+
         toast.success("Utilisateur supprimé avec succès !");
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       if (userInfo && userInfo.id === id) {
@@ -299,6 +305,7 @@ const Admin = () => {
                 topRapportsFiltres.length ? topRapportsFiltres : topRapports
               }
               telechargement={telecharge}
+              setVueActive={setVueActive}
             />
           </>
         )}

@@ -6,7 +6,7 @@ import ErrorBoundary from "../Composants-Accuiel/ErrorBoundary";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
-const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
+const TopRapports = ({ rapports, onDeleteClick }) => {
   console.log(rapports);
   
   const [currentPage, setCurrentPage] = useState(1);
