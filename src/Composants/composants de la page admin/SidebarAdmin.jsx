@@ -25,7 +25,7 @@ const SidebarAdmin = ({ setVueActive }) => {
   };
 
   return (
-    <aside className="w-20 md:w-64 bg-gray-800 text-white px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
+    <aside className="w-13 md:w-64 bg-gray-800 text-white px-1 md:px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
       <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
         <div className="relative">
           <img
