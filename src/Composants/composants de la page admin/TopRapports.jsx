@@ -89,7 +89,7 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
             </tr>
           </thead>
 
-          <tbody>
+          {/* <tbody>
             {currentRapports.map((rapport, index) => (
               <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100">
                 <td className="py-2 px-3 font-bold text-gray-600">
@@ -128,7 +128,56 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
                 </td>
               </tr>
             ))}
-          </tbody>
+          </tbody> */}
+
+          <tbody>
+  {currentRapports.length > 0 ? (
+    currentRapports.map((rapport, index) => (
+      <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100">
+        <td className="py-2 px-3 font-bold text-gray-600">
+          {(currentPage - 1) * itemsPerPage + index + 1}
+        </td>
+        <td className="py-2 px-3">
+          <div className="flex items-center gap-3">
+            {renderPreview(rapport)}
+            <div className="flex-1 min-w-0">
+              <h4
+                className="font-semibold truncate"
+                title={rapport.title}
+              >
+                {rapport.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
+                {rapport.description}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td className="py-2 px-3">
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => {
+                setSelectedRapport(rapport);
+                setShowModal(true);
+              }}
+              className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
+              aria-label="Supprimer le rapport"
+            >
+              <FaTrash />
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="3" className="text-center text-gray-500 py-6">
+        Aucun rapport trouvé pour ce nom.
+      </td>
+    </tr>
+  )}
+</tbody>
+
         </table>
       </div>
 
