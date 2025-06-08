@@ -1,9 +1,11 @@
-import { FaCloudUploadAlt, FaDochub, FaHome, FaTimes } from "react-icons/fa";
+import { FaCloudUploadAlt, FaHome, FaTimes } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Buttons } from "./Buttons";
 import { AddRapport } from "./Rapport/AddRapport";
 import { useContext } from "react";
 import AuthContext from "../../Contexts/AuthContext";
+import { HiDocument } from "react-icons/hi2";
+import { Profile } from "./Profile";
 
 export const MobileSidebar = ({ isOpen, onClose }) => {
 	const {users,setUsers } = useContext(AuthContext);
@@ -18,7 +20,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 	   if (!users) return ;
 	const links = [
 		{ to: "/users", icon: <FaHome />, label: "Accueil" },
-		{ to: "rapport", icon: <FaDochub />, label: "Mes rapports" },
+		{ to: "rapport", icon: <HiDocument/> , label: "Mes rapports" },
 		{ to: "rapportTelecharger", icon: <FaCloudUploadAlt />, label: "Mes téléchargements" },
 	];
 
@@ -34,7 +36,11 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 					<FaTimes className="text-xl cursor-pointer" onClick={onClose} />
 				</div>
 
-				<ul className="flex flex-col gap-3">
+				<div className="mb-6 flex justify-center items-center">
+                 <Profile />
+                </div>
+
+				<ul className="flex flex-col gap-3 mt-4">
 					{links.map((link, i) => (
 						<NavLink
 							key={i}
@@ -44,7 +50,7 @@ export const MobileSidebar = ({ isOpen, onClose }) => {
 							className={({ isActive }) =>
 								`flex items-center gap-2 text-sm p-2 rounded-md ${
 									isActive
-										? "bg-blue-100 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-800"
+										? "bg-gray-200 text-gray-800 font-semibold" : "hover:bg-gray-100 text-gray-800"
 								}`
 							}
 						>

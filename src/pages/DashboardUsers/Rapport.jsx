@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 import { AddRapport } from "../../Composants/DashboardUsers/Rapport/AddRapport";
 import { ClipLoader } from "react-spinners"
+import EmptyList from "../../Composants/EmptyList";
 
 export const Rapport = () => {
    const {url} = usePublication()
    const [rapports, setRapports] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    
    useEffect(() => {
       const rapportUser = async () => {
          try {
@@ -33,7 +33,6 @@ export const Rapport = () => {
       rapportUser();
    }, [url]);
 
-
    // Mettre à jour un rapport
     return (
   <div className="w-full h-full text-[var(--background-color)] mt-5 p-5 flex flex-col gap-4">
@@ -44,6 +43,7 @@ export const Rapport = () => {
       </div>
     ) : rapports.length === 0 ? (
       <div className="text-center flex flex-col gap-4 items-center justify-center h-screen text-gray-800 mb-8">
+        <EmptyList />
         <h1 className="text-2xl font-semibold">Vous n'avez pas encore de rapports</h1>
         <div className="ml-2">
           <AddRapport />

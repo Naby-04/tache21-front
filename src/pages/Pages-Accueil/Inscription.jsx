@@ -160,11 +160,18 @@ const Inscription = () => {
 
       resetFormData();
     } catch (error) {
+    const msg = error.message.toLowerCase();
+
+    if (msg.includes("email") && msg.includes("utilisé")) {
+      toast.error("Cet email est déjà utilisé.");
+    } else {
       toast.error("Erreur : " + error.message);
-      console.error("Erreur lors de l'inscription :", error);
-    } finally {
-      setLoading(false);
     }
+
+    console.error("Erreur lors de l'inscription :", error);
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (

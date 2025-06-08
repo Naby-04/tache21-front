@@ -6,7 +6,7 @@ import ErrorBoundary from "../Composants-Accuiel/ErrorBoundary";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
-const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
+const TopRapports = ({ rapports, onDeleteClick }) => {
   console.log(rapports);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,7 +76,7 @@ const TopRapports = ({ rapports, onDetailClick, onDeleteClick }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Top Rapports</h2>
+      <h2 className="text-xl font-semibold mb-4">Top Rapports <span className="text-xs opacity-75 mr-5">Les plus telecharger</span></h2>
 
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[700px] text-left text-sm sm:text-base">

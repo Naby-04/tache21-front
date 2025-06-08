@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [docHtml, setDocHtml] = useState(null);
   const [pdfError, setPdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   
 
   const fileInput = useRef();
@@ -101,27 +102,9 @@ export const ContextProvider = ({ children }) => {
     }));
   };
 
-  const values = {
-    form,
-    setForm,
-    fileInput,
-    handleChange,
-    publications,
-    setPublications,
-    selectedCategory,
-    setSelectedCategory,
-    filteredPublications,
-    searchTerm,
-    setSearchTerm,
-    filteredPublicationsBySearch,
-    url,
-    docHtml,
-    setDocHtml,
-    pdfError,
-    setPdfError,
-    isLoading,
-    setIsLoading,
-    ajouterPublication,
+  const values = {form,setForm,fileInput,handleChange,publications,setPublications,selectedCategory,
+    setSelectedCategory,filteredPublications,searchTerm,setSearchTerm,filteredPublicationsBySearch,url,
+    docHtml,setDocHtml,pdfError,setPdfError,isLoading,setIsLoading,ajouterPublication
   };
 
   return (

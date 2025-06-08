@@ -227,7 +227,7 @@ export const PageParametresCompte = () => {
         <div>
           <label
             htmlFor="photo"
-            className="text-sm cursor-pointer bg-white hover:bg-amber-500 text-gray-800 font-bold py-2 px-4 rounded"
+            className="text-sm cursor-pointer bg-white hover:bg-amber-500 hover:text-white text-gray-800 font-bold py-2 px-4 rounded"
           >
             Modifier la photo
           </label>
@@ -254,23 +254,9 @@ export const PageParametresCompte = () => {
               name="prenom"
               value={userInfo.prenom}
               onChange={handleInputChange}
+              maxLength={50}
               className="w-full mt-1 p-2 border border-gray-700 rounded-md focus:outline-none focus:ring"
             />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-800">
-              Biographie
-            </label>
-            <textarea
-              name="biographie"
-              id="userBiographie"
-              value={userInfo.biographie}
-              onChange={handleInputChange}
-              className="border border-gray-700 rounded-sm placeholder:text-gray-700 p-2"
-              rows={3}
-              placeholder="Bio"
-            ></textarea>
           </div>
         </div>
 
@@ -319,12 +305,12 @@ export const PageParametresCompte = () => {
         <div className="mt-6 flex flex-col md:flex-row gap-2 items-start md:justify-between md:items-center">
           <button
             onClick={handleSave}
-            className="px-4 py-2 font-bold bg-gray-800 text-white rounded hover:bg-gray-700 transition"
+            className="px-4 py-2 font-bold bg-gray-800 text-white rounded hover:bg-gray-700 transition cursor-pointer"
           >
             Enregistrer les modifications
           </button>
           <button
-            className="bg-red-500 font-bold text-white p-2 rounded-sm hover:bg-red-700 text-sm"
+            className="bg-red-500 font-bold text-white p-2 rounded-sm hover:bg-red-700 cursor-pointer text-sm"
             onClick={handleCancelChanges}
           >
             Annuler les modifications

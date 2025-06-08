@@ -14,6 +14,7 @@ import { LireDocx } from "../LireDocx";
 
 
 export const RapportCard = ({ doc }) => {
+  console.log(doc)
   const [pdfError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCommentBox, setShowCommentBox] = useState(false);
@@ -22,6 +23,21 @@ export const RapportCard = ({ doc }) => {
   const [downloading, setDownloading] = useState(false);
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [showdocModal, setShowDocModal] = useState(false);
+    const [pageWidth, setPageWidth] = useState(500)
+  
+    useEffect(() => {
+        const handleResize = () => {
+        const maxWidth = 600;
+        const screenWidth = window.innerWidth;
+        const newWidth = screenWidth < maxWidth ? screenWidth * 0.9 : maxWidth;
+        setPageWidth(newWidth);
+      };
+  
+      handleResize(); // appeler au chargement
+      window.addEventListener('resize', handleResize); // mettre à jour au redimensionnement
+  
+      return () => window.removeEventListener('resize', handleResize);
+    })
 
   // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
@@ -165,7 +181,7 @@ const handleDocumentClick = (e) => {
       {/* En-tête avec auteur */}
       <div className="flex items-center gap-3 mb-3">
         <img
-          src={doc.userId ? `${doc.userId.photo} ` : " "}
+          src={doc?.userId ? `${doc?.userId?.photo} ` : " "}
           alt="Auteur"
           className="w-10 h-10 rounded-full object-cover"
         />
@@ -183,7 +199,7 @@ const handleDocumentClick = (e) => {
       </div>
 
       {/* Titre et catégorie */}
-      <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{doc.title}</h2>
       <div className="mb-4">
         <strong>Categories:</strong> <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-md mb-2 ${categoryClass}`}>
           {doc.category}
@@ -204,9 +220,9 @@ const handleDocumentClick = (e) => {
         </div>
 
         {ispdf ? (
-          <div className="w-full max-h-[250px]">
+          <div className="w-full max-h-[250px] flex justify-center">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-           <PdfViewer file={doc.file} width={null} />
+           <PdfViewer file={doc.file} width={pageWidth} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
