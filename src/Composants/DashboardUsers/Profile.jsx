@@ -13,28 +13,62 @@ export const Profile = () => {
 
   useEffect(() => {
     // console.log("✅ useEffect exécuté dans le composant Profile");
+    // const fetchProfil = async () => {
+    //   const token = localStorage.getItem("token");
+    //   if (!token) {
+    //     // console.warn("🚫 Aucun token trouvé");
+    //     return;
+    //   }
+
+    //   try {
+    //     const response = await fetch(`${url}/api/users/profile`, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     });
+
+    //     if (!response.ok) throw new Error("Échec récupération profil");
+
+    //     const data = await response.json();
+    //     setUsers(data);
+    //   } catch (error) {
+    //     console.error("Erreur récupération profil :", error);
+    //   }
+    // };
     const fetchProfil = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // console.warn("🚫 Aucun token trouvé");
-        return;
-      }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/connexion");
+    return;
+  }
 
-      try {
-        const response = await fetch(`${url}/api/users/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  try {
+    const response = await fetch(`${url}/api/users/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
 
-        if (!response.ok) throw new Error("Échec récupération profil");
+    if (response.status === 401) {
+      // 🔴 Token invalide ou utilisateur supprimé
+      localStorage.removeItem("token");
+      setUsers(null);
+      navigate("/connexion");
+      return;
+    }
 
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error("Erreur récupération profil :", error);
-      }
-    };
+    if (!response.ok) throw new Error("Échec récupération profil");
+
+    const data = await response.json();
+    setUsers(data);
+  } catch (error) {
+    console.error("Erreur récupération profil :", error);
+    navigate("/connexion");
+  }
+};
+
     fetchProfil();
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {

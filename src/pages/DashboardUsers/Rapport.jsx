@@ -20,6 +20,14 @@ export const Rapport = () => {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                },
             });
+
+            if (response.status === 401 || response.status === 403 || response.status === 404) {
+              localStorage.removeItem("token");
+              localStorage.removeItem("userInfo");
+              window.location.href = "/connexion"; // ou navigate("/connexion")
+              return;
+            }
+
             const data = await response.json();
             console.log("Publications d'un users ", data);
             setRapports(data);
