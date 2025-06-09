@@ -140,7 +140,7 @@ const AdminNewsletter = () => {
       onSubmit={sendNewsletter}
       className="p-6 max-w-xl mx-auto bg-white shadow-md rounded-lg mt-10"
     >
-      <h2 className="text-xl font-bold mb-4 text-amber-500">
+      <h2 className="text-xl font-bold mb-4 text-gray-800">
         Envoyer une newsletter
       </h2>
 
@@ -172,7 +172,7 @@ const AdminNewsletter = () => {
 
       <button
         type="submit"
-        className="bg-amber-500 text-white px-4 py-2 rounded hover:bg-amber-600 disabled:opacity-50"
+        className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-amber-500 disabled:opacity-50"
         disabled={loading}
       >
         {loading ? "Envoi en cours..." : "Envoyer à tous"}
