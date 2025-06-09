@@ -156,10 +156,10 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
                   <span>Voir Word</span>
                 </div>
               )}
-              <div className="flex items-center justify-center gap-2 p-2 sm:p-3 px-4 sm:px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer text-xs sm:text-sm">
+              {/* <div className="flex items-center justify-center gap-2 p-2 sm:p-3 px-4 sm:px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer text-xs sm:text-sm">
                 <FaDownload />
                 <a href={rapportChoisi.file} download className="text-inherit no-underline">Télécharger</a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

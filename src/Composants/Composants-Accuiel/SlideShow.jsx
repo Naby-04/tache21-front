@@ -40,7 +40,7 @@ const SlideShow = () => {
           {/* Texte */}
           <div className="w-full md:w-1/2 flex flex-col justify-center items-start px-6 pt-6 pb-8 md:px-12 z-50">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5" style={{fontFamily: "var(--font-subtitle)", color: "rgb(30, 41, 57)"}}>
-              Plateforme de Partage de rapports
+              Plateforme de partage de rapports
             </h1>
             <p className="text-gray-700 text-sm sm:text-base md:text-lg lg:text-xl mb-6 max-w-xl">
               Des idées partagées, des rapports qui parlent, une communauté qui grandit et inspire demain.
@@ -53,15 +53,6 @@ const SlideShow = () => {
           </div>
 
           {/* Image avec transition */}
-          {/* <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-0 z-50 overflow-hidden max-h-[400px] relative">
-            <img
-              src={images[currentIndex]}
-              alt="illustration"
-              className={`w-full h-auto max-h-[400px] object-contain
-                transition-all duration-1000 ease-in-out
-                ${isTransitioning ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"}`}
-            />
-          </div> */}
           <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-0 z-50 overflow-hidden relative">
             <img
               src={images[currentIndex]}

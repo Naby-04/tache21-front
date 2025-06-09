@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Deconnexion } from "./Decconexion";
 import { RiMenuFill } from "react-icons/ri";
 import { Profile } from "./Profile";
 import { MobileSidebar } from "./MobileAffichage";
@@ -10,47 +9,96 @@ import { IoNotifications } from "react-icons/io5";
 import { NotificationModal } from "../NotificationModal";
 import logo from "../../assets/SenRapport.png";
 import { io } from "socket.io-client";
+import {jwtDecode} from "jwt-decode";
+
 
 export const NavbarUser = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const { searchTerm, setSearchTerm, url } = usePublication();
-  const [notifications, setNotifications] = useState([]);           // Notifications via fetch
-  const [liveNotifications, setLiveNotifications] = useState([]);   // Notifications via WebSocket
+  const [notifications, setNotifications] = useState([]);          
+  const [liveNotifications, setLiveNotifications] = useState([]); 
   const [isNotifOpen, setIsNotifOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(null)
+  // eslint-disable-next-line no-unused-vars
   const [userInf, setUserInfo] = useState(null)
   const socketRef = useRef(null);
 
   // Initialiser le socket.io
-  useEffect(() => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  setUserInfo(userInfo)
-  const userId = userInfo?.id;
-  setUser(userId)
+//   useEffect(() => {
+//   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+//   setUserInfo(userInfo)
+//   const userId = userInfo?.id;
+//   setUser(userId)
 
-  if (!userId) return;
+//   if (!userId) return;
 
-  // Crée une seule connexion
-  if (!socketRef.current) {
-    socketRef.current = io(url, {
-      transports: ['websocket'],
-      reconnection: true,
-      reconnectionAttempts: 5,
-    });
+//   // Crée une seule connexion
+//   if (!socketRef.current) {
+//     socketRef.current = io(url, {
+//       transports: ['websocket'],
+//       reconnection: true,
+//       reconnectionAttempts: 5,
+//     });
 
-    socketRef.current.on("connect", () => {
-      // console.log("Socket connecté !");
-      socketRef.current.emit("join", userId);
-    });
+//     socketRef.current.on("connect", () => {
+//       // console.log("Socket connecté !");
+//       socketRef.current.emit("join", userId);
+//     });
 
-    socketRef.current.on("connect_error", (err) => {
-      console.error("Erreur de connexion socket.io :", err.message);
-    });
+//     socketRef.current.on("connect_error", (err) => {
+//       console.error("Erreur de connexion socket.io :", err.message);
+//     });
 
-    socketRef.current.on("newNotification", (notif) => {
-      console.log("Notification reçue :", notif);
-      setLiveNotifications((prev) => [notif, ...prev]);
-    });
+//     socketRef.current.on("newNotification", (notif) => {
+//       console.log("Notification reçue :", notif);
+//       setLiveNotifications((prev) => [notif, ...prev]);
+//     });
+//   }
+
+//   return () => {
+//     if (socketRef.current) {
+//       socketRef.current.disconnect();
+//       socketRef.current = null;
+//     }
+//   };
+// }, []);
+
+// ...
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
+
+  try {
+    const decoded = jwtDecode(token);
+    const userId = decoded.id; // ou decoded._id selon le backend
+    setUser(userId);
+    setUserInfo(decoded);
+
+    if (!socketRef.current) {
+      socketRef.current = io(url, {
+        transports: ['websocket'],
+        reconnection: true,
+        reconnectionAttempts: 5,
+      });
+
+      socketRef.current.on("connect", () => {
+        socketRef.current.emit("join", userId);
+      });
+
+      socketRef.current.on("connect_error", (err) => {
+        console.error("Erreur de connexion socket.io :", err.message);
+      });
+
+      socketRef.current.on("newNotification", (notif) => {
+        setLiveNotifications((prev) => [notif, ...prev]);
+      });
+    }
+  } catch (err) {
+    console.error("Token invalide ou expiré :", err);
+    // éventuellement déconnecter l'utilisateur ici
   }
 
   return () => {
@@ -61,7 +109,7 @@ export const NavbarUser = () => {
   };
 }, []);
 
-
+console.log(user)
 
   // Charger les notifications depuis l’API
   useEffect(() => {
@@ -124,16 +172,14 @@ export const NavbarUser = () => {
 
       <div className="flex justify-between items-center p-2 w-full z-10">
         <div>
-          <div className="md:flex items-center gap-2 hidden">
-            <img src={logo} alt="Logo" className="w-26" />
+          <div className="cursor-pointer flex items-center gap-2">
+            <img src={logo} alt="Logo" className="w-15 md:w-26" />
           </div>
-          <div className="block md:hidden">
-            <Profile />
-          </div>
+          
         </div>
 
         <div className="flex items-center gap-3">
-          <Input value={searchTerm} onSearch={setSearchTerm} />
+          <Input value={searchTerm} onSearch={setSearchTerm} className="flex-1"/>
         </div>
 
         <div className="addDocs  flex gap-2 items-center">
@@ -142,7 +188,7 @@ export const NavbarUser = () => {
             title="Notifications"
             onClick={handleNotifClick}
           >
-            <IoNotifications className="text-white text-2xl" />
+            <IoNotifications className="text-white text-2xl cursor-pointer" />
             {unreadCount > 0 && (
               <small className="absolute top-[-10px] right-0 w-4 h-4 bg-amber-500 text-white 
               rounded-full flex items-center justify-center text-xs">
@@ -155,7 +201,7 @@ export const NavbarUser = () => {
           </div>
         </div>
 
-        <div className="block lg:hidden">
+        <div className="block lg:hidden cursor-pointer">
           <RiMenuFill
             className="text-white text-2xl"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}

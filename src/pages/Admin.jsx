@@ -55,7 +55,7 @@ const Admin = () => {
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
   console.log(topRapports)
-
+  console.log(telecharge)
   // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
@@ -153,25 +153,48 @@ const Admin = () => {
 
   //   setRapportFiltre(filtered);
   // };
+  // const filtrerRapportsParTexte = (texte) => {
+  //   setRechercheDashboard(texte);
+
+  //   let filteredRapports = rapportsOriginaux;
+  //   let filteredTops = topRapports;
+
+  //   if (texte !== "") {
+  //     filteredRapports = filteredRapports.filter((r) =>
+  //       r.title.toLowerCase().includes(texte.toLowerCase())
+  //     );
+
+  //     filteredTops = topRapports.filter((item) =>
+  //       item.rapport.title.toLowerCase().includes(texte.toLowerCase())
+  //     );
+  //   }
+
+  //   setRapportFiltre(filteredRapports);
+  //   setTopRapportsFiltres(filteredTops);
+  // };
+
   const filtrerRapportsParTexte = (texte) => {
-    setRechercheDashboard(texte);
+  setRechercheDashboard(texte);
 
-    let filteredRapports = rapportsOriginaux;
-    let filteredTops = topRapports;
+  let filteredRapports = rapportsOriginaux;
 
-    if (texte !== "") {
-      filteredRapports = filteredRapports.filter((r) =>
-        r.title.toLowerCase().includes(texte.toLowerCase())
-      );
+  if (texte !== "") {
+    filteredRapports = rapportsOriginaux.filter((r) =>
+      r.title.toLowerCase().includes(texte.toLowerCase())
+    );
 
-      filteredTops = topRapports.filter((item) =>
-        item.rapport.title.toLowerCase().includes(texte.toLowerCase())
-      );
-    }
+    const filteredTops = topRapports.filter((item) =>
+      item.rapport.title.toLowerCase().includes(texte.toLowerCase())
+    );
 
-    setRapportFiltre(filteredRapports);
     setTopRapportsFiltres(filteredTops);
-  };
+  } else {
+    setTopRapportsFiltres([]); // remettre à zéro sinon il reste bloqué
+  }
+
+  setRapportFiltre(filteredRapports);
+};
+
 
   // 🔍 Recherche + catégorie dans "rapports"
   const filtrerRapportsParTexteEtCategorie = (texte) => {
@@ -245,7 +268,20 @@ const Admin = () => {
         const miseAJour = filtreUser.filter((u) => u._id !== id);
         setAllUsers(miseAJour);
         setFiltreUser(miseAJour);
+
+        const refreshed = await fetch(`${url}/rapport/all`);
+        const rapportsData = await refreshed.json();
+        setRapportsOriginaux(rapportsData);
+        setRapportFiltre(rapportsData);
+
         toast.success("Utilisateur supprimé avec succès !");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (userInfo && userInfo.id === id) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
+        toast.info("Votre compte a été supprimé. Déconnexion...");
+        navigate("/#/connexion");
+      }
       } else {
         toast.error("Échec de la suppression de l'utilisateur.");
         console.error("Erreur lors de la suppression de l'utilisateur");
@@ -289,9 +325,12 @@ const Admin = () => {
               onDelete={supprimerRapport}
               utilisateurs={allUsers}
               topRapports={
-                topRapportsFiltres.length ? topRapportsFiltres : topRapports
+                topRapportsFiltres.length > 0 || rechercheDashboard
+                ? topRapportsFiltres
+                : topRapports
               }
               telechargement={telecharge}
+              setVueActive={setVueActive}
             />
           </>
         )}
@@ -326,16 +365,23 @@ const Admin = () => {
                       setSelectedIndex={setSelectedIndex}
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
-                    {rapportfiltre.map((ele) => (
-                      <RapportCard
-                        key={ele._id}
-                        rapport={ele}
-                        onDelete={() => supprimerRapport(ele._id)}
-                        onDetailCliquer={() => setRapportSelect(ele)}
-                      />
-                    ))}
-                  </div>
+                  {rapportfiltre.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+                      {rapportfiltre.map((ele) => (
+                        <RapportCard
+                          key={ele._id}
+                          rapport={ele}
+                          onDelete={() => supprimerRapport(ele._id)}
+                          onDetailCliquer={() => setRapportSelect(ele)}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center text-gray-500 mt-10">
+                      Aucun rapport trouvé pour ce nom
+                    </div>
+                  )}
+
                 </>
               )}
             </div>

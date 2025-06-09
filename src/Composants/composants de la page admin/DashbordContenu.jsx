@@ -12,7 +12,7 @@ import Image3 from "../../assets/back3.jpg";
 import Image4 from "../../assets/back4.jpg";
 import BasicPie from "./Diagramme";
 
-const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telechargement }) => {
+const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telechargement, setVueActive }) => {
 
   return (
     <div>
@@ -23,12 +23,14 @@ const DashboardContenu = ({ rapports, onDelete, utilisateurs, topRapports, telec
             image={Image}
             icone={<LuUsers />}
             valeur={utilisateurs.length}
+            onClick={() => setVueActive("users")}
           />
           <StatsBox
             titre="Rapports"
             image={Image2}
             icone={<BsFillFileTextFill />}
             valeur={rapports.length}
+            onClick={() => setVueActive("rapports")}
           />
           <StatsBox
             titre="Telechargement"

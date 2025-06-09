@@ -6,7 +6,7 @@ import { fr } from "date-fns/locale";
 
 export const NotificationModal = ({ isOpen, onClose, notifications, onMarkAsRead }) => {
   const modalRef = useRef(null);
-
+console.log(notifications)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {

@@ -8,7 +8,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
   const [showModal, setShowModal] = useState(false);
   const isPdf = rapport.type === "application/pdf";
   const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-  console.log(rapport)
+  // console.log(rapport)
   useEffect(() => {
     if (isDocx) {
       fetch(rapport.file)
@@ -85,7 +85,7 @@ const RapportCard = ({ rapport, onDelete, onDetailCliquer }) => {
               Voir détails
             </p>
             <button
-              className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px]"
+              className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
               onClick={() => setShowModal(true)} // ✅ Ouvre le modal
             >
               <FaTrash />
