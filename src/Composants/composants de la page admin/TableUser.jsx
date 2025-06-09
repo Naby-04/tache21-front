@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaTrash } from "react-icons/fa";
 import { usePublication } from "../../Contexts/DashboardUser/UseContext";
 
 const TableUser = ({ tabUsers, onDelete }) => {
@@ -9,28 +9,28 @@ const TableUser = ({ tabUsers, onDelete }) => {
     useState(null);
   const { url } = usePublication();
 
-  useEffect(() => {
-    if (!selectedUser) return;
+  // useEffect(() => {
+  //   if (!selectedUser) return;
 
-    // On peut ajouter une vérification si les données sont déjà chargées
-    if (selectedUserReportsCount !== null) return;
+  //   // On peut ajouter une vérification si les données sont déjà chargées
+  //   if (selectedUserReportsCount !== null) return;
 
-    const fetchRapportsByUser = async () => {
-      try {
-        const response = await fetch(
-          `${url}/rapports/user/${selectedUser._id}`
-        );
-        if (!response.ok) return;
-        const data = await response.json();
-        setSelectedUserReportsCount(data.length);
-      } catch (error) {
-        console.error("Erreur:", error);
-        setSelectedUserReportsCount(0);
-      }
-    };
+  //   const fetchRapportsByUser = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${url}/rapports/user/${selectedUser._id}`
+  //       );
+  //       if (!response.ok) return;
+  //       const data = await response.json();
+  //       setSelectedUserReportsCount(data.length);
+  //     } catch (error) {
+  //       console.error("Erreur:", error);
+  //       setSelectedUserReportsCount(0);
+  //     }
+  //   };
 
-    fetchRapportsByUser();
-  }, [selectedUser, url, selectedUserReportsCount]);
+  //   fetchRapportsByUser();
+  // }, [selectedUser, url, selectedUserReportsCount]);
 
   // console.log(tabUsers)
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +60,7 @@ const TableUser = ({ tabUsers, onDelete }) => {
           <thead>
             <tr className="bg-gray-800 text-gray-50 rounded">
               <th className="py-2 px-3">#</th>
-              <th className="py-2 px-3">Prénom</th>
+              <th className="py-2 px-3">Nom complet</th>
               <th className="py-2 px-3 hidden sm:table-cell">Email</th>
               <th className="py-2 px-3">Rôle</th>
               <th className="py-2 px-3 hidden md:table-cell">
@@ -134,23 +134,29 @@ const TableUser = ({ tabUsers, onDelete }) => {
         </table>
 
         {/* Pagination */}
-        <div className="flex justify-center gap-7 items-center mt-4">
+        <div className="flex justify-center gap-4 items-center mt-4">
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
           >
-            Précédent
+            {/* Grand écran : texte, petit écran : icône */}
+            <span className="hidden sm:inline">Précédent</span>
+            <FaChevronLeft className="sm:hidden" />
           </button>
-          <span className="text-gray-600">
+
+          <span className="text-gray-600 text-sm sm:text-base">
             Page {currentPage} sur {totalPages}
           </span>
+
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-800 rounded hover:bg-gray-300 disabled:opacity-50 text-white"
           >
-            Suivant
+            {/* Grand écran : texte, petit écran : icône */}
+            <span className="hidden sm:inline">Suivant</span>
+            <FaChevronRight className="sm:hidden" />
           </button>
         </div>
       </div>
@@ -234,12 +240,12 @@ const TableUser = ({ tabUsers, onDelete }) => {
                 <strong>Date d'inscription :</strong>{" "}
                 {new Date(selectedUser.createdAt).toLocaleDateString()}
               </p>
-              <p>
+              {/* <p>
                 <strong>Nombre de rapports :</strong>{" "}
                 {selectedUserReportsCount === 0
                   ? "Aucun rapport"
                   : selectedUserReportsCount || "Chargement..."}
-              </p>
+              </p> */}
               {/* Ajoute d'autres champs si nécessaire */}
             </div>
           </div>
