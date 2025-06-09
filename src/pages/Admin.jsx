@@ -14,6 +14,7 @@ import CardScroll from "../Composants/composants de la page admin/CardScroll";
 import DetailRapportAdmin from "../Composants/composants de la page admin/DetailRapportAdmin";
 import { usePublication } from "../Contexts/DashboardUser/UseContext";
 import { categories } from "../data/Categorie";
+import AdminNewsletter from "../pages/News/AdminNewsletter";
 
 const categoryIcons = {
   informatique_sciences: "💻",
@@ -54,8 +55,8 @@ const Admin = () => {
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
-  console.log(topRapports)
-  console.log(telecharge)
+  console.log(topRapports);
+  console.log(telecharge);
   // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
@@ -97,18 +98,21 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
-  const fetchTopDownloadedRapports = async () => {
-    try {
-      const response = await fetch(`${url}/download/top/downloaded`);
-      const data = await response.json();
-      setTopRapports(data); // car tu utilises topRapports dans l’affichage
-    } catch (error) {
-      console.error("Erreur lors du chargement des rapports les plus téléchargés :", error);
-    }
-  };
+    const fetchTopDownloadedRapports = async () => {
+      try {
+        const response = await fetch(`${url}/download/top/downloaded`);
+        const data = await response.json();
+        setTopRapports(data); // car tu utilises topRapports dans l’affichage
+      } catch (error) {
+        console.error(
+          "Erreur lors du chargement des rapports les plus téléchargés :",
+          error
+        );
+      }
+    };
 
-  fetchTopDownloadedRapports();
-}, []);
+    fetchTopDownloadedRapports();
+  }, []);
 
   useEffect(() => {
     const fetchTelechargement = async () => {
@@ -141,60 +145,27 @@ const Admin = () => {
     }
   };
 
-  // const filtrerRapportsParTexte = (texte) => {
-  //   setRechercheDashboard(texte);
-  //   let filtered = rapportsOriginaux;
-
-  //   if (texte !== "") {
-  //     filtered = filtered.filter((r) =>
-  //       r.title.toLowerCase().includes(texte.toLowerCase())
-  //     );
-  //   }
-
-  //   setRapportFiltre(filtered);
-  // };
-  // const filtrerRapportsParTexte = (texte) => {
-  //   setRechercheDashboard(texte);
-
-  //   let filteredRapports = rapportsOriginaux;
-  //   let filteredTops = topRapports;
-
-  //   if (texte !== "") {
-  //     filteredRapports = filteredRapports.filter((r) =>
-  //       r.title.toLowerCase().includes(texte.toLowerCase())
-  //     );
-
-  //     filteredTops = topRapports.filter((item) =>
-  //       item.rapport.title.toLowerCase().includes(texte.toLowerCase())
-  //     );
-  //   }
-
-  //   setRapportFiltre(filteredRapports);
-  //   setTopRapportsFiltres(filteredTops);
-  // };
-
   const filtrerRapportsParTexte = (texte) => {
-  setRechercheDashboard(texte);
+    setRechercheDashboard(texte);
 
-  let filteredRapports = rapportsOriginaux;
+    let filteredRapports = rapportsOriginaux;
 
-  if (texte !== "") {
-    filteredRapports = rapportsOriginaux.filter((r) =>
-      r.title.toLowerCase().includes(texte.toLowerCase())
-    );
+    if (texte !== "") {
+      filteredRapports = rapportsOriginaux.filter((r) =>
+        r.title.toLowerCase().includes(texte.toLowerCase())
+      );
 
-    const filteredTops = topRapports.filter((item) =>
-      item.rapport.title.toLowerCase().includes(texte.toLowerCase())
-    );
+      const filteredTops = topRapports.filter((item) =>
+        item.rapport.title.toLowerCase().includes(texte.toLowerCase())
+      );
 
-    setTopRapportsFiltres(filteredTops);
-  } else {
-    setTopRapportsFiltres([]); // remettre à zéro sinon il reste bloqué
-  }
+      setTopRapportsFiltres(filteredTops);
+    } else {
+      setTopRapportsFiltres([]); // remettre à zéro sinon il reste bloqué
+    }
 
-  setRapportFiltre(filteredRapports);
-};
-
+    setRapportFiltre(filteredRapports);
+  };
 
   // 🔍 Recherche + catégorie dans "rapports"
   const filtrerRapportsParTexteEtCategorie = (texte) => {
@@ -276,18 +247,18 @@ const Admin = () => {
 
         toast.success("Utilisateur supprimé avec succès !");
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-      if (userInfo && userInfo.id === id) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userInfo");
-        toast.info("Votre compte a été supprimé. Déconnexion...");
-        navigate("/#/connexion");
-      }
+        if (userInfo && userInfo.id === id) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userInfo");
+          toast.info("Votre compte a été supprimé. Déconnexion...");
+          navigate("/#/connexion");
+        }
       } else {
         toast.error("Échec de la suppression de l'utilisateur.");
         console.error("Erreur lors de la suppression de l'utilisateur");
       }
     } catch (error) {
-      toast.error("Erreur serveur lors de la suppression.")
+      toast.error("Erreur serveur lors de la suppression.");
       console.error("Erreur serveur lors de la suppression :", error);
     }
   };
@@ -326,8 +297,8 @@ const Admin = () => {
               utilisateurs={allUsers}
               topRapports={
                 topRapportsFiltres.length > 0 || rechercheDashboard
-                ? topRapportsFiltres
-                : topRapports
+                  ? topRapportsFiltres
+                  : topRapports
               }
               telechargement={telecharge}
               setVueActive={setVueActive}
@@ -381,9 +352,16 @@ const Admin = () => {
                       Aucun rapport trouvé pour ce nom
                     </div>
                   )}
-
                 </>
               )}
+            </div>
+          </>
+        )}
+        {vueActive === "Newsletter" && (
+          <>
+            <HeaderAdmin onSearch={filtrerRapportsParTexteEtCategorie} />
+            <div className="p-3 w-full">
+              <AdminNewsletter />
             </div>
           </>
         )}
