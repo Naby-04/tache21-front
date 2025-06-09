@@ -1,4 +1,3 @@
-// import React, { useState } from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -8,60 +7,70 @@ import { IoLocation } from "react-icons/io5";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { db, serverTimestamp } from "../../services/firebaseService";
-//  import { initializeApp } from "firebase/app";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc , query, where, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import emailjs from '@emailjs/browser';
-import { toast} from 'react-toastify'
- import {  Link as ScrollLink} from "react-scroll";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
+import { Link as ScrollLink } from "react-scroll";
 import { useState } from "react";
-import logo from "../../assets/SenRapport.png"
-
-
-
+import logo from "../../assets/SenRapport.png";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
-   const[email, setEmail] = useState("")
-   const[message ,setMessage] = useState("")
-   
   const handleEmail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
   const handleSend = async (e) => {
     e.preventDefault();
-    
+
     if (email.trim() === "") {
       toast.warn("Veuillez entrer un email valide !");
-      return
-      }
-      try {
-        await addDoc(collection(db, "emails"), {
-          email,
-          time: serverTimestamp(),
-        });
+      return;
+    }
+    try {
+  
+      const emailsRef = collection(db, "emails");
 
-        emailjs.send(
-          'service_wmra0c7',  
-          'template_0u9mmwe',      
-          { user_email: email },
-          '8uD6SuB_tZuWwNH9Y'         
+      //  Requête pour vérifier si l'email existe déjà
+      const q = query(emailsRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      //  Si l'email existe déjà
+      if (!querySnapshot.empty) {
+        toast.info("Cet email est déjà enregistré.");
+        setEmail("")
+        return;
+      }
+
+      //  Si l'email est nouveau, on l'ajoute
+      await addDoc(emailsRef, {
+        email,
+        time: serverTimestamp(),
+      });
+   //  Envoi de l'email avec EmailJS
+      emailjs
+        .send(
+          "service_wmra0c7",
+          "template_0u9mmwe",
+          { user_email: email},
+          "8uD6SuB_tZuWwNH9Y"
         )
-        .then(() =>{
+        .then(() => {
           toast.success("Merci ! Email enregistré et notification envoyée.");
-          setEmail("")
+          setEmail("");
         })
         .catch((err) => {
           console.error("Erreur EmailJS :", err);
           toast.error("Erreur lors de l'envoi de l'email de notification.");
         });
-      } catch (err) {
-        toast.error("Erreur Firestore :", err);
-        toast.error("Erreur lors de l'enregistrement. Veuillez réessayer.");
-      }
+    } catch (err) {
+      toast.error("Erreur Firestore :", err);
+      toast.error("Erreur lors de l'enregistrement. Veuillez réessayer.");
+    }
   };
-
 
   return (
     <>
@@ -144,28 +153,29 @@ const Footer = () => {
                   />
                 </div>
                 <div className="">
-                  <button 
-                  onClick={handleSend}
-                  className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ...">
+                  <button
+                    onClick={handleSend}
+                    className="bg-white rounded-xl  w-15 h-10 flex items-center justify-center mx-auto text-gray-800 hover:text-white hover:bg-amber-300  px-6 outline-2 outline-offset-2 ... cursor-pointer ..."
+                  >
                     <BsFillSendFill />
                   </button>
                 </div>
                 {message && (
-                <p 
-                name="message"
-                className="text-sm mt-2 text-gray-600">{message}</p>
-                   )}
+                  <p name="message" className="text-sm mt-2 text-gray-600">
+                    {message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex flex-col gap-10 mt-3 md:mt-8">
               <div className="flex gap-2 flex-wrap text-2xl">
-                <Link  to='/' className=" text-gray-300 hover:text-white">
+                <Link to="/" className=" text-gray-300 hover:text-white">
                   <FaFacebook />
                 </Link>
-                <Link to='/' className=" text-gray-300 hover:text-white">
+                <Link to="/" className=" text-gray-300 hover:text-white">
                   <FaLinkedin />
                 </Link>
-                <Link to='/' className=" text-gray-300 hover:text-white">
+                <Link to="/" className=" text-gray-300 hover:text-white">
                   <FaXTwitter />
                 </Link>
               </div>
@@ -179,17 +189,6 @@ const Footer = () => {
               SenRapports © 2025. Tous droits réservés.
             </p>
           </div>
-          {/* <div className="px-4">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="fixed bottom-5 right-5 bg-amber-300 text-white p-3 rounded-full shadow-lg  transition z-50 btnAnime"
-              title="Remonter"
-            >
-              <span className="flex items-center justify-center mx-auto text-gray-800">
-                <FaLongArrowAltUp />
-              </span>
-            </button>
-          </div> */}
         </div>
       </footer>
     </>
