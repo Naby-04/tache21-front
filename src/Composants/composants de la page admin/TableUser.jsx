@@ -70,58 +70,66 @@ const TableUser = ({ tabUsers, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {currentUsers.map((user, index) => (
-              <tr
-                key={user._id}
-                className="border-t transition-color duration-200 hover:bg-gray-100"
-              >
-                <td className="py-2 px-3 font-bold text-gray-600">
-                  {(currentPage - 1) * usersPerPage + index + 1}
-                </td>
-                <td className="py-2 px-3">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <img
-                      src={user.photo || "/images/default-user.png"}
-                      alt={user.prenom}
-                      className="w-6 h-6 bg-amber-300 rounded-full object-cover flex-shrink-0 cursor-pointer"
-                      onClick={() => setSelectedUser(user)}
-                    />
-                    <span className="truncate" title={user.prenom}>
-                      {user.prenom}
-                    </span>
-                  </div>
-                </td>
-                <td
-                  className="py-2 px-3 hidden sm:table-cell max-w-[150px] truncate"
-                  title={user.email}
-                >
-                  {user.email}
-                </td>
-                <td className="py-2 px-3">
-                  {user.isAdmin ? "Administrateur" : "Utilisateur"}
-                </td>
-                <td
-                  className="py-2 px-3 hidden md:table-cell"
-                  title={new Date(user.createdAt).toLocaleString()}
-                >
-                  {new Date(user.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-3 py-2">
-                  <div className="flex items-center justify-center">
-                    <button
-                      onClick={() => {
-                        setUserToDelete(user);
-                        setShowModal(true);
-                      }}
-                      className="p-1 sm:p-2 text-xs sm:text-sm rounded bg-red-100 text-red-700 hover:bg-red-200"
-                      aria-label={`Supprimer ${user.prenom}`}
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
+            {currentUsers.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center text-gray-500 py-6">
+                  Aucun utilisateur trouvé.
                 </td>
               </tr>
-            ))}
+            ) : (
+            currentUsers.map((user, index) => (
+                      <tr
+                        key={user._id}
+                        className="border-t transition-color duration-200 hover:bg-gray-100"
+                      >
+                        <td className="py-2 px-3 font-bold text-gray-600">
+                          {(currentPage - 1) * usersPerPage + index + 1}
+                        </td>
+                        <td className="py-2 px-3">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <img
+                              src={user.photo || "/images/default-user.png"}
+                              alt={user.prenom}
+                              className="w-6 h-6 bg-amber-300 rounded-full object-cover flex-shrink-0 cursor-pointer"
+                              onClick={() => setSelectedUser(user)}
+                            />
+                            <span className="truncate" title={user.prenom}>
+                              {user.prenom}
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          className="py-2 px-3 hidden sm:table-cell max-w-[150px] truncate"
+                          title={user.email}
+                        >
+                          {user.email}
+                        </td>
+                        <td className="py-2 px-3">
+                          {user.isAdmin ? "Administrateur" : "Utilisateur"}
+                        </td>
+                        <td
+                          className="py-2 px-3 hidden md:table-cell"
+                          title={new Date(user.createdAt).toLocaleString()}
+                        >
+                          {new Date(user.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="px-3 py-2">
+                          <div className="flex items-center justify-center">
+                            <button
+                              onClick={() => {
+                                setUserToDelete(user);
+                                setShowModal(true);
+                              }}
+                              className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
+                              aria-label={`Supprimer ${user.prenom}`}
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+            ))
+            )}
           </tbody>
         </table>
 
