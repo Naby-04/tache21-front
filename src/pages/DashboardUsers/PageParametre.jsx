@@ -43,17 +43,16 @@ export const PageParametresCompte = () => {
     reader.onload = () => {
       const updatedUser = {
         ...userInfo,
-        photo: reader.result, // pour affichage immédiat
-        photoFile: file, // pour l'upload (NE PAS STOCKER dans localStorage)
+        photo: reader.result,
+        photoFile: file,
       };
 
       setUserInfo(updatedUser);
-      //setUsers(updatedUser); // synchro avec le contexte
 
-      // ❌ on enlève photoFile ici pour le localStorage
-      const userInfoToStore = { ...updatedUser };
-      delete userInfoToStore.photoFile;
-      localStorage.setItem("userInfo", JSON.stringify(userInfoToStore));
+      // ❌ Ne pas mettre à jour le localStorage ici
+      // const userInfoToStore = { ...updatedUser };
+      // delete userInfoToStore.photoFile;
+      // localStorage.setItem("userInfo", JSON.stringify(userInfoToStore));
     };
 
     reader.readAsDataURL(file);
