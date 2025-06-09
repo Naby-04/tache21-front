@@ -55,15 +55,15 @@ const Admin = () => {
   const [vueActive, setVueActive] = useState("dashboard");
   const [rapportSelect, setRapportSelect] = useState(null);
   const [telecharge, setTelechargement] = useState([]);
-  console.log(topRapports);
-  console.log(telecharge);
+  // console.log(topRapports);
+  // console.log(telecharge);
   // Récupération des rapports depuis l’API
   useEffect(() => {
     const fetchRapports = async () => {
       try {
         const response = await fetch(`${url}/rapport/all`);
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setRapportsOriginaux(data);
         setRapportFiltre(data);
       } catch (error) {

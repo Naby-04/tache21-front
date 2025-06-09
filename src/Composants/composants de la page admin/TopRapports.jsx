@@ -7,8 +7,8 @@ import ErrorBoundary from "../Composants-Accuiel/ErrorBoundary";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs`;
 
 const TopRapports = ({ rapports, onDeleteClick }) => {
-  console.log(rapports);
-  
+  // console.log(rapports);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [docxPreviews, setDocxPreviews] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -22,17 +22,20 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
 
   useEffect(() => {
     currentRapports.forEach((rapport) => {
-      const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+      const isDocx =
+        rapport.type ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
       if (isDocx && !docxPreviews[rapport._id]) {
         fetch(rapport.file)
-          .then(res => res.blob())
-          .then(blob => {
+          .then((res) => res.blob())
+          .then((blob) => {
             const reader = new FileReader();
             reader.onload = (e) => {
-              mammoth.convertToHtml({ arrayBuffer: e.target.result })
-                .then(result => {
-                  setDocxPreviews(prev => ({
+              mammoth
+                .convertToHtml({ arrayBuffer: e.target.result })
+                .then((result) => {
+                  setDocxPreviews((prev) => ({
                     ...prev,
                     [rapport._id]: result.value,
                   }));
@@ -46,21 +49,25 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
 
   const renderPreview = (rapport) => {
     const isPdf = rapport.type === "application/pdf";
-    const isDocx = rapport.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    const isDocx =
+      rapport.type ===
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     return (
       <div className="w-10 h-12 bg-gray-200 rounded overflow-hidden flex items-center justify-center border border-gray-300 shadow">
         {isPdf ? (
           <ErrorBoundary>
-          <Document file={rapport.file}>
-            <Page pageNumber={1} width={128} renderTextLayer={false} />
-          </Document>
+            <Document file={rapport.file}>
+              <Page pageNumber={1} width={128} renderTextLayer={false} />
+            </Document>
           </ErrorBoundary>
         ) : isDocx ? (
           <div
             className="w-full h-full text-xs p-1 leading-tight"
             dangerouslySetInnerHTML={{
-              __html: docxPreviews[rapport._id]?.substring(0, 300) || "<p>Chargement...</p>",
+              __html:
+                docxPreviews[rapport._id]?.substring(0, 300) ||
+                "<p>Chargement...</p>",
             }}
           />
         ) : (
@@ -76,7 +83,10 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold mb-4">Top Rapports <span className="text-xs opacity-75 mr-5">les plus téléchargés</span></h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Top Rapports{" "}
+        <span className="text-xs opacity-75 mr-5">les plus téléchargés</span>
+      </h2>
 
       <div className="overflow-x-auto w-full">
         <table className="w-full min-w-[700px] text-left text-sm sm:text-base">
@@ -131,53 +141,55 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
           </tbody> */}
 
           <tbody>
-  {currentRapports.length > 0 ? (
-    currentRapports.map((rapport, index) => (
-      <tr key={rapport._id || index} className="border-t transition-color duration-200 hover:bg-gray-100">
-        <td className="py-2 px-3 font-bold text-gray-600">
-          {(currentPage - 1) * itemsPerPage + index + 1}
-        </td>
-        <td className="py-2 px-3">
-          <div className="flex items-center gap-3">
-            {renderPreview(rapport)}
-            <div className="flex-1 min-w-0">
-              <h4
-                className="font-semibold truncate"
-                title={rapport.title}
-              >
-                {rapport.title}
-              </h4>
-              <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
-                {rapport.description}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td className="py-2 px-3">
-          <div className="flex items-center justify-center">
-            <button
-              onClick={() => {
-                setSelectedRapport(rapport);
-                setShowModal(true);
-              }}
-              className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
-              aria-label="Supprimer le rapport"
-            >
-              <FaTrash />
-            </button>
-          </div>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="3" className="text-center text-gray-500 py-6">
-        Aucun rapport trouvé pour ce nom.
-      </td>
-    </tr>
-  )}
-</tbody>
-
+            {currentRapports.length > 0 ? (
+              currentRapports.map((rapport, index) => (
+                <tr
+                  key={rapport._id || index}
+                  className="border-t transition-color duration-200 hover:bg-gray-100"
+                >
+                  <td className="py-2 px-3 font-bold text-gray-600">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
+                  <td className="py-2 px-3">
+                    <div className="flex items-center gap-3">
+                      {renderPreview(rapport)}
+                      <div className="flex-1 min-w-0">
+                        <h4
+                          className="font-semibold truncate"
+                          title={rapport.title}
+                        >
+                          {rapport.title}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-gray-500 line-clamp-2">
+                          {rapport.description}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-2 px-3">
+                    <div className="flex items-center justify-center">
+                      <button
+                        onClick={() => {
+                          setSelectedRapport(rapport);
+                          setShowModal(true);
+                        }}
+                        className="p-2 rounded bg-red-500 text-white hover:bg-red-600 transition text-[10px] cursor-pointer"
+                        aria-label="Supprimer le rapport"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" className="text-center text-gray-500 py-6">
+                  Aucun rapport trouvé pour ce nom.
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
 
@@ -210,7 +222,9 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
               <FaTimes />
             </button>
 
-            <p className="text-lg font-semibold mb-2 text-red-600">Confirmation de suppression</p>
+            <p className="text-lg font-semibold mb-2 text-red-600">
+              Confirmation de suppression
+            </p>
             <p className="text-sm text-gray-800 mb-4">
               Supprimer le rapport <strong>{selectedRapport.title}</strong> de{" "}
               <strong>{selectedRapport.user?.prenom}</strong> ?
@@ -236,7 +250,6 @@ const TopRapports = ({ rapports, onDeleteClick }) => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
