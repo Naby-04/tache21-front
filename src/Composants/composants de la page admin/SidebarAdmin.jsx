@@ -25,7 +25,7 @@ const SidebarAdmin = ({ setVueActive }) => {
   };
 
   return (
-    <aside className="w-20 md:w-64 bg-gray-800 text-white px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
+    <aside className="w-13 md:w-64 bg-gray-800 text-white px-1 md:px-5 pt-1 pb-2 flex flex-col static overflow-y-auto transition-all duration-200">
       <div className="flex p-2 rounded gap-2 items-center border-b border-amber-300">
         <div className="relative">
           <img
@@ -35,9 +35,6 @@ const SidebarAdmin = ({ setVueActive }) => {
           />
         </div>
         <img src={enR} alt="en'Rapport" className="hidden md:block w-23 ml-[-18px]" />
-        {/* <h4 className="text-white text-xl font-bold uppercase hidden md:block">
-          SenRapport
-        </h4> */}
       </div>
 
       <div className="mt-10">
@@ -46,29 +43,29 @@ const SidebarAdmin = ({ setVueActive }) => {
         <ul className="space-y-2">
           <li
             onClick={() => handleItemClick("dashboard")}
-            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-200 rounded-md transition-colors duration-150
+            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-300 rounded-md transition-colors duration-150
               ${
                 activeItem === "dashboard"
                   ? "bg-amber-100/20"
                   : "hover:bg-amber-100/20"
               }`}
           >
-            <span className="p-2 bg-amber-200 rounded-full text-gray-800">
+            <span className="p-2 bg-amber-300 rounded-full text-gray-800">
               {<RiDashboardHorizontalFill />}
             </span>
-            <span className="hidden md:inline">Dashboards</span>
+            <span className="hidden md:inline">Statistiques</span>
           </li>
 
           <li
             onClick={() => handleItemClick("users")}
-            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-200 rounded-md transition-colors duration-150
+            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-300 rounded-md transition-colors duration-150
               ${
                 activeItem === "users"
                   ? "bg-amber-100/20"
                   : "hover:bg-amber-100/20"
               }`}
           >
-            <span className="p-2 bg-amber-200 rounded-full text-gray-800">
+            <span className="p-2 bg-amber-300 rounded-full text-gray-800">
               {<HiUsers />}
             </span>
             <span className="hidden md:inline">Utilisateurs</span>
@@ -76,14 +73,14 @@ const SidebarAdmin = ({ setVueActive }) => {
 
           <li
             onClick={() => handleItemClick("rapports")}
-            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-200 rounded-md transition-colors duration-150
+            className={`cursor-pointer flex items-center justify-center md:justify-start py-3 px-2 mt-2 gap-2 border-b border-amber-300 rounded-md transition-colors duration-150
               ${
                 activeItem === "rapports"
                   ? "bg-amber-100/20"
                   : "hover:bg-amber-100/20"
               }`}
           >
-            <span className="p-2 bg-amber-200 rounded-full text-gray-800">
+            <span className="p-2 bg-amber-300 rounded-full text-gray-800">
               {<HiDocumentReport />}
             </span>
             <span className="hidden md:inline">Rapports</span>
@@ -91,9 +88,9 @@ const SidebarAdmin = ({ setVueActive }) => {
         </ul>
       </div>
 
-      <div className="flex items-center justify-center md:justify-start cursor-pointer gap-2 mt-auto pt-6 text-4" onClick={handleLogout}>
-        <CiLogout />
-        <p className="text-amber-50 hidden md:inline">Déconnexion</p>
+      <div className="flex items-center justify-center md:justify-start cursor-pointer text-gray-100 hover:text-amber-300 gap-2 mt-auto pt-6 text-4" onClick={handleLogout}>
+        <CiLogout className="text-lg md:text-base" />
+        <p className="hidden md:inline hover:text-amber-300">Déconnexion</p>
       </div>
     </aside>
   );

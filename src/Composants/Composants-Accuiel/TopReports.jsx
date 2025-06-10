@@ -15,25 +15,39 @@ function TopReports() {
   // const ispdf = doc.type === "application/pdf";
   // const isdoc = doc.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-  useEffect(() => {
-    const fetchTopRapports = async () => {
+   useEffect(() => {
+    const fetchTopDownloadedRapports = async () => {
       try {
-        // const token = localStorage.getItem("token");
-        const response = await fetch(`${url}/api/comments/top/commented`);
+        const response = await fetch(`${url}/download/top/downloaded`);
         const data = await response.json();
-        // On récupère juste les rapports
-        const rapportsAvecCommentaires = data.map(item => ({
-          ...item.rapport,
-          totalComments: item.totalComments
-        }));
-        setTopRapports(rapportsAvecCommentaires);
+        setTopRapports(data); // car tu utilises topRapports dans l’affichage
       } catch (error) {
-        console.error("Erreur lors du chargement des top rapports :", error);
+        console.error("Erreur lors du chargement des rapports les plus téléchargés :", error);
       }
     };
-
-    fetchTopRapports();
+  
+    fetchTopDownloadedRapports();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchTopRapports = async () => {
+  //     try {
+  //       // const token = localStorage.getItem("token");
+  //       const response = await fetch(`${url}/api/comments/top/commented`);
+  //       const data = await response.json();
+  //       // On récupère juste les rapports
+  //       const rapportsAvecCommentaires = data.map(item => ({
+  //         ...item.rapport,
+  //         totalComments: item.totalComments
+  //       }));
+  //       setTopRapports(rapportsAvecCommentaires);
+  //     } catch (error) {
+  //       console.error("Erreur lors du chargement des top rapports :", error);
+  //     }
+  //   };
+
+  //   fetchTopRapports();
+  // }, []);
 
   //  useEffect(() => {
   //   if (ispdf && doc.file) {
@@ -84,7 +98,7 @@ function TopReports() {
     <section id="rapports" className="p-10 bg-white">
       <div className="flex justify-center mb-8">
         <h2 className="relative text-2xl font-bold text-gray-800 after:content-[''] after:block after:h-[3px] after:w-[50%] after:mx-auto after:bg-amber-300 after:mt-2">
-          Top rapports
+          Top rapports téléchargés
         </h2>
       </div>
 

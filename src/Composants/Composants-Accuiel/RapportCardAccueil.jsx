@@ -12,14 +12,9 @@ import { CommentairesSection } from "../DashboardUsers/Commentaire/CommentaireSe
 export const RapportCardAccueil = ({ doc }) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const { pdfError, isLoading, docHtml, setDocHtml, setIsLoading } = usePublication();
+  const { pdfError, isLoading, docHtml, setDocHtml, setIsLoading,url } = usePublication();
   const [showLoginModal, setShowLoginModal] = useState(false);
-
-
-  // const handleCommentSubmit = (comment) => {
-  //     console.log("Commentaire:", comment, "pour:", doc.id);
-  //     setShowCommentBox(false);
-  // }
+   const [pageWidth, setPageWidth] = useState(300)
 
   // Conversion des DOCX en HTML améliorée
   const ispdf = doc.type === "application/pdf";
@@ -32,6 +27,7 @@ export const RapportCardAccueil = ({ doc }) => {
 
   // Conversion des DOCX en HTML améliorée
   useEffect(() => {
+    
     if (!isdoc || !doc.fileUrl) return;
 
     const convertDocxToHtml = async () => {
@@ -70,6 +66,19 @@ export const RapportCardAccueil = ({ doc }) => {
     convertDocxToHtml();
   }, [doc.fileUrl, isdoc]);
 
+  useEffect(() => {
+      const handleResize = () => {
+      const maxWidth = 500;
+      const screenWidth = window.innerWidth;
+      const newWidth = screenWidth < maxWidth ? screenWidth * 0.9 : maxWidth;
+      setPageWidth(newWidth);
+    };
+
+    handleResize(); // appeler au chargement
+    window.addEventListener('resize', handleResize); // mettre à jour au redimensionnement
+
+    return () => window.removeEventListener('resize', handleResize);
+  })
   const handleCommentSubmit = async (comment) => {
     try {
       const token = localStorage.getItem("token");
@@ -96,22 +105,6 @@ export const RapportCardAccueil = ({ doc }) => {
     }
   };
   // Gestion du clic sur le document
-  const handleDocumentClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const encodedUrl = encodeURIComponent(doc.file);
-    if (isdoc) {
-      const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-      window.open(viewerUrl, "_blank", "noopener,noreferrer");
-    } else if (ispdf) {
-      const viewerUrl = `https://docs.google.com/viewer?url=${encodedUrl}`;
-      window.open(viewerUrl, "_blank", "noopener,noreferrer");
-    } else {
-      window.open(doc.file, "_blank", "noopener,noreferrer");
-    }
-  };
-
-  
 
   const tagsArray = Array.isArray(doc.tags)
     ? doc.tags
@@ -150,7 +143,7 @@ export const RapportCardAccueil = ({ doc }) => {
       </div>
 
       {/* Titre et catégorie */}
-      <h2 className="text-lg font-bold text-gray-900 mb-2">{doc.title}</h2>
+      <h2 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{doc.title}</h2>
       <div className="mb-4">
         <strong>Categories:</strong>{" "}
         <span
@@ -163,26 +156,12 @@ export const RapportCardAccueil = ({ doc }) => {
       {/* Aperçu du document avec overlay */}
       <div
         className="relative rounded-md overflow-hidden mb-4 cursor-pointer group"
-        onClick={handleDocumentClick}
       >
-        {/* Overlay au survol - style conservé */}
-        <div
-          className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300
-         flex items-center justify-center opacity-0 group-hover:opacity-100 z-10"
-        >
-          <span className="bg-amber-500 text-white px-4 py-2 rounded-lg font-bold">
-            {ispdf
-              ? "Lire le PDF"
-              : isdoc
-              ? "Ouvrir le document"
-              : "Voir le fichier"}
-          </span>
-        </div>
-
+       
         {ispdf ? (
-          <div className="w-full max-h-[250px]">
+          <div className="w-full max-h-[250px] flex  justify-center">
             {pdfError && <p className="text-red-500">{pdfError}</p>}
-            <PdfViewer file={doc.file} width={null} />
+            <PdfViewer file={doc.file} width={pageWidth} />
           </div>
         ) : isdoc ? (
           <div className="w-full min-h-[200px] bg-gray-100 p-4 ">
@@ -326,7 +305,7 @@ export const RapportCardAccueil = ({ doc }) => {
           onClick={() => {
             setShowLoginModal(false);
             
-            window.location.href = "/inscription"; 
+            window.location.href = "/#/inscription"; 
           }}
           className="bg-gray-800 hover:text-white text-amber-300 px-4 py-2 rounded w"
         >

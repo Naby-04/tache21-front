@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PageParametresCompte } from "./pages/DashboardUsers/PageParametre";
@@ -15,6 +15,7 @@ import Admin from "./pages/Admin";
 import PublicationForm from "./Composants/PublicationForm";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import PublicRoute from "./Routes/PublicRoute";
+import AdminRoute from "./Routes/AdminRoute";
 
 import { Toaster } from "react-hot-toast";
 
@@ -36,7 +37,7 @@ const App = () => {
         theme="light"
       />
 
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route
             path="/"
@@ -49,9 +50,9 @@ const App = () => {
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Admin />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
           <Route
@@ -150,7 +151,7 @@ const App = () => {
         </Routes>
 
         <Toaster position="top-center" />
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 };

@@ -13,29 +13,62 @@ export const Profile = () => {
 
   useEffect(() => {
     // console.log("✅ useEffect exécuté dans le composant Profile");
+    // const fetchProfil = async () => {
+    //   const token = localStorage.getItem("token");
+    //   if (!token) {
+    //     // console.warn("🚫 Aucun token trouvé");
+    //     return;
+    //   }
+
+    //   try {
+    //     const response = await fetch(`${url}/api/users/profile`, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     });
+
+    //     if (!response.ok) throw new Error("Échec récupération profil");
+
+    //     const data = await response.json();
+    //     setUsers(data);
+    //   } catch (error) {
+    //     console.error("Erreur récupération profil :", error);
+    //   }
+    // };
     const fetchProfil = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // console.warn("🚫 Aucun token trouvé");
-        return;
-      }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/connexion");
+    return;
+  }
 
-      try {
-        const response = await fetch(`${url}/api/users/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  try {
+    const response = await fetch(`${url}/api/users/profile`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
 
-        if (!response.ok) throw new Error("Échec récupération profil");
+    if (response.status === 401) {
+      // 🔴 Token invalide ou utilisateur supprimé
+      localStorage.removeItem("token");
+      setUsers(null);
+      navigate("/connexion");
+      return;
+    }
 
-        const data = await response.json();
-        // console.log("✅ Données utilisateur récupérées :", data);
-        setUsers(data);
-      } catch (error) {
-        console.error("Erreur récupération profil :", error);
-      }
-    };
+    if (!response.ok) throw new Error("Échec récupération profil");
+
+    const data = await response.json();
+    setUsers(data);
+  } catch (error) {
+    console.error("Erreur récupération profil :", error);
+    navigate("/connexion");
+  }
+};
+
     fetchProfil();
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -68,7 +101,7 @@ export const Profile = () => {
         <img
           src={users.photo}
           alt="profil"
-          className="w-[40px] h-[40px] md:w-[80px] md:h-[80px] rounded-full object-cover border-4 border-gray-800"
+          className="w-[80px] h-[80px] rounded-full object-cover border-4 border-gray-800"
         />
 
         <span className="absolute bottom-[-5px] right-0 bg-[var(--background-color)] rounded-full md:hidden cursor-pointer">
@@ -76,11 +109,11 @@ export const Profile = () => {
         </span>
       </div>
 
-      <div className="infos-profil text-[var(--text-couleur)] mt-4">
-        <p className="name text-[8px] font-bold text-[#fff] md:text-[#212121] md:text-lg font-regular">
+      <div className="infos-profil text-[#212121] mt-4 text-center md:text-left">
+        <p className="name text-[8px] font-bold text-gray-800  md:text-lg font-regular">
           {users.prenom}
         </p>
-        <p className="description text-sm hidden md:block text-gray-500">
+        <p className="description text-sm text-gray-500">
           {users.email}
         </p>
       </div>
@@ -88,7 +121,7 @@ export const Profile = () => {
       {openMenu && (
         <div
           ref={menuRef}
-          className="absolute top-[60px] bg-white text-gray-800 shadow-lg rounded-lg w-[200px] z-50 py-2"
+          className="absolute top-[65px] left-[-5px] bg-white text-gray-800 shadow-lg rounded-lg w-[200px] z-50 py-2"
         >
           <div className="px-4 py-2 border-b">
             <p className="text-sm font-semibold">{users.prenom}</p>

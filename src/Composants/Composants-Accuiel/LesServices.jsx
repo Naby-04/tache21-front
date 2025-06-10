@@ -1,21 +1,21 @@
-import { FaShareAlt, FaSearch, FaCloudUploadAlt } from "react-icons/fa";
+import { FaDownload, FaFileAlt, FaCommentAlt } from "react-icons/fa";
 import Service from "./Service";
 
 const services = [
   {
-    titre: "Partage Facile",
-    description: "Téléchargez et partagez vos rapports en quelques clics avec toute la communauté.",
-    icone: <FaCloudUploadAlt />,
+    titre: "Publication",
+    description: "Mettez en ligne vos rapports en quelques étapes, et c’est partagé !",
+    icone: <FaFileAlt />,
   },
   {
-    titre: "Recherche Avancée",
-    description: "Trouvez rapidement les rapports qui vous intéressent grâce à un moteur de recherche intelligent.",
-    icone: <FaSearch />,
+    titre: "Téléchargement",
+    description: "Accédez et téléchargez les rapports partagés par d'autres utilisateurs en toute simplicité.",
+    icone: <FaDownload />,
   },
   {
-    titre: "Diffusion Large",
-    description: "Diffusez vos travaux auprès d’un large public d'étudiants, chercheurs et professionnels.",
-    icone: <FaShareAlt />,
+    titre: "Interaction",
+    description: "Commentez les rapports pour échanger, poser des questions ou donner votre avis.",
+    icone: <FaCommentAlt />,
   },
 ];
 

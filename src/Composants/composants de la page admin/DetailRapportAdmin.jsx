@@ -100,20 +100,20 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
       )}
 
       {/* Vue principale */}
-      <div className="flex flex-col md:flex-row justify-between gap-4 shadow rounded bg-white p-3 sm:p-4 relative text-xs sm:text-sm">
+      <div className="flex flex-col w-[95%] mx-auto md:flex-row justify-between gap-4 shadow-lg rounded bg-white p-3 sm:p-4 relative text-xs sm:text-sm mt-5">
         {/* Bouton retour */}
         <div
           onClick={onClick}
-          className="flex items-center absolute top-1 left-1 justify-center p-1 px-2 rounded-lg bg-gray-800 gap-2 text-amber-300 cursor-pointer z-5 text-lg sm:text-xl"
+          className="flex items-center absolute top-[-40px] left-[-15px] shadow justify-center p-1 px-3 rounded-lg bg-gray-800 gap-2 text-amber-300 cursor-pointer z-5 text-lg sm:text-xl"
         >
           <BiArrowBack />
         </div>
 
         {/* Texte et détails */}
         <div className="flex flex-col basis-full md:basis-2/3 w-full gap-2">
-          <div className="flex gap-3 items-center border-b border-gray-800 pb-3">
-            <div className="w-10 h-10 rounded-full relative bg-amber-200">
-              <img src={rapportChoisi.userId.photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
+          <div className="flex gap-3 items-center border-b border-gray-800 pb-3 cursor-pointer">
+            <div className="w-10 h-10 rounded-full relative border-2 border-gray-800 shadow-md">
+              <img src={rapportChoisi.userId?.photo} alt="Utilisateur" className="absolute w-full h-full object-cover rounded-full" />
             </div>
             <div>
               <p className="text-sm sm:text-base font-medium">{rapportChoisi.userId.prenom}</p>
@@ -121,22 +121,19 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             </div>
           </div>
 
-          <div className="mt-1 py-2 px-2">
-            <p className="text-lg sm:text-xl font-bold"> - {rapportChoisi.title}</p>
+          <div className="mt-1 py-2 px-2 flex flex-col justify-between h-full">
+            <p className="text-lg sm:text-xl font-bold line-clamp-1"> - {rapportChoisi.title}</p>
             <p className="text-sm sm:text-base mt-3">{rapportChoisi.description}</p>
 
             <div className="py-2 mt-3 px-2">
               <div className="flex gap-2 mb-2">
-                <p className="text-sm sm:text-base font-semibold underline">Catégories :</p>
-                <p className="text-sm sm:text-base font-light">{rapportChoisi.category}</p>
+                <p><span className="text-sm sm:text-base font-semibold underline">Catégories</span>: <span className="text-sm sm:text-base font-light">{rapportChoisi.category}</span></p>
               </div>
               <div className="flex gap-2 mb-2">
-                <p className="text-sm sm:text-base font-semibold underline">Tags :</p>
-                <p className="text-sm sm:text-base font-light">{rapportChoisi.tags}</p>
+                <p className="line-clamp-1"><span className="text-sm sm:text-base font-semibold underline">Tags</span>: <span className="text-sm sm:text-base font-light">{rapportChoisi.tags || "Aucun Tags"}</span></p>
               </div>
               <div className="flex gap-2 mb-2">
-                <p className="text-sm sm:text-base font-semibold underline">Type :</p>
-                <p className="text-sm sm:text-base font-light">{rapportChoisi.type}</p>
+                <p className="line-clamp-1"><span className="text-sm sm:text-base font-semibold underline">Type</span>: <span className="text-sm sm:text-base font-light">{rapportChoisi.type}</span></p>
               </div>
             </div>
 
@@ -159,10 +156,10 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
                   <span>Voir Word</span>
                 </div>
               )}
-              <div className="flex items-center justify-center gap-2 p-2 sm:p-3 px-4 sm:px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer text-xs sm:text-sm">
+              {/* <div className="flex items-center justify-center gap-2 p-2 sm:p-3 px-4 sm:px-6 rounded-lg bg-gray-800 text-amber-300 cursor-pointer text-xs sm:text-sm">
                 <FaDownload />
                 <a href={rapportChoisi.file} download className="text-inherit no-underline">Télécharger</a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -179,11 +176,6 @@ const DetailRapportAdmin = ({ rapportChoisi, onClick }) => {
             ) : (
               <p className="text-xs sm:text-sm p-4 text-gray-500">Aucun fichier à afficher</p>
             )}
-            <img
-              src={rapportChoisi.imageRapport}
-              alt="Image rapport"
-              className="absolute z-20 w-10 h-10 rounded-3xl object-cover border bg-gray-800 bottom-2 right-2"
-            />
           </div>
         </div>
 

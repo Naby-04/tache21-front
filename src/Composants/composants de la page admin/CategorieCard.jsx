@@ -8,8 +8,8 @@ const CategorieCard = ({ icon, label, selected }) => {
                 selected ? "bg-white shadow-md" : "bg-transparent"
               } cursor-pointer`}
     >
-      <div className="text-4xl mb-2">{icon}</div>
-      <p className="text-center font-medium text-gray-800">{label}</p>
+      <div className="text-2xl mb-2">{icon}</div>
+      <p className="text-center text-md font-medium text-gray-800">{label}</p>
     </div>
   );
 };

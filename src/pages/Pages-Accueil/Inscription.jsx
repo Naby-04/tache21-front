@@ -1,21 +1,22 @@
-import React, { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { auth, provider, db } from '../../services/firebaseService';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { signInWithPopup } from 'firebase/auth';
-import FormContext from '../../Contexts/FormContext';
-import { toast } from 'react-toastify';
-import { usePublication } from '../../Contexts/DashboardUser/UseContext';
-import { FaEye, FaEyeSlash, FaArrowLeft, FaSignOutAlt } from 'react-icons/fa'; // <-- Ajout de l'import
-import AuthContext from '../../Contexts/AuthContext';
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, provider, db } from "../../services/firebaseService";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { signInWithPopup } from "firebase/auth";
+import FormContext from "../../Contexts/FormContext";
+import { toast } from "react-toastify";
+import { usePublication } from "../../Contexts/DashboardUser/UseContext";
+import { FaEye, FaEyeSlash, FaArrowLeft, FaSignOutAlt } from "react-icons/fa";
+import AuthContext from "../../Contexts/AuthContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Inscription = () => {
   // const [error, setError] = useState("");
   const { formData, updateFormData, resetFormData } = useContext(FormContext);
   const navigate = useNavigate();
   const { url } = usePublication();
-  const {setUsers} = useContext(AuthContext)
-
+  const { setUsers } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   // Ajout des états pour afficher/masquer les mots de passe
   const [showPassword, setShowPassword] = useState(false);
@@ -27,57 +28,55 @@ const Inscription = () => {
   };
 
   const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    const prenom = user.displayName;
-    const email = user.email;
+      const prenom = user.displayName;
+      const email = user.email;
 
-    // 🔐 Optionnel : enregistrer dans Firestore (frontend DB)
-    const userRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(userRef);
+      // 🔐 Optionnel : enregistrer dans Firestore (frontend DB)
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
 
-    if (!docSnap.exists()) {
-      await setDoc(userRef, {
-        prenom,
-        email,
-        photoURL: user.photoURL || null,
-        createdAt: new Date().toISOString(),
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          prenom,
+          email,
+          photoURL: user.photoURL || null,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      // 🔐 Récupère le token Firebase (pour sécurité si besoin)
+      const idToken = await user.getIdToken();
+
+      // 📡 Appelle ton backend pour enregistrer
+      const response = await fetch(`${url}/api/users/google-register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`, // seulement si ton backend le vérifie
+        },
+        body: JSON.stringify({ prenom, email }),
       });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+
+      // 💾 Stockage local
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userInfo", JSON.stringify(data.user));
+      setUsers(data.user);
+
+      // ✅ Connexion OK
+      toast.success("Inscription réussie avec Google !");
+      navigate("/users");
+    } catch (error) {
+      console.error("Erreur Google Auth:", error);
+      toast.error(error.message || "Erreur lors de la connexion avec Google.");
     }
-
-    // 🔐 Récupère le token Firebase (pour sécurité si besoin)
-    const idToken = await user.getIdToken();
-
-    // 📡 Appelle ton backend pour enregistrer
-    const response = await fetch(`${url}/api/users/google-register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`, // seulement si ton backend le vérifie
-      },
-      body: JSON.stringify({ prenom, email })
-    });
-
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
-
-    // 💾 Stockage local
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('userInfo', JSON.stringify(data.user));
-    setUsers(data.user);
-
-    // ✅ Connexion OK
-    toast.success('Inscription réussie avec Google !');
-    navigate('/users');
-
-  } catch (error) {
-    console.error('Erreur Google Auth:', error);
-    toast.error(error.message || 'Erreur lors de la connexion avec Google.');
-  }
-};
-
+  };
 
   // const handleGoogleLogin = async () => {
   //   try {
@@ -114,31 +113,32 @@ const Inscription = () => {
 
     // Validation des champs
     if (!prenom || !email || !password || !confirmPassword) {
-      toast.error('Veuillez remplir tous les champs.');
+      toast.error("Veuillez remplir tous les champs.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error('Adresse email invalide.');
+      toast.error("Adresse email invalide.");
       return;
     }
 
     if (password.length < 6) {
-      toast.error('Le mot de passe doit contenir au moins 6 caractères.');
+      toast.error("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('Les mots de passe ne correspondent pas.');
+      toast.error("Les mots de passe ne correspondent pas.");
       return;
     }
+    setLoading(true);
 
     try {
       const response = await fetch(`${url}/api/users/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           prenom,
@@ -151,19 +151,27 @@ const Inscription = () => {
 
       if (!response.ok) throw new Error(data.message || "Erreur d'inscription");
 
-      toast.success('Inscription réussie !');
+      toast.success("Inscription réussie !");
       setTimeout(() => {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         resetFormData();
-        navigate('/connexion');
-      }, 1000); // Attend 1 seconde
+        navigate("/connexion");
+      }, 100);
 
-      resetFormData(); // Réinitialise les champs
-      navigate('/connexion');
+      resetFormData();
     } catch (error) {
-      toast.error('Erreur : ' + error.message);
-      console.error("Erreur lors de l'inscription :", error);
+    const msg = error.message.toLowerCase();
+
+    if (msg.includes("email") && msg.includes("utilisé")) {
+      toast.error("Cet email est déjà utilisé.");
+    } else {
+      toast.error("Erreur : " + error.message);
     }
+
+    console.error("Erreur lors de l'inscription :", error);
+  } finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -189,7 +197,12 @@ const Inscription = () => {
                 Créer un compte
               </h2>
             </div>
-
+            {loading && (
+              <div className="mb-4 flex flex-col items-center text-gray-600 text-sm">
+                <ClipLoader color="#36d7b7" size={40} />
+                <span className="mt-2">Connexion en cours...</span>
+              </div>
+            )}
             <form
               className="w-full flex flex-col items-center"
               onSubmit={handleSubmit}
@@ -207,7 +220,7 @@ const Inscription = () => {
                   type="text"
                   placeholder="Votre prénom"
                   name="prenom"
-                  value={formData.prenom || ''}
+                  value={formData.prenom || ""}
                   onChange={handleChange}
                 />
               </div>
@@ -225,7 +238,7 @@ const Inscription = () => {
                   type="email"
                   name="email"
                   placeholder="Votre email"
-                  value={formData.email || ''}
+                  value={formData.email || ""}
                   onChange={handleChange}
                 />
               </div>
@@ -242,10 +255,10 @@ const Inscription = () => {
                   <input
                     className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Votre mot de passe"
                     name="password"
-                    value={formData.password || ''}
+                    value={formData.password || ""}
                     onChange={handleChange}
                   />
                   <button
@@ -271,10 +284,10 @@ const Inscription = () => {
                   <input
                     className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="confirm-password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Confirmer votre mot de passe"
                     name="confirmPassword"
-                    value={formData.confirmPassword || ''}
+                    value={formData.confirmPassword || ""}
                     onChange={handleChange}
                   />
                   <button
@@ -326,7 +339,7 @@ const Inscription = () => {
             </div>
 
             <div className="text-center mt-3">
-              Vous avez déjà un compte ?{' '}
+              Vous avez déjà un compte ?{" "}
               <Link
                 to="/connexion"
                 className="font-bold text-sm text-gray-800 hover:text-gray-400"
