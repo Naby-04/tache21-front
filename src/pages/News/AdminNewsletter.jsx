@@ -33,22 +33,22 @@ const AdminNewsletter = () => {
       console.log("Emails récupérés depuis Firestore :", emailList);
 
       for (let email of emailList) {
-        const result = await emailjs.send(
-          "service_wmra0c7",
-          "template_sefm4xo",
-          {
-            user_name: nom,
-            user_email: email,
-            message_subject: subject,
-            message_content: content,
-            unsubscribe_link: `http://localhost:5173/#/unsubscribe?email=${email}`,
-          },
-          "8uD6SuB_tZuWwNH9Y"
-        );
-
-        console.log(`✅ Email envoyé à ${email} :`, result);
-        // Petite pause de 300ms
-        await new Promise((resolve) => setTimeout(resolve, 300));
+        try {
+          await emailjs.send(
+            "service_wmra0c7",
+            "template_sefm4xo",
+            {
+              user_name: nom,
+              user_email: email,
+              message_subject: subject,
+              message_content: content,
+              unsubscribe_link: `http://localhost:5173/unsubscribe?email=${email}`,
+            },
+            "8uD6SuB_tZuWwNH9Y"
+          );
+        } catch (error) {
+          console.warn(`Échec d'envoi à ${email} :`, error);
+        }
       }
 
       toast.success("Newsletter envoyée à tous les inscrits !");

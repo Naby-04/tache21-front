@@ -127,7 +127,7 @@ const Footer = () => {
               </div>
               <div className="flex gap-1 hover:text-gray-300">
                 <div className="text-amber-300 text-xl"><MdOutlineEmail /></div>
-                <div><Link to='/'>hello@senrapports.com</Link></div>
+                <div><Link to='/'>senrapport221@gmail.com</Link></div>
               </div>
             </div>
           </div>
