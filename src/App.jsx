@@ -41,7 +41,7 @@ const App = () => {
 
       <HashRouter>
         <Routes>
-          <Route path="/" element={<AdminNewsletter/>}/>
+          {/* <Route path="/" element={<AdminNewsletter/>}/> */}
           <Route
             path="/"
             element={

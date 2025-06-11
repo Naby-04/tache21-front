@@ -109,18 +109,23 @@ const AdminNewsletter = () => {
       const emailList = snapshot.docs.map((doc) => doc.data().email);
 
       for (let email of emailList) {
-        await emailjs.send(
-          "service_wmra0c7",
-          "template_sefm4xo",
-          {
-            user_name: nom,
-            user_email: email,
-            message_subject: subject,
-            message_content: content,
-            unsubscribe_link: `http://localhost:5173/#/unsubscribe?email=${email}`,
-          },
-          "8uD6SuB_tZuWwNH9Y"
-        );
+        try{
+
+          await emailjs.send(
+            "service_wmra0c7",
+            "template_sefm4xo",
+            {
+              user_name: nom,
+              user_email: email,
+              message_subject: subject,
+              message_content: content,
+              unsubscribe_link: `http://localhost:5173/unsubscribe?email=${email}`,
+            },
+            "8uD6SuB_tZuWwNH9Y"
+          );
+        }catch(error){
+           console.warn(`Échec d'envoi à ${email} :`, error);
+        }
       }
 
       toast.success("Newsletter envoyée à tous les inscrits !");
