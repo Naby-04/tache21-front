@@ -153,7 +153,7 @@ const Inscription = () => {
 
       toast.success("Inscription réussie !");
       setTimeout(() => {
-        localStorage.setItem("token", data.token);
+        // localStorage.setItem("token", data.token);
         resetFormData();
         navigate("/connexion");
       }, 100);
