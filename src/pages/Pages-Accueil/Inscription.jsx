@@ -74,7 +74,7 @@ const Inscription = () => {
       navigate("/users");
     } catch (error) {
       console.error("Erreur Google Auth:", error);
-      toast.error(error.message || "Erreur lors de la connexion avec Google.");
+      toast.error("Erreur lors de la connexion avec Google.");
     }
   };
 
@@ -160,18 +160,18 @@ const Inscription = () => {
 
       resetFormData();
     } catch (error) {
-    const msg = error.message.toLowerCase();
+      const msg = error.message.toLowerCase();
 
-    if (msg.includes("email") && msg.includes("utilisé")) {
-      toast.error("Cet email est déjà utilisé.");
-    } else {
-      toast.error("Erreur : " + error.message);
+      if (msg.includes("email") && msg.includes("utilisé")) {
+        toast.error("Cet email est déjà utilisé.");
+      } else {
+        toast.error("Erreur : " + error.message);
+      }
+
+      console.error("Erreur lors de l'inscription :", error);
+    } finally {
+      setLoading(false);
     }
-
-    console.error("Erreur lors de l'inscription :", error);
-  } finally {
-    setLoading(false);
-  }
   };
 
   return (
@@ -179,19 +179,19 @@ const Inscription = () => {
       {/*----------- Bouton retour--------- */}
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-6 left-6 sm:top-6 sm:left-10 text-gray-800 text-2xl sm:text-3xl p-1 sm:p-2 hover:text-gray-700 transition-colors duration-200 z-50"
+        className="fixed top-6 left-10 sm:top-6 sm:left-10 text-gray-800 text-2xl sm:text-3xl p-1 sm:p-2 hover:text-gray-700 transition-colors duration-200 z-50"
         aria-label="Retour"
       >
         <FaSignOutAlt className="rotate-180" />
       </button>
       <div className="min-h-screen md:h-screen flex bg-gray-100">
-        <div className="bg-gray-100 rounded-lg w-full flex 1/3">
+        <div className="bg-gray-100 rounded-lg w-full sm:flex 1/3">
           <div className="sm:flex justify-center flex-col w-[50%] p-10 hidden">
             <img src="/imge/Sign up-cuate.png" alt="photo" />
           </div>
 
           {/* Partie droite */}
-          <div className="md:w-[50%] text-xs px-8 flex flex-col items-center justify-center">
+          <div className="md:w-[50%] mx-auto w-100 h-screen text-xs md:px-8 flex flex-col items-center justify-center">
             <div className="mb-4">
               <h2 className="text-2xl font-bold text-gray-800">
                 Créer un compte
@@ -263,7 +263,7 @@ const Inscription = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    className="absolute right-3 top-5 transform -translate-y-1/2 text-gray-500"
                     onClick={() => setShowPassword((prev) => !prev)}
                     tabIndex={-1}
                   >
@@ -292,7 +292,7 @@ const Inscription = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    className="absolute right-3 top-5 transform -translate-y-1/2 text-gray-500"
                     onClick={() => setShowPassword((prev) => !prev)}
                     tabIndex={-1}
                   >
